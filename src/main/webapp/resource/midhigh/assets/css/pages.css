@@ -1,0 +1,24 @@
+/* layout */
+@import url("pages_s/layout.css");
+@import url("pages_s/layout-mobile.css");
+/* guide */
+@import url("pages_s/list_guide.css");
+/* page */
+@import url("pages_s/main.css");
+@import url("pages_s/teachingboard.css");
+@import url("pages_s/error.css");
+@import url("pages_s/additional.css");
+@import url("pages_s/special.css");
+@import url("pages_s/popup.css");
+@import url("pages_s/page.css");
+@import url("pages_s/special_2022.css");
+/* 2023 */
+@import url("pages_s/classresearch.css?v=20231031");
+@import url("pages_s/layout_2022_v2.css?v=20240216");
+@import url("pages_s/quick.css");
+@import url("pages_s/textbookmaterial.css");
+@import url("pages_s/include.css");
+@import url("pages_s/testbank.css?v=20240115");
+@import url("pages_s/main_202306.css?v=20240216");
+@import url("pages_s/dataroom.css?v=20231123");
+@import url("pages_s/mobile_2023.css");

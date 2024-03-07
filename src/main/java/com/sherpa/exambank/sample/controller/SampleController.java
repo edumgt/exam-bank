@@ -15,10 +15,8 @@ public class SampleController {
 
     private final SampleService sampleService;
 
-    @RequestMapping("/sample")
-    public String sampleHome(Model model){
-        List<BoardDTO> boardList = sampleService.getAllBoardList();
-        model.addAttribute("boardList", boardList);
+    @RequestMapping("/")
+    public String sampleHome(){
         return "sample";
     }
 }
