@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MethodController {
 
-    @RequestMapping("/method")
+    @RequestMapping("/customTest/step0")
     public String methodPage(){
-        return "method/main";
+        return "step0/main";
     }
 }
