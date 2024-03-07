@@ -54,7 +54,7 @@
     <a href="http://localhost:8080/exambank/booklist" title="교과서 목록" class="button">
         교과서 목록
     </a>
-    <a href="http://localhost:8080/exambank/paperlist" title="교과서 목록" class="button">
+    <a href="http://localhost:8080/exambank/ExamBank-Storage" title="교과서 목록" class="button">
         시험지 보관함
     </a>
 

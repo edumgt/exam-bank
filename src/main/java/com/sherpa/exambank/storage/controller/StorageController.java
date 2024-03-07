@@ -1,13 +1,13 @@
-package com.sherpa.exambank.paperlist.controller;
+package com.sherpa.exambank.storage.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class PaperListController {
+public class StorageController {
 
-    @RequestMapping("/exambank/paperlist")
+    @RequestMapping("/exambank/ExamBank-Storage")
     public String list() {
-        return "paperlist/main";
+        return "storage/main";
     }
 }
