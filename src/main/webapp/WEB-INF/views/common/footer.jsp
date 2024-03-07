@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--
   User: 이양진
   Date: 2024-03-07
