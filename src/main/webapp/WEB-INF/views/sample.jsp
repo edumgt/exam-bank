@@ -22,7 +22,7 @@
         //새창으로 열기
         let url = 'http://localhost:8080/customTest/step0';
 
-        window.open(url,'_blank','width=1400,height=1024,status=no,toolbar=no,scrollbars=no, left=500, top=0');
+        window.open(url,'_blank','width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0, i');
 
         // //form
         // let new_form = $('<form></form>');
