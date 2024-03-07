@@ -212,11 +212,11 @@ body {
     padding-left: 10px;
     font-size: 15px;
     color: #666;
-    background: #fff url(../../images/common/ico_arrow_prev.png) no-repeat left 20px center;
+    background: #fff url(../img/ico_arrow_prev.png) no-repeat left 20px center;
     background-size: 7px 12px;
 }
 .btn-step.next {
-    background: #5670dc url(../../images/common/ico_arrow_next.png) no-repeat right 20px center;
+    background: #5670dc url(../img/ico_arrow_next.png) no-repeat right 20px center;
     color: #fff;
     padding-left: 0;
     padding-right: 5px;
@@ -296,67 +296,67 @@ l .btn-step.next.done {
 }
 
 .download {
-    background: url(../../images/common/ico_down.png);
+    background: url(../img/ico_down.png);
     background-size: 14px !important;
     background-size: contain;
 }
 
 .edit {
-    background: url(../../images/common/ico_edit.png);
+    background: url(../img/ico_edit.png);
     background-size: 14px 16px !important;
     background-size: contain;
 }
 
 .newpaper {
-    background: url(../../images/common/ico_add_file_blue.png);
+    background: url(../img/ico_add_file_blue.png);
     background-size: 13px 15px !important;
     background-size: contain;
 }
 
 .preview {
-    background: url(../../images/common/ico_preview.png);
+    background: url(../img/ico_preview.png);
     background-size: 22px !important;
     background-size: contain;
 }
 
 .edit-type02 {
-    background: url(../../images/common/ico_edit_type02.png);
+    background: url(../img/ico_edit_type02.png);
     background-size: 21px 21px !important;
     background-size: contain;
 }
 
 .setting {
-    background: url(../../images/common/ico_setting.png);
+    background: url(../img/ico_setting.png);
     background-size: 14px 16px !important;
     background-size: contain;
 }
 
 .research {
-    background: url(../../images/common/ico_research.png);
+    background: url(../img/ico_research.png);
     background-size: 16px !important;
     background-size: contain;
 }
 
 .similar {
-    background: url(../../images/common/ico_btn_file.png);
+    background: url(../img/ico_btn_file.png);
     background-size: 16px !important;
     background-size: contain;
 }
 
 .add-type01 {
-    background: url(../../images/common/ico_add_folder.png);
+    background: url(../img/ico_add_folder.png);
     background-size: 16px 14px !important;
     background-size: contain;
 }
 
 .add-type02 {
-    background: url(../../images/common/ico_add_doc.png);
+    background: url(../img/ico_add_doc.png);
     background-size: 13px 15px !important;
     background-size: contain;
 }
 
 .replace {
-    background: url(../../images/common/ico_btn_file.png);
+    background: url(../img/ico_btn_file.png);
     background-size: 16px !important;
     background-size: contain;
 }
@@ -644,7 +644,7 @@ l .btn-step.next.done {
     right: 20px;
     width: 16px;
     height: 16px;
-    background: url(../../images/common/ico_pop_close.png) no-repeat;
+    background: url(../img/ico_pop_close.png) no-repeat;
 }
 .pop-wrap .pop-footer {
     display: flex;
@@ -883,11 +883,11 @@ input[type=checkbox] + label::before {
     height: 20px;
     margin-top: -9px;
     border-radius: 3px;
-    background: url(../../images/common/input_checkbox.png) no-repeat;
+    background: url(../img/input_checkbox.png) no-repeat;
     background-size: contain;
 }
 input[type=checkbox]:checked + label::before {
-    background: url(../../images/common/input_checkbox_check.png) no-repeat;
+    background: url(../img/input_checkbox_check.png) no-repeat;
     background-size: contain;
 }
 
@@ -919,7 +919,7 @@ input[type=checkbox]:checked + label::before {
     width: 11px;
     height: 6px;
     margin-top: -3px;
-    background: url(../../images/common/select_arrow.png) no-repeat;
+    background: url(../img/select_arrow.png) no-repeat;
     background-size: contain;
 }
 .select-wrap .select-btn.active::after {
@@ -1144,14 +1144,14 @@ input[type=checkbox]:checked + label::before {
     margin-top: -8px;
     width: 14px;
     height: 14px;
-    background: url(../../images/common/ico_acc_open.png) no-repeat;
+    background: url(../img/ico_acc_open.png) no-repeat;
     background-size: contain;
 }
 .unit-acc-wrap .acc-btn.active::after {
     width: 14px;
     height: 2px;
     margin-top: -2px;
-    background: url(../../images/common/ico_acc_close.png) no-repeat;
+    background: url(../img/ico_acc_close.png) no-repeat;
     background-size: contain;
 }
 .unit-acc-wrap .cnt {
@@ -1240,7 +1240,7 @@ input[type=checkbox]:checked + label::before {
     height: 20px;
     margin-top: -9px;
     border-radius: 3px;
-    background: url(../../images/common/input_checkbox.png) no-repeat;
+    background: url(../img/input_checkbox.png) no-repeat;
     background-size: contain;
 }
 .view-box-wrap .unit-box-wrap .unit-box .unit-cnt input[type=checkbox] + label .num {
@@ -1251,7 +1251,7 @@ input[type=checkbox]:checked + label::before {
     color: #5670dc;
 }
 .view-box-wrap .unit-box-wrap .unit-box .unit-cnt input[type=checkbox]:checked + label::before {
-    background: url(../../images/common/input_checkbox_check.png) no-repeat;
+    background: url(../img/input_checkbox_check.png) no-repeat;
     background-size: contain;
 }
 .view-box-wrap .unit-box-wrap .unit-box .unit-cnt .dep-btn {
@@ -1270,7 +1270,7 @@ input[type=checkbox]:checked + label::before {
     left: -55px;
     width: 16px;
     height: 8px;
-    background: url("../../images/common/select_arrow.png") no-repeat;
+    background: url("../img/select_arrow.png") no-repeat;
 }
 .view-box-wrap .unit-box-wrap .unit-box .unit-cnt .dep-btn em {
     color: #5670dc;
@@ -1511,7 +1511,7 @@ input[type=checkbox]:checked + label::before {
     right: -19px;
     width: 7px;
     height: 10px;
-    background: url(../../images/common/ico_title.png) no-repeat;
+    background: url(../img/ico_title.png) no-repeat;
 }
 .full-pop-que .full-pop-wrap .pop-header .title li.active {
     font-size: 14px;
@@ -1527,7 +1527,7 @@ input[type=checkbox]:checked + label::before {
 .full-pop-que .full-pop-wrap .pop-header .del-btn {
     width: 16px;
     height: 16px;
-    background: url(../../images/common/ico_full_pop_close.png) no-repeat;
+    background: url(../img/ico_full_pop_close.png) no-repeat;
 }
 .full-pop-que .full-pop-wrap .view-box {
     width: 100%;
@@ -1586,11 +1586,11 @@ input[type=checkbox]:checked + label::before {
     width: 14px;
     height: 16px;
     margin-left: 15px;
-    background: url(../../images/common/ico_btn_tip.png) no-repeat;
+    background: url(../img/ico_btn_tip.png) no-repeat;
     background-size: contain;
 }
 .full-pop-que .full-pop-wrap .view-box .tooltip-wrap .btn-tip:hover {
-    background: url(../../images/common/ico_btn_tip_hover.png) no-repeat;
+    background: url(../img/ico_btn_tip_hover.png) no-repeat;
 }
 .full-pop-que .full-pop-wrap .view-box .tooltip {
     display: inline-flex;
@@ -1641,7 +1641,7 @@ input[type=checkbox]:checked + label::before {
     width: 8px;
     height: 8px;
     transform: rotate(180deg);
-    background: url(../../images/common/ico_arrow_tooltip_type01.png) no-repeat;
+    background: url(../img/ico_arrow_tooltip_type01.png) no-repeat;
 }
 .full-pop-que .full-pop-wrap .view-box .view-top {
     height: 80px;
@@ -1892,7 +1892,7 @@ input[type=checkbox]:checked + label::before {
     display: inline-block;
     width: 104px;
     height: 36px;
-    background: url(../../images/common/ico_nodata.png) no-repeat center;
+    background: url(../img/ico_nodata.png) no-repeat center;
     background-size: contain;
     padding: 0 10px;
 }
@@ -1942,17 +1942,17 @@ input[type=checkbox]:checked + label::before {
 .full-pop-que .full-pop-wrap .view-box .view-bottom .cnt-box .view-que-list .que-top .btn-wrap .btn-error {
     width: 23px;
     height: 23px;
-    background: url(../../images/common/ico_btn_error.png) no-repeat;
+    background: url(../img/ico_btn_error.png) no-repeat;
     background-size: contain;
 }
 .full-pop-que .full-pop-wrap .view-box .view-bottom .cnt-box .view-que-list .que-top .btn-wrap .btn-delete {
     width: 18px;
     height: 22px;
-    background: url(../../images/common/ico_btn_del.png) no-repeat;
+    background: url(../img/ico_btn_del.png) no-repeat;
     background-size: contain;
 }
 .full-pop-que .full-pop-wrap .view-box .view-bottom .cnt-box .view-que-list .que-top .btn-wrap .btn-delete:hover {
-    background: url(../../images/common/ico_btn_del_hover.png) no-repeat;
+    background: url(../img/ico_btn_del_hover.png) no-repeat;
 }
 .full-pop-que .full-pop-wrap .view-box .view-bottom .cnt-box .view-que-list .view-que {
     padding: 15px 20px;
