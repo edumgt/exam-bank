@@ -1,0 +1,916 @@
+@charset "UTF-8";
+.dataroom_body .content-section {
+  width: 1300px;
+  margin: 0 auto;
+  margin-bottom: 110px;
+  margin-top: 52px; }
+  .dataroom_body .content-section .columns {
+    display: flex; }
+  .dataroom_body .content-section .dataroom-list {
+    /* 자료실 리스트 */ }
+    .dataroom_body .content-section .dataroom-list .tabs__list {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px; }
+    .dataroom_body .content-section .dataroom-list .tabs__item {
+      display: flex;
+      align-items: center; }
+      .dataroom_body .content-section .dataroom-list .tabs__item a {
+        flex-basis: 95px;
+        padding: 15px 32px;
+        height: 50px;
+        line-height: 20px;
+        font-size: 17px;
+        color: #333;
+        text-align: center;
+        border-radius: 25px;
+        background: #f5f6f9; }
+        .dataroom_body .content-section .dataroom-list .tabs__item a:hover {
+          color: #fff;
+          background: #5670dc; }
+      .dataroom_body .content-section .dataroom-list .tabs__item--active a {
+        color: #fff;
+        background: #5670dc; }
+    .dataroom_body .content-section .dataroom-list--title {
+      display: flex;
+      gap: 21px;
+      padding: 0 0 25px 0;
+      align-items: flex-end; }
+      .dataroom_body .content-section .dataroom-list--title > h3 {
+        margin: 0;
+        font-size: 35px;
+        line-height: 1.2;
+        color: #000;
+        font-weight: 550; }
+      .dataroom_body .content-section .dataroom-list--title > p {
+        font-size: 17px;
+        letter-spacing: -0.51px;
+        line-height: 1.5;
+        color: #666; }
+    .dataroom_body .content-section .dataroom-list .dataroom__list {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 40px 0 10px 0;
+      justify-content: left;
+      gap: 0; }
+      .dataroom_body .content-section .dataroom-list .dataroom__list > li {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 21px;
+        border: 4px solid transparent;
+        border-radius: 12px;
+        margin-right: 21px; }
+        .dataroom_body .content-section .dataroom-list .dataroom__list > li:hover {
+          border-color: #5670dc; }
+        .dataroom_body .content-section .dataroom-list .dataroom__list > li:nth-of-type(3n) {
+          margin-right: 0; }
+      .dataroom_body .content-section .dataroom-list .dataroom__list__linkImg {
+        position: relative;
+        z-index: 1;
+        display: block;
+        width: 100%;
+        border-radius: 6px;
+        overflow: hidden; }
+        .dataroom_body .content-section .dataroom-list .dataroom__list__linkImg > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transform: scale(1);
+          transition: 0.3s;
+          border-radius: 0; }
+        .dataroom_body .content-section .dataroom-list .dataroom__list__linkImg:hover > img {
+          transform: scale(1.2, 1.2); }
+        .dataroom_body .content-section .dataroom-list .dataroom__list__linkImg:hover::after {
+          content: '';
+          position: absolute;
+          z-index: 2;
+          top: 0;
+          left: 0;
+          display: block;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(to bottom, transparent, #5670dc 70%); }
+        .dataroom_body .content-section .dataroom-list .dataroom__list__linkImg:hover > mark {
+          animation: moveMark 0.3s forwards; }
+        .dataroom_body .content-section .dataroom-list .dataroom__list__linkImg:hover .dataroom__list__text__black > h4 {
+          color: #fff; }
+        .dataroom_body .content-section .dataroom-list .dataroom__list__linkImg:hover .dataroom__list__text__black > p {
+          color: #fff; }
+      .dataroom_body .content-section .dataroom-list .dataroom__list--mark {
+        transform: translateX(0) translateY(0);
+        position: absolute;
+        z-index: 3;
+        top: 21px;
+        left: 21px;
+        flex: 1;
+        min-width: 35px;
+        height: 35px;
+        padding: 0;
+        line-height: 35px;
+        font-size: 13px;
+        text-align: center;
+        color: #fff;
+        background: #5670dc;
+        border-radius: 13px; }
+      .dataroom_body .content-section .dataroom-list .dataroom__list__text {
+        position: absolute;
+        z-index: 3;
+        left: 27px;
+        bottom: 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: calc(100% - 27px); }
+        .dataroom_body .content-section .dataroom-list .dataroom__list__text > h4 {
+          margin: 0;
+          line-height: 26px;
+          font-size: 25px;
+          color: #fff;
+          font-weight: 500; }
+        .dataroom_body .content-section .dataroom-list .dataroom__list__text > p {
+          line-height: 19px;
+          font-size: 15px;
+          color: #fff;
+          font-weight: 300; }
+        .dataroom_body .content-section .dataroom-list .dataroom__list__text__black > h4 {
+          color: #000; }
+        .dataroom_body .content-section .dataroom-list .dataroom__list__text__black > p {
+          color: #000; }
+
+@keyframes moveMark {
+  0% {
+    transform: translateX(0) translateY(0) scale(0);
+    background: #5670dc;
+    font-size: 13px; }
+  100% {
+    transform: translateX(160px) translateY(50px) scale(1.8571);
+    background: #279bfe;
+    font-size: 13px; } }
+
+.edutech-landing {
+  width: 1331px;
+  margin: 0 auto; }
+  .edutech-landing .f-box {
+    display: flex;
+    align-items: center; }
+  .edutech-landing .section__content .cont-wrap .line {
+    display: flex; }
+    .edutech-landing .section__content .cont-wrap .line article {
+      position: relative;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      padding: 16px 20px 10px;
+      box-sizing: border-box; }
+      .edutech-landing .section__content .cont-wrap .line article .list-title {
+        font-size: 17px;
+        font-weight: 450;
+        margin-bottom: 12px; }
+      .edutech-landing .section__content .cont-wrap .line article .list .link-btn {
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        background: no-repeat url("../../img/edu_tech/landing/button.png"); }
+      .edutech-landing .section__content .cont-wrap .line article .list .item-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap; }
+        .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item {
+          position: relative;
+          box-sizing: border-box; }
+          .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item:last-of-type {
+            margin-right: 0; }
+          .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item .link-btn {
+            top: 7px;
+            right: 7px; }
+          .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-title {
+            margin-bottom: 0; }
+          .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header {
+            display: flex;
+            align-items: center; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header.flex-column {
+              flex-direction: column; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.all-i01 {
+              background: no-repeat url("../../img/edu_tech/landing/all-i01.png") 0 0;
+              width: 59px;
+              height: 57px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.all-i02 {
+              background: no-repeat url("../../img/edu_tech/landing/all-i02.png") center;
+              width: 106px;
+              height: 96px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.all-i03 {
+              background: no-repeat url("../../img/edu_tech/landing/all-i03.png") center;
+              width: 106px;
+              height: 96px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.all-i04 {
+              background: no-repeat url("../../img/edu_tech/landing/all-i04.png") center;
+              width: 106px;
+              height: 96px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.all-i05 {
+              background: no-repeat url("../../img/edu_tech/landing/all-i05.png") center;
+              width: 106px;
+              height: 96px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.all-i06 {
+              background: no-repeat url("../../img/edu_tech/landing/all-i06.png") center;
+              width: 106px;
+              height: 96px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.all-i07 {
+              background: no-repeat url("../../img/edu_tech/landing/all-i07.png") center;
+              width: 106px;
+              height: 96px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.tools-i01 {
+              background: no-repeat url("../../img/edu_tech/landing/bi_001.png") center;
+              width: 150px;
+              height: 65px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.tools-i02 {
+              background: no-repeat url("../../img/edu_tech/landing/bi_002.png") center;
+              width: 150px;
+              height: 65px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.tools-i03 {
+              background: no-repeat url("../../img/edu_tech/landing/bi_003.png") center 15px;
+              width: 150px;
+              height: 65px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.tools-i04 {
+              background: no-repeat url("../../img/edu_tech/landing/bi_004.png") center 15px;
+              width: 150px;
+              height: 65px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.tools-i05 {
+              background: no-repeat url("../../img/edu_tech/landing/bi_005.png") center 15px;
+              width: 150px;
+              height: 65px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.tools-i06 {
+              background: no-repeat url("../../img/edu_tech/landing/bi_006.png") center 15px;
+              width: 150px;
+              height: 65px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.ko-i {
+              background: no-repeat url("../../img/edu_tech/landing/ko-i.png") center;
+              width: 158px;
+              height: 53px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.en-i {
+              background: no-repeat url("../../img/edu_tech/landing/en-i.png") center;
+              width: 158px;
+              height: 53px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.so-i {
+              background: no-repeat url("../../img/edu_tech/landing/so-i.png") center;
+              width: 158px;
+              height: 53px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.sc-i {
+              background: no-repeat url("../../img/edu_tech/landing/sc-i.png") center;
+              width: 158px;
+              height: 53px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.art-i {
+              background: no-repeat url("../../img/edu_tech/landing/art-i.png") center;
+              width: 158px;
+              height: 53px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i01 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i01.png") 33px center;
+              width: 91px;
+              height: 104px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i02 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i02.png") 49px center;
+              width: 100px;
+              height: 104px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i03 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i03.png") 44px center;
+              width: 100px;
+              height: 104px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i04 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i04.png") 42px center;
+              width: 100px;
+              height: 104px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i05 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i05.png") 37px center;
+              width: 95px;
+              height: 104px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i06 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i06.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i07 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i07.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i08 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i08.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i09 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i09.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i10 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i10.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i11 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i11.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i12 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i12.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i13 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i13.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i14 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i14.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i15 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i15.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i16 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i16.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i17 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i17.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i18 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i18.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.mu-i19 {
+              background: no-repeat url("../../img/edu_tech/landing/mu-i19.png") center;
+              width: 182px;
+              height: 66px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.pe-i02 {
+              background: no-repeat url("../../img/edu_tech/landing/pe-i02.png") center;
+              width: 80px;
+              height: 46px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.pe-i03 {
+              background: no-repeat url("../../img/edu_tech/landing/pe-i03.png") center;
+              width: 80px;
+              height: 46px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.co-i04 {
+              background: no-repeat url("../../img/edu_tech/landing/pe-i01.png") center;
+              width: 80px;
+              height: 46px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.co-i01 {
+              background: no-repeat url("../../img/edu_tech/landing/co-i01.png") center;
+              width: 80px;
+              height: 46px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.co-i02 {
+              background: no-repeat url("../../img/edu_tech/landing/co-i02.png") center;
+              width: 80px;
+              height: 46px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .left .icon.co-i03 {
+              background: no-repeat url("../../img/edu_tech/landing/co-i03.png") center;
+              width: 80px;
+              height: 46px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .right .subtitle {
+              font-size: 14px;
+              color: #666;
+              letter-spacing: -0.42px;
+              line-height: 1.1; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item-header .right .title {
+              font-size: 16px;
+              font-weight: 450;
+              letter-spacing: -0.48px; }
+          .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item .all-link {
+            display: block;
+            width: 100%;
+            height: 100%; }
+          .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item .tip-button {
+            position: absolute;
+            top: 8px;
+            right: 31px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #8f8f8f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item .tip-button .hover-text {
+              display: none;
+              color: #fff;
+              font-size: 12px;
+              letter-spacing: -0.36px;
+              margin-right: 4px; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item .tip-button img {
+              width: 13px;
+              height: 14px;
+              object-fit: cover; }
+            .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item .tip-button:hover {
+              top: 4px;
+              width: 88px;
+              height: 28px;
+              border-radius: 14px;
+              background-color: #5670dc;
+              flex-direction: row; }
+              .edutech-landing .section__content .cont-wrap .line article .list .item-wrap .item .tip-button:hover .hover-text {
+                display: block; }
+      .edutech-landing .section__content .cont-wrap .line article.article01 {
+        width: 959px;
+        height: 510px;
+        padding: 16px 30px;
+        margin-right: 22px; }
+        .edutech-landing .section__content .cont-wrap .line article.article01 .list .item-wrap .type01 {
+          width: 897px;
+          height: 232px;
+          background: no-repeat url("../../img/edu_tech/landing/all-bg.png") 0 0;
+          padding: 18px 0 0 48px;
+          margin-bottom: 4px; }
+          .edutech-landing .section__content .cont-wrap .line article.article01 .list .item-wrap .type01 .link-btn {
+            top: 29px; }
+          .edutech-landing .section__content .cont-wrap .line article.article01 .list .item-wrap .type01 .item-header .left {
+            margin-right: 10px; }
+          .edutech-landing .section__content .cont-wrap .line article.article01 .list .item-wrap .type01 .item-header .right .title {
+            font-size: 18px;
+            font-weight: 450;
+            letter-spacing: -0.54px;
+            color: #fff; }
+          .edutech-landing .section__content .cont-wrap .line article.article01 .list .item-wrap .type01 .item-header .right .subtitle {
+            font-size: 14px;
+            letter-spacing: -0.42px;
+            color: #fff; }
+          .edutech-landing .section__content .cont-wrap .line article.article01 .list .item-wrap .type01 .item-link {
+            width: 424px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 13px; }
+            .edutech-landing .section__content .cont-wrap .line article.article01 .list .item-wrap .type01 .item-link .link__button {
+              border-radius: 6px;
+              width: 138px;
+              height: 50px;
+              line-height: 50px;
+              background: #fff;
+              margin-bottom: 5px;
+              display: inline-block;
+              text-align: center;
+              color: #333333;
+              letter-spacing: -0.35px;
+              font-size: 14px;
+              font-weight: 450; }
+              .edutech-landing .section__content .cont-wrap .line article.article01 .list .item-wrap .type01 .item-link .link__button:hover {
+                background: #5670dc;
+                color: #fff;
+                transition: 0.2s ease-in-out; }
+        .edutech-landing .section__content .cont-wrap .line article.article01 .list .item-wrap .type02 {
+          width: 294px;
+          height: 96px;
+          background: #faf7f8;
+          border: 2px solid #faf7ff;
+          margin-top: 6px;
+          border-radius: 6px; }
+          .edutech-landing .section__content .cont-wrap .line article.article01 .list .item-wrap .type02:hover {
+            border: 2px solid #5670dc;
+            transition: 0.2s ease-in-out; }
+      .edutech-landing .section__content .cont-wrap .line article.article02 {
+        width: 350px;
+        height: 510px; }
+        .edutech-landing .section__content .cont-wrap .line article.article02 .list-title {
+          padding-left: 10px; }
+        .edutech-landing .section__content .cont-wrap .line article.article02 .list .item-wrap .item {
+          width: 150px;
+          height: 140px;
+          background: #f6f7f8;
+          border: 2px solid #f6f7f8;
+          border-radius: 6px;
+          margin-bottom: 10px; }
+          .edutech-landing .section__content .cont-wrap .line article.article02 .list .item-wrap .item-header {
+            flex-direction: column; }
+            .edutech-landing .section__content .cont-wrap .line article.article02 .list .item-wrap .item-header .right {
+              text-align: center; }
+              .edutech-landing .section__content .cont-wrap .line article.article02 .list .item-wrap .item-header .right .subtitle {
+                line-height: 1.1; }
+          .edutech-landing .section__content .cont-wrap .line article.article02 .list .item-wrap .item:hover {
+            border: 2px solid #5670dc;
+            transition: 0.2s ease-in-out; }
+      .edutech-landing .section__content .cont-wrap .line article.article03 {
+        width: 258px;
+        height: 149px;
+        background: #fff0ba;
+        padding: 0;
+        border: none;
+        margin-right: 10px; }
+        .edutech-landing .section__content .cont-wrap .line article.article03 .list .item-wrap {
+          justify-content: center; }
+          .edutech-landing .section__content .cont-wrap .line article.article03 .list .item-wrap .item {
+            width: 100%; }
+            .edutech-landing .section__content .cont-wrap .line article.article03 .list .item-wrap .item-title {
+              padding: 10px 0 0 30px;
+              font-size: 17px;
+              font-weight: 450;
+              letter-spacing: -0.51px;
+              color: #000; }
+            .edutech-landing .section__content .cont-wrap .line article.article03 .list .item-wrap .item-header {
+              flex-direction: column; }
+              .edutech-landing .section__content .cont-wrap .line article.article03 .list .item-wrap .item-header .right {
+                text-align: center; }
+                .edutech-landing .section__content .cont-wrap .line article.article03 .list .item-wrap .item-header .right .subtitle {
+                  line-height: 1.5 !important; }
+        .edutech-landing .section__content .cont-wrap .line article.article03:hover {
+          background: #ffe174;
+          transition: 0.25s ease-in-out; }
+        .edutech-landing .section__content .cont-wrap .line article.article03:last-child {
+          margin-right: 0; }
+      .edutech-landing .section__content .cont-wrap .line article.article04 {
+        width: 100%;
+        height: 430px;
+        background: #f6f7f8;
+        padding: 16px 26px 20px 24px; }
+        .edutech-landing .section__content .cont-wrap .line article.article04 .list-title {
+          padding-left: 8px; }
+        .edutech-landing .section__content .cont-wrap .line article.article04 .list .item-wrap {
+          border-radius: 10px;
+          border: 1px solid #e5e5e5;
+          overflow: hidden; }
+          .edutech-landing .section__content .cont-wrap .line article.article04 .list .item-wrap .type01 {
+            width: 253px;
+            height: 103px;
+            background: #fff;
+            border-right: 1px solid #e5e5e5; }
+            .edutech-landing .section__content .cont-wrap .line article.article04 .list .item-wrap .type01:first-child {
+              width: 262px; }
+            .edutech-landing .section__content .cont-wrap .line article.article04 .list .item-wrap .type01 .item-header {
+              margin-top: 5px; }
+            .edutech-landing .section__content .cont-wrap .line article.article04 .list .item-wrap .type01:hover .right .subtitle, .edutech-landing .section__content .cont-wrap .line article.article04 .list .item-wrap .type01:hover .right .title {
+              color: #5670dc;
+              transition: 0.25s ease-in-out; }
+            .edutech-landing .section__content .cont-wrap .line article.article04 .list .item-wrap .type01.br0 {
+              border-right: 0; }
+          .edutech-landing .section__content .cont-wrap .line article.article04 .list .item-wrap .type02 {
+            width: 182px;
+            height: 130px;
+            border-right: 1px solid #e5e5e5;
+            border-top: 1px solid #e5e5e5;
+            background: #fff; }
+            .edutech-landing .section__content .cont-wrap .line article.article04 .list .item-wrap .type02 .item-header {
+              flex-direction: column;
+              text-align: center; }
+              .edutech-landing .section__content .cont-wrap .line article.article04 .list .item-wrap .type02 .item-header .right .subtitle {
+                line-height: 1.1; }
+            .edutech-landing .section__content .cont-wrap .line article.article04 .list .item-wrap .type02:hover .right .subtitle, .edutech-landing .section__content .cont-wrap .line article.article04 .list .item-wrap .type02:hover .right .title {
+              color: #5670dc;
+              transition: 0.25s ease-in-out; }
+            .edutech-landing .section__content .cont-wrap .line article.article04 .list .item-wrap .type02.br0 {
+              border-right: 0; }
+      .edutech-landing .section__content .cont-wrap .line article.article05 {
+        width: 547px;
+        height: 147px;
+        margin-right: 20px;
+        background: #eff6fd;
+        padding-top: 13px; }
+        .edutech-landing .section__content .cont-wrap .line article.article05 .list-title {
+          position: absolute;
+          left: 30px;
+          top: 32px; }
+        .edutech-landing .section__content .cont-wrap .line article.article05 .list .item-wrap {
+          justify-content: right; }
+          .edutech-landing .section__content .cont-wrap .line article.article05 .list .item-wrap .item {
+            width: 431px;
+            height: 59px; }
+            .edutech-landing .section__content .cont-wrap .line article.article05 .list .item-wrap .item .link-btn {
+              top: 50%;
+              transform: translateY(-50%); }
+            .edutech-landing .section__content .cont-wrap .line article.article05 .list .item-wrap .item-header {
+              height: 59px;
+              justify-content: left;
+              align-items: center; }
+            .edutech-landing .section__content .cont-wrap .line article.article05 .list .item-wrap .item:first-child {
+              border-bottom: 1px dotted #e0e0e0; }
+            .edutech-landing .section__content .cont-wrap .line article.article05 .list .item-wrap .item:hover .right p {
+              color: #5670dc;
+              transition: 0.25s ease-in-out; }
+            .edutech-landing .section__content .cont-wrap .line article.article05 .list .item-wrap .item .link-btn {
+              right: 0; }
+            .edutech-landing .section__content .cont-wrap .line article.article05 .list .item-wrap .item .tip-button {
+              top: 50%;
+              right: 26px;
+              transform: translateY(-50%); }
+              .edutech-landing .section__content .cont-wrap .line article.article05 .list .item-wrap .item .tip-button:hover {
+                top: 50%; }
+      .edutech-landing .section__content .cont-wrap .line article.article06 {
+        width: 764px;
+        height: 147px;
+        background: #faf7ff;
+        padding-top: 13px; }
+        .edutech-landing .section__content .cont-wrap .line article.article06 .list-title {
+          position: absolute;
+          left: 30px;
+          top: 32px; }
+        .edutech-landing .section__content .cont-wrap .line article.article06 .list .item-wrap {
+          justify-content: right;
+          margin-left: 65px; }
+          .edutech-landing .section__content .cont-wrap .line article.article06 .list .item-wrap .item {
+            height: 59px; }
+            .edutech-landing .section__content .cont-wrap .line article.article06 .list .item-wrap .item:nth-child(odd) {
+              width: 314px; }
+            .edutech-landing .section__content .cont-wrap .line article.article06 .list .item-wrap .item:nth-child(even) {
+              width: 335px;
+              padding-left: 25px; }
+            .edutech-landing .section__content .cont-wrap .line article.article06 .list .item-wrap .item .link-btn {
+              top: 50%;
+              transform: translateY(-50%); }
+            .edutech-landing .section__content .cont-wrap .line article.article06 .list .item-wrap .item-header {
+              height: 59px;
+              justify-content: left;
+              align-items: center; }
+            .edutech-landing .section__content .cont-wrap .line article.article06 .list .item-wrap .item:first-child, .edutech-landing .section__content .cont-wrap .line article.article06 .list .item-wrap .item:nth-child(2) {
+              border-bottom: 1px dotted #e0e0e0; }
+            .edutech-landing .section__content .cont-wrap .line article.article06 .list .item-wrap .item:hover .right p {
+              color: #5670dc;
+              transition: 0.25s ease-in-out; }
+            .edutech-landing .section__content .cont-wrap .line article.article06 .list .item-wrap .item .link-btn {
+              right: 0; }
+            .edutech-landing .section__content .cont-wrap .line article.article06 .list .item-wrap .item .tip-button {
+              top: 50%;
+              right: 26px;
+              transform: translateY(-50%); }
+              .edutech-landing .section__content .cont-wrap .line article.article06 .list .item-wrap .item .tip-button:hover {
+                top: 50%; }
+
+.m-edutech-landing .inner {
+  max-width: 320px;
+  margin: 0 auto 8px; }
+
+.m-edutech-landing .cont-wrap h2 {
+  font-size: 14px;
+  font-weight: 550;
+  letter-spacing: -0.42px;
+  color: #000;
+  margin-bottom: 7px; }
+
+.m-edutech-landing .cont-wrap article {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; }
+  .m-edutech-landing .cont-wrap article .item {
+    position: relative;
+    box-sizing: border-box;
+    outline: 1px solid #e0e0e0;
+    border-radius: 10px;
+    margin-bottom: 20px; }
+    .m-edutech-landing .cont-wrap article .item .all-link {
+      display: block;
+      width: 100%;
+      height: 100%; }
+      .m-edutech-landing .cont-wrap article .item .all-link .link-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 26px;
+        height: 23px;
+        background: no-repeat url("../../img/edu_tech/mobile/button.png") left bottom/12px 10.5px; }
+    .m-edutech-landing .cont-wrap article .item .tip-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #899ef7;
+      text-align: center;
+      line-height: 1.1;
+      box-shadow: 0px 6px 7px 0 rgba(0, 0, 0, 0.06);
+      z-index: 5; }
+      .m-edutech-landing .cont-wrap article .item .tip-button span {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        letter-spacing: -0.11px;
+        font-size: 11px;
+        color: #fff;
+        font-weight: 250; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.edu-i01 {
+      background: no-repeat url("../../img/edu_tech/mobile/edu-i01.png") center bottom 15px;
+      width: 150px;
+      height: 65px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.edu-i02 {
+      background: no-repeat url("../../img/edu_tech/mobile/edu-i02.png") center bottom 15px;
+      width: 150px;
+      height: 65px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.edu-i03 {
+      background: no-repeat url("../../img/edu_tech/mobile/edu-i03.png") center bottom 15px;
+      width: 150px;
+      height: 65px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.edu-i04 {
+      background: no-repeat url("../../img/edu_tech/mobile/edu-i04.png") center bottom 15px;
+      width: 150px;
+      height: 65px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.edu-i05 {
+      background: no-repeat url("../../img/edu_tech/mobile/edu-i05.png") center bottom 15px;
+      width: 150px;
+      height: 65px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.edu-i06 {
+      background: no-repeat url("../../img/edu_tech/mobile/edu-i06.png") center bottom 15px;
+      width: 150px;
+      height: 65px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.all-i01 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-1-edu.png") 0 0;
+      width: 34px;
+      height: 26px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.all-i02 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-2-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.all-i03 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-3-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.all-i04 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-4-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.all-i05 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-5-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.all-i06 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-6-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.all-i07 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-7-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.ko-i {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-8-edu.png") 0 0;
+      width: 36px;
+      height: 34px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.en-i {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-9-edu.png") 0 0;
+      width: 42px;
+      height: 29px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.so-i {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-10-edu.png") 0 0;
+      width: 44px;
+      height: 30px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.sc-i {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-11-edu.png") 0 0;
+      width: 36px;
+      height: 35px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.art-i {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-12-edu.png") 0 0;
+      width: 26px;
+      height: 37px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i01 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-13-edu.png") 0 0;
+      width: 38px;
+      height: 32px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i02 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-14-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i03 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-15-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i04 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-16-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i05 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-17-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i06 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-18-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i07 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-19-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i08 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-20-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i09 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-21-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i10 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-22-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i11 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-23-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i12 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-24-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i13 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-25-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i14 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-26-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i15 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-27-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i16 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-28-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i17 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-29-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i18 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-30-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.mu-i19 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-31-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.pe-i01 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-32-edu.png") 0 0;
+      width: 35px;
+      height: 30px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.pe-i02 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-33-edu.png") 0 0;
+      width: 32px;
+      height: 30px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.co-i01 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-34-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.co-i02 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-35-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.co-i03 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-36-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .icon.co-i04 {
+      background: no-repeat url("../../img/edu_tech/mobile/icon-37-edu.png") center top 19px;
+      width: 150px;
+      height: 67px; }
+    .m-edutech-landing .cont-wrap article .item-cont .text .title {
+      font-size: 18px;
+      font-weight: 550;
+      color: #000;
+      letter-spacing: -0.46px;
+      line-height: 1.5; }
+      .m-edutech-landing .cont-wrap article .item-cont .text .title.fz16 {
+        font-size: 16px;
+        letter-spacing: -0.48px; }
+    .m-edutech-landing .cont-wrap article .item-cont .text .subtitle {
+      font-size: 13px;
+      color: #666;
+      letter-spacing: -0.13px;
+      line-height: 1.2; }
+    .m-edutech-landing .cont-wrap article .item.on {
+      outline: solid 2px #5670dc; }
+  .m-edutech-landing .cont-wrap article.type01 .item {
+    width: calc(100% / 2 - 10px);
+    height: 140px; }
+    .m-edutech-landing .cont-wrap article.type01 .item-cont {
+      display: flex;
+      align-items: center;
+      flex-direction: column; }
+      .m-edutech-landing .cont-wrap article.type01 .item-cont .text {
+        text-align: center; }
+        .m-edutech-landing .cont-wrap article.type01 .item-cont .text .title {
+          position: absolute;
+          left: 0;
+          bottom: 11px;
+          width: 100%;
+          text-align: center; }
+        .m-edutech-landing .cont-wrap article.type01 .item-cont .text .subtitle {
+          width: 100%;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column; }
+  .m-edutech-landing .cont-wrap article.type02 .item {
+    width: 100%;
+    height: 95px;
+    padding-bottom: 20px;
+    padding: 0 22px 15px 18px; }
+    .m-edutech-landing .cont-wrap article.type02 .item.h142 {
+      height: 142px; }
+    .m-edutech-landing .cont-wrap article.type02 .item .tip-button {
+      top: 15px;
+      left: 15px; }
+    .m-edutech-landing .cont-wrap article.type02 .item-cont {
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between; }
+      .m-edutech-landing .cont-wrap article.type02 .item-cont .i-box {
+        margin-bottom: 5px; }
