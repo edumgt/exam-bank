@@ -8,55 +8,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>T셀파 문제은행</title>
 
-    <link rel="stylesheet" href="..//swiper-bundle.min.css">
-    <link rel="stylesheet" href="/WEB-INF/resources/inc/css/jquery-ui.css">
-    <link rel="stylesheet" href="/WEB-INF/resources/inc/css/font.css">
-    <link rel="stylesheet" href="/WEB-INF/resources/inc/css/reset.css">
-    <link rel="stylesheet" href="/WEB-INF/resources/inc/css/common.css">
+    <link rel="stylesheet" href="/resource/inc/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="/resource/inc/css/jquery-ui.css">
+    <link rel="stylesheet" href="/resource/inc/css/common.css">
+    <link rel="stylesheet" href="/resource/inc/css/font.css">
+    <link rel="stylesheet" href="/resource/inc/css/reset.css">
+    <link rel="stylesheet" href="/resource/midhigh/assets/css/common.css">
     <!-- S 230808 순서 변경-->
-    <script src="/WEB-INF/resources/inc/js/jquery-1.12.4.min.js"></script>
-    <script src="/WEB-INF/resources/inc/js/jquery-3.6.0.min.js"></script>
-    <script src="/WEB-INF/resources/inc/js/jquery-ui.js"></script>
-    <script src="/WEB-INF/resources/inc/js/swiper-bundle.min.js"></script>
+    <script src="/resource/inc/js/jquery-1.12.4.min.js"></script>
+    <script src="/resource/inc/js/jquery-3.6.0.min.js"></script>
+    <script src="/resource/inc/js/jquery-ui.js"></script>
+    <script src="/resource/inc/js/swiper-bundle.min.js"></script>
     <!-- E 230808 순서 변경-->
-    <script type="text/javascript" src="/WEB-INF/resources/inc/js/common_que.js"></script>
-    <script type="text/javascript" src="/WEB-INF/resources/inc/js/lodash.min.js"></script>
+    <script type="text/javascript" src="/resource/inc/js/common_que.js"></script>
+    <script type="text/javascript" src="/resource/inc/js/lodash.min.js"></script>
     <script>
-        $.ajax({
-            url: "https://sso.chunjae.co.kr:446/api/auth/Validation",
-            data: { sessionData: "Z9oqux5Fi7d3oS6IczOqyHSFFD1PiwlXPTooBC4wOcQ2XpNH0F4AnzRFqwyBiK153xt/Fq8tuswyTSm1YqIsYw==" },
-            dataType: 'json',
-            cache : false,
-            success: function (data) {
-                if (data && data.Result) {
-                    let Items = data.Result.Items;
-                    $.ajax({
-                        url: "https://sso.chunjae.co.kr:446/api/auth/Authorize?Token=" + Items.Token,
-                        dataType: 'text',
-                        xhrFields: {
-                            withCredentials: true
-                        },
-                        cache : false,
-                        success: function (data) {
-                            let reg = /_ChunjaeSSOEncData = '(.*)';/
-                            let ssoData = reg.exec(data)[1];
-                            if (ssoData) {
-                                $.ajax({
-                                    url: "/user/ssoLogin",
-                                    data: {
-                                        ssoData: ssoData
-                                    },
-                                    type: "post",
-                                    success: function (res) {}
-                                })
-                            } else {
-                                location.href="/user/ssoLogout";
-                            }
-                        }
-                    });
-                }
-            }
-        });
+        // $.ajax({
+        //     url: "https://sso.chunjae.co.kr:446/api/auth/Validation",
+        //     data: { sessionData: "Z9oqux5Fi7d3oS6IczOqyHSFFD1PiwlXPTooBC4wOcQ2XpNH0F4AnzRFqwyBiK153xt/Fq8tuswyTSm1YqIsYw==" },
+        //     dataType: 'json',
+        //     cache : false,
+        //     success: function (data) {
+        //         if (data && data.Result) {
+        //             let Items = data.Result.Items;
+        //             $.ajax({
+        //                 url: "https://sso.chunjae.co.kr:446/api/auth/Authorize?Token=" + Items.Token,
+        //                 dataType: 'text',
+        //                 xhrFields: {
+        //                     withCredentials: true
+        //                 },
+        //                 cache : false,
+        //                 success: function (data) {
+        //                     let reg = /_ChunjaeSSOEncData = '(.*)';/
+        //                     let ssoData = reg.exec(data)[1];
+        //                     if (ssoData) {
+        //                         $.ajax({
+        //                             url: "/user/ssoLogin",
+        //                             data: {
+        //                                 ssoData: ssoData
+        //                             },
+        //                             type: "post",
+        //                             success: function (res) {}
+        //                         })
+        //                     } else {
+        //                         location.href="/user/ssoLogout";
+        //                     }
+        //                 }
+        //             });
+        //         }
+        //     }
+        // });
     </script><script type="text/x-mathjax-config">
         MathJax.Hub.Config({
             jax: ["input/TeX","output/SVG"],
@@ -499,7 +500,7 @@
 
         <div class="pop-header">
             <ul class="title" id="custom-pop-header-title">
-                <li style="" id="custom-step0" class="active"><img src="./T셀파 문제은행_출제방법_files/ico_step_active.png" alt="">출제 방법 선택</li>
+                <li style="" id="custom-step0" class="active"><img src="/resource/images/common/ico_step_active.png" alt="">출제 방법 선택</li>
 
 
 
