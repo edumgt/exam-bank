@@ -10,10 +10,11 @@
 
     <link rel="stylesheet" href="/resource/inc/css/swiper-bundle.min.css">
     <link rel="stylesheet" href="/resource/inc/css/jquery-ui.css">
-    <link rel="stylesheet" href="/resource/inc/css/common.css">
+
     <link rel="stylesheet" href="/resource/inc/css/font.css">
     <link rel="stylesheet" href="/resource/inc/css/reset.css">
     <link rel="stylesheet" href="/resource/midhigh/assets/css/common.css">
+    <link rel="stylesheet" href="/resource/inc/css/common.css">
     <!-- S 230808 순서 변경-->
     <script src="/resource/inc/js/jquery-1.12.4.min.js"></script>
     <script src="/resource/inc/js/jquery-3.6.0.min.js"></script>
@@ -77,7 +78,9 @@
            },
             "CommonHTML": { linebreaks: { automatic: true } }
         });
-    </script><script id="MathJax-script" src="./T셀파 문제은행_출제방법_files/tex-mml-chtml.js.다운로드"></script><style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+    </script>
+<%--    <script id="MathJax-script" src="./T셀파 문제은행_출제방법_files/tex-mml-chtml.js.다운로드"></script>--%>
+    <style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
     .CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
     .CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
     .CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
@@ -1554,7 +1557,7 @@
 
                         </div>
                         <div class="loading-cnt" style="display:none">
-                            <img src="./T셀파 문제은행_출제방법_files/loading_icon.gif" alt="로딩중">
+                            <img src="/resource/images/common/loading_icon.gif" alt="로딩중">
                             <div class="txt-box">
                                 <span class="tit">LOADING<br>잠시만 기다려주세요.</span>
                             </div>
@@ -1655,6 +1658,6 @@
 </div>
 
 
-<script type="text/javascript" src="./T셀파 문제은행_출제방법_files/stepZero.js.다운로드"></script>
+<%--<script type="text/javascript" src="./T셀파 문제은행_출제방법_files/stepZero.js.다운로드"></script>--%>
 
 </body></html>
