@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/views/common/headerA.jsp"/>
 
 <!-- 즐겨찾는 교과서 -->
-<div class="tb-container tb-bookmark" style="">
+<div class="tb-container tb-bookmark" style="" id="tb-bookmark">
   <form
           method="get"
           id="bookmarkListForm"
@@ -40,7 +40,7 @@
             <div class="data_buttons">
               <a
                       href="javascript:;"
-                      onclick="customExamPopup(1139);"
+                      onclick="customExamPopup('1159');"
                       title="새창 열림"
                       class="button"
               ><i class="icon icon-memo-center"></i>시험지
@@ -82,7 +82,7 @@
             <div class="data_buttons">
               <a
                       href="javascript:;"
-                      onclick="customExamPopup(1159);"
+                      onclick="customExamPopup('1159');"
                       title="새창 열림"
                       class="button"
               ><i class="icon icon-memo-center"></i>시험지
@@ -124,7 +124,7 @@
             <div class="data_buttons">
               <a
                       href="javascript:;"
-                      onclick="customExamPopup(1161);"
+                      onclick="customExamPopup('1161');"
                       title="새창 열림"
                       class="button"
               ><i class="icon icon-memo-center"></i>시험지
@@ -1126,38 +1126,39 @@
   }
 
   function customExamPopup(subjectId) {
-    if (!checkUserLoggedIn(location.href)) {
-      return false;
-    }
+    // if (!checkUserLoggedIn(location.href)) {
+    //   return false;
+    // }
     //새창으로 열기
-    let pop_title = "win_pop";
-    let url = "https://testbank.tsherpa.co.kr/customExam/step0";
+    // let pop_title = "win_pop";
+    let url = "http://localhost:8080/customTest/step0";
 
-    window.open(
-      "",
-      pop_title,
-      "width=1400,height=1024,status=no,toolbar=no,scrollbars=no, left=500, top=0"
-    );
+    // window.open(
+    //   "",
+    //   pop_title,
+    //   "width=1400,height=1024,status=no,toolbar=no,scrollbars=no, left=500, top=0"
+    // );
+    window.open(url,'_blank','width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0, i');
 
-    //form
-    let new_form = $("<form></form>");
-    new_form.attr("name", "new_form");
-    new_form.attr("charset", "UTF-8");
-    new_form.attr("method", "post");
-    new_form.attr("action", url);
-    new_form.attr("target", pop_title);
-
-    //step0 세팅지 리스트를 위한 교재정보 - 문항통합에서 교재정보 컬럼명 = subjectId
-    new_form.append(
-      $("<input/>", {
-        type: "hidden",
-        name: "subjectId",
-        value: subjectId,
-      })
-    );
-
-    new_form.appendTo("body");
-    new_form.submit();
+    // //form
+    // let new_form = $("<form></form>");
+    // new_form.attr("name", "new_form");
+    // new_form.attr("charset", "UTF-8");
+    // new_form.attr("method", "post");
+    // new_form.attr("action", url);
+    // new_form.attr("target", pop_title);
+    //
+    // //step0 세팅지 리스트를 위한 교재정보 - 문항통합에서 교재정보 컬럼명 = subjectId
+    // new_form.append(
+    //   $("<input/>", {
+    //     type: "hidden",
+    //     name: "subjectId",
+    //     value: subjectId,
+    //   })
+    // );
+    //
+    // new_form.appendTo("body");
+    // new_form.submit();
   }
 </script>
 </div>
