@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: kjw85
-  Date: 2024-03-08
-  Time: 오전 10:13
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -29,7 +22,7 @@
     <!-- E 230808 순서 변경-->
     <script type="text/javascript" src="/resource/popup/js/common_que.js"></script>
     <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
-    <script type="text/javascript" src="/resource/popup/js/stepOne.js"></script>
+    <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
 
 </head>
 <body>
