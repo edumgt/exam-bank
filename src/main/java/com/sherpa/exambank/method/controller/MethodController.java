@@ -9,6 +9,6 @@ public class MethodController {
 
     @RequestMapping("/customTest/step0")
     public String methodPage(){
-        return "step0/main";
+        return "step1";
     }
 }
