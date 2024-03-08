@@ -9,6 +9,16 @@ public class MethodController {
 
     @RequestMapping("/customTest/step0")
     public String methodPage(){
-        return "step1";
+        return "customexam/step0";
+    }
+
+    @RequestMapping("/customTest/step1")
+    public String firstStepPage(){
+        return "customexam/step1";
+    }
+
+    @RequestMapping("/customTest/step2")
+    public String secondStepPage(){
+        return "customexam/step2";
     }
 }
