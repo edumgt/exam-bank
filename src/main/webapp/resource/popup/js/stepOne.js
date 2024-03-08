@@ -682,8 +682,45 @@ function moveExamStep2() {
     qParam.activityCategoryList = categoryArr;
     qParam.levelCnt = tempLevelArray;
     qParam.questionForm = questionFormArr.join(",");
+    qTestParam = {
+        "minorClassification": [
+            {
+                "subject": "1154",
+                "large": "115401",
+                "medium": "11540101",
+                "small": "1154010101",
+                "topic": "115401010101"
+            },
+            {
+                "subject": "1154",
+                "large": "115401",
+                "medium": "11540102",
+                "small": "1154010102",
+                "topic": "115401010201"
+            },
+            {
+                "subject": "1154",
+                "large": "115401",
+                "medium": "11540103"
+            },
+            {
+                "subject": "1154",
+                "large": "115401",
+                "medium": "11540104"
+            }
+        ],
+        "levelCnt": [
+            5,
+            5,
+            5,
+            5,
+            5
+        ],
+        "questionForm": "multiple,subjective",
+        "activityCategoryList": [395, 397]
+    };
 
-    ajaxCall("POST", "/customExam/loadStep2", qParam, function (data) {
+    ajaxCall("POST", "/customExam/loadStep2", qTestParam, function (data) {
         if (data != null) {
             if(data.itemsTotalCnt === 0){
                 showPop("no-data-pop");
@@ -704,6 +741,7 @@ function moveExamStep2() {
                 showPop("que-pop");
 
             } else {
+                console.log("호출");
                 moveToStep2(data.queIdList);
             }
         }

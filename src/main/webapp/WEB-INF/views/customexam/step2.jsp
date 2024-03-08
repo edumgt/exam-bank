@@ -23,6 +23,7 @@
     <script type="text/javascript" src="/resource/popup/js/common_que.js"></script>
     <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
     <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
+    <script type="text/javascript" src="/resource/common/js/legacy_common.js"></script>
 
 </head>
 <body>
@@ -41,6 +42,7 @@
         </div>
 
         <script>
+
             function activeText(step){
                 $("#custom-pop-header-title").children().siblings().removeClass("active");
                 $("#custom-step"+step).addClass("active");
@@ -3460,8 +3462,8 @@
     </div>
 </div>
 
-<script type="text/javascript" src="../../js/common/common.js?version=20240308101412"></script>
-<script type="text/javascript" src="../../js/customExam/stepTwo.js?version=20240308101412"></script>
+<%--<script type="text/javascript" src="../../js/common/common.js?version=20240308101412"></script>--%>
+<%--<script type="text/javascript" src="../../js/customExam/stepTwo.js?version=20240308101412"></script>--%>
 <script>
     let qParam ={};
 
