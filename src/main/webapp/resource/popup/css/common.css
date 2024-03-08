@@ -1529,9 +1529,17 @@ input[type=checkbox]:checked + label::before {
     height: 16px;
     background: url(../img/ico_full_pop_close.png) no-repeat;
 }
-.full-pop-que .full-pop-wrap .view-box {
+.full-pop-que .full-pop-wrap .view-box-step0 {
     width: 100%;
     height: 100%;
+    background-color: #fff;
+    border: 1px solid #5670dc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+.full-pop-que .full-pop-wrap .view-box {
+    width: 100%;
+    /*height: 100%;*/
     background-color: #fff;
     border: 1px solid #5670dc;
     border-radius: 6px;
