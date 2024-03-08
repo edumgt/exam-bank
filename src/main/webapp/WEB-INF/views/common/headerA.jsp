@@ -1,6 +1,7 @@
 <%--
   User: 이양진
   Date: 2024-03-07
+  Description: T셀파 중고등 전체 서비스와 연결된 상단 헤더 및 퀵메뉴
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -757,3 +758,470 @@
   });
 </script>
 <!-- // gnb sitemap -->
+
+<%-- quick menu --%>
+<div class="quick_menu v2_1">
+  <button class="btn_quick_toggle"><i>화살표</i></button>
+  <p class="tit">Quick menu</p>
+  <!-- 로그인 후 -->
+
+  <div class="quick_msg_box">
+    <a
+            href="https://ele.tsherpa.co.kr/creativity/calendar/view.html?menu=calendar&amp;categoryId=453887relid=&amp;id=760891&amp;type=E-ex-00-season_03-Mar"
+            target="_blank"
+            class="txt"
+    >겨울잠에서 깨어나는 경칩.</a
+    >
+  </div>
+  <script>
+    function getLoginMessage() {
+      return new Promise(function (resolve, reject) {
+        let loginMessageList = JSON.parse(
+          sessionStorage.getItem("login-message")
+        );
+        if (!loginMessageList) {
+          $.get("/main/getLoginMessageList", null)
+            .done(function (result) {
+              sessionStorage.setItem(
+                "login-message",
+                JSON.stringify(result)
+              );
+              resolve(result);
+            })
+            .fail(function (e) {
+              console.error(e);
+              reject(e);
+            });
+        } else {
+          resolve(loginMessageList);
+        }
+      });
+    }
+
+    $(async function () {
+      let list = [];
+      let priorList = [];
+      let peakItem = null;
+      let loginMessageList = await getLoginMessage();
+      let now = moment();
+      let nowDate = now.format("YYYY-MM-DD");
+      let nowTime = now.format("HH:mm:ss");
+      let weekDay = String(now.day() - 1);
+      for (let item of loginMessageList) {
+        let data = JSON.parse(item.data);
+        if (data.st_date && data.repeat == "true") {
+          data.st_date = now.format("YYYY") + data.st_date.substring(4, 10);
+        }
+        if (data.en_date && data.repeat == "true") {
+          data.en_date = now.format("YYYY") + data.en_date.substring(4, 10);
+        }
+        if (data.site_id && data.site_id != "2") continue;
+        if (data.st_date && data.st_date > nowDate) continue;
+        if (data.en_date && data.en_date < nowDate) continue;
+        if (data.st_time && data.st_time > nowTime) continue;
+        if (data.en_time && data.en_time < nowTime) continue;
+        if (data.week_day && !data.week_day.split(",").includes(weekDay))
+          continue;
+        data.prior == "true" ? priorList.push(item) : list.push(item);
+      }
+      if (priorList.length > 0) {
+        let peakIndex = Math.floor(Math.random() * priorList.length);
+        peakItem = priorList[peakIndex];
+      } else if (list.length > 0) {
+        let peakIndex = Math.floor(Math.random() * list.length);
+        peakItem = list[peakIndex];
+      }
+      if (peakItem) {
+        let $msgBox = $("div.quick_msg_box");
+        if (peakItem.url) {
+          $msgBox
+            .append(
+              `<a href="${peakItem.url}" target="_blank" class="txt">${peakItem.title}</a>`
+            )
+            .removeClass("no_link");
+        } else {
+          $msgBox.append(`<span class="txt">${peakItem.title}</span>`);
+        }
+      }
+    });
+  </script>
+
+  <div class="login_area">
+    <div class="intro">
+      <p class="name"><strong>중고등 정</strong> 선생님</p>
+    </div>
+    <a
+            href="https://www.tsherpa.co.kr/myT/membership/membership.html"
+            class="btn_my_sherpa"
+    >MY T셀파</a
+    >
+    <div class="link_box">
+      <a href="javascript:logout()" class="btn_logout">로그아웃</a>
+      <a
+              href="https://www.tsherpa.co.kr/center/M-noticM.html"
+              class="btn_customer_center"
+      >고객센터</a
+      >
+    </div>
+    <!-- 퀵메뉴 접혔을 시 버튼 -->
+    <button class="quick_open user">사용자</button>
+    <!-- //퀵메뉴 접혔을 시 버튼 -->
+  </div>
+  <!-- //로그인 후 -->
+
+  <ul class="quick_lst go_link">
+    <li class="link_timetbl">
+      <a href="https://www.tsherpa.co.kr/myT/curri/myCurri.html"
+      ><i></i> <span>교과서 설정</span></a
+      >
+    </li>
+  </ul>
+
+  <ul class="quick_lst go_tbag">
+    <li class="lst01">
+      <a href="https://mh.tsherpa.co.kr/testbank/testbank.html"
+      ><i></i> <span>문제은행</span></a
+      >
+    </li>
+    <li class="lst08">
+      <a href="javascript:" onclick="openBookDVD();"
+      ><i></i> <span>교사용 DVD</span></a
+      >
+    </li>
+  </ul>
+
+  <a
+          href="https://mh.tsherpa.co.kr/testbank/testbank.html#"
+          class="btn_top"
+          style="opacity: 1"
+  ><span></span>TOP</a
+  >
+</div>
+
+<script>
+  if (Storages.cookieStorage.setPath("/").get("menu_collapse") == "Y") {
+    $(".quick_menu").addClass("active");
+  } else {
+    $(".quick_menu").removeClass("active");
+  }
+  $(function () {
+    $(".btn_quick_toggle").on("click", function (e) {
+      e.preventDefault();
+      $(".quick_menu").toggleClass("active");
+      setQuickMenuCookie();
+    });
+    $(".quick_open").on("click", function (e) {
+      e.preventDefault();
+      $(".quick_menu").removeClass("active");
+      if ($(this).hasClass("inp_auto")) {
+        $(".input_field #ID").focus();
+      }
+      setQuickMenuCookie();
+    });
+    var btnTop = $(".btn_top");
+    btnTop.on("click", function (e) {
+      e.preventDefault();
+      $("html, body").animate(
+        {
+          scrollTop: 0,
+        },
+        "slow"
+      );
+    });
+    $(window).on("load", function () {
+      var scrollTop = $(window).scrollTop();
+      if (scrollTop > 50) {
+        btnTop.css({opacity: 1});
+      } else {
+        btnTop.css({opacity: 0});
+      }
+    });
+    $(window).on("scroll", function () {
+      var scrollTop = $(window).scrollTop();
+      if (scrollTop > 50) {
+        btnTop.css({opacity: 1});
+      } else {
+        btnTop.css({opacity: 0});
+      }
+    });
+
+    function setQuickMenuCookie() {
+      if ($(".quick_menu").hasClass("active")) {
+        Storages.cookieStorage.setPath("/").set("menu_collapse", "Y");
+      } else {
+        Storages.cookieStorage.setPath("/").set("menu_collapse", "N");
+      }
+    }
+  });
+</script>
+
+<script>
+  async function oauthLogin(type) {
+    if (await isSsoStudentLogout()) {
+      return;
+    }
+    location.href =
+      "https://www.tsherpa.co.kr/oauth2/login/" +
+      type +
+      "?returnUrl=" +
+      encodeURIComponent(location.href);
+  }
+
+  function processLoginSuccess(response, id, pwd) {
+    const doRedirect = (ssoLoginData) => {
+      if (
+        !(
+          ssoLoginData.user.curri === "C2" ||
+          ssoLoginData.user.curri === "C3"
+        )
+      ) {
+        location.reload();
+        return;
+      }
+      $.get("/pinCurri/getMainTpinCurri?siteId=7")
+        .then((result) => {
+          if (result?.mainTpinCurri?.categoryId) {
+            location.replace(
+              "/curri/schoolbookdata.html?id=" +
+              result.mainTpinCurri.categoryId
+            );
+          } else {
+            location.reload();
+          }
+        })
+        .catch(() => location.reload());
+    };
+    let isIE11 = !!navigator.userAgent.match(/Trident.*rv\:11\./);
+    if (isIE11) {
+      let scriptUrl =
+        "https://sso.chunjae.co.kr:446/api/auth/authenticate?SiteName=TSHERPA&Token=" +
+        response.Items.Token;
+      let s = document.createElement("script");
+      s.type = "text/javascript";
+      s.src = scriptUrl;
+      $("head").append(s);
+      let params = {
+        token:
+        response.Items.Token /* ★ 1. Token 정보는 필수사항입니다. ★ */,
+        id: queryEncrypt.encrypt(
+          id
+        ) /* 아래 항목들은 각 사이트에 맞게 적용*/,
+        pwd: queryEncrypt.encrypt(pwd),
+        openerType: "pagelogin",
+        returnUrl: encodeURIComponent(queryEncrypt.encrypt(location.href)),
+        encData: response.Items.SSOEncData,
+        oReturnUrl: "",
+        siteInfoIncorrect: "0",
+      };
+      $.post("/ssoLogin.do", params).done(function (data) {
+        if (data.success) {
+          setTimeout(function () {
+            Common.setCookie("loginCheck", "Y");
+            doRedirect(data);
+          }, 600);
+        } else {
+          alert(data.message);
+        }
+      });
+    } else {
+      $.getScript(
+        "https://sso.chunjae.co.kr:446/api/auth/authenticate?SiteName=TSHERPA&Token=" +
+        response.Items.Token
+      ).done(function (script, textStatus) {
+        let params = {
+          token:
+          response.Items.Token /* ★ 1. Token 정보는 필수사항입니다. ★ */,
+          id: queryEncrypt.encrypt(
+            id
+          ) /* 아래 항목들은 각 사이트에 맞게 적용*/,
+          pwd: queryEncrypt.encrypt(pwd),
+          openerType: "pagelogin",
+          returnUrl: encodeURIComponent(
+            queryEncrypt.encrypt(location.href)
+          ),
+          encData: response.Items.SSOEncData,
+          oReturnUrl: "",
+          siteInfoIncorrect: "0",
+        };
+        $.post("/ssoLogin.do", params).done(function (data) {
+          if (data.success) {
+            Common.setCookie("loginCheck", "Y");
+            doRedirect(data);
+          } else {
+            alert(data.message);
+          }
+        });
+      });
+    }
+  }
+
+  async function login() {
+    if (await isSsoStudentLogout()) {
+      return;
+    }
+    let id = $(".login_area input[name=q_username]").val();
+    let pwd = $(".login_area input[name=q_password]").val();
+    if (!id || !pwd) {
+      alert("아이디나 비밀번호가 입력되지 않았습니다.");
+      return false;
+    }
+    let params = {
+      UserID: queryEncrypt.encrypt(id),
+      Pwd: queryEncrypt.encrypt(pwd),
+      SiteID: 1,
+      Mobile: 0,
+    };
+    $.ajax({
+      url: "https://sso.chunjae.co.kr:446/api/auth/Login2",
+      data: params,
+      dataType: "json",
+      cache: false,
+      async: false,
+      success: function (res) {
+        switch (res.Status) {
+          case Chunjae.Auth.Status.OK:
+            processLoginSuccess(res.Result, id, pwd);
+            break;
+          case Chunjae.Auth.Status.INFO_INCORRECT:
+            let count = Number(res.Result.Items.LoginFailCount);
+            count = count > 10 ? 10 : count;
+            alert(
+              "아이디 또는 비밀번호를 잘못 입력하셨습니다." +
+              (count ? " (" + count + "/10회)" : "")
+            );
+            break;
+          case Chunjae.Auth.Status.SITEINFO_INCORRECT:
+            alert("사이트 정보가 일치하지 않습니다.");
+            break;
+          case Chunjae.Auth.Status.ID_DORMANT:
+            alert("해당 아이디는 휴면계정입니다.");
+            break;
+          case Chunjae.Auth.Status.AUTH_ERROR:
+            alert("인증 에러입니다.");
+            break;
+          case Chunjae.Auth.Status.MEMBER_ERROR:
+            alert("회원정보 에러입니다.");
+            break;
+          case Chunjae.Auth.Status.AUTH_TIMEOUT:
+            alert(
+              "잘못된 아이디 또는 비밀번호를 입력하셨습니다. 60초 후에 다시 로그인을 진행해주세요."
+            );
+            break;
+          default:
+            alert(
+              "정보를 불러오는데 문제가 발생하였습니다.\n다시 시도해주세요."
+            );
+            break;
+        }
+      },
+      error: function (e) {
+        console.error(e);
+      },
+    });
+    if ($("input:checkbox[id='rememberUserId']").is(":checked")) {
+      Storages.localStorage.set("loginuserid", id);
+    } else {
+      Storages.localStorage.remove("loginuserid");
+    }
+  }
+
+  $(function () {
+    $(".btn_login").on("click", function () {
+      login();
+    });
+    // 로그인 이벤트 추가
+    $("input[name=q_password]").on("keypress", function (e) {
+      if (e.keyCode == 13) {
+        login();
+      }
+    });
+    let userid = Storages.localStorage.get("loginuserid");
+    let $form = $('form[name="q_loginForm"]');
+    if (userid) {
+      $("input[name='q_username']", $form).val(userid);
+      $("input:checkbox[id='rememberUserId']").prop("checked", true);
+    }
+    $form.submit(function (e) {
+      e.preventDefault();
+      login(e);
+    });
+  });
+</script>
+
+<form id="searchHeaderForm" name="searchHeaderForm" method="get"
+      action="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=TestBank-Storage" target="_blank">
+  <input type="hidden" id="q" name="q" value="">
+  <input type="hidden" id="fromSiteType" name="fromSiteType" value="midhigh">
+</form>
+
+<script>
+  let _findUrl = 'https://www.tsherpa.co.kr/';
+  let _keyword = '';
+  let _section = '';
+  let _keywordForm = $("#keywordForm");
+  let _searchForm = $("#searchHeaderForm");
+
+  // 검색 전송
+  function doSearch() {
+    if ($("#keyword").val() != "") {
+      $(_searchForm).find("#q").val(encodeURIComponent($(_keywordForm).find("#keyword").val()));
+      $(_searchForm).attr("action", _findUrl + "search/all.html");
+      $(_searchForm).submit();
+    } else {
+      alert('검색어를 입력해 주세요.');
+    }
+    return false;
+  }
+
+  function press() {
+    if (event.keyCode == 13) {
+      if ($(_keywordForm).find("#keyword").val()) {
+        doSearch();
+      }
+    }
+  }
+
+  $("#searchButton").on("click", function () {
+    doSearch();
+  });
+</script>
+<div id="tDvdModalDiv"></div>
+
+<script>
+  function openTShareCommonUrl(url) {
+    if (!checkUserLoggedIn()) {
+      return;
+    }
+    location.href = url;
+  }
+
+  // 교사용 DVD
+  function openBookDVD(code) {
+    if (!checkUserLoggedIn()) {
+      return;
+    }
+    if (!CEMember()) {
+      alert("중,고등 정회원만 서비스를 이용하실 수 있습니다.");
+      return;
+    }
+    let schoolType = 'mid';
+    let param = new URLSearchParams({tBook: code, type: schoolType, name: '', year: '2015'});
+    front.loading.showLoading();
+    $('#tDvdModalDiv').load("/modal/tDVD.html?" + param.toString(), function () {
+      $('#tDvdPopup').modal('show');
+      front.loading.hideLoading();
+    });
+  }
+</script>
+<script>
+  if (moment() >= moment("2024-02-01") && moment() < moment("2024-02-13")) {
+    $('div.header_top h1').addClass("logo_seollal")
+  } else {
+    $('div.header_top h1').removeClass("logo_seollal")
+  }
+</script>
+
+<!--header-->
+<main class="testbank_body">
+  <div class="content-section">
+    <jsp:include page="headerE.jsp"/>
