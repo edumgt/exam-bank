@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<!-- saved from url=(0047)https://testbank.tsherpa.co.kr/customExam/step0 -->
+<!-- saved from url=(0047)https://-----/customTest/step0 -->
 <html lang="ko">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -26,6 +26,7 @@
     <script type="text/javascript" src="/resource/popup/js/common_que.js"></script>
     <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
     <script>
+
         // $.ajax({
         //     url: "https://sso.chunjae.co.kr:446/api/auth/Validation",
         //     data: { sessionData: "Z9oqux5Fi7d3oS6IczOqyHSFFD1PiwlXPTooBC4wOcQ2XpNH0F4AnzRFqwyBiK153xt/Fq8tuswyTSm1YqIsYw==" },
@@ -61,7 +62,8 @@
         //         }
         //     }
         // });
-    </script><script type="text/x-mathjax-config">
+    </script>
+    <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
             jax: ["input/TeX","output/SVG"],
             showProcessingMessages: false,
@@ -530,7 +532,7 @@
             }
         </script>
         <div class="pop-content">
-            <div class="view-box">
+            <div class="view-box-step0">
                 <div class="view-top">
                     <div class="paper-info">
 
