@@ -22,7 +22,7 @@
         //새창으로 열기
         let url = 'http://localhost:8080/customTest/step0';
 
-        window.open(url,'_blank','width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0, i');
+        window.open(url,'_blank','width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0');
 
         // //form
         // let new_form = $('<form></form>');
@@ -38,11 +38,32 @@
         // new_form.appendTo('body');
         // new_form.submit();
     }
+    function customExamPopup1(subjectId) {
+        let url = 'http://localhost:8080/customTest/step1';
+        window.open(url, '_blank', 'width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0');
+    }
+    function customExamPopup2(subjectId) {
+        let url = 'http://localhost:8080/customTest/step2';
+        window.open(url, '_blank', 'width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0');
+    }
+    function customExamPopup3(subjectId) {
+        let url = 'http://localhost:8080/customTest/step3';
+        window.open(url, '_blank', 'width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0');
+    }
 </script>
 <div class="data_buttons">
     <a href="javascript:;" onclick="customExamPopup('1159');" title="새창 열림" class="button">
-        <i class="icon icon-memo-center"></i>시험지 만들기
-    </a>
+        <i class="icon icon-memo-center"></i>시험지 만들기 step0
+    </a><br/>
+    <a href="javascript:;" onclick="customExamPopup1('1159');" title="새창 열림" class="button">
+        <i class="icon icon-memo-center"></i>시험지 만들기 step1
+    </a><br/>
+    <a href="javascript:;" onclick="customExamPopup2('1159');" title="새창 열림" class="button">
+        <i class="icon icon-memo-center"></i>시험지 만들기 step2
+    </a><br/>
+    <a href="javascript:;" onclick="customExamPopup3('1159');" title="새창 열림" class="button">
+        <i class="icon icon-memo-center"></i>시험지 만들기 step3
+    </a><br/>
     <a href="javascript:getExam('611505');" title="다운로드" class="button">
         <i class="icon icon-download"></i> 평가자료 다운
     </a>

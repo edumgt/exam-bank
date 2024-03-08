@@ -1,29 +1,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<!-- saved from url=(0047)https://testbank.tsherpa.co.kr/customExam/step0 -->
-<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- saved from url=(0047)https://-----/customTest/step0 -->
+<html lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>T셀파 문제은행</title>
 
-    <link rel="stylesheet" href="/resource/inc/css/swiper-bundle.min.css">
-    <link rel="stylesheet" href="/resource/inc/css/jquery-ui.css">
+    <link rel="stylesheet" href="/resource/popup/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="/resource/popup/css/jquery-ui.css">
 
-    <link rel="stylesheet" href="/resource/inc/css/font.css">
-    <link rel="stylesheet" href="/resource/inc/css/reset.css">
-    <link rel="stylesheet" href="/resource/midhigh/assets/css/common.css">
-    <link rel="stylesheet" href="/resource/inc/css/common.css">
+    <link rel="stylesheet" href="/resource/popup/css/font.css">
+    <link rel="stylesheet" href="/resource/popup/css/reset.css">
+<%--    <link rel="stylesheet" href="/resource/midhigh/assets/css/common.css">--%>
+    <link rel="stylesheet" href="/resource/popup/css/common.css">
     <!-- S 230808 순서 변경-->
-    <script src="/resource/inc/js/jquery-1.12.4.min.js"></script>
-    <script src="/resource/inc/js/jquery-3.6.0.min.js"></script>
-    <script src="/resource/inc/js/jquery-ui.js"></script>
-    <script src="/resource/inc/js/swiper-bundle.min.js"></script>
+    <script src="/resource/popup/js/jquery-1.12.4.min.js"></script>
+    <script src="/resource/popup/js/jquery-3.6.0.min.js"></script>
+    <script src="/resource/popup/js/jquery-ui.js"></script>
+    <script src="/resource/popup/js/swiper-bundle.min.js"></script>
     <!-- E 230808 순서 변경-->
-    <script type="text/javascript" src="/resource/inc/js/common_que.js"></script>
-    <script type="text/javascript" src="/resource/inc/js/lodash.min.js"></script>
+    <script type="text/javascript" src="/resource/popup/js/common_que.js"></script>
+    <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
     <script>
+
         // $.ajax({
         //     url: "https://sso.chunjae.co.kr:446/api/auth/Validation",
         //     data: { sessionData: "Z9oqux5Fi7d3oS6IczOqyHSFFD1PiwlXPTooBC4wOcQ2XpNH0F4AnzRFqwyBiK153xt/Fq8tuswyTSm1YqIsYw==" },
@@ -59,7 +62,8 @@
         //         }
         //     }
         // });
-    </script><script type="text/x-mathjax-config">
+    </script>
+    <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
             jax: ["input/TeX","output/SVG"],
             showProcessingMessages: false,
@@ -503,7 +507,7 @@
 
         <div class="pop-header">
             <ul class="title" id="custom-pop-header-title">
-                <li style="" id="custom-step0" class="active"><img src="/resource/images/common/ico_step_active.png" alt="">출제 방법 선택</li>
+                <li style="" id="custom-step0" class="active"><img src="/resource/popup/img/ico_step_active.png" alt="">출제 방법 선택</li>
 
 
 
@@ -528,7 +532,7 @@
             }
         </script>
         <div class="pop-content">
-            <div class="view-box">
+            <div class="view-box-step0">
                 <div class="view-top">
                     <div class="paper-info">
 
@@ -1557,7 +1561,7 @@
 
                         </div>
                         <div class="loading-cnt" style="display:none">
-                            <img src="/resource/images/common/loading_icon.gif" alt="로딩중">
+                            <img src="/resource/popup/img/loading_icon.gif" alt="로딩중">
                             <div class="txt-box">
                                 <span class="tit">LOADING<br>잠시만 기다려주세요.</span>
                             </div>
