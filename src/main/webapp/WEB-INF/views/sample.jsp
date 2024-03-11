@@ -67,6 +67,9 @@
     <a href="javascript:getExam('611505');" title="다운로드" class="button">
         <i class="icon icon-download"></i> 평가자료 다운
     </a>
+
+    <h3>Hello itext pdf</h3>
+    <p>Click <a href="/attachment/pdf">here</a> to download the pdf</p>
 </div>
 
 
