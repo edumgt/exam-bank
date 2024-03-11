@@ -4,12 +4,381 @@
   Description: T셀파 중고등 전체 서비스와 연결된 상단 헤더 및 퀵메뉴
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/resource/midhigh/css/style.html" %>
 <html>
 <head>
+  <!-- Google Tag Manager -->
+  <script async="" src="/resource/js/clarity.js"></script>
+  <script async="" src="/resource/js/cz3xm7bhhr.js"></script>
+  <script
+          type="text/javascript"
+          async=""
+          src="/resource/js/fbevents.js"
+  ></script>
+  <script type="text/javascript" async="" src="/resource/js/js.js"></script>
+  <script
+          type="text/javascript"
+          async=""
+          src="/resource/js/analytics.js"
+  ></script>
+  <script async="" src="/resource/js/j50r9or0xl.js"></script>
+  <script type="text/javascript" async="" src="/resource/js/js(1).js"></script>
+  <script async="" src="/resource/js/gtm.js"></script>
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        "gtm.start": new Date().getTime(),
+        event: "gtm.js",
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != "dataLayer" ? "&l=" + l : "";
+      j.async = true;
+      j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-5GLJFMV");
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Google tag (gtag.js) -->
+  <script async="" src="/resource/js/js(2).js"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag("js", new Date());
+
+    gtag("config", "G-9BRVE8BR14");
+  </script>
+
+  <title>교과서 목록</title>
+  <meta name="Referrer" content="origin"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+  <meta name="viewport" content="width=1768"/>
+  <meta name="robots" content="index,follow"/>
+  <meta
+          name="title"
+          content="T셀파 중고등 - 오직 선생님만을 위한 교수학습 무료지원"
+  />
+  <meta name="url" content="https://mh.tsherpa.co.kr/"/>
+  <meta
+          name="keywords"
+          content="T셀파 중고등,티셀파 중고등,교수지원,천재교육,천재교과서"
+  />
+  <meta
+          name="description"
+          content="천재교육, 천재교과서의 모든 학습자료는 기본! 강력한 평가자료와 다양한 콘텐츠제공!"
+  />
+  <meta
+          name="image"
+          content="https://mh.tsherpa.co.kr/webfile/Tsherpa2021/resource/main/assets/img/OpenGraph_1200x630_m.jpg"
+  />
+  <meta
+          name="apple-mobile-web-app-title"
+          content="T셀파 중고등 - 오직 선생님만을 위한 교수학습 무료지원"
+  />
+  <meta property="fb:app_id" content="453644223372937"/>
+  <meta property="og:type" content="website"/>
+  <meta
+          property="og:title"
+          content="T셀파 중고등 - 오직 선생님만을 위한 교수학습 무료지원"
+  />
+  <meta property="og:url" content="https://mh.tsherpa.co.kr/"/>
+  <meta
+          property="og:description"
+          content="천재교육, 천재교과서의 모든 학습자료는 기본! 강력한 평가자료와 다양한 콘텐츠제공!"
+  />
+  <meta
+          property="og:image"
+          content="https://mh.tsherpa.co.kr/webfile/Tsherpa2021/resource/main/assets/img/OpenGraph_1200x630_m.jpg"
+  />
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta
+          name="twitter:title"
+          content="T셀파 중고등 - 오직 선생님만을 위한 교수학습 무료지원"
+  />
+  <meta name="twitter:url" content="https://mh.tsherpa.co.kr/"/>
+  <meta
+          name="twitter:description"
+          content="천재교육, 천재교과서의 모든 학습자료는 기본! 강력한 평가자료와 다양한 콘텐츠제공!"
+  />
+  <meta
+          name="twitter:image"
+          content="https://mh.tsherpa.co.kr/webfile/Tsherpa2021/resource/main/assets/img/OpenGraph_1200x630_m.jpg"
+  />
+
+  <link
+          rel="shortcut icon"
+          href="https://cdata2.tsherpa.co.kr/tsherpa/Tsherpa2021/resource/midhigh/assets/img/favicon.ico"
+  />
+  <link
+          rel="apple-touch-icon-precomposed"
+          sizes="192x192"
+          href="https://cdata2.tsherpa.co.kr/tsherpa/Tsherpa2021/resource/midhigh/assets/img/Favorites_T-spa.png"
+  />
   <link rel="stylesheet" type="text/css" href="/resource/midhigh/css/common.css"/>
   <link rel="stylesheet" type="text/css" href="/resource/midhigh/css/pages.css"/>
-  <title>교과서 목록</title>
+
+  <script src="/resource/js/polyfill.min.js"></script>
+  <script src="/resource/common/js/lib/jquery.min.js"></script>
+  <script src="/resource/common/js/lib/jquery.mCustomScrollbar.min.js"></script>
+  <script src="/resource/js/jquery.mousewheel.min.js"></script>
+  <script src="/resource/common/js/lib/bootstrap.min.js"></script>
+  <script src="/resource/common/js/lib/bootstrap-datepicker.min.js"></script>
+  <script src="/resource/common/js/lib/swiper.min.js"></script>
+  <script src="/resource/common/js/lib/moment.min.js"></script>
+  <script src="/resource/common/js/lib/moment.locale.js"></script>
+  <script src="/resource/common/js/lib/lodash.min.js"></script>
+  <script src="/resource/common/js/lib/js.cookie.min.js"></script>
+  <script src="/resource/common/js/lib/js.storage.min.js"></script>
+  <script src="/resource/common/js/lib/handlebars.min.js"></script>
+  <script
+          src="/resource/common/js/lib/alpine-3.12.0.min.js"
+          type="module"
+  ></script>
+
+  <script src="/resource/js/auth-latest.min.js"></script>
+  <script
+          type="text/javascript"
+          src="/resource/js/jquery.whensync.js"
+  ></script>
+
+  <script src="/resource/js/queryencrypt-latest.min.js"></script>
+  <script src="/resource/common/js/legacy_common.js"></script>
+  <script src="/resource/midhigh/js/common.js"></script>
+
+  <script>
+    var currentDevice = "DESKTOP";
+    var downloadServerUrl =
+      "https://bfile.tsherpa.co.kr/popup/downfile_multi_new_dext5.aspx";
+    var cdnUrl = "https://cdata2.tsherpa.co.kr/tsherpa";
+
+    //통합회원 체크
+    window.onload = function () {
+      if (true) {
+        if (Common.getCookie("popupYN") != "N") {
+          if (Common.getCookie("loginCheck") == "Y") {
+            integratedChange();
+          }
+        }
+        Common.setCookie("loginCheck", "N");
+      }
+    };
+
+    function isUserLogin() {
+      return true;
+    }
+
+    function checkUserLoggedIn(redirect) {
+      if (!true) {
+        alert("로그인 후 이용할 수 있는 서비스입니다.");
+        if (redirect !== false) {
+          location.href =
+            "/login.html?returnUrl=" + encodeURIComponent(location.href);
+        }
+      }
+      return true;
+    }
+
+    function isStudentMember() {
+      return false;
+    }
+
+    function returnMemberType() {
+      return "S";
+    }
+
+    function iRegularMember() {
+      return false;
+    }
+
+    // 유치, 교대생, 중고등 준회원, 정회원, 영업 X && 초등 정회원, 영업, 초중고 관리자 (우리반T셀파, 알림장 등)
+    function newRegularMember() {
+      return true;
+    }
+
+    // 교대생, 유치 준회원, 중고등 준회원, 정회원, 영업 X && 유치/초등 정회원, 영업, 초중고 관리자 (tBag)
+    function tBagRegularMember() {
+      return false;
+    }
+
+    // 중고등 창체, 특별한수업자료, forTea 공통 권한, 유치 전체X, 초중고 교대생, 정회원, 영업, 관리자만 가능 (글내용, 미리보기, 다운로드 권한)
+    function mRegularMember() {
+      return true;
+    }
+
+    // 초중고 비/준회원, 유치 비/준/정회원, 관리자 X && 초중고 교대생, 정회원, 영업, 관리자, 유치원 영업 (내 교과/평가)
+    // 초등에서는 초등 정회원만, 중고에서는 중고 정회원만 가능하도록 수정
+    //[권한] 초등 정회원 권한 수정 #703 2023.09.15
+    function CEMember() {
+      return true;
+    }
+
+    // 유치X, 초등 영업, 관리자 중고등 정회원, 영업, 관리자만 가능 (교과서, 과목자료)
+    function tBookSubRegularMember() {
+      return true;
+    }
+
+    function checkMenuPermission(menu) {
+      if (
+        !isUserLogin() &&
+        (menu == "curri" ||
+          menu == "community" ||
+          menu == "exam" ||
+          menu == "creativity")
+      ) {
+        checkUserLoggedIn(true);
+      }
+    }
+
+    function integratedChange() {
+      if (true) {
+        let userName = "dongtest_002";
+        let encryption = encodeURIComponent(queryEncrypt.encrypt(userName));
+        $.get("https://sso.chunjae.co.kr:446/api/member/JoinedSite", {
+          userID: encryption,
+        }).done(function (Status) {
+          if (Status.Result.Items[0].CreDate < "2018") {
+            if (Status.Result.Itemsummary.TotalCnt < 3) {
+              let url = "/modal/membership-integration.html";
+              $("#memberChangeModal").load(
+                url,
+                function (response, status, xhr) {
+                  $("#memberChange").modal("show");
+                }
+              );
+            }
+          }
+        });
+      }
+    }
+
+    function certification() {
+      showCertificationModal("S", "", "", "btn", $("#certModalFooterDiv"));
+    }
+  </script>
+  <script type="text/javascript">
+    (function (c, l, a, r, i, t, y) {
+      c[a] =
+        c[a] ||
+        function () {
+          (c[a].q = c[a].q || []).push(arguments);
+        };
+      t = l.createElement(r);
+      t.async = 1;
+      t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0];
+      y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "j50r9or0xl");
+  </script>
+  <script>
+    $.ajax({
+      url: "https://sso.chunjae.co.kr:446/api/auth/Validation",
+      data: {
+        sessionData:
+          "p14XIr8X/4HwnQrhxmMgdVcGzb6521Eu2JIt1s0MhT6S05iZBXmpvaeMIy+0S4CoJOo6KAdvZW3bE3MARi6C/w==",
+      },
+      dataType: "json",
+      cache: false,
+      success: function (data) {
+        if (data && data.Result) {
+          let Items = data.Result.Items;
+          $.ajax({
+            url:
+              "https://sso.chunjae.co.kr:446/api/auth/Authorize?Token=" +
+              Items.Token,
+            dataType: "text",
+            xhrFields: { withCredentials: true },
+            cache: false,
+            success: function (data) {
+              let reg = /_ChunjaeSSOEncData = '(.*)';/;
+              let ssoData = reg.exec(data)[1];
+              if (ssoData) {
+                if (isLoginPage()) {
+                  alert("이미 로그인되어 있습니다.");
+                  location.href = "/";
+                }
+                sessionStorage.removeItem("tsherpa_sso_reload");
+              } else {
+              }
+            },
+            error: function (e) {
+              console.error(e);
+            },
+          });
+        }
+      },
+      error: function (e) {
+        console.error(e);
+      },
+    });
+
+    function isLoginPage() {
+      return (
+        location.pathname == "/login.html" ||
+        location.pathname == "/mo_membership/login.html" ||
+        location.pathname == "/mo_membership/class_app_login.html" ||
+        location.pathname.startsWith("/mo_membership/signup")
+      );
+    }
+
+    async function isSsoStudentLogout() {
+      const response1 = await fetch(
+        "https://sso.chunjae.co.kr:446/api/auth/Validation?sessionData=" +
+        encodeURIComponent(
+          "p14XIr8X/4HwnQrhxmMgdVcGzb6521Eu2JIt1s0MhT6S05iZBXmpvaeMIy+0S4CoJOo6KAdvZW3bE3MARi6C/w=="
+        ),
+        {
+          method: "GET",
+          cache: "no-cache",
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
+      const data1 = await response1.json();
+      if (data1 && data1.Result) {
+        const Items = data1.Result.Items;
+        const response2 = await fetch(
+          "https://sso.chunjae.co.kr:446/api/auth/AuthorizeStudent?Token=" +
+          Items.Token,
+          {
+            method: "GET",
+            cache: "no-cache",
+            credentials: "include", // This is equivalent to xhrFields: {withCredentials: true}
+            headers: {
+              Accept: "text/plain",
+            },
+          }
+        );
+        const data2 = await response2.text();
+        const reg = /_ChunjaeSSOEncData = '(.*)';/;
+        const ssoData = reg.exec(data2)[1];
+        if (ssoData) {
+          alert("다른 SSO 세션이 존재하여, 로그아웃 하겠습니다.");
+          const url = location.href.replace(location.search, "");
+          document.location.href =
+            "https://class.tsherpa.co.kr//tclass/logout?returnUrl=" +
+            encodeURIComponent(
+              "https://sso.chunjae.co.kr:446/api/auth/logout?returnUrl=" +
+              encodeURIComponent(url + encodeURIComponent(location.search))
+            );
+          return true;
+        }
+      }
+      return false;
+    }
+  </script>
+  <script
+          src="/resource/js/0ebf843a0e.js"
+          crossorigin="anonymous"
+  ></script>
 </head>
+
 <body>
 <!--header-->
 
@@ -1224,4 +1593,4 @@
 <!--header-->
 <main class="testbank_body">
   <div class="content-section">
-    <jsp:include page="headerE.jsp"/>
+    <%--    <jsp:include page="headerE.jsp"/>--%>
