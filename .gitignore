@@ -37,4 +37,14 @@ out/
 ### VS Code ###
 .vscode/
 
-*.yml
+application-local.yml
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### macOS Patch ###
+# iCloud generated files
+*.icloud
