@@ -7,7 +7,7 @@
 <%--<%@ include file="/resource/midhigh/css/style.html" %>--%>
 <html>
 <head>
-  <!-- Google Tag Manager -->
+  <%--<!-- Google Tag Manager -->
   <script async="" src="/resource/js/clarity.js"></script>
   <script async="" src="/resource/js/cz3xm7bhhr.js"></script>
   <script
@@ -53,7 +53,7 @@
     gtag("js", new Date());
 
     gtag("config", "G-9BRVE8BR14");
-  </script>
+  </script>--%>
 
   <title>교과서 목록</title>
   <meta name="Referrer" content="origin"/>
@@ -292,7 +292,7 @@
               "https://sso.chunjae.co.kr:446/api/auth/Authorize?Token=" +
               Items.Token,
             dataType: "text",
-            xhrFields: { withCredentials: true },
+            xhrFields: {withCredentials: true},
             cache: false,
             success: function (data) {
               let reg = /_ChunjaeSSOEncData = '(.*)';/;
@@ -1591,6 +1591,4 @@
 </script>
 
 <!--header-->
-<main class="testbank_body">
-  <div class="content-section">
-    <%--    <jsp:include page="headerE.jsp"/>--%>
+<jsp:include page="headerE.jsp"/>
