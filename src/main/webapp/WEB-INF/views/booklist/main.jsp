@@ -110,26 +110,38 @@
 </div>
 <script>
   function getBookByArea(btnId) {
+    let btn = document.getElementById(btnId);
+    let link = btn.querySelector('a');
 
+    // 현재 선택된 버튼에 대한 클래스 조작
+    link.classList.add('tabs__link--on');
+
+    // 다른 버튼에 대한 클래스 조작
+    let otherBtns = document.querySelectorAll('.tabs__list--4 > .tabs__item:not(#' + btnId + ')');
+    otherBtns.forEach(item => {
+      let otherLink = item.querySelector('a');
+      otherLink.classList.remove('tabs__link--on');
+    });
+
+    // 과목별 교과서 목록 인덱싱
     const container = document.getElementsByClassName("tb-container tb-list");
-    const containers = {
-      "btn-0": document.getElementsByClassName("tb-0"),
-      "btn-1": document.getElementsByClassName("tb-1"),
-      "btn-2": document.getElementsByClassName("tb-2"),
-      "btn-3": document.getElementsByClassName("tb-3"),
-      "btn-4": document.getElementsByClassName("tb-4"),
-      "btn-5": document.getElementsByClassName("tb-5"),
-      "btn-6": document.getElementsByClassName("tb-6")
-    };
+    const containers = {};
 
+    for (let i = 0; i < $("li").length; i++) {
+      containers[`btn-` + i] = document.getElementsByClassName(`tb-` + i);
+    }
+
+    // 모든 과목의 교과서 목록 숨기기
     const hideAllContainers = () => {
       Array.from(container).forEach(item => item.style.display = "none");
     };
 
+    // 특정 과목의 교과서 목록 노출시키기
     const showSelectedContainer = () => {
       Array.from(containers[btnId]).forEach(item => item.style.display = "block");
     };
 
+    // 버튼에 클릭 이벤트 생성
     const button = document.getElementById(btnId);
     button.addEventListener("click", function () {
       hideAllContainers();
@@ -1008,7 +1020,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (영어/이재영) -->
-<div class="tb-container tb-list tb-1">
+<div class="tb-container tb-list tb-1" style="display: none">
   <h2 class="tb-container__header">이재영</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -1172,7 +1184,7 @@
 </div>
 <!-- // 교과서 목록 -->
 <!-- 교과서 목록 (영어/정사열) -->
-<div class="tb-container tb-list tb-1">
+<div class="tb-container tb-list tb-1" style="display: none">
   <h2 class="tb-container__header">정사열</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -1338,7 +1350,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (수학/이준열) -->
-<div class="tb-container tb-list tb-2">
+<div class="tb-container tb-list tb-2" style="display: none">
   <h2 class="tb-container__header">이준열</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -1506,7 +1518,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (수학/류희찬) -->
-<div class="tb-container tb-list tb-2">
+<div class="tb-container tb-list tb-2" style="display: none">
   <h2 class="tb-container__header">류희찬</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -1671,7 +1683,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (사회/구정화) -->
-<div class="tb-container tb-list tb-3">
+<div class="tb-container tb-list tb-3" style="display: none">
   <h2 class="tb-container__header">구정화</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -1784,7 +1796,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (사회/박형준) -->
-<div class="tb-container tb-list tb-3">
+<div class="tb-container tb-list tb-3" style="display: none">
   <h2 class="tb-container__header">박형준</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -1897,7 +1909,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (역사/김덕수) -->
-<div class="tb-container tb-list tb-4">
+<div class="tb-container tb-list tb-4" style="display: none">
   <h2 class="tb-container__header">김덕수</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -2010,7 +2022,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (도덕/변순용) -->
-<div class="tb-container tb-list tb-5">
+<div class="tb-container tb-list tb-5" style="display: none">
   <h2 class="tb-container__header">변순용</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -2123,7 +2135,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (과학/노태희) -->
-<div class="tb-container tb-list tb-6">
+<div class="tb-container tb-list tb-6" style="display: none">
   <h2 class="tb-container__header">노태희</h2>
   <div class="tb-container__body">
     <div class="columns">
