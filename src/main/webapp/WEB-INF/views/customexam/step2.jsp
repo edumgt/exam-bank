@@ -136,7 +136,7 @@
 
 
 
-                            <div class="passage-view-que-box sort-group" data-sortnum="0" data-sortvalue="115901115901011159010101115901010102">
+                            <%--<div class="passage-view-que-box sort-group" data-sortnum="0" data-sortvalue="115901115901011159010101115901010102">
 
                                 <!-- s: 지문 영역 -->
                                 <div class="view-que-box passage-box" data-passageid="25280">
@@ -2273,7 +2273,7 @@
                             <div class="que-info-last" title="1. 문학의 샘&nbsp;>&nbsp;(2) 문학, 시대의 거울&nbsp;>&nbsp;기억 속의 들꽃&nbsp;>&nbsp;작품 창작의 배경">
                                 <p class="chapter">1. 문학의 샘&nbsp;&gt;&nbsp;(2) 문학, 시대의 거울&nbsp;&gt;&nbsp;기억 속의 들꽃&nbsp;&gt;&nbsp;작품 창작의 배경</p>
                             </div>
-                        </div></div></div>
+                        </div></div></div>--%>
 
                         <div class="bottom-box">
                             <div class="que-badge-group type01">
@@ -2392,7 +2392,7 @@
 
 
 
-                                                <div class="depth-01 summary-box ui-sortable" data-sortsummary="0">
+                                               <%-- <div class="depth-01 summary-box ui-sortable" data-sortsummary="0">
                                                     <div class="dragHandle drag-type02"><img src="/resource/popup/img/ico_move_type01.png" alt=""></div>
                                                     <div class="col-group passage-table ui-sortable">
 
@@ -3240,8 +3240,8 @@
                                             </div></div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="bottom-box">
+                                </div>--%>
+                                <%--<div class="bottom-box">
                                     <div class="que-badge-group">
                                         <div class="que-badge-wrap" id="badge-form-multiple" style="">
                                             <span class="que-badge gray">객관식</span>
@@ -3253,7 +3253,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>--%>
                             <!--e:문제지 요약-->
 
 
