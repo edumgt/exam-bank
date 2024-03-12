@@ -7,44 +7,44 @@
 
 <!-- 과목 카테고리 탭 -->
 <ul class="tabs__list tabs__list--4">
-  <li class="tabs__item" id="btn-ko">
-    <a href="javascript:;" onclick="getBookByArea()"
+  <li class="tabs__item" id="btn-0">
+    <a href="javascript:;" onclick="getBookByArea('btn-0')"
        class="tabs__link tabs__link--on">
       국어
     </a>
   </li>
-  <li class="tabs__item" id="btn-eng">
-    <a href="#" onclick="getBookByArea()"
+  <li class="tabs__item" id="btn-1">
+    <a href="#" onclick="getBookByArea('btn-1')"
        class="tabs__link">
       영어
     </a>
   </li>
-  <li class="tabs__item">
-    <a href="javascript:;" onclick="getBookByArea()"
+  <li class="tabs__item" id="btn-2">
+    <a href="javascript:;" onclick="getBookByArea('btn-2')"
        class="tabs__link">
       수학
     </a>
   </li>
-  <li class="tabs__item">
-    <a href="javascript:;" onclick="getBookByArea()"
+  <li class="tabs__item" id="btn-3">
+    <a href="javascript:;" onclick="getBookByArea('btn-3')"
        class="tabs__link">
       사회
     </a>
   </li>
-  <li class="tabs__item">
-    <a href="javascript:;" onclick="getBookByArea()"
+  <li class="tabs__item" id="btn-4">
+    <a href="javascript:;" onclick="getBookByArea('btn-4')"
        class="tabs__link">
       역사
     </a>
   </li>
-  <li class="tabs__item">
-    <a href="javascript:;" onclick="getBookByArea()"
+  <li class="tabs__item" id="btn-5">
+    <a href="javascript:;" onclick="getBookByArea('btn-5')"
        class="tabs__link">
       도덕
     </a>
   </li>
-  <li class="tabs__item">
-    <a href="javascript:;" onclick="getBookByArea()"
+  <li class="tabs__item" id="btn-6">
+    <a href="javascript:;" onclick="getBookByArea('btn-6')"
        class="tabs__link">
       과학
     </a>
@@ -109,20 +109,31 @@
 <!-- // 과목 카테고리 탭 -->
 </div>
 <script>
-  function getBookByArea() {
-    let btnEng = document.getElementById("btn-eng");
-    let btnKo = document.getElementById("btn-ko");
-    let containerEng = document.getElementsByClassName("tb-eng");
-    let containerKo = document.getElementsByClassName("tb-ko");
+  function getBookByArea(btnId) {
 
-    btnEng.addEventListener("click", function () {
-      Array.from(containerEng).forEach(item => item.style.display = "block");
-      Array.from(containerKo).forEach(item => item.style.display = "none");
-    })
+    const container = document.getElementsByClassName("tb-container tb-list");
+    const containers = {
+      "btn-0": document.getElementsByClassName("tb-0"),
+      "btn-1": document.getElementsByClassName("tb-1"),
+      "btn-2": document.getElementsByClassName("tb-2"),
+      "btn-3": document.getElementsByClassName("tb-3"),
+      "btn-4": document.getElementsByClassName("tb-4"),
+      "btn-5": document.getElementsByClassName("tb-5"),
+      "btn-6": document.getElementsByClassName("tb-6")
+    };
 
-    btnKo.addEventListener("click", function () {
-      Array.from(containerKo).forEach(item => item.style.display = "block");
-      Array.from(containerEng).forEach(item => item.style.display = "none");
+    const hideAllContainers = () => {
+      Array.from(container).forEach(item => item.style.display = "none");
+    };
+
+    const showSelectedContainer = () => {
+      Array.from(containers[btnId]).forEach(item => item.style.display = "block");
+    };
+
+    const button = document.getElementById(btnId);
+    button.addEventListener("click", function () {
+      hideAllContainers();
+      showSelectedContainer();
     })
 
     return false;
@@ -354,7 +365,7 @@
 <!-- 평가자료 다운 팝업 -->
 
 <!-- 교과서 목록 (국어/노미숙) -->
-<div class="tb-container tb-list tb-ko">
+<div class="tb-container tb-list tb-0">
   <h2 class="tb-container__header">노미숙</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -675,7 +686,7 @@
 </div>
 <!-- // 교과서 목록 -->
 <!-- 교과서 목록 (국어/박영목) -->
-<div class="tb-container tb-list tb-ko">
+<div class="tb-container tb-list tb-0">
   <h2 class="tb-container__header">박영목</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -997,7 +1008,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (영어/이재영) -->
-<div class="tb-container tb-list tb-eng">
+<div class="tb-container tb-list tb-1">
   <h2 class="tb-container__header">이재영</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -1161,7 +1172,7 @@
 </div>
 <!-- // 교과서 목록 -->
 <!-- 교과서 목록 (영어/정사열) -->
-<div class="tb-container tb-list tb-eng">
+<div class="tb-container tb-list tb-1">
   <h2 class="tb-container__header">정사열</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -1327,7 +1338,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (수학/이준열) -->
-<div class="tb-container tb-list tb-math">
+<div class="tb-container tb-list tb-2">
   <h2 class="tb-container__header">이준열</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -1495,7 +1506,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (수학/류희찬) -->
-<div class="tb-container tb-list tb-math">
+<div class="tb-container tb-list tb-2">
   <h2 class="tb-container__header">류희찬</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -1659,9 +1670,8 @@
 </div>
 <!-- // 교과서 목록 -->
 
-
 <!-- 교과서 목록 (사회/구정화) -->
-<div class="tb-container tb-list tb-society">
+<div class="tb-container tb-list tb-3">
   <h2 class="tb-container__header">구정화</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -1774,7 +1784,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (사회/박형준) -->
-<div class="tb-container tb-list tb-society">
+<div class="tb-container tb-list tb-3">
   <h2 class="tb-container__header">박형준</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -1887,7 +1897,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (역사/김덕수) -->
-<div class="tb-container tb-list tb-history">
+<div class="tb-container tb-list tb-4">
   <h2 class="tb-container__header">김덕수</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -2000,7 +2010,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (도덕/변순용) -->
-<div class="tb-container tb-list tb-morality">
+<div class="tb-container tb-list tb-5">
   <h2 class="tb-container__header">변순용</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -2113,7 +2123,7 @@
 <!-- // 교과서 목록 -->
 
 <!-- 교과서 목록 (과학/노태희) -->
-<div class="tb-container tb-list tb-science">
+<div class="tb-container tb-list tb-6">
   <h2 class="tb-container__header">노태희</h2>
   <div class="tb-container__body">
     <div class="columns">
@@ -2276,6 +2286,7 @@
   </div>
 </div>
 <!-- // 교과서 목록 -->
+
 <script>
   $(function () {
     getBookmark();
