@@ -4,7 +4,7 @@
   Description: T셀파 중고등 전체 서비스와 연결된 상단 헤더 및 퀵메뉴
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/resource/midhigh/css/style.html" %>
+<%--<%@ include file="/resource/midhigh/css/style.html" %>--%>
 <html>
 <head>
   <!-- Google Tag Manager -->
