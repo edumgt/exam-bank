@@ -1,11 +1,15 @@
 package com.sherpa.exambank.step1.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-public class Step1DTO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Chapter {
     // private Long subjectId;     // 교과서 ID
 
     private Long domainId;      // 평가 영역 ID
