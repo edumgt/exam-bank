@@ -899,7 +899,22 @@
   let _form = null;
   let moveExamIds = [];
 
-  $(initPage);
+  $(function () {
+    initPage();
+    setStorage();
+  });
+
+  function setStorage() {
+    const btnExamBank = document.getElementById("btn-examBank");
+    const btnStorage = document.getElementById("btn-storage");
+    const linkExamBank = btnExamBank.querySelector('a');
+    const linkStorage = btnStorage.querySelector('a');
+
+    linkStorage.classList.add("tabs__link--on");
+    linkExamBank.classList.remove("tabs__link--on");
+
+    $(".tabs__list--4").hide();
+  }
 
   function initPage() {
     if (!checkUserLoggedIn(location.href)) {
