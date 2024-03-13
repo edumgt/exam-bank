@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 @Slf4j
-@RequestMapping("/customExam")
 public class Step1Controller {
     private final Step1Service step1Service;
 
@@ -26,7 +25,7 @@ public class Step1Controller {
      * step1 페이지 출력
      * @return:
      */
-    @GetMapping("/step1")
+    @GetMapping("/customExam/step1")
     public String getStep1Page(){
         return "customexam/step1_jy";
     }
@@ -36,7 +35,7 @@ public class Step1Controller {
      * @param step1DTO: 교과서 ID
      * @return: 교과서 ID에 해당하는 단원 정보, 평가 영역을 넣어 jsp 반환
      */
-    @PostMapping("/step1")
+    @PostMapping("/customExam/step1")
     public String postStep1Page(@ModelAttribute("Step1DTO") Step1DTO step1DTO, Model model) throws ParseException {
         log.info(String.valueOf(step1DTO));
 
