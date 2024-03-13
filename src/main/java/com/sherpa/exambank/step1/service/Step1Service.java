@@ -4,6 +4,7 @@ import com.sherpa.exambank.step1.domain.Step1DTO;
 import com.sherpa.exambank.step1.mapper.Step1Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-@Log4j2
+@Slf4j
 public class Step1Service {
     private final Step1Mapper step1Mapper;
     @Value("${tsherpa.api.url}")
