@@ -4,6 +4,7 @@ import com.sherpa.exambank.step1.domain.Step1DTO;
 import com.sherpa.exambank.step1.service.Step1Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
-@Log4j2
-@RequestMapping("/customExam")
+@Slf4j
 public class Step1Controller {
     private final Step1Service step1Service;
 
@@ -25,7 +25,7 @@ public class Step1Controller {
      * step1 페이지 출력
      * @return:
      */
-    @GetMapping("/step1")
+    @GetMapping("/customExam/step1")
     public String getStep1Page(){
         return "customexam/step1_jy";
     }
@@ -35,9 +35,9 @@ public class Step1Controller {
      * @param step1DTO: 교과서 ID
      * @return: 교과서 ID에 해당하는 단원 정보, 평가 영역을 넣어 jsp 반환
      */
-    @PostMapping("/step1")
+    @PostMapping("/customExam/step1")
     public String postStep1Page(@ModelAttribute("Step1DTO") Step1DTO step1DTO, Model model) throws ParseException {
-        log.info(step1DTO);
+        log.info(String.valueOf(step1DTO));
 
         List evaluationList = step1Service.step1Page(step1DTO);
         model.addAttribute("evaluationList", evaluationList);   // 단원 정보
