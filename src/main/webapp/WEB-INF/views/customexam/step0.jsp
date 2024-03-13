@@ -532,7 +532,7 @@
             }
         </script>
         <div class="pop-content">
-            <div class="view-box-step0">
+            <div class="view-box view-box-step0">
                 <div class="view-top">
                     <div class="paper-info">
 
