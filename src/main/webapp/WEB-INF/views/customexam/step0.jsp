@@ -537,9 +537,9 @@
                     <div class="paper-info">
 
                         <span></span>
-                        <input type="hidden" id="subjectId" name="subjectId" value="1159">
-                        <span class="subject">국어3-2(노미숙)</span>
-                        <span>2015개정 교육과정</span>
+                        <input type="hidden" id="subjectId" name="subjectId" value="${chapterList[0].subjectId}">
+                        <span class="subject">${chapterList[0].subjectName}</span>
+                        <span>${chapterList[0].curriculumName}</span>
                         <span class="number">
 								    <span class="tooltip-wrap">
 									<button class="tip-btn blue" id="chk_item_cnt">0</button>
@@ -565,7 +565,50 @@
                     <div class="tab-list-type01 unit-acc-wrap">
                         <div class="scroll-inner">
 
+                            <%-- 지원 테스트 end --%>
+
                             <button type="button" class="acc-btn">1. 문학의 샘</button>
+                            <div class="cnt">
+                                <div class="table">
+                                    <div class="fix-head">
+                                        <span>선택</span>
+                                        <span>시험지명</span>
+                                        <span>문항수</span>
+                                        <span>미리보기</span>
+                                        <span>다운로드</span>
+                                    </div>
+                                    <div class="tbody" id="setting_list">
+
+
+                                        <div class="col">
+                                            <span><input type="checkbox" id="chk_0" class="chk_paperId"><label for="chk_0"></label></span>
+                                            <span class="tit">중_ 국어 3-2(노)_1-1_단원평가_1회_T셀파</span>
+                                            <span>22</span>
+                                            <span><button type="button" class="btn-icon2 preview-btn"><i class="preview"></i></button></span>
+                                            <span>
+                                                                    <div class="btn-wrap">
+                                                                        <div class="tooltip-wrap type01">
+                                                                            <button type="button" class="btn-default download-btn" data-type="A">전체</button>
+                                                                            <div class="tooltip type03">
+                                                                                <div class="tool-type01">문제+정답+해설</div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type="button" class="btn-default download-btn" data-type="Q">문제</button>
+                                                                        <button type="button" class="btn-default download-btn" data-type="E">정답+해설</button>
+                                                                        <button type="button" class="btn-default download-btn" data-type="C">문항정보표</button>
+                                                                    </div>
+                                                                </span>
+                                            <input type="hidden" class="paperId" value="768">
+                                            <input type="hidden" class="paperTitle" value="중_ 국어 3-2(노)_1-1_단원평가_1회_T셀파">
+                                            <input type="hidden" class="itemCnt" value="22">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <%-- 지원 테스트 end --%>
+
+                            <button type="button" class="acc-btn">-----1. 문학의 샘</button>
                             <div class="cnt">
                                 <div class="table">
                                     <div class="fix-head">

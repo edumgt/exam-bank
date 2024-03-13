@@ -1954,7 +1954,7 @@
                     <div class="item-image">
                       <figure class="image is-thumnail">
                         <img
-                                src="/resource/midhigh/img/booklist/15개정_(중)국어(노미숙)_2-2.jpg"
+                                src="1157.jpg"
                                 alt="교과서 이미지"
                         />
                       </figure>
