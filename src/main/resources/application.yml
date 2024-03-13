@@ -58,3 +58,7 @@ logging:
     sql : off
     jdbc : off
     jdbc.sqlonly : debug
+
+tsherpa:
+  api:
+    url: ${ TSHERPA_URL }
