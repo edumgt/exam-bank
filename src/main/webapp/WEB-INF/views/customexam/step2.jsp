@@ -133,22 +133,27 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
-                            <div class="passage-view-que-box sort-group" data-sortnum="0" data-sortvalue="${(dto.largeChapterId)+(dto.mediumChapterId)+(dto.smallChapterId)+(dto.topicChapterId)}">
-                                <div class="view-que-box passage-box" data-passageId="${dto.passageId}">
-                                    <div class="que-top">
-                                        <div class="title"><span class="num"></span></div>
-                                        <div class="btn-wrap delete-btn-wrap"></div>
-                                    </div>
-                                    <div class="view-que">
-                                        <div class="que-bottom">
-                                            <div class="passage-area"><img src="${dto.passageUrl}" alt="${dto.passageId}" width="453px"></div>
-                                            <%--<div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                                    ${dto.itemGroupList.length === 1 ? "" :
-                                                            `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
-                                            </div>--%>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <%--지문 영역--%>
+                                    <c:if test="${dto.passageId != null}">
+                                        <div class="passage-view-que-box sort-group" data-sortnum="0" data-sortvalue="${(dto.largeChapterId)+(dto.mediumChapterId)+(dto.smallChapterId)+(dto.topicChapterId)}">
+                                            <div class="view-que-box passage-box" data-passageId="${dto.passageId}">
+                                                <div class="que-top">
+                                                    <div class="title"><span class="num"></span></div>
+                                                    <div class="btn-wrap delete-btn-wrap"></div>
+                                                </div>
+                                                <div class="view-que">
+                                                    <div class="que-bottom">
+                                                        <div class="passage-area"><img src="${dto.passageUrl}" alt="${dto.passageId}" width="453px"></div>
+                                                            <%--<div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                                                                    ${dto.itemGroupList.length === 1 ? "" :
+                                                                            `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                                                            </div>--%>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </c:if>
+                                    <%--문항 영역--%>
+
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>
