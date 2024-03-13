@@ -3465,8 +3465,12 @@
 <%--<script type="text/javascript" src="../../js/common/common.js?version=20240308101412"></script>--%>
 <%--<script type="text/javascript" src="../../js/customExam/stepTwo.js?version=20240308101412"></script>--%>
 <script>
-    let qParam ={};
 
+    let qParam ={};
+    window.onload = init();
+    function init(){
+
+    }
     // 재검색
     function rescan(){
         qParam = {};
