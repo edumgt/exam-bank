@@ -63,6 +63,10 @@ dependencies {
 
 
 	// 주석 아래로 작성 -- 김지원
+	// HTML TO PDF LIBRARY
+	implementation 'com.itextpdf:itextpdf:5.5.13.3'
+	implementation 'com.itextpdf.tool:xmlworker:5.5.13.3'
+	implementation 'com.itextpdf:pdfa:7.2.3'
 
 
 	// 주석 아래로 작성 -- 이양진

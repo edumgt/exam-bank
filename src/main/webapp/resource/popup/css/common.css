@@ -1545,6 +1545,14 @@ input[type=checkbox]:checked + label::before {
     border-radius: 6px;
     box-sizing: border-box;
 }
+.full-pop-que .full-pop-wrap .view-box-step0 {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border: 1px solid #5670dc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
 .full-pop-que .full-pop-wrap .view-box.save-complete {
     width: 100%;
     height: 803px;
