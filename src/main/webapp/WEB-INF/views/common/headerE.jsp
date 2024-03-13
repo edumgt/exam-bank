@@ -28,7 +28,7 @@
             <ul class="tabs__list tabs__list--3">
               <li class="tabs__item" id="btn-examBank">
                 <a
-                        href="http://localhost:8080/exambank/booklist"
+                        href="http://localhost:8080/exambank/exambank"
                         class="tabs__link tabs__link--on"
                 >중학</a
                 >

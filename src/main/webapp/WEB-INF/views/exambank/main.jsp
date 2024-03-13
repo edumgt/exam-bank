@@ -2469,20 +2469,21 @@
     // }
     //새창으로 열기
     let pop_title = "win_pop";
-    let url = "http://localhost:8080/customTest/step0";
+    let url = "http://localhost:8080/customTest/step0?subjectId=" + subjectId;
 
     window.open(
       "",
       pop_title,
       "width=1400,height=1024,status=no,toolbar=no,scrollbars=no, left=500, top=0"
     );
-    window.open(url, '_blank', 'width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0, i');
+    // window.open(url, '_blank', 'width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0, i');
 
     //form
     let new_form = $("<form></form>");
     new_form.attr("name", "new_form");
     new_form.attr("charset", "UTF-8");
-    new_form.attr("method", "post");
+    new_form.attr("method", "put");
+    // new_form.attr("method", "post");  // post를 사용할 경우 405 오류가 발생하여 put method로 대체함.
     new_form.attr("action", url);
     new_form.attr("target", pop_title);
 
