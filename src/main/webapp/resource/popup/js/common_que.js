@@ -123,7 +123,7 @@ $(function () {
   selectCnt.on("click", selectUI);
 
   // tooltip hover
-  /*let tipBtns = $(".btn-tip");
+  let tipBtns = $(".btn-tip");
 
   $(function () {
     tipBtns.on("mouseover", function () {
@@ -138,7 +138,7 @@ $(function () {
         _tooltip.addClass("active"); // 클래스 추가
       }
     });
-  });*/
+  });
 
   //북마크 버튼
   $(function () {
