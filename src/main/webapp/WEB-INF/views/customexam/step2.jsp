@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: kjw85
-  Date: 2024-03-08
-  Time: 오전 10:13
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -29,7 +23,10 @@
     <!-- E 230808 순서 변경-->
     <script type="text/javascript" src="/resource/popup/js/common_que.js"></script>
     <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
-    <script type="text/javascript" src="/resource/popup/js/stepOne.js"></script>
+    <script type="text/javascript" src="/resource/midhigh/js/common.js"></script>
+    <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
+
+
 
 </head>
 <body>
@@ -121,11 +118,17 @@
                                 </div>
                             </div>
                         </div>
-
+                        <form action="/customExam/step2" method="post">
+                            <input type="submit" value="제출">
+                        </form>
                         <div class="view-que-list scroll-inner" style="display: -webkit-box;-webkit-box-orient:vertical" id="view-que-detail-list">
                             <div class="view-que-list no-data" id="no-data-detail-area" style="display:none">
                                 <p>문항이 없습니다.</p>
                             </div>
+
+                            <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
+                                ${dto}
+                            </c:forEach>
 
 
 
@@ -3467,8 +3470,8 @@
     </div>
 </div>
 
-<script type="text/javascript" src="../../js/common/common.js?version=20240308101412"></script>
-<script type="text/javascript" src="../../js/customExam/stepTwo.js?version=20240308101412"></script>
+<%--<script type="text/javascript" src="../../js/common/common.js?version=20240308101412"></script>
+<script type="text/javascript" src="../../js/customExam/stepTwo.js?version=20240308101412"></script>--%>
 <script>
     let qParam ={};
 
