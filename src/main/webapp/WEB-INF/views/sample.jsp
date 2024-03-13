@@ -67,11 +67,22 @@
     <a href="javascript:getExam('611505');" title="다운로드" class="button">
         <i class="icon icon-download"></i> 평가자료 다운
     </a>
+
+    <h3>Hello itext pdf</h3>
+    <p>Click <a href="/attachment/pdf">here</a> to download the pdf</p>
 </div>
 
 
 <!-- 이양진 - 주석 아래로 작성 -->
+<div class="data_buttons">
+    <a href="http://localhost:8080/exambank/booklist" title="교과서 목록" class="button">
+        교과서 목록
+    </a>
+    <a href="http://localhost:8080/exambank/ExamBank-Storage" title="교과서 목록" class="button">
+        시험지 보관함
+    </a>
 
+</div>
 
 
 <!-- 이지연 - 주석 아래로 작성 -->
