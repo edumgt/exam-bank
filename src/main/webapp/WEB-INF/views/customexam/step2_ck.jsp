@@ -26,6 +26,8 @@
     <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
     <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
     <script type="text/javascript" src="/resource/common/js/legacy_common.js"></script>
+    <script type="text/javascript" src="/resource/midhigh/js/common.js"></script>
+
 
 </head>
 <body>
@@ -147,7 +149,7 @@
                             <%--<div class="passage-view-que-box sort-group" data-sortnum="0" data-sortvalue="115901115901011159010101115901010102">
 
                                 <!-- s: 지문 영역 -->
-                                <div class="view-que-box passage-box" data-passageid="25280">
+                                <div class="view-que-box passage-box" data-passageid="25280"> stepTwo.js 455줄
                                     <div class="que-top">
                                         <div class="title">
                                             <span class="num">1 ~ 5</span>

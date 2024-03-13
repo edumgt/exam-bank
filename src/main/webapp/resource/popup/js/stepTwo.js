@@ -1,5 +1,4 @@
 $(function () {
-
     activeText(2);
     setItemNum();
 
@@ -49,7 +48,6 @@ $(function () {
     $("#step-prev-btn").on("click", function () {
 
         let gubun = $("#paperGubun").val();
-
         //form
         let url = '';
         let new_form = $('<form></form>');
@@ -181,7 +179,8 @@ $(function () {
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
 
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/similarItem", _param, function (data) {
+        ajaxCall("POST", "/customExam/step2", _param, function (data) {
+
             if (data.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");
                 // 다시 문제지 요약 탭으로
@@ -218,6 +217,7 @@ $(function () {
                     }
 
                     // 문항 영역
+
                     // 문항 영역에 개별 추가 버튼 추가
                     for (let b = 0; b < group.itemGroupList.length; b++) {
                         let item = group.itemGroupList[b];
@@ -604,7 +604,7 @@ $(function () {
         rangeParam.queArr = rangeQueArr;
 
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/rangeList", rangeParam, function (data) {
+        ajaxCall("POST", "/customExam/step2", rangeParam, function (data) {
             if (data == null || data.length === 0) {
                 alert("오류가 발생하였습니다.")
 

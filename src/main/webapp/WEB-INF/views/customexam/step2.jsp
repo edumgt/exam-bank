@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -24,6 +25,7 @@
     <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
     <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
     <script type="text/javascript" src="/resource/common/js/legacy_common.js"></script>
+    <script type="text/javascript" src="/resource/midhigh/js/common.js"></script>
 
 </head>
 <body>
@@ -121,6 +123,14 @@
                             <div class="view-que-list no-data" id="no-data-detail-area" style="display:none">
                                 <p>문항이 없습니다.</p>
                             </div>
+                            <c:out value="${itemDTOList}"/>
+                            <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
+                                <c:if test=""></c:if>
+                                <c:choose>
+
+                                </c:choose>
+
+                            </c:forEach>
 
 
 
@@ -134,9 +144,7 @@
 
 
 
-
-
-                            <%--<div class="passage-view-que-box sort-group" data-sortnum="0" data-sortvalue="115901115901011159010101115901010102">
+                            <div class="passage-view-que-box sort-group" data-sortnum="0" data-sortvalue="115901115901011159010101115901010102">
 
                                 <!-- s: 지문 영역 -->
                                 <div class="view-que-box passage-box" data-passageid="25280">
@@ -2273,7 +2281,7 @@
                             <div class="que-info-last" title="1. 문학의 샘&nbsp;>&nbsp;(2) 문학, 시대의 거울&nbsp;>&nbsp;기억 속의 들꽃&nbsp;>&nbsp;작품 창작의 배경">
                                 <p class="chapter">1. 문학의 샘&nbsp;&gt;&nbsp;(2) 문학, 시대의 거울&nbsp;&gt;&nbsp;기억 속의 들꽃&nbsp;&gt;&nbsp;작품 창작의 배경</p>
                             </div>
-                        </div></div></div>--%>
+                        </div></div></div>
 
                         <div class="bottom-box">
                             <div class="que-badge-group type01">
@@ -2392,7 +2400,7 @@
 
 
 
-                                               <%-- <div class="depth-01 summary-box ui-sortable" data-sortsummary="0">
+                                                <div class="depth-01 summary-box ui-sortable" data-sortsummary="0">
                                                     <div class="dragHandle drag-type02"><img src="/resource/popup/img/ico_move_type01.png" alt=""></div>
                                                     <div class="col-group passage-table ui-sortable">
 
@@ -3240,8 +3248,8 @@
                                             </div></div>
                                         </div>
                                     </div>
-                                </div>--%>
-                                <%--<div class="bottom-box">
+                                </div>
+                                <div class="bottom-box">
                                     <div class="que-badge-group">
                                         <div class="que-badge-wrap" id="badge-form-multiple" style="">
                                             <span class="que-badge gray">객관식</span>
@@ -3253,7 +3261,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>--%>
+                            </div>
                             <!--e:문제지 요약-->
 
 
@@ -3470,7 +3478,8 @@
     // 재검색
     function rescan(){
         qParam = {};
-        const chapterList =  '[{"subject":"1159","topic":115901010101,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010102,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010103,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010104,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010105,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010106,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010107,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010108,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010109,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010110,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010111,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901020101,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020102,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020103,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020104,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020105,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020106,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020107,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020108,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020109,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020110,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020111,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202001,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202002,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202003,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202004,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202005,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202006,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202007,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202008,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202009,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202010,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202011,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202012,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202013,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202014,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202015,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":115901030101,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030102,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030103,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030104,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030105,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030106,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030107,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030108,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030109,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030110,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030111,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901040101,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040102,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040103,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040104,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040105,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040106,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040107,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040108,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040109,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040110,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040111,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040112,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040113,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040114,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040115,"small":1159010401,"medium":11590104,"large":115901}]';
+        const chapterList = '${itemDTOList}';
+        console.log("chapterList : "+chapterList);
         const activityCategoryList = '415,416,417,418'.split(',');
         const levelCnt = '0,10,10,10,0'.split(',');
         const questionForm =  'multiple,subjective,descriptive';
@@ -3488,7 +3497,8 @@
         qParam.tmpLevelCnt = plusTempLevelArray;
         qParam.questionForm = questionForm;
 
-        ajaxCall("POST", "/customExam/loadStep2", qParam, function (data) {
+        ajaxCall("POST", "/customExam/step2", qParam, function (data) {
+
             if (data != null) {
                 for(let j=1; j<=5; j++){
                     if (data.levelGroup['0'+j] !== undefined) {

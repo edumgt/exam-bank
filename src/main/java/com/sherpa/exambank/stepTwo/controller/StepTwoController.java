@@ -23,7 +23,7 @@ public class StepTwoController {
 
     @GetMapping("customExam/step2")
     public String getStep2Page(){
-        return "customexam/step2_ck";
+        return "customexam/step2";
     }
 
     @PostMapping("customExam/step2")
@@ -32,7 +32,7 @@ public class StepTwoController {
         String getAllList = stepTwoService.allList();
         model.addAttribute("itemDTOList", getAllList);
 
-        return "customexam/step2_ck";
+        return "customexam/step2";
     }
 
 }

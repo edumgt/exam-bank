@@ -17,6 +17,21 @@
  * modal 2. 최근 동영상 보기
  * */
 /** 1. 텍스트 입력 시 글자 수 표시    (입력폼 : for  - 출력폼 : id ) */
+// ajax 공통호출
+const ajaxCall = (type, url, param, callback) => {
+    $.ajax({
+        url: url,
+        type : type,
+        data : param,
+        success: function (data) {
+            return callback(data);
+            console.log("호출")
+        },
+        error : function (xhr, status, error) {
+            window.location.href="/error/error";
+        }
+    });
+}
 $(document).on('keyup', '[data-input-keyup="keyup"]', function (e) {
     let id = $(this).attr("for");
     let txtCnt = $(this).val().length + "";
