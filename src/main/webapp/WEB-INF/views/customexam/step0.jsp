@@ -567,7 +567,7 @@
 
                             <%-- 지원 테스트 end --%>
 
-                            <button type="button" class="acc-btn">1. 문학의 샘</button>
+                            <button type="button" class="acc-btn">1. 문학의 샘${examList}</button>
                             <div class="cnt">
                                 <div class="table">
                                     <div class="fix-head">
