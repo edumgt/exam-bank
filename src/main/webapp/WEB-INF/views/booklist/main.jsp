@@ -5,152 +5,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="/WEB-INF/views/common/headerA.jsp"/>
 
-<!-- 과목 카테고리 탭 -->
-<ul class="tabs__list tabs__list--4">
-  <li class="tabs__item" id="btn-0">
-    <a href="javascript:;" onclick="getBookByArea('btn-0')"
-       class="tabs__link tabs__link--on">
-      국어
-    </a>
-  </li>
-  <li class="tabs__item" id="btn-1">
-    <a href="#" onclick="getBookByArea('btn-1')"
-       class="tabs__link">
-      영어
-    </a>
-  </li>
-  <li class="tabs__item" id="btn-2">
-    <a href="javascript:;" onclick="getBookByArea('btn-2')"
-       class="tabs__link">
-      수학
-    </a>
-  </li>
-  <li class="tabs__item" id="btn-3">
-    <a href="javascript:;" onclick="getBookByArea('btn-3')"
-       class="tabs__link">
-      사회
-    </a>
-  </li>
-  <li class="tabs__item" id="btn-4">
-    <a href="javascript:;" onclick="getBookByArea('btn-4')"
-       class="tabs__link">
-      역사
-    </a>
-  </li>
-  <li class="tabs__item" id="btn-5">
-    <a href="javascript:;" onclick="getBookByArea('btn-5')"
-       class="tabs__link">
-      도덕
-    </a>
-  </li>
-  <li class="tabs__item" id="btn-6">
-    <a href="javascript:;" onclick="getBookByArea('btn-6')"
-       class="tabs__link">
-      과학
-    </a>
-  </li>
-  <%--<li class="tabs__item">
-    <a
-            href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-techNhome&amp;testbankYN="
-            class="tabs__link"
-    >기술·가정</a
-    >
-  </li>
-  <li class="tabs__item">
-    <a
-            href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-info&amp;testbankYN="
-            class="tabs__link"
-    >정보</a
-    >
-  </li>
-  <li class="tabs__item">
-    <a
-            href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-music&amp;testbankYN="
-            class="tabs__link"
-    >음악</a
-    >
-  </li>
-  <li class="tabs__item">
-    <a
-            href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-art&amp;testbankYN="
-            class="tabs__link"
-    >미술</a
-    >
-  </li>
-  <li class="tabs__item">
-    <a
-            href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-physical&amp;testbankYN="
-            class="tabs__link"
-    >체육</a
-    >
-  </li>
-  <li class="tabs__item">
-    <a
-            href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-select&amp;testbankYN="
-            class="tabs__link"
-    >선택</a
-    >
-  </li>
-  <li class="tabs__item">
-    <a
-            href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-cl&amp;testbankYN="
-            class="tabs__link"
-    >생활 중국어</a
-    >
-  </li>
-  <li class="tabs__item">
-    <a
-            href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-jl&amp;testbankYN="
-            class="tabs__link"
-    >생활 일본어</a
-    >
-  </li>--%>
-</ul>
-<!-- // 과목 카테고리 탭 -->
-</div>
-<script>
-  function getBookByArea(btnId) {
-    let btn = document.getElementById(btnId);
-    let link = btn.querySelector('a');
-
-    // 현재 선택된 버튼에 대한 클래스 조작
-    link.classList.add('tabs__link--on');
-
-    // 다른 버튼에 대한 클래스 조작
-    let otherBtns = document.querySelectorAll('.tabs__list--4 > .tabs__item:not(#' + btnId + ')');
-    otherBtns.forEach(item => {
-      let otherLink = item.querySelector('a');
-      otherLink.classList.remove('tabs__link--on');
-    });
-
-    // 과목별 교과서 목록 인덱싱
-    const container = document.getElementsByClassName("tb-container tb-list");
-    const containers = {};
-
-    for (let i = 0; i < $("li").length; i++) {
-      containers[`btn-` + i] = document.getElementsByClassName(`tb-` + i);
-    }
-
-    // 모든 과목의 교과서 목록 숨기기
-    const hideAllContainers = () => {
-      Array.from(container).forEach(item => item.style.display = "none");
-    };
-
-    // 특정 과목의 교과서 목록 노출시키기
-    const showSelectedContainer = () => {
-      Array.from(containers[btnId]).forEach(item => item.style.display = "block");
-    };
-
-    // 버튼에 클릭 이벤트 생성
-    const button = document.getElementById(btnId);
-    button.addEventListener("click", function () {
-      hideAllContainers();
-      showSelectedContainer();
-    })
-
-    return false;
-  }
-</script>
 <!-- 즐겨찾는 교과서 -->
 <%--<div class="tb-container tb-bookmark" style="" id="tb-bookmark">
   <form
@@ -1183,6 +1037,7 @@
   </div>
 </div>
 <!-- // 교과서 목록 -->
+
 <!-- 교과서 목록 (영어/정사열) -->
 <div class="tb-container tb-list tb-1" style="display: none">
   <h2 class="tb-container__header">정사열</h2>
@@ -2302,7 +2157,20 @@
 <script>
   $(function () {
     getBookmark();
+    setExamBank();
   });
+
+  function setExamBank() {
+    const btnExamBank = document.getElementById("btn-examBank");
+    const btnStorage = document.getElementById("btn-storage");
+    const linkExamBank = btnExamBank.querySelector('a');
+    const linkStorage = btnStorage.querySelector('a');
+
+    linkExamBank.classList.add("tabs__link--on");
+    linkStorage.classList.remove("tabs__link--on");
+
+    $(".tabs__list--4").show();
+  }
 
   function downloadContents(ids) {
     if (!checkUserLoggedIn(location.href)) {
@@ -2355,6 +2223,7 @@
     downloadContents(ids);
   }
 </script>
+
 <script>
   //즐겨찾는 교과서
   function getBookmark() {
@@ -2489,6 +2358,49 @@
     });
   }
 
+  // 과목별 탭
+  function getBookByArea(btnId) {
+    let btn = document.getElementById(btnId);
+    let link = btn.querySelector('a');
+
+    // 현재 선택된 버튼에 대한 클래스 조작
+    link.classList.add('tabs__link--on');
+
+    // 다른 버튼에 대한 클래스 조작
+    let otherBtns = document.querySelectorAll('.tabs__list--4 > .tabs__item:not(#' + btnId + ')');
+    otherBtns.forEach(item => {
+      let otherLink = item.querySelector('a');
+      otherLink.classList.remove('tabs__link--on');
+    });
+
+    // 과목별 교과서 목록 인덱싱
+    const container = document.getElementsByClassName("tb-container tb-list");
+    const containers = {};
+
+    for (let i = 0; i < $("li").length; i++) {
+      containers[`btn-` + i] = document.getElementsByClassName(`tb-` + i);
+    }
+
+    // 모든 과목의 교과서 목록 숨기기
+    const hideAllContainers = () => {
+      Array.from(container).forEach(item => item.style.display = "none");
+    };
+
+    // 특정 과목의 교과서 목록 노출시키기
+    const showSelectedContainer = () => {
+      Array.from(containers[btnId]).forEach(item => item.style.display = "block");
+    };
+
+    // 버튼에 클릭 이벤트 생성
+    const button = document.getElementById(btnId);
+    button.addEventListener("click", function () {
+      hideAllContainers();
+      showSelectedContainer();
+    })
+
+    return false;
+  }
+
   //즐겨찾기 추가
   function addBookmark(testbookCode, testbankYN, cateId) {
     if (!checkUserLoggedIn(location.href)) {
@@ -2556,35 +2468,35 @@
     //   return false;
     // }
     //새창으로 열기
-    // let pop_title = "win_pop";
+    let pop_title = "win_pop";
     let url = "http://localhost:8080/customTest/step0";
 
-    // window.open(
-    //   "",
-    //   pop_title,
-    //   "width=1400,height=1024,status=no,toolbar=no,scrollbars=no, left=500, top=0"
-    // );
+    window.open(
+      "",
+      pop_title,
+      "width=1400,height=1024,status=no,toolbar=no,scrollbars=no, left=500, top=0"
+    );
     window.open(url, '_blank', 'width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0, i');
 
-    // //form
-    // let new_form = $("<form></form>");
-    // new_form.attr("name", "new_form");
-    // new_form.attr("charset", "UTF-8");
-    // new_form.attr("method", "post");
-    // new_form.attr("action", url);
-    // new_form.attr("target", pop_title);
-    //
-    // //step0 세팅지 리스트를 위한 교재정보 - 문항통합에서 교재정보 컬럼명 = subjectId
-    // new_form.append(
-    //   $("<input/>", {
-    //     type: "hidden",
-    //     name: "subjectId",
-    //     value: subjectId,
-    //   })
-    // );
-    //
-    // new_form.appendTo("body");
-    // new_form.submit();
+    //form
+    let new_form = $("<form></form>");
+    new_form.attr("name", "new_form");
+    new_form.attr("charset", "UTF-8");
+    new_form.attr("method", "post");
+    new_form.attr("action", url);
+    new_form.attr("target", pop_title);
+
+    //step0 세팅지 리스트를 위한 교재정보 - 문항통합에서 교재정보 컬럼명 = subjectId
+    new_form.append(
+      $("<input/>", {
+        type: "hidden",
+        name: "subjectId",
+        value: subjectId,
+      })
+    );
+
+    new_form.appendTo("body");
+    new_form.submit();
   }
 </script>
 </div>
