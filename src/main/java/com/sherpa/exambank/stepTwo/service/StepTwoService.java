@@ -20,34 +20,9 @@ public class StepTwoService {
 
     private final StepTwoMapper stepTwoMapper;
 
-    @Value("${tsherpa.api.uri}")
+    @Value("${tsherpa.api.url}")
     private String tsherpaURL;
 
-    private String reqTestParam;
 
-    public List stepOneToTwo(StepTwoRequest stepTwoRequest) throws ParseException{
-        String response = postRequest(stepTwoRequest);
-//        List list = ResponseEntityToStepTwoDTOList(response);
-        return null;
-    }
-    public String postRequest (StepTwoRequest stepTwoRequest){
 
-        URI uri = UriComponentsBuilder
-                .fromUriString(tsherpaURL)
-                .path("/item-img/chapters/item-list")
-                .encode()
-                .build()
-                .toUri();
-
-        HttpEntity<StepTwoRequest> request = new HttpEntity<>(StepTwoRequest);
-
-        String response;
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(uri,request,String.class);
-
-        response = responseEntity.getBody();
-
-        return response;
-    }
 }
