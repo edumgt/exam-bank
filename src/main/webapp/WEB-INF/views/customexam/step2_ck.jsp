@@ -1,4 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -29,7 +31,6 @@
 <body>
 <div id="wrap" class="full-pop-que">
     <div class="full-pop-wrap">
-
 
         <div class="pop-header">
             <ul class="title" id="custom-pop-header-title">
@@ -121,6 +122,13 @@
                             <div class="view-que-list no-data" id="no-data-detail-area" style="display:none">
                                 <p>문항이 없습니다.</p>
                             </div>
+
+                            <form action="/customExam/step2" method="post">
+                                <input type="submit">
+                            </form>
+                            <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
+                                ${dto}
+                            </c:forEach>
 
 
 
@@ -3467,10 +3475,7 @@
 <script>
 
     let qParam ={};
-    window.onload = init();
-    function init(){
 
-    }
     // 재검색
     function rescan(){
         qParam = {};
