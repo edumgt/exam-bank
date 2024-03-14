@@ -3,6 +3,7 @@ package com.sherpa.exambank.step2.controller;
 import com.amazonaws.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sherpa.exambank.step2.domain.ItemDTO;
+import com.sherpa.exambank.step2.domain.SimilarItemListDTO;
 import com.sherpa.exambank.step2.service.StepTwoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,9 +36,10 @@ public class StepTwoController {
 
     // step 2 유사문제 버튼 ajaxCall
     @PostMapping("/customExam/similar-List")
-    public String similarQueList(Model model) {
-        List<ItemDTO> similarQueList = stepTwoService.similarItemList();
-        model.addAttribute("similarQueList",similarQueList);
+    public String similarQueList(@RequestBody SimilarItemListDTO similarItemListDTO, Model model) {
+        log.info("호출 성공 : "+ similarItemListDTO);
+        List<ItemDTO> similarItemList = stepTwoService.similarItemList();
+        model.addAttribute("similarQueList",similarItemList);
         return "customexam/step2";
     }
 }

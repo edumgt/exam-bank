@@ -8,5 +8,7 @@ import java.util.List;
 public class SimilarItemListDTO {
 
     private List<Long> itemIdList;
+    private List<Long> excludeCode;
+
 
 }
