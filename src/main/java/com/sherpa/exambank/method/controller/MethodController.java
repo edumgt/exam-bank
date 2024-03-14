@@ -88,8 +88,17 @@ public class MethodController {
         for (ArrayList<String> examInfo: examListByLargeChapterId) {
 //            if(String.valueOf(examInfo.get(0)).equals())
             log.info(String.valueOf(examInfo.get(0)));
-
+            for(String id:largeChapterIdList) {
+                if (String.valueOf(examInfo.get(0)).equals(id)){
+                    ExamGroupByLargeChapterResponse matchedResponse = examGroupByLargeChapterResponses.get(largeChapterIdList.indexOf(id));
+                    matchedResponse.getExamInfoList().add(new ExamGroupByLargeChapterResponse.ExamInfo(
+                            examInfo.get(1),examInfo.get(2),examInfo.get(3)
+                    ));
+                }
+            }
         }
+        log.info(String.valueOf(examGroupByLargeChapterResponses));
+        model.addAttribute("response",examGroupByLargeChapterResponses);
 
 
         

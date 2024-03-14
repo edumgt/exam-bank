@@ -2,6 +2,7 @@ package com.sherpa.exambank.method.domain;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
@@ -24,6 +25,7 @@ public class ExamGroupByLargeChapterResponse {
                 "examName": "중_ 국어 3-2(노)_1-1_단원평가_1회_T셀파",
                 "itemCnt": "22"
             }
+            ...
         ]
     }
      */
@@ -33,15 +35,21 @@ public class ExamGroupByLargeChapterResponse {
     private List<ExamInfo> examInfoList;
 
     @Data
-    class ExamInfo{
+    public static class ExamInfo{
         private String examId;
         private String examName;
         private String itemCnt;
 
+        public ExamInfo(String examId, String examName, String itemCnt) {
+            this.examId = examId;
+            this.examName = examName;
+            this.itemCnt = itemCnt;
+        }
     }
 
     public ExamGroupByLargeChapterResponse(String largeChapterId, String largeChapterName) {
         this.largeChapterId = largeChapterId;
         this.largeChapterName = largeChapterName;
+        this.examInfoList = new ArrayList<>();
     }
 }
