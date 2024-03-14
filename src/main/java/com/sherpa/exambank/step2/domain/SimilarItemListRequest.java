@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class SimilarItemListDTO {
+public class SimilarItemListRequest {
 
     private List<Long> itemIdList;
     private List<Long> excludeCode;
