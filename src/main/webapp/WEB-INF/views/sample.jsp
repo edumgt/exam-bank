@@ -85,7 +85,7 @@
 
 <!-- 이양진 - 주석 아래로 작성 -->
 <div class="data_buttons">
-    <a href="http://localhost:8080/exambank/booklist" title="교과서 목록" class="button">
+    <a href="http://localhost:8080/exambank/exambank" title="교과서 목록" class="button">
         교과서 목록
     </a>
     <a href="http://localhost:8080/exambank/ExamBank-Storage" title="교과서 목록" class="button">
