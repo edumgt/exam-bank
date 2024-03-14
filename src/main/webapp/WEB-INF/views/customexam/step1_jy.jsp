@@ -45,31 +45,6 @@
         <button type="submit" id="postStep1PageBtn">step 0 -> step 1</button>
     </form>
 
-    <!-- 평가 영역 -->
-    <div class="box">
-        <div class="title-wrap">
-            <span class="tit-text">평가 영역</span>
-            <div class="right-area">
-            </div>
-        </div>
-        <div class="btn-wrap multi" id="category-btn-group">
-
-            <c:choose>
-                <%-- 존재하지 않을 때에는 평가영역 출력 X --%>
-                <c:when test="${empty evaluationList}">
-                    <p>평가영역이 존재하지 않습니다.</p>
-                </c:when>
-
-                <%-- 1개 이상 존재할 때에는 평가영역 출력 O --%>
-                <c:otherwise>
-                    <c:forEach items="${evaluationList}" var="evaluation" varStatus="status">
-                        <button type="button" class="btn-line" data-value="${evaluation.domainId}" id="eval_${evaluation.domainId}" disabled="disabled">${evaluation.domainName}</button>
-                    </c:forEach>
-                </c:otherwise>
-            </c:choose>
-        </div>
-    </div>
-    <!-- 평가 영역 -->
 
     <!-- 단원 정보 -->
     <div class="box">
