@@ -684,6 +684,7 @@ function moveExamStep2() {
     qParam.questionForm = questionFormArr.join(",");
 
     ajaxCall("POST", "/customExam/loadStep2", qParam, function (data) {
+        console.log(qParam);
         if (data != null) {
             if(data.itemsTotalCnt === 0){
                 showPop("no-data-pop");
@@ -704,6 +705,7 @@ function moveExamStep2() {
                 showPop("que-pop");
 
             } else {
+                console.log("호출");
                 moveToStep2(data.queIdList);
             }
         }
