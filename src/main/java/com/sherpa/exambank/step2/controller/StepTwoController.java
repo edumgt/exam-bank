@@ -38,7 +38,7 @@ public class StepTwoController {
     public String similarQueList(@RequestBody SimilarItemListRequest similarItemListRequest, Model model) throws JsonProcessingException {
         log.info("호출 성공 : "+ similarItemListRequest);
         SimilarItemListResponse similarItemList = stepTwoService.similarItemList(similarItemListRequest);
-        model.addAttribute("similarQueList",similarItemList);
+        model.addAttribute("similarItemList",similarItemList);
         return "customexam/step2";
     }
 }

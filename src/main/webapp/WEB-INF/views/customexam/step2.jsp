@@ -126,6 +126,7 @@
                                 <p>문항이 없습니다.</p>
                             </div>
                             <c:out value="${itemDTOList}"/>
+
                             <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
                                 <c:if test=""></c:if>
 
