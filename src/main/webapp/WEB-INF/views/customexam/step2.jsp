@@ -158,7 +158,8 @@
                                     </c:if>
                                     <%--문항 영역--%>
                                     <c:if test="${item.itemId != null}">
-                                        <div class="view-que-box item-box" data-paperTitle="">
+
+                                        <%--<div class="view-que-box item-box" data-paperTitle="">
                                             <div class="que-top">
                                                 <div class="title">
                                                     <span class="num">${item.itemNo}</span>
@@ -205,7 +206,7 @@
                                             <div class="que-info-last" title="${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}">
                                                 <p class="chapter">${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}</p>
                                             </div>
-                                        </div>
+                                        </div>--%>
                                     </c:if>
                                 </c:forEach>
                             </c:otherwise>
