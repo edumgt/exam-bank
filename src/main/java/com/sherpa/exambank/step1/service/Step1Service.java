@@ -40,21 +40,23 @@ public class Step1Service {
         String urn_chapterList = "/chapter/chapter-list";           // 단원정보
         String urn_evaluationList = "/chapter/evaluation-list";     // 평가영역
 
+        // 단원 정보 트리 만들기
         List<Chapter> chapterList = postRequest(step1Request, urn_chapterList).getChapterList();
-        Map<Long, LinkedHashMap<Long, ChapterNode>> map = new HashMap<>();
-        for(Chapter chapter: chapterList){
+        Map<String, LinkedHashMap<String, ChapterNode>> map = new HashMap<>();
+        for (Chapter chapter : chapterList) {
             makeChapterTree(chapter, map);
         }
 
         Step1Response response = Step1Response.builder()
-                                                .chapterList(postRequest(step1Request, urn_chapterList).getChapterList())
-                                                .evaluationList(postRequest(step1Request, urn_evaluationList).getEvaluationList())
-                                                .build();
+                .chapterList(postRequest(step1Request, urn_chapterList).getChapterList())
+                .evaluationList(postRequest(step1Request, urn_evaluationList).getEvaluationList())
+                .chapterTree(map)
+                .build();
 
         return response;
     }
 
-    private List ResponseEntityToStep1DTOList (String response) throws ParseException {
+    private List ResponseEntityToStep1DTOList(String response) throws ParseException {
         // [*****] null일 경우 예외처리
 
         // String으로 되어져있는 바디부분을 다시 JSON 형태로 파싱
@@ -108,8 +110,9 @@ public class Step1Service {
 
     /**
      * 단원 정보 혹은 평가 영역 api를 호출하여 Step1Response 객체를 반환한다.
+     *
      * @param step1Request: 교과서 ID
-     * @param urn: 요청 urn
+     * @param urn:          요청 urn
      * @return Step1Response 객체(단원 정보 리스트, 평가 영역 리스트)
      */
     private Step1Response postRequest(Step1Request step1Request, String urn) {
@@ -140,9 +143,8 @@ public class Step1Service {
     }
 
     /**
-     *
      * @param chapter: chapterList의 요소 한 개
-     * @param map: <부모 단원 ID, <단원 ID, 단원 노드>>
+     * @param map:     Map<부모 단원 ID, LinkedHashMap<단원 ID, 단원 노드>>
      */
     private void makeChapterTree(Chapter chapter, Map<String, LinkedHashMap<String, ChapterNode>> map) {
         String subjectId = chapter.getSubjectId();
@@ -152,34 +154,76 @@ public class Step1Service {
         String topicChapterId = chapter.getTopicChapterId();
 
         // 주제의 정보를 담은 루트 노드가 없을 경우 생성
-        if(!map.containsKey(subjectId)){
+        if (!map.containsKey(subjectId)) {
             LinkedHashMap<String, ChapterNode> lhmap = new LinkedHashMap<>();
             map.put(subjectId, lhmap);
         }
 
-        // 주제 루트 노드 아래에 대단원 노드를 추가한다.
-        if(!map.get(subjectId).containsKey(largeChapterId)){
+        // 주제의 정보를 담은 루트 노드 아래에 대단원 노드를 추가한다.
+        if (!map.get(subjectId).containsKey(largeChapterId)) {
             // chapter의 대단원 노드 생성
             ChapterNode node = ChapterNode.builder()
-                            .chapterId(largeChapterId)
-                            .chapterName(chapter.getLargeChapterName())
-                            .build();
+                    .chapterId(largeChapterId)
+                    .chapterName(chapter.getLargeChapterName())
+                    .dataCode("large")
+                    .build();
 
             map.get(subjectId).put(largeChapterId, node);
         }
 
+        // 대단원 노드가 없을 경우 생성
+        if (!map.containsKey(largeChapterId)) {
+            LinkedHashMap<String, ChapterNode> lhmap = new LinkedHashMap<>();
+            map.put(largeChapterId, lhmap);
+        }
+
         // 대단원 노드 아래에 중단원 노드를 추가한다.
-        if(!map.get(largeChapterId).containsKey(mediumChapterId)){
+        if (!map.get(largeChapterId).containsKey(mediumChapterId)) {
             // chapter의 중단원 노드
             ChapterNode node = ChapterNode.builder()
                     .chapterId(mediumChapterId)
                     .chapterName(chapter.getMediumChapterName())
+                    .dataCode("medium")
                     .build();
 
             map.get(largeChapterId).put(mediumChapterId, node);
         }
 
+        // 중단원 노드가 없을 경우 생성
+        if (!map.containsKey(mediumChapterId)) {
+            LinkedHashMap<String, ChapterNode> lhmap = new LinkedHashMap<>();
+            map.put(mediumChapterId, lhmap);
+        }
 
+        // 중단원 노드 아래에 소단원 노드를 추가한다.
+        if (!map.get(mediumChapterId).containsKey(smallChapterId)) {
+            // chapter의 소단원 노드
+            ChapterNode node = ChapterNode.builder()
+                    .chapterId(smallChapterId)
+                    .chapterName(chapter.getSmallChapterName())
+                    .dataCode("small")
+                    .build();
+
+            map.get(mediumChapterId).put(smallChapterId, node);
+        }
+
+        // 소단원 노드가 없을 경우 생성
+        if (!map.containsKey(smallChapterId)) {
+            LinkedHashMap<String, ChapterNode> lhmap = new LinkedHashMap<>();
+            map.put(smallChapterId, lhmap);
+        }
+
+        // 소단원 노드 아래에 토픽 노드를 추가한다.
+        if (!map.get(smallChapterId).containsKey(topicChapterId)) {
+            // chapter의 토픽 노드
+            ChapterNode node = ChapterNode.builder()
+                    .chapterId(topicChapterId)
+                    .chapterName(chapter.getTopicChapterName())
+                    .dataCode("topic")
+                    .build();
+
+            map.get(smallChapterId).put(topicChapterId, node);
+        }
     }
 
 }

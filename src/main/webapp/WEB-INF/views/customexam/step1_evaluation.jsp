@@ -14,14 +14,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>T셀파 문제은행</title>
-
   <link rel="stylesheet" href="/resource/popup/css/swiper-bundle.min.css">
   <link rel="stylesheet" href="/resource/popup/css/jquery-ui.css">
 
   <link rel="stylesheet" href="/resource/popup/css/font.css">
-  <link rel="stylesheet" href="/resource/popup/css/reset.css">
-  <%--    <link rel="stylesheet" href="/resource/midhigh/assets/css/common.css">--%>
+  <%--<link rel="stylesheet" href="/resource/popup/css/reset.css">
+  &lt;%&ndash;    <link rel="stylesheet" href="/resource/midhigh/assets/css/common.css">&ndash;%&gt;
   <link rel="stylesheet" href="/resource/popup/css/common.css">
+
   <!-- S 230808 순서 변경-->
   <script src="/resource/popup/js/jquery-1.12.4.min.js"></script>
   <script src="/resource/popup/js/jquery-3.6.0.min.js"></script>
@@ -30,7 +30,8 @@
   <!-- E 230808 순서 변경-->
   <script type="text/javascript" src="/resource/popup/js/common_que.js"></script>
   <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
-  <script type="text/javascript" src="/resource/popup/js/stepOne.js"></script>
+
+  <script type="text/javascript" src="/resource/popup/js/stepOne.js"></script>--%>
 
 </head>
 <body>
@@ -76,6 +77,85 @@
         <!-- 페이지 상단: 교과서 이름 -->
 
         <div class="view-bottom">
+
+          <div class="view-box-wrap">
+            <div class="unit-box-wrap">
+              <div class="unit-box">
+                <div class="unit-cnt scroll-inner">
+                  <div class="title-top">
+                    <span>단원정보</span>
+                    <input type="checkbox" id="chk_all" class="allCheck">
+                    <label for="chk_all">전체선택</label>
+                  </div>
+
+                  <ul id="unit-ul">
+                    <c:choose>
+                      <%-- chapterTree 존재하지 않을 때 출력 X --%>
+                      <c:when test="${empty chapterTree}">
+                        <p>단원 정보가 존재하지 않습니다.</p>
+                      </c:when>
+
+                      <%-- chapterTree 존재할 때 출력 O --%>
+                      <c:otherwise>
+                        <c:set var="subjectId" value="${subjectId}" />
+                        <c:forEach var="largeChapter" items="${chapterTree[subjectId]}" varStatus="largeStatus">
+                            <li>
+                              <div class="check-group title">
+                                <div class="title-chk">
+                                  <input type="checkbox" id="chk_${largeStatus.index}" class="que-allCheck depth01" data-columns="${largeChapter.value.getChapterId()}" data-code="${largeChapter.value.getDataCode()}">
+                                  <label for="chk_${largeStatus.index}">
+                                    <button type="button" class="dep-btn active">${largeChapter.value.getChapterName()}</button>
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="depth02">
+                                <c:forEach var="mediumChapter" items="${chapterTree[largeChapter.value.getChapterId()]}" varStatus="mediumStatus">
+                                  <div class="check-group class-depth-2">
+                                    <input type="checkbox" id="chk_${largeStatus.index}_${mediumStatus.index}" class="que-allCheck depth01" data-columns="${mediumChapter.value.getChapterId()}" data-code="${mediumChapter.value.getDataCode()}">
+                                    <label for="chk_${largeStatus.index}_${mediumStatus.index}">
+                                      <button type="button" class="dep-btn active">${mediumChapter.value.getChapterName()}</button>
+                                    </label>
+                                  </div>
+
+                                    <div class="depth03">
+                                      <c:forEach var="smallChapter" items="${chapterTree[mediumChapter.value.getChapterId()]}" varStatus="smallStatus">
+                                        <div class="check-group class-depth-3">
+                                          <input type="checkbox" id="chk_${largeStatus.index}_${mediumStatus.index}_${smallStatus.index}" class="que-allCheck depth01" data-columns="${smallChapter.value.getChapterId()}" data-code="${smallChapter.value.getDataCode()}">
+                                          <label for="chk_${largeStatus.index}_${mediumStatus.index}_${smallStatus.index}">
+                                            <button type="button" class="dep-btn active">${smallChapter.value.getChapterName()}  <span><em>(10)</em></span></button>
+                                          </label>
+                                        </div>
+
+                                        <div class="depth04">
+                                          <c:forEach var="topicChapter" items="${chapterTree[smallChapter.value.getChapterId()]}" varStatus="topicStatus">
+                                            <div class="check-group  class-depth-4">
+                                              <input type="checkbox" id="chk_${largeStatus.index}_${mediumStatus.index}_${smallStatus.index}_${topicStatus.index}" class="que-allCheck" data-columns="${topicChapter.value.getChapterId()}" data-code="${topicChapter.value.getDataCode()}">
+                                              <label for="chk_${largeStatus.index}_${mediumStatus.index}_${smallStatus.index}_${topicStatus.index}">
+                                                <button type="button" class="active"></button>
+                                                <span>${topicChapter.value.getChapterName()}  <em>(5)</em></span>
+                                              </label>
+                                            </div>
+                                          </c:forEach>
+                                        </div>
+                                      </c:forEach>
+                                    </div>
+                                </c:forEach>
+                              </div>
+                            </li>
+                        </c:forEach>
+                      </c:otherwise>
+                    </c:choose>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
            <!-- 오른쪽 -->
             <div class="type-box-wrap cursorDefault">
               <div class="type-box scroll-inner">
@@ -152,7 +232,7 @@
         </div>
       </div>
     </div>
-
+    </div>
 
     <!-- 페이지 하단 이동 버튼 -->
     <div class="step-btn-wrap">
@@ -273,8 +353,10 @@
 </div>
 <!-- 문항 0인 경우 노출 팝업 -->
 
+<!--
 <script type="text/javascript" src="/resource/js/common.js"></script>
 <script type="text/javascript" src="/resource/js/stepOne.js"></script>
+-->
 
 </body>
 </html>
