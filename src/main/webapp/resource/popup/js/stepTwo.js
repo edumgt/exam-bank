@@ -48,26 +48,27 @@ $(function () {
     //이전 버튼
     $("#step-prev-btn").on("click", function () {
 
-            let gubun = $("#paperGubun").val();
 
-            //form
-            let url = '';
-            let new_form = $('<form></form>');
-            new_form.attr("name", "new_form");
-            new_form.attr("charset", "UTF-8");
-            new_form.attr("method", "post");
+        let gubun = $("#paperGubun").val();
+        //form
+        let url = '';
+        let new_form = $('<form></form>');
+        new_form.attr("name", "new_form");
+        new_form.attr("charset", "UTF-8");
+        new_form.attr("method", "post");
 
-            new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
+        new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
 
-            if (gubun === "setting") {
-                url = "/customExam/step0";
-            } else if (gubun === "new") {
-                url = "/customExam/step1";
-            }
+        if (gubun === "setting") {
+            url = "/customExam/step0";
+        } else if (gubun === "new") {
+            url = "/customExam/step1";
+        }
 
-            new_form.attr("action", url);
-            new_form.appendTo('body');
-            new_form.submit();
+        new_form.attr("action", url);
+        new_form.appendTo('body');
+        new_form.submit();
+
 
     });
 
@@ -181,7 +182,8 @@ $(function () {
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
 
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/similarItem", _param, function (data) {
+        ajaxCall("POST", "/customExam/step2", _param, function (data) {
+
             if (data.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");
                 // 다시 문제지 요약 탭으로
@@ -210,7 +212,7 @@ $(function () {
                                              <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
                                              <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
                                                   ${group.itemGroupList.length === 1 ? "" :
-                                                  `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                            `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
                                              </div>
                                          </div>
                                      </div>
@@ -218,6 +220,7 @@ $(function () {
                     }
 
                     // 문항 영역
+
                     // 문항 영역에 개별 추가 버튼 추가
                     for (let b = 0; b < group.itemGroupList.length; b++) {
                         let item = group.itemGroupList[b];
@@ -604,7 +607,7 @@ $(function () {
         rangeParam.queArr = rangeQueArr;
 
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/rangeList", rangeParam, function (data) {
+        ajaxCall("POST", "/customExam/step2", rangeParam, function (data) {
             if (data == null || data.length === 0) {
                 alert("오류가 발생하였습니다.")
 
