@@ -617,6 +617,9 @@
                 qParam.areaCode = 'SC';
                 qParam.areaName = '과학';
 
+                // 지원 퍼블 테스트 [*****]
+                window.location = "/customExam/complete";
+
                 $.ajax({
                     url: "/customExam/saveStep3",
                     type: "POST",
