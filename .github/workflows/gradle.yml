@@ -41,6 +41,7 @@ jobs:
         spring.datasource.username: ${{ secrets.datasource_username }} 
         spring.datasource.password: ${{ secrets.datasource_password }}
         spring.servlet.multipart.location: ${{ secrets.servlet_multipart_location }}
+        tsherpa.api.url: ${{ secrets.TSHERPA_URL }}
 
     # 권한 변경
     - name: Run chmod to make gradlew executable

@@ -24,7 +24,7 @@
     <script type="text/javascript" src="/resource/popup/js/common_que.js"></script>
     <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
     <script type="text/javascript" src="/resource/common/js/legacy_common.js"></script>
-    <script type="text/javascript" src="/resource/midhigh/js/common.js"></script>
+    <%--<script type="text/javascript" src="/resource/midhigh/js/common.js"></script>--%>
     <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
 
 </head>
@@ -126,6 +126,7 @@
                                 <p>문항이 없습니다.</p>
                             </div>
                             <c:out value="${itemDTOList}"/>
+
                             <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
                                 <c:if test=""></c:if>
 
