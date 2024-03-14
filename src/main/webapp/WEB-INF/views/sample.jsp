@@ -14,29 +14,39 @@
 
 
 <!-- 김지원 - 주석 아래로 작성 -->
+<script src="/resource/popup/js/jquery-1.12.4.min.js"></script>
+<script src="/resource/popup/js/jquery-3.6.0.min.js"></script>
 <script>
-    function customExamPopup(subjectId) {
+   function customExamPopup(subjectId) {
         // if (!checkUserLoggedIn(location.href)) {
         //     return false;
         // }
         //새창으로 열기
-        let url = 'http://localhost:8080/customTest/step0';
-
-        window.open(url,'_blank','width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0');
-
-        // //form
-        // let new_form = $('<form></form>');
-        // new_form.attr("name", "new_form");
-        // new_form.attr("charset", "UTF-8");
-        // new_form.attr("method", "post");
-        // new_form.attr("action", url);
-        // new_form.attr("target", pop_title);
+        // let url = 'http://localhost:8080/customExam/step0';
         //
-        // //step0 세팅지 리스트를 위한 교재정보 - 문항통합에서 교재정보 컬럼명 = subjectId
-        // new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: subjectId}));
-        //
-        // new_form.appendTo('body');
-        // new_form.submit();
+        // window.open(url,'_blank','width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0');
+
+       //새창으로 열기
+       let pop_title = "win_pop";
+       let url = 'customExam/step0';
+
+       window.open("",pop_title,'width=1400,height=1024,status=no,toolbar=no,scrollbars=no, left=500, top=0');
+
+       //form
+        let new_form = $('<form></form>');
+        new_form.attr("name", "new_form");
+        new_form.attr("charset", "UTF-8");
+        new_form.attr("method", "post");
+        new_form.attr("action", url);
+        new_form.attr("target", pop_title);
+
+        //step0 세팅지 리스트를 위한 교재정보 - 문항통합에서 교재정보 컬럼명 = subjectId
+        new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: subjectId}));
+
+        console.log(new_form);
+
+        new_form.appendTo('body');
+        new_form.submit();
     }
     function customExamPopup1(subjectId) {
         let url = 'http://localhost:8080/customTest/step1';
@@ -75,7 +85,7 @@
 
 <!-- 이양진 - 주석 아래로 작성 -->
 <div class="data_buttons">
-    <a href="http://localhost:8080/exambank/booklist" title="교과서 목록" class="button">
+    <a href="http://localhost:8080/exambank/exambank" title="교과서 목록" class="button">
         교과서 목록
     </a>
     <a href="http://localhost:8080/exambank/ExamBank-Storage" title="교과서 목록" class="button">
