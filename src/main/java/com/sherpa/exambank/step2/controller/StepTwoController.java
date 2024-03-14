@@ -35,7 +35,7 @@ public class StepTwoController {
 
     // step 2 유사문제 버튼 ajaxCall
     @PostMapping("/customExam/similar-List")
-    public String similarQueList(@RequestBody Model model) {
+    public String similarQueList(Model model) {
         List<ItemDTO> similarQueList = stepTwoService.similarItemList();
         model.addAttribute("similarQueList",similarQueList);
         return "customexam/step2";
