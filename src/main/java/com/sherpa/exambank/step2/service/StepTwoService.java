@@ -359,9 +359,7 @@ public class StepTwoService {
         RestTemplate restTemplate = new RestTemplate();
         SimilarItemListResponse similarItemListResponse = restTemplate.postForObject(uri,
                 requestSimilarItemListJsonObj, SimilarItemListResponse.class);
-        log.info("Call : "+similarItemListResponse.toString());
-
-
+        log.info("Call : "+similarItemListResponse);
 
         return similarItemListResponse;
     }

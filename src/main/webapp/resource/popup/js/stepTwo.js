@@ -138,6 +138,9 @@ $(function () {
             url: url,
             type : type,
             data : param,
+            headers: {
+                'Content-Type': 'application/json'
+            },
             success: function (data) {
                 return callback(data);
                 console.log("호출")
@@ -193,10 +196,10 @@ $(function () {
 
         // 문제 목록 순서
         let queNo = $(this).parents(".view-que-box").find(".num").text();
-
+        console.log("queNo = " + queNo );
         $("#target-sort-num").val(_sortGroup.attr("data-sortNum"));
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
-
+        console.log("param = " + _param );
         $.ajaxSetup({async: false});
         ajaxCall("POST", "/customExam/similar-List", _param, function (data) {
 
