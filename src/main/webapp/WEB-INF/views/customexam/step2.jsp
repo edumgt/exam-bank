@@ -118,7 +118,7 @@
                                 </div>
                             </div>
                         </div>
-                        <form action="/customExam/similar-List" method="post">
+                        <form action="/customExam/step2" method="post">
                             <input type="submit" value="제출">
                         </form>
                         <div class="view-que-list scroll-inner" style="display: -webkit-box;-webkit-box-orient:vertical" id="view-que-detail-list">
