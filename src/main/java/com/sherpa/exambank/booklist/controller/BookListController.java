@@ -1,7 +1,7 @@
 package com.sherpa.exambank.booklist.controller;
 
-import com.sherpa.exambank.booklist.domain.BookListDTO;
-import com.sherpa.exambank.booklist.service.BookListService;
+//import com.sherpa.exambank.booklist.domain.BookListDTO;
+//import com.sherpa.exambank.booklist.service.BookListService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ import java.text.ParseException;
 @Log4j2
 @RequestMapping("/exambank")
 public class BookListController {
-    private final BookListService bookListService;
+//    private final BookListService bookListService;
 
     /**
      * 교재 목록 출력
@@ -28,11 +28,11 @@ public class BookListController {
      * 교재별 시험지 만들기
      * */
     @PutMapping(value = "/exambank")  // postMapping -> putMapping
-    public String postSubjectId(@ModelAttribute("BookListDTO") BookListDTO bookListDTO, Model model)
+    public String postSubjectId(/*@ModelAttribute("BookListDTO") BookListDTO bookListDTO,*/ Model model)
             throws ParseException {
 
-        Long subjectId = bookListDTO.getSubjectId();
-        model.addAttribute("subjectId", subjectId);
+        /*Long subjectId = bookListDTO.getSubjectId();
+        model.addAttribute("subjectId", subjectId);*/
         return "exambank/main";
     }
 
