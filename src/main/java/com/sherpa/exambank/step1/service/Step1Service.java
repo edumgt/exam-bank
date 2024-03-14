@@ -1,6 +1,7 @@
 package com.sherpa.exambank.step1.service;
 
 import com.sherpa.exambank.step1.domain.Chapter;
+import com.sherpa.exambank.step1.domain.ChapterNode;
 import com.sherpa.exambank.step1.domain.Step1Request;
 import com.sherpa.exambank.step1.domain.Step1Response;
 import com.sherpa.exambank.step1.mapper.Step1Mapper;
@@ -15,14 +16,12 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -40,6 +39,12 @@ public class Step1Service {
     public Step1Response step1Page(Step1Request step1Request) throws ParseException {
         String urn_chapterList = "/chapter/chapter-list";           // 단원정보
         String urn_evaluationList = "/chapter/evaluation-list";     // 평가영역
+
+        List<Chapter> chapterList = postRequest(step1Request, urn_chapterList).getChapterList();
+        Map<Long, LinkedHashMap<Long, ChapterNode>> map = new HashMap<>();
+        for(Chapter chapter: chapterList){
+            makeChapterTree(chapter, map);
+        }
 
         Step1Response response = Step1Response.builder()
                                                 .chapterList(postRequest(step1Request, urn_chapterList).getChapterList())
@@ -82,6 +87,7 @@ public class Step1Service {
                     .build();
             chapterList.add(s);
         }
+
 
         return chapterList;
 
@@ -133,5 +139,47 @@ public class Step1Service {
         return step1Response;
     }
 
+    /**
+     *
+     * @param chapter: chapterList의 요소 한 개
+     * @param map: <부모 단원 ID, <단원 ID, 단원 노드>>
+     */
+    private void makeChapterTree(Chapter chapter, Map<String, LinkedHashMap<String, ChapterNode>> map) {
+        String subjectId = chapter.getSubjectId();
+        String largeChapterId = chapter.getLargeChapterId();
+        String mediumChapterId = chapter.getMediumChapterId();
+        String smallChapterId = chapter.getSmallChapterId();
+        String topicChapterId = chapter.getTopicChapterId();
+
+        // 주제의 정보를 담은 루트 노드가 없을 경우 생성
+        if(!map.containsKey(subjectId)){
+            LinkedHashMap<String, ChapterNode> lhmap = new LinkedHashMap<>();
+            map.put(subjectId, lhmap);
+        }
+
+        // 주제 루트 노드 아래에 대단원 노드를 추가한다.
+        if(!map.get(subjectId).containsKey(largeChapterId)){
+            // chapter의 대단원 노드 생성
+            ChapterNode node = ChapterNode.builder()
+                            .chapterId(largeChapterId)
+                            .chapterName(chapter.getLargeChapterName())
+                            .build();
+
+            map.get(subjectId).put(largeChapterId, node);
+        }
+
+        // 대단원 노드 아래에 중단원 노드를 추가한다.
+        if(!map.get(largeChapterId).containsKey(mediumChapterId)){
+            // chapter의 중단원 노드
+            ChapterNode node = ChapterNode.builder()
+                    .chapterId(mediumChapterId)
+                    .chapterName(chapter.getMediumChapterName())
+                    .build();
+
+            map.get(largeChapterId).put(mediumChapterId, node);
+        }
+
+
+    }
 
 }

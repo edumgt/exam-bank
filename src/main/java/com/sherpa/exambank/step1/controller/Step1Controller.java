@@ -49,6 +49,8 @@ public class Step1Controller {
         model.addAttribute("chapterList", step1Response.getChapterList());   // 단원 정보
         model.addAttribute("evaluationList", step1Response.getEvaluationList());   // 평가 영역
 
+        // subjectName
+
         return "customexam/step1_evaluation";
     }
 
