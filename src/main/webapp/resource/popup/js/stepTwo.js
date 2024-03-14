@@ -182,7 +182,7 @@ $(function () {
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
 
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/similarQueList", _param, function (data) {
+        ajaxCall("POST", "/customExam/similar-List", _param, function (data) {
 
             if (data.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");

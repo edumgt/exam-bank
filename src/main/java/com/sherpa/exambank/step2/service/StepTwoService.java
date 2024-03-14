@@ -323,7 +323,4 @@ public class StepTwoService {
         return Arrays.asList(itemDTOArray);
     }
 
-    public List<ItemDTO> similarQueList() {
-        
-    }
 }
