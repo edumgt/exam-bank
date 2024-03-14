@@ -1,16 +1,15 @@
 package com.sherpa.exambank.step2.controller;
 
+import com.amazonaws.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sherpa.exambank.step2.domain.ItemDTO;
 import com.sherpa.exambank.step2.service.StepTwoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +23,8 @@ public class StepTwoController {
     public String getStep2Page(){
         return "customexam/step2";
     }
+
+    // step 2 좌측 아이템 리스트
     @PostMapping ("/customExam/step2")
     public String postStep2Page(Model model) throws JsonProcessingException {
         List<ItemDTO> itemDTOList = stepTwoService.postResponse();
@@ -32,4 +33,11 @@ public class StepTwoController {
         return "customexam/step2";
     }
 
+    // step 2 유사문제 버튼 ajaxCall
+    @PostMapping("/customExam/similarQueList")
+    public String similarQueList(Model model) {
+        List<ItemDTO> similarQueList = stepTwoService.similarQueList();
+        model.addAttribute("similarQueList",similarQueList);
+        return "customexam/step2";
+    }
 }

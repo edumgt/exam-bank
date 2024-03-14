@@ -322,4 +322,8 @@ public class StepTwoService {
         ItemDTO[] itemDTOArray = objectMapper.readValue(jsonData, ItemDTO[].class);
         return Arrays.asList(itemDTOArray);
     }
+
+    public List<ItemDTO> similarQueList() {
+        
+    }
 }
