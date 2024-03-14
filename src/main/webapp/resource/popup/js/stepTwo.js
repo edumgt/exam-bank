@@ -1,4 +1,5 @@
 $(function () {
+
     activeText(2);
     setItemNum();
 
@@ -47,6 +48,7 @@ $(function () {
     //이전 버튼
     $("#step-prev-btn").on("click", function () {
 
+
         let gubun = $("#paperGubun").val();
         //form
         let url = '';
@@ -66,6 +68,7 @@ $(function () {
         new_form.attr("action", url);
         new_form.appendTo('body');
         new_form.submit();
+
 
     });
 
