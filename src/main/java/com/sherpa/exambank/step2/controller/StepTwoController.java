@@ -35,10 +35,12 @@ public class StepTwoController {
 
     // step 2 유사문제 버튼 ajaxCall
     @PostMapping("/customExam/similar-List")
-    public String similarQueList(@RequestBody SimilarItemListRequest similarItemListRequest, Model model) throws JsonProcessingException {
+    @ResponseBody
+    public SimilarItemListResponse similarQueList(@RequestBody SimilarItemListRequest similarItemListRequest, Model model) throws JsonProcessingException {
         log.info("호출 성공 : "+ similarItemListRequest);
         SimilarItemListResponse similarItemList = stepTwoService.similarItemList(similarItemListRequest);
-        model.addAttribute("similarItemList",similarItemList);
-        return "customexam/step2";
+        model.addAttribute("similarItemList",similarItemList.getItemList());
+        log.info("similar-List response : "+similarItemList.getItemList());
+        return similarItemList;
     }
 }
