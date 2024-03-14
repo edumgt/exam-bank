@@ -25,8 +25,8 @@ public class StepTwoController {
         return "customexam/step2";
     }
     @PostMapping ("/customExam/step2")
-    public String postStep2Page(ItemDTO itemDTO ,Model model) throws JsonProcessingException {
-        List<ItemDTO> itemDTOList = stepTwoService.postResponse(itemDTO);
+    public String postStep2Page(Model model) throws JsonProcessingException {
+        List<ItemDTO> itemDTOList = stepTwoService.postResponse();
         model.addAttribute("itemDTOList",itemDTOList);
         log.info("itemDTOList : " + itemDTOList);
         return "customexam/step2";

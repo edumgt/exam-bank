@@ -1,4 +1,4 @@
-package com.sherpa.exambank.stepTwo.mapper;
+package com.sherpa.exambank.step2.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 

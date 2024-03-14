@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import com.sherpa.exambank.step2.domain.ItemDTO;
+import com.sherpa.exambank.step2.mapper.StepTwoMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,9 @@ import java.util.List;
 @Slf4j
 public class StepTwoService {
 
-    public List postResponse(ItemDTO itemDTO) throws JsonProcessingException {
+    private final StepTwoMapper stepTwoMapper;
+
+    public List postResponse() throws JsonProcessingException {
         String jsonData = "[" +
                 "  {" +
                 "    \"itemNo\": 1," +
