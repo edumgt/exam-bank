@@ -23,6 +23,7 @@ const ajaxCall = (type, url, param, callback) => {
         url: url,
         type : type,
         data : param,
+        contentType: "application/json",
         success: function (data) {
             return callback(data);
             console.log("호출")

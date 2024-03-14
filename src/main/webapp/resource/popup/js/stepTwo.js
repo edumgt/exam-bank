@@ -133,24 +133,6 @@ $(function () {
     });
 
     // 유사문제 버튼
-    const ajaxCall = (type, url, param, callback) => {
-        $.ajax({
-            url: url,
-            type : type,
-            data : param,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            success: function (data) {
-                return callback(data);
-                console.log("호출")
-            },
-            error : function (xhr, status, error) {
-                // window.location.href="/error/error";
-                console.log("실패")
-            }
-        });
-    }
     $("#view-que-detail-list").on("click", ".btn-similar-que", function () {
         console.log("유사문제 버튼")
         // 토글 및 셀렉트박스 초기화
@@ -201,7 +183,7 @@ $(function () {
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
         console.log("param = " + _param );
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/similar-List", _param, function (data) {
+        ajaxCall("post","/customExam/similar-List", _param, function (data) {
 
             if (data.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");
