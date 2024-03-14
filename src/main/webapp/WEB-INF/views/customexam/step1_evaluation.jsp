@@ -139,7 +139,7 @@
                       <%-- 1개 이상 존재할 때에는 평가영역 출력 O --%>
                       <c:otherwise>
                         <c:forEach items="${evaluationList}" var="evaluation" varStatus="status">
-                          <button type="button" class="btn-line" data-value="${evaluation.domainId}" id="eval_${evaluation.domainId}" disabled="disabled">${evaluation.domainName}</button>
+                          <button type="button" class="btn-line" data-value="${evaluation.domainId}" id="eval_${evaluation.domainId}" disabled="disabled">jy_${evaluation.domainName}</button>
                         </c:forEach>
                       </c:otherwise>
                     </c:choose>
@@ -273,8 +273,8 @@
 </div>
 <!-- 문항 0인 경우 노출 팝업 -->
 
-<script type="text/javascript" src="../../js/common/common.js?version=20240308093133"></script>
-<script type="text/javascript" src="../../js/customExam/stepOne.js?version=20240308093133"></script>
+<script type="text/javascript" src="/resource/js/common.js"></script>
+<script type="text/javascript" src="/resource/js/stepOne.js"></script>
 
 </body>
 </html>
