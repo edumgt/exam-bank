@@ -1,12 +1,11 @@
 package com.sherpa.exambank.step2.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.sherpa.exambank.step2.domain.ItemDTO;
-import com.sherpa.exambank.step2.domain.SimilarItemListRequest;
-import com.sherpa.exambank.step2.domain.SimilarItemListResponse;
+import com.sherpa.exambank.step2.domain.*;
 import com.sherpa.exambank.step2.service.StepTwoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,4 +42,15 @@ public class StepTwoController {
         log.info("similar-List response : "+similarItemList.getItemList());
         return similarItemList;
     }
+
+    // step 2 출제 범위 ajaxCall
+    @PostMapping("/customExam/range-list")
+    @ResponseBody
+    public ItemListResponse rangeList(@RequestBody ItemListRequest itemListRequest, Model model) throws JsonProcessingException {
+        log.info("call rangeList");
+        ItemListResponse chapterIdList = stepTwoService.getChapterList(itemListRequest);
+        model.addAttribute("chapterIdList",chapterIdList);
+        return chapterIdList;
+    }
+
 }

@@ -592,6 +592,7 @@ $(function () {
         $("#view-que-detail-list .item-box").each(function (i) {
             chapterArr.push($(this).find(".que-top input[id=chapterGp]").val());
         });
+        console.log(chapterArr);
 
         chapterArr.sort();
 
@@ -608,7 +609,7 @@ $(function () {
         rangeParam.queArr = rangeQueArr;
 
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/step2", rangeParam, function (data) {
+        ajaxCall("POST", "/customExam/range-list", rangeParam, function (data) {
             if (data == null || data.length === 0) {
                 alert("오류가 발생하였습니다.")
 
