@@ -26,14 +26,14 @@
           <div class="tabs">
             <!-- 중등 고등, 수능, 시험지 보관함 탭 -->
             <ul class="tabs__list tabs__list--3">
-              <li class="tabs__item">
+              <li class="tabs__item" id="btn-examBank">
                 <a
-                        href="http://localhost:8080/exambank/booklist"
+                        href="http://localhost:8080/exambank/exambank"
                         class="tabs__link tabs__link--on"
                 >중학</a
                 >
               </li>
-              <li class="tabs__item">
+              <li class="tabs__item" id="btn-storage">
                 <a
                         href="http://localhost:8080/exambank/ExamBank-Storage"
                         class="tabs__link"
@@ -42,3 +42,107 @@
               </li>
             </ul>
             <!-- // 중등 고등, 수능, 시험지 보관함 탭 -->
+
+            <!-- 과목 카테고리 탭 -->
+            <ul class="tabs__list tabs__list--4">
+              <li class="tabs__item" id="btn-0">
+                <a href="javascript:;" onclick="getBookByArea('btn-0')"
+                   class="tabs__link tabs__link--on">
+                  국어
+                </a>
+              </li>
+              <li class="tabs__item" id="btn-1">
+                <a href="javascript:;" onclick="getBookByArea('btn-1')"
+                   class="tabs__link">
+                  영어
+                </a>
+              </li>
+              <li class="tabs__item" id="btn-2">
+                <a href="javascript:;" onclick="getBookByArea('btn-2')"
+                   class="tabs__link">
+                  수학
+                </a>
+              </li>
+              <li class="tabs__item" id="btn-3">
+                <a href="javascript:;" onclick="getBookByArea('btn-3')"
+                   class="tabs__link">
+                  사회
+                </a>
+              </li>
+              <li class="tabs__item" id="btn-4">
+                <a href="javascript:;" onclick="getBookByArea('btn-4')"
+                   class="tabs__link">
+                  역사
+                </a>
+              </li>
+              <li class="tabs__item" id="btn-5">
+                <a href="javascript:;" onclick="getBookByArea('btn-5')"
+                   class="tabs__link">
+                  도덕
+                </a>
+              </li>
+              <li class="tabs__item" id="btn-6">
+                <a href="javascript:;" onclick="getBookByArea('btn-6')"
+                   class="tabs__link">
+                  과학
+                </a>
+              </li>
+              <%--<li class="tabs__item">
+                <a
+                        href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-techNhome&amp;testbankYN="
+                        class="tabs__link"
+                >기술·가정</a
+                >
+              </li>
+              <li class="tabs__item">
+                <a
+                        href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-info&amp;testbankYN="
+                        class="tabs__link"
+                >정보</a
+                >
+              </li>
+              <li class="tabs__item">
+                <a
+                        href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-music&amp;testbankYN="
+                        class="tabs__link"
+                >음악</a
+                >
+              </li>
+              <li class="tabs__item">
+                <a
+                        href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-art&amp;testbankYN="
+                        class="tabs__link"
+                >미술</a
+                >
+              </li>
+              <li class="tabs__item">
+                <a
+                        href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-physical&amp;testbankYN="
+                        class="tabs__link"
+                >체육</a
+                >
+              </li>
+              <li class="tabs__item">
+                <a
+                        href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-select&amp;testbankYN="
+                        class="tabs__link"
+                >선택</a
+                >
+              </li>
+              <li class="tabs__item">
+                <a
+                        href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-cl&amp;testbankYN="
+                        class="tabs__link"
+                >생활 중국어</a
+                >
+              </li>
+              <li class="tabs__item">
+                <a
+                        href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=M-TestBank&amp;subjectCode=M-testBank-jl&amp;testbankYN="
+                        class="tabs__link"
+                >생활 일본어</a
+                >
+              </li>--%>
+            </ul>
+            <!-- // 과목 카테고리 탭 -->
+          </div>
