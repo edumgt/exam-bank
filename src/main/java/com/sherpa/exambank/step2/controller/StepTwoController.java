@@ -5,6 +5,7 @@ import com.sherpa.exambank.step2.domain.*;
 import com.sherpa.exambank.step2.service.StepTwoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,14 +36,23 @@ public class StepTwoController {
     // step 2 유사문제 버튼 ajaxCall
     @PostMapping("/customExam/similar-List")
     @ResponseBody
+    public ResponseEntity similarQueList(@RequestBody SimilarItemListRequest similarItemListRequest, Model model) throws JsonProcessingException {
+        log.info("호출 성공 : "+ similarItemListRequest);
+        ResponseEntity<SimilarItemListResponse> similarItemList = stepTwoService.similarItemList(similarItemListRequest);
+        model.addAttribute("similarItemList",similarItemList);
+        log.info("similar-List response : "+similarItemList);
+        return new ResponseEntity<>(similarItemList, HttpStatus.OK) ;
+    }
+    // step 2 유사문제 버튼 ajaxCall
+    /*@PostMapping("/customExam/similar-List")
+    @ResponseBody
     public SimilarItemListResponse similarQueList(@RequestBody SimilarItemListRequest similarItemListRequest, Model model) throws JsonProcessingException {
         log.info("호출 성공 : "+ similarItemListRequest);
         SimilarItemListResponse similarItemList = stepTwoService.similarItemList(similarItemListRequest);
-        model.addAttribute("similarItemList",similarItemList.getItemList());
-        log.info("similar-List response : "+similarItemList.getItemList());
-        return similarItemList;
-    }
-
+        model.addAttribute("similarItemList",similarItemList);
+        log.info("similar-List response : "+similarItemList);
+        return similarItemList ;
+    }*/
     // step 2 출제 범위 ajaxCall
     @PostMapping("/customExam/range-list")
     @ResponseBody
