@@ -24,11 +24,15 @@ const ajaxCall = (type, url, param, callback) => {
         type : type,
         data : param,
         success: function (data) {
+            console.log("호출 ", data);
             return callback(data);
-            console.log("호출")
         },
         error : function (xhr, status, error) {
-            window.location.href="/error/error";
+            console.log("xhr ", xhr);
+            console.log("status ", status);
+            console.log("error ", error);
+            alert("jy");
+            // window.location.href="/error/error";
         }
     });
 }
