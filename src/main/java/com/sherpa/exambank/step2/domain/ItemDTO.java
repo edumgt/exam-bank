@@ -3,7 +3,7 @@ package com.sherpa.exambank.step2.domain;
 import lombok.Data;
 
 @Data
-public class ItemDTO {
+public class ItemDTO {  // response
     private int itemNo;
     private Long itemId;
     private String questionFormCode;
@@ -23,5 +23,6 @@ public class ItemDTO {
     private String questionUrl;
     private String answerUrl;
     private String explainUrl;
+    /*private String successYn;*/
 
 }
