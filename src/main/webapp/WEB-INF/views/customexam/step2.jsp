@@ -125,7 +125,14 @@
                             <div class="view-que-list no-data" id="no-data-detail-area" style="display:none">
                                 <p>문항이 없습니다.</p>
                             </div>
+                            <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
+                                ${dto.itemId} :
+                                <button value="${dto.itemId}">유사문제</button>
+                                <button value="${dto.itemId}">삭제</button>
+                                <br/>
+                            </c:forEach>
                             <c:out value="${itemDTOList}"/>
+
                             <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
 
                                 <c:choose>
@@ -148,8 +155,8 @@
                                                             <div class="que-bottom">
                                                                 <div class="passage-area"><img src="${item.passageUrl}" alt="${item.passageId}" width="453px"></div>
                                                                     <%--<div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                                                            ${dto.itemGroupList.length === 1 ? "" :
-                                                                                    `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                                                                            ${dto.itemGroupList.length == 1 ? "" : `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+
                                                                     </div>--%>
                                                             </div>
                                                         </div>
