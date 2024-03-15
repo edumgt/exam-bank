@@ -134,6 +134,7 @@ $(function () {
 
     // 유사문제 버튼
     $("#view-que-detail-list").on("click", ".btn-similar-que", function () {
+        console.log("유사문제 버튼")
         // 토글 및 셀렉트박스 초기화
         clearSimilarCondition();
         $("#tab-box").removeClass("type03");
@@ -143,7 +144,7 @@ $(function () {
 
         // 클릭한 문항 id
         let questionId =  $(this).closest(".view-que-box").find("#questionId").val();
-
+        console.log("유사문제 버튼2")
         // 기존에 active 된 부분 지우기
         $("#view-que-detail-list .view-que-box").removeClass("active");
 
@@ -177,12 +178,12 @@ $(function () {
 
         // 문제 목록 순서
         let queNo = $(this).parents(".view-que-box").find(".num").text();
-
+        console.log("queNo = " + queNo );
         $("#target-sort-num").val(_sortGroup.attr("data-sortNum"));
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
-
+        console.log("param = " + _param );
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/step2", _param, function (data) {
+        ajaxCall("post","/customExam/similar-List", _param, function (data) {
 
             if (data.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");
@@ -591,6 +592,7 @@ $(function () {
         $("#view-que-detail-list .item-box").each(function (i) {
             chapterArr.push($(this).find(".que-top input[id=chapterGp]").val());
         });
+        console.log(chapterArr);
 
         chapterArr.sort();
 
@@ -607,7 +609,7 @@ $(function () {
         rangeParam.queArr = rangeQueArr;
 
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/step2", rangeParam, function (data) {
+        ajaxCall("POST", "/customExam/range-list", rangeParam, function (data) {
             if (data == null || data.length === 0) {
                 alert("오류가 발생하였습니다.")
 
