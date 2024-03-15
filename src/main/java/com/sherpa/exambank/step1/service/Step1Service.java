@@ -1,9 +1,6 @@
 package com.sherpa.exambank.step1.service;
 
-import com.sherpa.exambank.step1.domain.Chapter;
-import com.sherpa.exambank.step1.domain.ChapterNode;
-import com.sherpa.exambank.step1.domain.Step1Request;
-import com.sherpa.exambank.step1.domain.Step1Response;
+import com.sherpa.exambank.step1.domain.*;
 import com.sherpa.exambank.step1.mapper.Step1Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,24 +29,20 @@ public class Step1Service {
     @Value("${tsherpa.api.url}")
     private String tsherpaURL;
 
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
-    }
-
-    public Step1Response step1Page(Step1Request step1Request) throws ParseException {
+    public Step1Response step1Page(Subject subject) {
         String urn_chapterList = "/chapter/chapter-list";           // 단원정보
         String urn_evaluationList = "/chapter/evaluation-list";     // 평가영역
 
         // 단원 정보 트리 만들기
-        List<Chapter> chapterList = postRequest(step1Request, urn_chapterList).getChapterList();
+        List<Chapter> chapterList = postRequest(subject, urn_chapterList).getChapterList();
         Map<String, LinkedHashMap<String, ChapterNode>> map = new HashMap<>();
         for (Chapter chapter : chapterList) {
             makeChapterTree(chapter, map);
         }
 
         Step1Response response = Step1Response.builder()
-                .chapterList(postRequest(step1Request, urn_chapterList).getChapterList())
-                .evaluationList(postRequest(step1Request, urn_evaluationList).getEvaluationList())
+                .chapterList(postRequest(subject, urn_chapterList).getChapterList())
+                .evaluationList(postRequest(subject, urn_evaluationList).getEvaluationList())
                 .chapterTree(map)
                 .build();
 
@@ -111,11 +104,11 @@ public class Step1Service {
     /**
      * 단원 정보 혹은 평가 영역 api를 호출하여 Step1Response 객체를 반환한다.
      *
-     * @param step1Request: 교과서 ID
+     * @param subject: 교과서 ID
      * @param urn:          요청 urn
      * @return Step1Response 객체(단원 정보 리스트, 평가 영역 리스트)
      */
-    private Step1Response postRequest(Step1Request step1Request, String urn) {
+    private Step1Response postRequest(Subject subject, String urn) {
         // 요청 url
         URI url = UriComponentsBuilder
                 .fromUriString(tsherpaURL)
@@ -129,7 +122,7 @@ public class Step1Service {
         headers.setContentType(MediaType.APPLICATION_JSON);
         // 요청 httpEntity의 body에 포함 될 jsonObject 생성
         JSONObject body = new JSONObject();
-        body.put("subjectId", step1Request.getSubjectId());
+        body.put("subjectId", subject.getSubjectId());
         // 요청 HttpEntity
         HttpEntity<String> request = new HttpEntity<>(body.toString(), headers);
 
