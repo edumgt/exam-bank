@@ -9,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -331,10 +329,16 @@ public class StepTwoService {
 
         ObjectMapper objectMapper = new ObjectMapper();
         ItemDTO[] itemDTOArray = objectMapper.readValue(jsonData, ItemDTO[].class);
+
+        // 넘어온 문제에 대해서 조건에 맞는 문제 수를 반환
+        for (int i = 0; itemDTOArray.length < 90; i++){
+
+        }
+
         return Arrays.asList(itemDTOArray);
     }
 
-    public SimilarItemListResponse similarItemList(SimilarItemListRequest similarItemListRequest) throws JsonProcessingException {
+    public ResponseEntity<SimilarItemListResponse> similarItemList(SimilarItemListRequest similarItemListRequest) throws JsonProcessingException {
         // 요청 url
         URI uri = UriComponentsBuilder
                 .fromUriString(tsherpaURL)
@@ -343,7 +347,23 @@ public class StepTwoService {
                 .build()
                 .toUri();
 
-        // 요청 httpEntity의 Header 생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String similarItemListJsonObj = objectMapper.writeValueAsString(similarItemListRequest);
+        log.info("similarItemListRequest exchange JSON : " + similarItemListJsonObj);
+        HttpEntity<String> requestSimilarItemListJsonObj = new HttpEntity<>(similarItemListJsonObj,headers);
+        log.info("HttpEntity : "+requestSimilarItemListJsonObj);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<SimilarItemListResponse> similarItemListResponse = restTemplate.postForEntity(uri,
+                requestSimilarItemListJsonObj, SimilarItemListResponse.class);
+        log.info("헤더정보 포함 되냐 : " + similarItemListResponse);
+
+
+
+        /*// 요청 httpEntity의 Header 생성
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -358,7 +378,7 @@ public class StepTwoService {
         SimilarItemListResponse similarItemListResponse = restTemplate.postForObject(uri,
                 requestSimilarItemListJsonObj, SimilarItemListResponse.class);
         log.info("Call : "+similarItemListResponse);
-
+*/
         return similarItemListResponse;
     }
 

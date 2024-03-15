@@ -132,6 +132,10 @@ $(function () {
         }
     });
 
+    // $( "#view-que-detail-list" ).on( "click", ".btn-similar-que", function() {
+    //     console.log( $( this ).text(),'11122' );
+    // });
+
     // 유사문제 버튼
     $("#view-que-detail-list").on("click", ".btn-similar-que", function () {
         console.log("유사문제 버튼")
@@ -144,7 +148,7 @@ $(function () {
 
         // 클릭한 문항 id
         let questionId =  $(this).closest(".view-que-box").find("#questionId").val();
-        console.log("유사문제 버튼2")
+        console.log("유사문제 버튼2");
         // 기존에 active 된 부분 지우기
         $("#view-que-detail-list .view-que-box").removeClass("active");
 
@@ -170,21 +174,33 @@ $(function () {
             }
         })
 
-        _param.excludeCdStr = JSON.stringify(_excludeCd);
+
 
         // 선택한 지문 id 목록
         _problemCode.push(questionId);
-        _param.problemCode = JSON.stringify(_problemCode);
 
+        _param.itemIdList = _problemCode;
+        console.log("dfddf : "+_problemCode)
+        _param.excludeCode = _excludeCd;
+        console.log("dfddf : "+_param)
         // 문제 목록 순서
         let queNo = $(this).parents(".view-que-box").find(".num").text();
         console.log("queNo = " + queNo );
         $("#target-sort-num").val(_sortGroup.attr("data-sortNum"));
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
-        console.log("param = " + _param );
-        $.ajaxSetup({async: false});
-        ajaxCall("post","/customExam/similar-List", _param, function (data) {
+        
+        console.log("param에 보낼 json 데이터 : ",JSON.stringify(_param))
 
+
+        $.ajaxSetup({async: false});
+        //http://localhost:8080/customExam/similar-List
+        ajaxCall("post","/customExam/similar-List", JSON.stringify(_param), function (data) {
+            console.log(_param)
+            console.log(data);
+            return false;
+
+
+            alert("ererere");
             if (data.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");
                 // 다시 문제지 요약 탭으로
