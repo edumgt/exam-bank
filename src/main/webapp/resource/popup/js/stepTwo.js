@@ -132,8 +132,13 @@ $(function () {
         }
     });
 
+    // $( "#view-que-detail-list" ).on( "click", ".btn-similar-que", function() {
+    //     console.log( $( this ).text(),'11122' );
+    // });
+
     // 유사문제 버튼
     $("#view-que-detail-list").on("click", ".btn-similar-que", function () {
+        console.log("유사문제 버튼")
         // 토글 및 셀렉트박스 초기화
         clearSimilarCondition();
         $("#tab-box").removeClass("type03");
@@ -143,7 +148,7 @@ $(function () {
 
         // 클릭한 문항 id
         let questionId =  $(this).closest(".view-que-box").find("#questionId").val();
-
+        console.log("유사문제 버튼2");
         // 기존에 active 된 부분 지우기
         $("#view-que-detail-list .view-que-box").removeClass("active");
 
@@ -169,21 +174,33 @@ $(function () {
             }
         })
 
-        _param.excludeCdStr = JSON.stringify(_excludeCd);
+
 
         // 선택한 지문 id 목록
         _problemCode.push(questionId);
-        _param.problemCode = JSON.stringify(_problemCode);
 
+        _param.itemIdList = _problemCode;
+        console.log("dfddf : "+_problemCode)
+        _param.excludeCode = _excludeCd;
+        console.log("dfddf : "+_param)
         // 문제 목록 순서
         let queNo = $(this).parents(".view-que-box").find(".num").text();
-
+        console.log("queNo = " + queNo );
         $("#target-sort-num").val(_sortGroup.attr("data-sortNum"));
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
+        
+        console.log("param에 보낼 json 데이터 : ",JSON.stringify(_param))
+
 
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/step2", _param, function (data) {
+        //http://localhost:8080/customExam/similar-List
+        ajaxCall("post","/customExam/similar-List", JSON.stringify(_param), function (data) {
+            console.log(_param)
+            console.log(data);
+            return false;
 
+
+            alert("ererere");
             if (data.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");
                 // 다시 문제지 요약 탭으로
@@ -591,6 +608,7 @@ $(function () {
         $("#view-que-detail-list .item-box").each(function (i) {
             chapterArr.push($(this).find(".que-top input[id=chapterGp]").val());
         });
+        console.log( "chapterArr : " ,chapterArr);
 
         chapterArr.sort();
 
@@ -604,10 +622,11 @@ $(function () {
             return false;
         }
 
-        rangeParam.queArr = rangeQueArr;
+        rangeParam.itemIdList = rangeQueArr;
+        console.log("rangeParam : " , rangeParam)
 
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/step2", rangeParam, function (data) {
+        ajaxCall("POST", "/customExam/range-list", JSON.stringify(rangeParam), function (data) {
             if (data == null || data.length === 0) {
                 alert("오류가 발생하였습니다.")
 
