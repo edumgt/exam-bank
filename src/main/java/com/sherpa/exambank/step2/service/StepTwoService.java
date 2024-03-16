@@ -359,30 +359,12 @@ public class StepTwoService {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<SimilarItemListResponse> similarItemListResponse = restTemplate.postForEntity(uri,
                 requestSimilarItemListJsonObj, SimilarItemListResponse.class);
-        log.info("헤더정보 포함 되냐 : " + similarItemListResponse);
+        log.info("헤더정보 포함? : " + similarItemListResponse);
 
-
-
-        /*// 요청 httpEntity의 Header 생성
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        // 요청 HttpEntity의 body에 포함될 JSONObject 생성
-        ObjectMapper objectMapper = new ObjectMapper();
-        String similarItemListJsonObj = objectMapper.writeValueAsString(similarItemListRequest);
-        log.info("similarItemListRequest exchange JSON : " + similarItemListJsonObj);  // similarItemListRequest exchange JSON : {"itemIdList":[494552],"excludeCode":[496128,496129]}
-        HttpEntity<String> requestSimilarItemListJsonObj = new HttpEntity<>(similarItemListJsonObj,headers);
-        log.info("HttpEntity : "+requestSimilarItemListJsonObj);
-
-        RestTemplate restTemplate = new RestTemplate();
-        SimilarItemListResponse similarItemListResponse = restTemplate.postForObject(uri,
-                requestSimilarItemListJsonObj, SimilarItemListResponse.class);
-        log.info("Call : "+similarItemListResponse);
-*/
         return similarItemListResponse;
     }
 
-    public ItemListResponse getChapterList(ItemListRequest itemListRequest) throws JsonProcessingException {
+    public ResponseEntity<ItemListResponse> getChapterList(ItemListRequest itemListRequest) throws JsonProcessingException {
         URI uri = UriComponentsBuilder
                 .fromUriString(tsherpaURL)
                 .path("/item-img/item-list")
@@ -402,8 +384,9 @@ public class StepTwoService {
         // itemList에 header 정보 넣은 객체 생성
         HttpEntity<String> itemListIncHeader = new HttpEntity<>(itemListRequestJsonObj,headers);
         log.info("itemListIncHeader : " + itemListIncHeader);
+        // RestTemplate 인스턴스 생성
         RestTemplate restTemplate = new RestTemplate();
-        ItemListResponse responseItemDTO = restTemplate.postForObject(uri,itemListIncHeader, ItemListResponse.class);
+        ResponseEntity<ItemListResponse> responseItemDTO = restTemplate.postForEntity(uri,itemListIncHeader, ItemListResponse.class);
         log.info("responseItemDTO : " + responseItemDTO);
         return responseItemDTO;
     }

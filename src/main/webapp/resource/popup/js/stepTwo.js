@@ -608,7 +608,7 @@ $(function () {
         $("#view-que-detail-list .item-box").each(function (i) {
             chapterArr.push($(this).find(".que-top input[id=chapterGp]").val());
         });
-        console.log(chapterArr);
+        console.log( "chapterArr : " ,chapterArr);
 
         chapterArr.sort();
 
@@ -622,10 +622,11 @@ $(function () {
             return false;
         }
 
-        rangeParam.queArr = rangeQueArr;
+        rangeParam.itemIdList = rangeQueArr;
+        console.log("rangeParam : " , rangeParam)
 
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/range-list", rangeParam, function (data) {
+        ajaxCall("POST", "/customExam/range-list", JSON.stringify(rangeParam), function (data) {
             if (data == null || data.length === 0) {
                 alert("오류가 발생하였습니다.")
 
