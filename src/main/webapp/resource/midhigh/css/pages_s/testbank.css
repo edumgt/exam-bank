@@ -1,0 +1,630 @@
+.testbank_body .middle-wrapper {
+  padding-left: 0;
+}
+
+.testbank_body button {
+  border: none;
+  background: none;
+}
+
+.testbank_body button.is-primary {
+  border: 1px solid #5670dc;
+  background: #5670dc;
+  color: #fff;
+}
+
+.testbank_body button.is-gray {
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.testbank_body .content-section {
+  width: 1280px;
+  margin: 0 auto;
+  margin-bottom: 110px;
+  margin-top: 52px;
+}
+
+.testbank_body .content-section__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: left;
+  margin-bottom: 45px;
+}
+
+.testbank_body .content-section__header h2 {
+  font-weight: 550;
+  font-size: 35px;
+  margin-right: 20px;
+  margin-bottom: 0;
+}
+
+.testbank_body .content-section__header h2 .beta-i {
+  vertical-align: 10px;
+  margin-left: 2px;
+}
+
+.testbank_body .content-section__header p {
+  color: #666;
+  font-size: 17px;
+  letter-spacing: -0.51px;
+}
+
+.testbank_body .content-section .columns {
+  display: flex;
+}
+
+.testbank_body .content-section .data-body {
+  width: 1320px;
+  box-sizing: border-box;
+}
+
+.testbank_body .content-section .data-details__content .tabs__list {
+  display: flex;
+}
+
+.testbank_body .content-section .data-details__content .tabs__list--3 {
+  background: #f5f6f9;
+  margin-bottom: 28px;
+  height: 53px;
+  justify-content: center;
+  align-items: center;
+}
+
+.testbank_body .content-section .data-details__content .tabs__list--3 .tabs__item {
+  height: 44px;
+  margin-right: 5px;
+}
+
+.testbank_body .content-section .data-details__content .tabs__list--3 .tabs__item:last-child {
+  margin-right: 0;
+}
+
+.testbank_body .content-section .data-details__content .tabs__list--3 .tabs__link {
+  display: block;
+  text-align: center;
+  line-height: 44px;
+  padding: 0 20px 0 19px;
+  min-width: 113px;
+  max-width: 143px;
+  font-size: 18px;
+}
+
+.testbank_body .content-section .data-details__content .tabs__list--3 .tabs__link--on {
+  background: #fff;
+  border-radius: 22px;
+  color: #5670dc;
+  font-weight: 450;
+  box-shadow: 3px 3px 1px rgba(228, 229, 231, 0.5);
+}
+
+.testbank_body .content-section .data-details__content .tabs__list--4 {
+  width: 640px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.testbank_body .content-section .data-details__content .tabs__list--4 .tabs__item {
+  position: relative;
+}
+
+.testbank_body .content-section .data-details__content .tabs__list--4 .tabs__item:after {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 12px;
+  background: #e0e0e0;
+  content: '';
+}
+
+.testbank_body .content-section .data-details__content .tabs__list--4 .tabs__item.br-0:after {
+  display: none;
+}
+
+.testbank_body .content-section .data-details__content .tabs__list--4 .tabs__item:nth-child(7):after {
+  width: 0;
+}
+
+.testbank_body .content-section .data-details__content .tabs__list--4 .tabs__item:last-child:after {
+  width: 0;
+}
+
+.testbank_body .content-section .data-details__content .tabs__list--4 .tabs__link {
+  padding: 0 22px;
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 17px;
+}
+
+.testbank_body .content-section .data-details__content .tabs__list--4 .tabs__link--on {
+  color: #5670dc;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__header {
+  margin-top: 40px;
+  font-size: 20px;
+  font-weight: 450;
+  padding-bottom: 12px;
+  margin-bottom: 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__body {
+  padding-top: 30px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__body .columns {
+  display: flex;
+  padding: 0 10px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 35px;
+  justify-content: flex-start;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__body .columns .item {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 180px;
+  margin-bottom: 20px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__body .columns .item-mark {
+  position: absolute;
+  z-index: 1;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__body .columns .item-mark mark {
+  overflow: hidden;
+  display: block;
+  text-indent: -999px;
+  width: 44px;
+  height: 44px;
+  font-size: 0;
+  color: transparent;
+  background: url("../../img/testbank_2023/icon_new.png") 0 0 no-repeat;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__body .columns .item .tooltip-mark {
+  overflow: hidden;
+  display: block;
+  text-indent: -999px;
+  width: 44px;
+  height: 44px;
+  font-size: 0;
+  color: transparent;
+  background: url("../../img/testbank_2023/sprites02.png") no-repeat -2px -50px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__body .columns .item .tooltip-mark.add-bookmark {
+  background: url("../../img/testbank_2023/sprites02.png") no-repeat -2px -2px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__body .columns .item-image {
+  position: relative;
+  width: 180px;
+  height: 241px;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 2.5px 4.3px 2px 0 rgba(150, 150, 150, 0.2);
+  border: solid 1px #e0e0e0;
+  box-sizing: content-box;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__body .columns .item-image .item-new {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__body .columns .item-image img {
+  width: 180px;
+  height: 241px;
+  border-radius: 6px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__body .columns .item-info .data_title {
+  padding: 15px 0 12px 0;
+  line-height: 23px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 450;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__body .columns .item-info .data_buttons .button {
+  display: flex;
+  width: 180px;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  line-height: 36px;
+  font-size: 14px;
+  color: #333;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.testbank_body .content-section .data-details__content .tb-container__body .columns .item-info .data i {
+  line-height: 33px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container--empty {
+  position: relative;
+  z-index: 1;
+  padding: 114px 0;
+  text-align: center;
+  line-height: 23px;
+  font-size: 15px;
+  color: #666;
+}
+
+.testbank_body .content-section .data-details__content .tb-container--empty::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 50px;
+  left: 50%;
+  display: block;
+  width: 44px;
+  height: 44px;
+  margin-left: -29px;
+  background: url("../../img/testbank_2023/img-nodata.png") 0 0 no-repeat;
+}
+
+.testbank_body .content-section .data-details__content .tb-container.tb-bookmark .tb-container__header {
+  border-bottom: 1px solid #000;
+}
+
+.testbank_body .content-section .data-details__content .tb-container.tb-bookmark .tb-container__body {
+  padding-top: 20px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__option .content-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f6f9;
+  padding: 19px 0 20px;
+  border-top: 1px solid #000;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__option .content-top__sort {
+  margin-right: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__option .content-top__text {
+  margin-right: 15px;
+  font-size: 16px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__option .content-top__dropdown {
+  height: 46px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__option .content-top__dropdown:first-of-type {
+  width: 161px;
+  margin-right: 4px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__option .content-top__dropdown:last-child {
+  width: 217px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__option .content-top__input {
+  width: 257px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__option .content-top__input input {
+  height: 46px;
+  border-radius: 6px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__option .content-top__input input::placeholder {
+  color: #ccc;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__option .content-top__button {
+  width: 83px;
+  font-size: 14px;
+  border-radius: 6px;
+  height: 46px;
+  line-height: 44px;
+  text-align: center;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__option .content-top__button.is-primary {
+  margin-right: 4px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section {
+  margin-top: 60px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .custom-checkbox .custom-control-input {
+  width: 30px;
+  height: 30px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .custom-checkbox .custom-control-label {
+  padding-left: 40px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .custom-checkbox .custom-control-label:before {
+  width: 30px;
+  height: 30px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .custom-checkbox .custom-control-label:after {
+  width: 30px;
+  height: 30px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-folder-sel {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-folder-sel .left-icon {
+  padding-bottom: 8px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-folder-sel .dropdown-style {
+  width: 188px;
+  height: 39px;
+  position: relative;
+  background-image: url("../../img/testbank_2023/arrow-more.png");
+  background-repeat: no-repeat;
+  background-position: right 0;
+  background-size: 31px 31px;
+  padding-left: 10px;
+  padding-bottom: 8px;
+  margin-right: 3px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-folder-sel .setting-button {
+  background: no-repeat url("../../img/testbank_2023/setting_i.png") center center;
+  border-radius: 50%;
+  width: 31px;
+  height: 31px;
+  margin-bottom: 8px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-control {
+  padding: 20px 10px 21px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-control .select-all {
+  margin-right: 11px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-control .select-all .custom-checkbox .custom-control-label {
+  padding-left: 40px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-control .select-all .custom-checkbox .custom-control-label span {
+  font-size: 15px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-control .select-all .custom-checkbox .custom-control-label span b {
+  color: #667dde;
+  font-weight: 400;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-control .control-button button {
+  padding: 0 16px 0 15px;
+  height: 40px;
+  line-height: 38px;
+  border-radius: 6px;
+  color: #333333;
+  font-size: 15px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-control .control-button button:first-child {
+  margin-right: 3px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item {
+  width: 619px;
+  position: relative;
+  outline: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 25px 32px 28px 40px;
+  background: #fff;
+  margin-bottom: 25px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item.checked {
+  outline: 3px solid #5670dc;
+  background: #f8f4ff;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item .item-checkbox {
+  position: absolute;
+  right: 0;
+  top: 25px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-left {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-left .item__info {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  width: 347px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-left .item__info-name {
+  color: #969696;
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-left .item__info-name img {
+  vertical-align: -2px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-left .item__info-title {
+  margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 20px;
+  font-weight: 450;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-left .item__info-extra {
+  font-size: 15px;
+  color: #333;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-left .item__info-extra span {
+  margin-right: 20px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-left .item__info-extra span:last-child {
+  margin-right: 0;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-left .item__download {
+  margin-top: 20px;
+  color: #666666;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-left .item__download .item_buttons a {
+  padding: 0 11px 0 10px;
+  background: #9cabe1;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  height: 21px;
+  line-height: 21px;
+  text-align: center;
+  display: inline-block;
+  margin-right: 2px;
+  letter-spacing: -0.36px;
+  font-weight: 250;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-left .item__box {
+  padding: 20px;
+  width: calc(100% - 120px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-right {
+  text-align: right;
+  position: relative;
+  width: 197px;
+  height: 79px;
+  margin-top: 16px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-right p.tit {
+  position: absolute;
+  left: 0;
+  top: -29px;
+  width: 100%;
+  font-size: 15px;
+  color: #333;
+  line-height: 1;
+  font-weight: 350;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-right button {
+  position: absolute;
+  top: 0;
+  width: 75px;
+  height: 79px;
+  border-radius: 50%;
+  display: block;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-right .button-image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 197px;
+  height: 79px;
+  background-repeat: no-repeat;
+  background-image: url("../../img/testbank_2023/sprites_v2.png");
+  background-position: -1px -2px;
+  z-index: 1;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-right .button-all {
+  left: 0;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-right .button-all:hover~.button-image,
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-right .button-all:focus~.button-image {
+  background-position: -1px -89px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-right .button-question {
+  left: 60px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-right .button-question:hover~.button-image,
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-right .button-question:focus~.button-image {
+  background-position: -1px -170px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-right .button-answer {
+  left: 120px;
+}
+
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-right .button-answer:hover~.button-image,
+.testbank_body .content-section .data-details__content .tb-container .storage__section .content-list__item-right .button-answer:focus~.button-image {
+  background-position: -1px -250px;
+}
