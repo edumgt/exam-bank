@@ -48,27 +48,26 @@ $(function () {
     //이전 버튼
     $("#step-prev-btn").on("click", function () {
 
+            let gubun = $("#paperGubun").val();
 
-        let gubun = $("#paperGubun").val();
-        //form
-        let url = '';
-        let new_form = $('<form></form>');
-        new_form.attr("name", "new_form");
-        new_form.attr("charset", "UTF-8");
-        new_form.attr("method", "post");
+            //form
+            let url = '';
+            let new_form = $('<form></form>');
+            new_form.attr("name", "new_form");
+            new_form.attr("charset", "UTF-8");
+            new_form.attr("method", "post");
 
-        new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
+            new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
 
-        if (gubun === "setting") {
-            url = "/customExam/step0";
-        } else if (gubun === "new") {
-            url = "/customExam/step1";
-        }
+            if (gubun === "setting") {
+                url = "/customExam/step0";
+            } else if (gubun === "new") {
+                url = "/customExam/step1";
+            }
 
-        new_form.attr("action", url);
-        new_form.appendTo('body');
-        new_form.submit();
-
+            new_form.attr("action", url);
+            new_form.appendTo('body');
+            new_form.submit();
 
     });
 
@@ -132,13 +131,8 @@ $(function () {
         }
     });
 
-    // $( "#view-que-detail-list" ).on( "click", ".btn-similar-que", function() {
-    //     console.log( $( this ).text(),'11122' );
-    // });
-
     // 유사문제 버튼
     $("#view-que-detail-list").on("click", ".btn-similar-que", function () {
-        console.log("유사문제 버튼")
         // 토글 및 셀렉트박스 초기화
         clearSimilarCondition();
         $("#tab-box").removeClass("type03");
@@ -148,7 +142,7 @@ $(function () {
 
         // 클릭한 문항 id
         let questionId =  $(this).closest(".view-que-box").find("#questionId").val();
-        console.log("유사문제 버튼2");
+
         // 기존에 active 된 부분 지우기
         $("#view-que-detail-list .view-que-box").removeClass("active");
 
@@ -174,33 +168,20 @@ $(function () {
             }
         })
 
-
+        _param.excludeCdStr = JSON.stringify(_excludeCd);
 
         // 선택한 지문 id 목록
         _problemCode.push(questionId);
+        _param.problemCode = JSON.stringify(_problemCode);
 
-        _param.itemIdList = _problemCode;
-        console.log("dfddf : "+_problemCode)
-        _param.excludeCode = _excludeCd;
-        console.log("dfddf : "+_param)
         // 문제 목록 순서
         let queNo = $(this).parents(".view-que-box").find(".num").text();
-        console.log("queNo = " + queNo );
+
         $("#target-sort-num").val(_sortGroup.attr("data-sortNum"));
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
-        
-        console.log("param에 보낼 json 데이터 : ",JSON.stringify(_param))
-
 
         $.ajaxSetup({async: false});
-        //http://localhost:8080/customExam/similar-List
-        ajaxCall("post","/customExam/similar-List", JSON.stringify(_param), function (data) {
-            console.log(_param)
-            console.log(data);
-            return false;
-
-
-            alert("ererere");
+        ajaxCall("POST", "/customExam/similarItem", _param, function (data) {
             if (data.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");
                 // 다시 문제지 요약 탭으로
@@ -229,7 +210,7 @@ $(function () {
                                              <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
                                              <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
                                                   ${group.itemGroupList.length === 1 ? "" :
-                            `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                                                  `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
                                              </div>
                                          </div>
                                      </div>
@@ -237,7 +218,6 @@ $(function () {
                     }
 
                     // 문항 영역
-
                     // 문항 영역에 개별 추가 버튼 추가
                     for (let b = 0; b < group.itemGroupList.length; b++) {
                         let item = group.itemGroupList[b];
@@ -608,7 +588,6 @@ $(function () {
         $("#view-que-detail-list .item-box").each(function (i) {
             chapterArr.push($(this).find(".que-top input[id=chapterGp]").val());
         });
-        console.log( "chapterArr : " ,chapterArr);
 
         chapterArr.sort();
 
@@ -622,86 +601,40 @@ $(function () {
             return false;
         }
 
-        rangeParam.itemIdList = rangeQueArr;
-        console.log("rangeParam : " , rangeParam)
+        rangeParam.queArr = rangeQueArr;
 
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/range-list", JSON.stringify(rangeParam), function (data) {
+        ajaxCall("POST", "/customExam/rangeList", rangeParam, function (data) {
+            if (data == null || data.length === 0) {
+                alert("오류가 발생하였습니다.")
 
-            if (data == null || data.length === 0) { // 응답 데이터가 없거나 길이가 0인 경우
-                alert("오류가 발생하였습니다."); // 오류 메시지를 경고창으로 표시
-            } else { // 응답 데이터가 있는 경우
+            } else {
+                let html = '';
+                let lChapterG = data.root.children;
+                for (let l = 0; l < lChapterG.length; l++) {
+                    let lChapter = lChapterG[l];
+                    let mChapterG = lChapter.children;
+                    html += '<ul>' + lChapter.text;
 
-                let html = ''; // HTML을 저장할 변수 초기화
-                // let lChapterG = data.body.itemList.largeChapterName; // 응답 데이터에서 대분류 정보 추출
+                    for (let m = 0; m < mChapterG.length; m++) {
+                        let mChapter = mChapterG[m];
+                        let sChapterG = mChapter.children;
+                        html += '<li>' + mChapter.text;
 
-                // 대분류 정보를 담을 배열 초기화
-                let uniqueLargeChapters = [];
-
-                // 대분류별로 순회
-                data.body.itemList.forEach(item => {
-                    // 현재 아이템의 대분류가 이전에 처리된 적이 있는지 확인
-                    if (!uniqueLargeChapters.includes(item.largeChapterName)) {
-                        // 아직 처리되지 않은 대분류인 경우
-                        uniqueLargeChapters.push(item.largeChapterName); // 대분류 배열에 추가
-                        html += `<ul>${item.largeChapterName}`; // 대분류 정보를 HTML에 추가
-
-                        // 중분류 정보를 담을 배열 초기화
-                        let uniqueMediumChapters = [];
-
-                        // 현재 대분류에 해당하는 중분류별로 순회
-                        data.body.itemList.forEach(subItem => {
-                            if (subItem.largeChapterName === item.largeChapterName && !uniqueMediumChapters.includes(subItem.mediumChapterName)) {
-                                // 현재 중분류가 이전에 처리된 적이 없는 경우
-                                uniqueMediumChapters.push(subItem.mediumChapterName); // 중분류 배열에 추가
-                                html += `<li>${subItem.mediumChapterName}`; // 중분류 정보를 HTML에 추가
-
-                                // 소분류 정보를 담을 배열 초기화
-                                let uniqueSmallChapters = [];
-
-                                // 현재 대분류와 중분류에 해당하는 소분류별로 순회
-                                data.body.itemList.forEach(innerItem => {
-                                    if (innerItem.largeChapterName === item.largeChapterName && innerItem.mediumChapterName === subItem.mediumChapterName &&
-                                        !uniqueSmallChapters.includes(innerItem.smallChapterName)) {
-                                        // 현재 소분류가 이전에 처리된 적이 없는 경우
-                                        uniqueSmallChapters.push(innerItem.smallChapterName); // 소분류 배열에 추가
-                                        html += `<span>${innerItem.smallChapterName}</span>`; // 소분류 정보를 HTML에 추가
-                                    }
-                                });
-
-                                html += `</li>`; // 중분류 닫는 태그 추가
-                            }
-                        });
-
-                        html += `</ul>`; // 대분류 닫는 태그 추가
-                    }
-                });
-
-               /* 기존 코드
-                
-                for (let l = 0; l < lChapterG.length; l++) { // 대분류 반복
-                    let lChapter = lChapterG[l]; // 현재 대분류 정보
-                    let mChapterG = lChapter.children; // 현재 대분류의 하위 중분류 정보 추출
-                    html += '<ul>' + lChapter.text; // 대분류 정보를 ul 태그로 추가
-                    for (let m = 0; m < mChapterG.length; m++) { // 중분류 반복
-                        let mChapter = mChapterG[m]; // 현재 중분류 정보
-                        let sChapterG = mChapter.children; // 현재 중분류의 하위 소분류 정보 추출
-                        html += '<li>' + mChapter.text; // 중분류 정보를 li 태그로 추가
-                        for (let s = 0; s < sChapterG.length; s++) { // 소분류 반복
-                            let sChapter = sChapterG[s]; // 현재 소분류 정보
-                            html += '<span>' + sChapter.text + '</span>'; // 소분류 정보를 span 태그로 추가
+                        for (let s = 0; s < sChapterG.length; s++) {
+                            let sChapter = sChapterG[s];
+                            html += '<span>'+sChapter.text + '</span>';
                         }
-                        html += '</li>'; // 중분류 닫는 태그 추가
+                        html += '</li>';
                     }
-                    html += '</ul>'; // 대분류 닫는 태그 추가
+                    html += '</ul>';
                 }
-                
-                */
-                $('html , body').css('overflow', 'hidden'); // HTML과 body 요소의 overflow 속성을 hidden으로 설정하여 스크롤을 막음
-                $('.dim').fadeIn(); // 어둡게 만드는 효과를 가진 요소 표시
-                $("#scope-list").empty(); // #scope-list 요소 비우기
-                $(html).prependTo($("#scope-list")); // 생성된 HTML을 #scope-list 요소의 맨 앞에 추가
-                $(".pop-wrap[data-pop=que-scope-pop]").show(); // "que-scope-pop" 클래스를 가진 팝업 표시
+
+                $('html , body').css('overflow', 'hidden');
+                $('.dim').fadeIn();
+                $("#scope-list").empty();
+                $(html).prependTo($("#scope-list"));
+                $(".pop-wrap[data-pop=que-scope-pop]").show();
             }
         });
     });

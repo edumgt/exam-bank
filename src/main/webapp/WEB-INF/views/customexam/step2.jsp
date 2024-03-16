@@ -3676,7 +3676,7 @@
         qParam.tmpLevelCnt = plusTempLevelArray;
         qParam.questionForm = questionForm;
 
-        ajaxCall("POST", "/customExam/step2", qParam, function (data) {
+        ajaxCall("POST", "/customExam/rescan", qParam, function (data) {
 
             if (data != null) {
                 for(let j=1; j<=5; j++){
