@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: kjw85
-  Date: 2024-03-08
-  Time: 오전 10:13
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -29,7 +23,9 @@
     <!-- E 230808 순서 변경-->
     <script type="text/javascript" src="/resource/popup/js/common_que.js"></script>
     <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
-    <script type="text/javascript" src="/resource/popup/js/stepOne.js"></script>
+    <script type="text/javascript" src="/resource/common/js/legacy_common.js"></script>
+    <script type="text/javascript" src="/resource/midhigh/js/common.js"></script>
+    <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
 
 </head>
 <body>
@@ -48,6 +44,7 @@
         </div>
 
         <script>
+
             function activeText(step){
                 $("#custom-pop-header-title").children().siblings().removeClass("active");
                 $("#custom-step"+step).addClass("active");
@@ -121,13 +118,194 @@
                                 </div>
                             </div>
                         </div>
-
+                        <form action="/customExam/step2" method="post">
+                            <input type="submit" value="제출">
+                        </form>
                         <div class="view-que-list scroll-inner" style="display: -webkit-box;-webkit-box-orient:vertical" id="view-que-detail-list">
                             <div class="view-que-list no-data" id="no-data-detail-area" style="display:none">
                                 <p>문항이 없습니다.</p>
                             </div>
+                            <c:out value="${itemDTOList}"/>
+                            <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
+                                <c:if test=""></c:if>
 
+                        <c:choose>
+                            <c:when test="${empty itemDTOList}">
+                                <div class="view-que-list no-data" id="no-data-detail-area" style="display:none">   <%--나중에 style 적용 해제 해야됨--%>
+                                    <p>문항이 없습니다.</p>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach items="${itemDTOList}" var="item" varStatus="status">
+                                    <%--지문 영역--%>
+                                    <c:if test="${item.passageId != null}">
+                                        <div class="passage-view-que-box sort-group" data-sortnum="0" data-sortvalue="${(item.largeChapterId)+(item.mediumChapterId)+(item.smallChapterId)+(item.topicChapterId)}">
+                                            <div class="view-que-box passage-box" data-passageId="${item.passageId}">
+                                                <div class="que-top">
+                                                    <div class="title"><span class="num"></span></div>
+                                                    <div class="btn-wrap delete-btn-wrap"></div>
+                                                </div>
+                                                <div class="view-que">
+                                                    <div class="que-bottom">
+                                                        <div class="passage-area"><img src="${item.passageUrl}" alt="${item.passageId}" width="453px"></div>
+                                                            <%--<div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                                                                    ${dto.itemGroupList.length === 1 ? "" :
+                                                                            `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                                                            </div>--%>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </c:if>
+                                    <%--문항 영역--%>
+                                    <c:if test="${item.itemId != null}">
 
+                                        <%--<div class="view-que-box item-box" data-paperTitle="">
+                                            <div class="que-top">
+                                                <div class="title">
+                                                    <span class="num">${item.itemNo}</span>
+                                                    <div class="que-badge-group">
+                                                        <span class="que-badge ${getColorClass(item.difficultyCode)}">${item.difficultyName}</span>
+                                                        <span class="que-badge gray">${getQuestionType(item.questionFormCode)}</span>
+                                                        <input type="hidden" id="questionId" value="${item.itemId}">
+                                                        <input type="hidden" id="chapterGp" value="${item.largeChapterId}${item.mediumChapterId}${item.smallChapterId}${item.topicChapterId}">
+                                                        <input type="hidden" id="difficultyCode" value="${item.difficultyCode}">
+                                                        <input type="hidden" id="questionFormCode" value="${item.questionFormCode}">
+                                                    </div>
+                                                </div>
+                                                <div class="btn-wrap">
+                                        <span class="tooltip-wrap type02">
+                                            <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
+                                            <span class="tooltip type02">
+                                                <div class="tool-type01">문항오류신고</div>
+                                            </span>
+                                        </span>
+                                                </div>
+                                            </div>
+                                            <div class="view-que">
+                                                <div class="que-content">
+                                                    <img src="${item.questionUrl}" alt="${item.itemId}" width="453px">
+                                                </div>
+                                                <div class="que-bottom">
+                                                    <div class="data-area">
+                                                        <div class="que-info answer-area" style="display: ${$("#select-view-btn").attr("data-select") == "type1" ? "none" : ""}">
+                                                            <p class="answer"><span class="label type01">정답</span></p>
+                                                            <div class="data-answer-area"><img src="${item.answerUrl}" alt="${item.itemId}" width="453px"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="data-area type01" style="display: ${$("#select-view-btn").attr("data-select") == "type3" ? "" : "none"}">
+                                                        <div class="que-info explain-area">
+                                                            <p class="answer"><span class="label">해설</span></p>
+                                                            <div class="data-answer-area"><img src="${item.explainUrl}" alt="${item.itemId}" width="453px"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="btn-wrap etc-btn-wrap">
+                                                        <button type="button" class="btn-default btn-add" data-type=""><i class="add-type02"></i>추가</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="que-info-last" title="${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}">
+                                                <p class="chapter">${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}</p>
+                                            </div>
+                                        </div>--%>
+                                    </c:if>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
+                            <%--if (data.length === 0) {
+                            alert("검색된 유사 문제가 없습니다.");
+                            // 다시 문제지 요약 탭으로
+                            $("#tab-summary").click();
+
+                            } else {
+                            $("#init-similar-area").css("display", "none");
+                            let html = '';
+                            let similarItemNum = 0;
+
+                            for (let a = 0; a < data.length; a++) {
+                            let group = data[a];
+
+                            let passageBox = group.passageYn === "Y" ? "passage-view-que-box" : "";
+                            html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+group.groupNum+'" data-sortValue="">';
+
+                            // 지문영역
+                            if(group.passageYn === "Y") {
+                            html += `<div class="view-que-box passage-box" data-passageId="${group.passageId}">
+                                <div class="que-top">
+                                    <div class="title"><span class="num"></span></div>
+                                    <div class="btn-wrap delete-btn-wrap"></div>
+                                </div>
+                                <div class="view-que">
+                                    <div class="que-bottom">
+                                        <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
+                                        <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                                            ${group.itemGroupList.length === 1 ? "" :
+                                                    `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                            }
+
+                            // 문항 영역
+                            // 문항 영역에 개별 추가 버튼 추가
+                            for (let b = 0; b < group.itemGroupList.length; b++) {
+                            let item = group.itemGroupList[b];
+                            similarItemNum++;
+
+                            html += `
+                            <div class="view-que-box item-box" data-paperTitle="">
+                                <div class="que-top">
+                                    <div class="title">
+                                        <span class="num">${similarItemNum}</span>
+                                        <div class="que-badge-group">
+                                            <span class="que-badge ${getColorClass(item.difficultyCode)}">${item.difficultyName}</span>
+                                            <span class="que-badge gray">${getQuestionType(item.questionFormCode)}</span>
+                                            <input type="hidden" id="questionId" value="${item.itemId}">
+                                            <input type="hidden" id="chapterGp" value="${item.largeChapterId}${item.mediumChapterId}${item.smallChapterId}${item.topicChapterId}">
+                                            <input type="hidden" id="difficultyCode" value="${item.difficultyCode}">
+                                            <input type="hidden" id="questionFormCode" value="${item.questionFormCode}">
+                                        </div>
+                                    </div>
+                                    <div class="btn-wrap">
+                                        <span class="tooltip-wrap type02">
+                                            <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
+                                            <span class="tooltip type02">
+                                                <div class="tool-type01">문항오류신고</div>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="view-que">
+                                    <div class="que-content">
+                                        <img src="${item.questionUrl}" alt="${item.itemId}" width="453px">
+                                    </div>
+                                    <div class="que-bottom">
+                                        <div class="data-area">
+                                            <div class="que-info answer-area" style="display: ${$("#select-view-btn").attr("data-select") === "type1" ? "none" : ""}">
+                                                <p class="answer"><span class="label type01">정답</span></p>
+                                                <div class="data-answer-area"><img src="${item.answerUrl}" alt="${item.itemId}" width="453px"></div>
+                                            </div>
+                                        </div>
+                                        <div class="data-area type01" style="display: ${$("#select-view-btn").attr("data-select") === "type3" ? "" : "none"}">
+                                            <div class="que-info explain-area">
+                                                <p class="answer"><span class="label">해설</span></p>
+                                                <div class="data-answer-area"><img src="${item.explainUrl}" alt="${item.itemId}" width="453px"></div>
+                                            </div>
+                                        </div>
+                                        <div class="btn-wrap etc-btn-wrap">
+                                            <button type="button" class="btn-default btn-add" data-type=""><i class="add-type02"></i>추가</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="que-info-last" title="${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}">
+                                    <p class="chapter">${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}</p>
+                                </div>
+                            </div>`;
+                            }
+                            html += '</div>';
+                            }--%>
+
+                            </c:forEach>
 
 
 
@@ -3467,15 +3645,16 @@
     </div>
 </div>
 
-<script type="text/javascript" src="../../js/common/common.js?version=20240308101412"></script>
-<script type="text/javascript" src="../../js/customExam/stepTwo.js?version=20240308101412"></script>
+<%--<script type="text/javascript" src="../../js/common/common.js?version=20240308101412"></script>
+<script type="text/javascript" src="../../js/customExam/stepTwo.js?version=20240308101412"></script>--%>
 <script>
     let qParam ={};
 
     // 재검색
     function rescan(){
         qParam = {};
-        const chapterList =  '[{"subject":"1159","topic":115901010101,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010102,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010103,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010104,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010105,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010106,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010107,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010108,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010109,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010110,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901010111,"small":1159010101,"medium":11590101,"large":115901},{"subject":"1159","topic":115901020101,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020102,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020103,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020104,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020105,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020106,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020107,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020108,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020109,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020110,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":115901020111,"small":1159010201,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202001,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202002,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202003,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202004,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202005,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202006,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202007,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202008,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202009,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202010,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202011,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202012,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202013,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202014,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":1159010202015,"small":1159010202,"medium":11590102,"large":115901},{"subject":"1159","topic":115901030101,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030102,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030103,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030104,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030105,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030106,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030107,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030108,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030109,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030110,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901030111,"small":1159010301,"medium":11590103,"large":115901},{"subject":"1159","topic":115901040101,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040102,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040103,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040104,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040105,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040106,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040107,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040108,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040109,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040110,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040111,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040112,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040113,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040114,"small":1159010401,"medium":11590104,"large":115901},{"subject":"1159","topic":115901040115,"small":1159010401,"medium":11590104,"large":115901}]';
+        const chapterList = '${itemDTOList}';
+        console.log("chapterList : "+chapterList);
         const activityCategoryList = '415,416,417,418'.split(',');
         const levelCnt = '0,10,10,10,0'.split(',');
         const questionForm =  'multiple,subjective,descriptive';
@@ -3493,7 +3672,8 @@
         qParam.tmpLevelCnt = plusTempLevelArray;
         qParam.questionForm = questionForm;
 
-        ajaxCall("POST", "/customExam/loadStep2", qParam, function (data) {
+        ajaxCall("POST", "/customExam/step2", qParam, function (data) {
+
             if (data != null) {
                 for(let j=1; j<=5; j++){
                     if (data.levelGroup['0'+j] !== undefined) {
