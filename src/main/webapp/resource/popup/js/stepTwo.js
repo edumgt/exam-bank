@@ -627,12 +627,49 @@ $(function () {
 
         $.ajaxSetup({async: false});
         ajaxCall("POST", "/customExam/range-list", JSON.stringify(rangeParam), function (data) {
+
             if (data == null || data.length === 0) {
                 alert("오류가 발생하였습니다.")
 
             } else {
+
                 let html = '';
-                let lChapterG = data.root.children;
+
+                console.log("adad : ",data.body.itemList[l].largeChapterName)
+                let lChapterG = [];
+                let chapterSet = new Set(); // 대분류, 중분류, 소분류 쌍을 추적하기 위한 Set 객체 생성
+
+                for (let l = 0; l < data.body.itemList[l].largeChapterName; l++){
+                    let lChapter = lChapterG[l];
+                    console.log("lChapter", lChapter);
+                }
+                // itemList에서 데이터를 가져와서 처리
+
+
+                /*data.body.itemList.forEach(item => {
+                    let chapterPair = item.largeChapterName + '-' + item.mediumChapterName + '-' + item.smallChapterName; // 대분류, 중분류, 소분류 쌍 생성
+                    console.log("chapterPair = " ,chapterPair);
+                    // 중복된 쌍이 없으면 HTML에 추가
+                    if (!chapterSet.has(chapterPair)) {
+                        html += '<ul>';
+                        html += '<li>' + item.largeChapterName + '</li>'; // 대분류 이름
+                        html += '<ul>';
+                        html += '<li>' + item.mediumChapterName + '</li>'; // 중분류 이름
+                        html += '<ul>';
+                        html += '<li>' + item.smallChapterName + '</li>'; // 소분류 이름
+                        html += '</ul>';
+                        html += '</li>';
+                        html += '</ul>';
+                        html += '</li>';
+                        html += '</ul>';
+
+                        // Set 객체에 대분류, 중분류, 소분류 쌍 추가
+                        chapterSet.add(chapterPair);
+                    }
+                });*/
+
+                console.log("출력 : ", html);
+/*
                 for (let l = 0; l < lChapterG.length; l++) {
                     let lChapter = lChapterG[l];
                     let mChapterG = lChapter.children;
@@ -651,6 +688,7 @@ $(function () {
                     }
                     html += '</ul>';
                 }
+*/
 
                 $('html , body').css('overflow', 'hidden');
                 $('.dim').fadeIn();
