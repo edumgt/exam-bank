@@ -2,6 +2,7 @@ package com.sherpa.exambank.step1.service;
 
 import com.sherpa.exambank.step1.domain.*;
 import com.sherpa.exambank.step1.mapper.Step1Mapper;
+import com.sherpa.exambank.step2.domain.Step2Request;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -49,58 +50,6 @@ public class Step1Service {
         return response;
     }
 
-    private List ResponseEntityToStep1DTOList(String response) throws ParseException {
-        // [*****] null일 경우 예외처리
-
-        // String으로 되어져있는 바디부분을 다시 JSON 형태로 파싱
-        JSONParser parser = new JSONParser();
-        JSONObject data = (JSONObject) parser.parse(response);
-
-        // 파싱된 JSON에서 data 키값으로 get
-        JSONArray dataList = (JSONArray) data.get("chapterList");
-
-        // JSONArray -> List<JSONObject>
-        List<JSONObject> chapterJsonList = (List<JSONObject>) dataList.stream()
-                .collect(Collectors.toList());
-
-        // List<JSONObject> -> List<Step1DTO>
-        List<Chapter> chapterList = new ArrayList<>();
-        for (JSONObject chapter : chapterJsonList) {
-            Chapter s = Chapter.builder()
-                    .curriculumCode(chapter.get("curriculumCode").toString())
-                    .curriculumName(chapter.get("curriculumName").toString())
-                    .subjectId(chapter.get("subjectId").toString())
-                    .subjectName(chapter.get("subjectName").toString())
-                    .largeChapterId(chapter.get("largeChapterId").toString())
-                    .largeChapterName(chapter.get("largeChapterName").toString())
-                    .mediumChapterId(chapter.get("mediumChapterId").toString())
-                    .mediumChapterName(chapter.get("mediumChapterName").toString())
-                    .smallChapterId(chapter.get("smallChapterId").toString())
-                    .smallChapterName(chapter.get("smallChapterName").toString())
-                    .topicChapterId(chapter.get("topicChapterId").toString())
-                    .topicChapterName(chapter.get("topicChapterName").toString())
-                    .build();
-            chapterList.add(s);
-        }
-
-
-        return chapterList;
-
-        // LinkedHashMap
-        /*
-        // [*****] 예외처리 해야 함
-        // ParseException 예외처리, Exception 예외처리
-
-        // 응답이 200일 때만 응답 body를 linkedhashmap으로 변경
-        log.info("postwithParamAndBody getclass" + responseEntity.getBody().getClass());    // string
-
-        log.info("postwithParamAndBody getHeaders : " + responseEntity.getHeaders());
-        log.info("postwithParamAndBody getStatusCode : " + responseEntity.getStatusCode()); // 200 OK
-        log.info("postwithParamAndBody getStatusCode valueOf : " + ((responseEntity.getStatusCode() == HttpStatusCode.valueOf(200))? "true" : "false") ); // 200 OK
-         */
-    }
-
-
     /**
      * 단원 정보 혹은 평가 영역 api를 호출하여 Step1Response 객체를 반환한다.
      *
@@ -136,6 +85,7 @@ public class Step1Service {
     }
 
     /**
+     * 트리 구조 Map 생성
      * @param chapter: chapterList의 요소 한 개
      * @param map:     Map<부모 단원 ID, LinkedHashMap<단원 ID, 단원 노드>>
      */
@@ -219,4 +169,118 @@ public class Step1Service {
         }
     }
 
+    public void moveExamStep2(Step2Request step2Request) {
+        // 4번 api 사용
+        // https://tsherpa.item-factory.com/item/chapters/item-list
+        // map 정보 수정
+        log.info("service moveExamStep2 first : ", step2Request.hashCode());
+        log.info("service2 moveExamStep2 first : ", step2Request == null);
+        log.info("service2 moveExamStep2 first : ", step2Request.getLevelCnt());
+        /*step2Request.put("minorClassification", step2Request.get("chapterList"));
+        step2Request.remove("chapterList");*/
+
+        log.info("service moveExamStep2 : ", step2Request);
+
+        // 요청
+        // postMoveExamStep2Request("item/chapters/item-list", step2Request);
+
+    }
+
+    // moveExamStep2
+    private MoveExamStep2Response postMoveExamStep2Request(String urn, Map step2Request) {
+        // 요청 url
+        URI url = UriComponentsBuilder
+                .fromUriString(tsherpaURL)
+                .path(urn)
+                .encode()
+                .build()
+                .toUri();
+
+        // 요청 httpEntity의 header 생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        // 요청 httpEntity의 body에 포함 될 jsonObject 생성
+        JSONObject body = convertMapToJson(step2Request);
+        // 요청 HttpEntity
+        HttpEntity<String> request = new HttpEntity<>(body.toString(), headers);
+
+        // 요청 & 응답
+        RestTemplate restTemplate = new RestTemplate();
+        MoveExamStep2Response moveExamStep2Response = restTemplate.postForObject(
+                url, request, MoveExamStep2Response.class
+        );
+
+        log.info("postMoveExamStep2Request : ", moveExamStep2Response);
+
+        return moveExamStep2Response;
+    }
+
+    // map -> JSONObject
+    public JSONObject convertMapToJson(Map<String, Object> map) {
+        JSONObject json = new JSONObject();
+        String key = "";
+        Object value = null;
+        for(Map.Entry<String, Object> entry : map.entrySet()) {
+            key = entry.getKey();
+            value = entry.getValue();
+            json.put(key, value);
+        }
+        return json;
+    }
+
+
+
+
+
+    // 미사용
+    private List ResponseEntityToStep1DTOList(String response) throws ParseException {
+        // [*****] null일 경우 예외처리
+
+        // String으로 되어져있는 바디부분을 다시 JSON 형태로 파싱
+        JSONParser parser = new JSONParser();
+        JSONObject data = (JSONObject) parser.parse(response);
+
+        // 파싱된 JSON에서 data 키값으로 get
+        JSONArray dataList = (JSONArray) data.get("chapterList");
+
+        // JSONArray -> List<JSONObject>
+        List<JSONObject> chapterJsonList = (List<JSONObject>) dataList.stream()
+                .collect(Collectors.toList());
+
+        // List<JSONObject> -> List<Step1DTO>
+        List<Chapter> chapterList = new ArrayList<>();
+        for (JSONObject chapter : chapterJsonList) {
+            Chapter s = Chapter.builder()
+                    .curriculumCode(chapter.get("curriculumCode").toString())
+                    .curriculumName(chapter.get("curriculumName").toString())
+                    .subjectId(chapter.get("subjectId").toString())
+                    .subjectName(chapter.get("subjectName").toString())
+                    .largeChapterId(chapter.get("largeChapterId").toString())
+                    .largeChapterName(chapter.get("largeChapterName").toString())
+                    .mediumChapterId(chapter.get("mediumChapterId").toString())
+                    .mediumChapterName(chapter.get("mediumChapterName").toString())
+                    .smallChapterId(chapter.get("smallChapterId").toString())
+                    .smallChapterName(chapter.get("smallChapterName").toString())
+                    .topicChapterId(chapter.get("topicChapterId").toString())
+                    .topicChapterName(chapter.get("topicChapterName").toString())
+                    .build();
+            chapterList.add(s);
+        }
+
+
+        return chapterList;
+
+        // LinkedHashMap
+        /*
+        // [*****] 예외처리 해야 함
+        // ParseException 예외처리, Exception 예외처리
+
+        // 응답이 200일 때만 응답 body를 linkedhashmap으로 변경
+        log.info("postwithParamAndBody getclass" + responseEntity.getBody().getClass());    // string
+
+        log.info("postwithParamAndBody getHeaders : " + responseEntity.getHeaders());
+        log.info("postwithParamAndBody getStatusCode : " + responseEntity.getStatusCode()); // 200 OK
+        log.info("postwithParamAndBody getStatusCode valueOf : " + ((responseEntity.getStatusCode() == HttpStatusCode.valueOf(200))? "true" : "false") ); // 200 OK
+         */
+    }
 }

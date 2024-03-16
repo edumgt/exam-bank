@@ -32,7 +32,6 @@
     <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
 
     <!-- <script type="text/javascript" src="/resource/popup/js/stepOne.js"></script> -->
-
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 
@@ -249,7 +248,6 @@
                                         </div>
                                     </div>
                                     <div class="btn-wrap multi" id="category-btn-group">
-
                                         <c:choose>
                                             <%-- 존재하지 않을 때에는 평가영역 출력 X --%>
                                             <c:when test="${empty evaluationList}">
@@ -270,7 +268,59 @@
                                     </div>
                                 </div>
                                 <!-- 평가 영역 -->
+
+                                <!-- 문제 형태 -->
+                                <div class="box">
+                                    <div class="title-wrap">
+                                        <span class="tit-text">문제 형태</span>
+                                        <div class="right-area">
+                                        </div>
+                                    </div>
+                                    <div class="btn-wrap multi" id="type-btn-group">
+                                        <button type="button" class="btn-line" data-value="multiple" id="q_multiple" disabled="disabled">객관식</button>
+                                        <button type="button" class="btn-line" data-value="subjective" id="q_subjective" disabled="disabled">주관식</button>
+                                    </div>
+                                </div>
+                                <!-- 문제 형태 -->
+
+                                <!-- 난이도 구성 -->
+                                <div class="box">
+                                    <div class="title-wrap">
+                                        <span class="tit-text">난이도 구성</span>
+                                    </div>
+                                    <div class="step-wrap" id="level-btn-group">
+                                        <button type="button" class="btn-line type02 color01" data-step="stap1" onclick="levelCheck()" disabled="disabled">최하</button>
+                                        <button type="button" class="btn-line type02 color02" data-step="stap2" onclick="levelCheck()" disabled="disabled">하</button>
+                                        <button type="button" class="btn-line type02 color03" data-step="stap3" onclick="levelCheck()" disabled="disabled">중</button>
+                                        <button type="button" class="btn-line type02 color04" data-step="stap4" onclick="levelCheck()" disabled="disabled">상</button>
+                                        <button type="button" class="btn-line type02 color05" data-step="stap5" onclick="levelCheck()" disabled="disabled">최상</button>
+                                    </div>
+                                </div>
+                                <!-- 난이도 구성 -->
+
+                                <!-- 난이도별 문제 수 -->
+                                <div class="box">
+                                    <div class="title-wrap">
+                                                    <span class="tit-text">난이도별 문제 수
+                                                        <button type="button" class="btn-icon2 pop-btn" id="btn-pop-que-range" data-pop="que-range-pop" disabled="disabled"><i class="setting"></i></button>
+                                                    </span>
+                                    </div>
+                                    <div class="range-wrap" id="level-distribution-btn-group">
+                                        <span class="range color01" data-step="stap1" id="level_stap1" style="display: none;">최하(0)</span>
+                                        <span class="range color02" data-step="stap2" id="level_stap2" style="display: none;">하(0)</span>
+                                        <span class="range color03" data-step="stap3" id="level_stap3" style="display: none;">중(0)</span>
+                                        <span class="range color04" data-step="stap4" id="level_stap4" style="display: none;">상(0)</span>
+                                        <span class="range color05" data-step="stap5" id="level_stap5" style="display: none;">최상(0)</span>
+                                    </div>
+                                </div>
+                                <!-- 난이도별 문제 수 -->
                             </div>
+
+                            <!-- 총 문제 수 (오른쪽 하단) -->
+                            <div class="bottom-box">
+                                <p class="total-num" id="total-num" style="display:none">총 <span id="total-num-val"></span>문제</p>
+                            </div>
+                            <!-- 총 문제 수 (오른쪽 하단) -->
                         </div>
                         <!-- 오른쪽 -->
                     </div>
@@ -403,7 +453,7 @@
 <script type="text/javascript" src="/resource/common/js/legacy_common.js"></script>
 <script type="text/javascript" src="/resource/midhigh/js/common.js"></script>
 
-<script type="text/javascript" src="/resource/js/stepOne.js"></script>
+<script type="text/javascript" src="/resource/popup/js/stepOne.js"></script>
 
 
 </body>

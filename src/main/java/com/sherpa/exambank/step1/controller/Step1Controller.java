@@ -5,6 +5,7 @@ import com.sherpa.exambank.step1.domain.Chapter;
 import com.sherpa.exambank.step1.domain.Step1Response;
 import com.sherpa.exambank.step1.domain.Subject;
 import com.sherpa.exambank.step1.service.Step1Service;
+import com.sherpa.exambank.step2.domain.Step2Request;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
@@ -90,9 +88,33 @@ public class Step1Controller {
         return "customexam/step1_evaluation";
     }
 
+    // 문항 수 그려주기
     @PostMapping("/customExam/step1/count")
-    public ResponseEntity drawItemCounts(String subjectId){
-        log.info("draw Item Counts: " + subjectId);
+    public ResponseEntity drawItemCounts(@RequestBody Map<String, String> map){
+        log.info("draw Item Counts: " + map.get("subjectId"));
+        log.info("draw Item Counts: " + map);
+
+        // listSmallItemCount
+        // listTopicItemCount
+        // successYn
+
+        return new ResponseEntity<>("test", HttpStatus.OK);
+    }
+
+    // step2로 이동
+    @PostMapping("/customExam/loadStep2")
+    public ResponseEntity moveExamStep2(@RequestBody Step2Request step2Request){
+        //log.info("draw Item Counts: " + map.get("chapterList"));
+        log.info("controller moveExamStep2 : " + step2Request);
+        log.info("hashcode moveExamStep2 : " + step2Request.hashCode());
+        log.info("hashcode2 moveExamStep2 : " + step2Request.getLevelCnt());
+
+        // map -> Step2Request
+
+        step1Service.moveExamStep2(step2Request);
+        // listSmallItemCount
+        // listTopicItemCount
+        // successYn
 
         return new ResponseEntity<>("test", HttpStatus.OK);
     }
