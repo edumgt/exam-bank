@@ -125,12 +125,12 @@
                             <div class="view-que-list no-data" id="no-data-detail-area" style="display:none">
                                 <p>문항이 없습니다.</p>
                             </div>
-                            <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
+                            <%--<c:forEach items="${itemDTOList}" var="dto" varStatus="status">
                                 ${dto.itemId} :
                                 <button value="${dto.itemId}">유사문제</button>
                                 <button value="${dto.itemId}">삭제</button>
                                 <br/>
-                            </c:forEach>
+                            </c:forEach>--%>
                             <c:out value="${itemDTOList}"/>
 
                             <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
@@ -144,7 +144,7 @@
                                     <c:otherwise>
                                         <c:forEach items="${itemDTOList}" var="item" varStatus="status">
                                             <%--지문 영역--%>
-                                            <c:if test="${item.passageId != null}">
+
                                                 <div class="passage-view-que-box sort-group" data-sortnum="0" data-sortvalue="${(item.largeChapterId)+(item.mediumChapterId)+(item.smallChapterId)+(item.topicChapterId)}">
                                                     <div class="view-que-box passage-box" data-passageId="${item.passageId}">
                                                         <div class="que-top">
@@ -161,7 +161,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                            </c:if>
+
                                             <%--문항 영역--%>
                                             <c:if test="${item.itemId != null}">
 

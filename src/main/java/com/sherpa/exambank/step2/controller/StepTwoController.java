@@ -33,7 +33,14 @@ public class StepTwoController {
         return "customexam/step2";
     }
 
-    // step 2 유사문제 버튼 ajaxCall
+
+    /**
+     * step 2 유사문제 버튼 ajaxCall
+     * @param similarItemListRequest
+     * @param model
+     * @return
+     * @throws JsonProcessingException
+     */
     @PostMapping("/customExam/similar-List")
     @ResponseBody
     public ResponseEntity similarQueList(@RequestBody SimilarItemListRequest similarItemListRequest, Model model) throws JsonProcessingException {
@@ -43,24 +50,16 @@ public class StepTwoController {
         log.info("similar-List response : "+similarItemList);
         return new ResponseEntity<>(similarItemList, HttpStatus.OK) ;
     }
-    // step 2 유사문제 버튼 ajaxCall
-    /*@PostMapping("/customExam/similar-List")
-    @ResponseBody
-    public SimilarItemListResponse similarQueList(@RequestBody SimilarItemListRequest similarItemListRequest, Model model) throws JsonProcessingException {
-        log.info("호출 성공 : "+ similarItemListRequest);
-        SimilarItemListResponse similarItemList = stepTwoService.similarItemList(similarItemListRequest);
-        model.addAttribute("similarItemList",similarItemList);
-        log.info("similar-List response : "+similarItemList);
-        return similarItemList ;
-    }*/
+
     // step 2 출제 범위 ajaxCall
+
     @PostMapping("/customExam/range-list")
     @ResponseBody
-    public ItemListResponse rangeList(@RequestBody ItemListRequest itemListRequest, Model model) throws JsonProcessingException {
+    public ResponseEntity rangeList(@RequestBody ItemListRequest itemListRequest, Model model) throws JsonProcessingException {
         log.info("call rangeList");
-        ItemListResponse chapterIdList = stepTwoService.getChapterList(itemListRequest);
+        ResponseEntity<ItemListResponse> chapterIdList = stepTwoService.getChapterList(itemListRequest);
         model.addAttribute("chapterIdList",chapterIdList);
-        return chapterIdList;
+        return new ResponseEntity<>(chapterIdList, HttpStatus.OK) ;
     }
 
 }
