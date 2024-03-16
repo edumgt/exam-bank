@@ -51,8 +51,14 @@ public class StepTwoController {
         return new ResponseEntity<>(similarItemList, HttpStatus.OK) ;
     }
 
-    // step 2 출제 범위 ajaxCall
 
+    /**
+     * step 2 출제 범위 ajaxCall
+     * @param itemListRequest
+     * @param model
+     * @return
+     * @throws JsonProcessingException
+     */
     @PostMapping("/customExam/range-list")
     @ResponseBody
     public ResponseEntity rangeList(@RequestBody ItemListRequest itemListRequest, Model model) throws JsonProcessingException {
@@ -61,5 +67,11 @@ public class StepTwoController {
         model.addAttribute("chapterIdList",chapterIdList);
         return new ResponseEntity<>(chapterIdList, HttpStatus.OK) ;
     }
+
+/*    @PostMapping("/customExam/step3")
+    @ResponseBody
+    public ResponseEntity loadStep3(@RequestBody ){
+
+    }*/
 
 }
