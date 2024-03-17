@@ -242,7 +242,7 @@ $(function () {
                                      </div>
                                  </div>`;
                     }
-                    console.log("group.length == " , );
+                    console.log("group.length == " ,simData.length);
                      console.log("지문 영역 html == ",html);
                     // 문항 영역
 
