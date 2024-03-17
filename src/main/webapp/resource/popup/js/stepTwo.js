@@ -208,6 +208,10 @@ $(function () {
                 let html = '';
                 let similarItemNum = 0;
 
+                // 이미 추가한 문항들의 ID를 저장할 배열
+                let addedPassageIds = [];
+                let addedItemIds = [];
+
                 for (let a = 0; a < simData.length; a++) {
                     let group = simData[a];
                     console.log("group == ",group);
@@ -225,7 +229,9 @@ $(function () {
 
                     // 지문영역
                     if(group.passageYn === "Y") {
-                        html += `<div class="view-que-box passage-box" data-passageId="${group.passageId}">
+                        if (!addedPassageIds.includes(group.passageId)) {
+                            addedPassageIds.push(group.passageId); // 추가한 지문으로 표시
+                            html += `<div class="view-que-box passage-box" data-passageId="${group.passageId}">
                                      <div class="que-top">
                                          <div class="title"><span class="num"></span></div>
                                          <div class="btn-wrap delete-btn-wrap"></div>
@@ -234,13 +240,14 @@ $(function () {
                                         <div class="que-bottom">
                                              <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
                                              <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                             <!--지문에 딸려있는 문제의 수가 1이라면 빈문자 넣고 아니면 전체추가 버튼을 넣어라-->
-                                                  ${group.length === 1 ? "" :
-                            `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                                             <!--지문에 딸려있는 문제의 수가 1이라면 빈문자 넣고 아니면 전체추가 버튼을 넣어라 ( 여기가 문제임 )-->
+                                                  ${simData.length === 1 ? "" :
+                                `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
                                              </div>
                                          </div>
                                      </div>
                                  </div>`;
+                        }
                     }
                     console.log("group.length == " ,simData.length);
                      console.log("지문 영역 html == ",html);
@@ -251,9 +258,12 @@ $(function () {
                         console.log("for 문")
                         let item = simData[b];
                         console.log("item : ",item);
-                        similarItemNum++;
 
-                        html += `
+                        // 이미 추가한 문항인지 확인
+                        if (!addedItemIds.includes(item.itemId)) {
+                            similarItemNum++;
+                            addedItemIds.push(item.itemId); // 추가한 문항으로 표시
+                            html += `
                             <div class="view-que-box item-box" data-paperTitle="">
                                 <div class="que-top">
                                     <div class="title">
@@ -302,6 +312,7 @@ $(function () {
                                     <p class="chapter">${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}</p>
                                 </div>
                             </div>`;
+                        }
                     }
                     html += '</div>';
                 }
