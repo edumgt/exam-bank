@@ -698,7 +698,7 @@ function moveExamStep2() {
      questionForm: 'multiple,subjective,descriptive'}
      */
 
-    ajaxCall("POST", "/customExam/loadStep2", qParam, function (data) {
+    ajaxCall("POST", "/customExam/loadStep2/test", qParam, function (data) {
 
         if (data != null) {
             if(data.itemsTotalCnt === 0){
