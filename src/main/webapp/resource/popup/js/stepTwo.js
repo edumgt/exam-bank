@@ -188,20 +188,17 @@ $(function () {
         console.log("queNo = " + queNo );
         $("#target-sort-num").val(_sortGroup.attr("data-sortNum"));
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
-        
+
         console.log("param에 보낼 json 데이터 : ",JSON.stringify(_param))
 
 
         $.ajaxSetup({async: false});
         //http://localhost:8080/customExam/similar-List
         ajaxCall("post","/customExam/similar-List", JSON.stringify(_param), function (data) {
-            console.log(_param)
-            console.log(data);
-            return false;
+            let simData = data.body.itemList;
+            console.log("data == ",data.body.itemList);
 
-
-            alert("ererere");
-            if (data.length === 0) {
+            if (simData.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");
                 // 다시 문제지 요약 탭으로
                 $("#tab-summary").click();
@@ -211,11 +208,20 @@ $(function () {
                 let html = '';
                 let similarItemNum = 0;
 
-                for (let a = 0; a < data.length; a++) {
-                    let group = data[a];
+                for (let a = 0; a < simData.length; a++) {
+                    let group = simData[a];
+                    console.log("group == ",group);
+
+                    // passageYn 값이 없어서 이렇게 넣어봤더니 그냥 생성되면서 넣어지네? 뭐지?
+                    if (group.passageId != null){
+                        group.passageYn = "Y";
+                    }
+                    console.log("group.passageYn == ",group.passageYn);
 
                     let passageBox = group.passageYn === "Y" ? "passage-view-que-box" : "";
                     html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+group.groupNum+'" data-sortValue="">';
+                    console.log("passageBox == ",passageBox);
+
 
                     // 지문영역
                     if(group.passageYn === "Y") {
@@ -228,19 +234,21 @@ $(function () {
                                         <div class="que-bottom">
                                              <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
                                              <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                                  ${group.itemGroupList.length === 1 ? "" :
+                                                  ${group.length === 1 ? "" :
                             `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
                                              </div>
                                          </div>
                                      </div>
                                  </div>`;
                     }
-
+                    console.log("지문 영역 html == ",html);
                     // 문항 영역
 
                     // 문항 영역에 개별 추가 버튼 추가
-                    for (let b = 0; b < group.itemGroupList.length; b++) {
-                        let item = group.itemGroupList[b];
+                    for (let b = 0; b < group.length; b++) {
+                        console.log("for 문")
+                        let item = group[b];
+                        console.log("item : ",item);
                         similarItemNum++;
 
                         html += `
@@ -1256,6 +1264,7 @@ function setPassageNum(passageBox){
         passage.find(".btn-add[data-type=all]").toggle(!isSingleItem);
         passage.find(".btn-delete[data-type=all]").toggle(!isSingleItem);
     });
+    console.log("onload .. passageBox == ", passageBox);
 }
 
 // 문항 번호 설정
