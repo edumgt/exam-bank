@@ -23,6 +23,7 @@ public class ItemDTO {  // response
     private String questionUrl;
     private String answerUrl;
     private String explainUrl;
+    private String passageYn;
     /*private String successYn;*/
 
 }

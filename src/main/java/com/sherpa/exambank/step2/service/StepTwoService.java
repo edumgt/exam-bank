@@ -362,10 +362,15 @@ public class StepTwoService {
         HttpEntity<String> requestSimilarItemListJsonObj = new HttpEntity<>(similarItemListJsonObj,headers);
         log.info("HttpEntity : "+requestSimilarItemListJsonObj);
 
+
+
         RestTemplate restTemplate = new RestTemplate();
+
         ResponseEntity<SimilarItemListResponse> similarItemListResponse = restTemplate.postForEntity(uri,
                 requestSimilarItemListJsonObj, SimilarItemListResponse.class);
         log.info("헤더정보 포함? : " + similarItemListResponse);
+
+
 
         return similarItemListResponse;
     }
