@@ -11,13 +11,15 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -52,7 +54,6 @@ public class Step1Service {
 
     /**
      * 단원 정보 혹은 평가 영역 api를 호출하여 Step1Response 객체를 반환한다.
-     *
      * @param subject: 교과서 ID
      * @param urn:          요청 urn
      * @return Step1Response 객체(단원 정보 리스트, 평가 영역 리스트)
@@ -173,21 +174,32 @@ public class Step1Service {
         // 4번 api 사용
         // https://tsherpa.item-factory.com/item/chapters/item-list
         // map 정보 수정
-        log.info("service moveExamStep2 first : ", step2Request.hashCode());
-        log.info("service2 moveExamStep2 first : ", step2Request == null);
-        log.info("service2 moveExamStep2 first : ", step2Request.getLevelCnt());
-        /*step2Request.put("minorClassification", step2Request.get("chapterList"));
-        step2Request.remove("chapterList");*/
+        step2Request.setMinorClassification(step2Request.getChapterList());
 
-        log.info("service moveExamStep2 : ", step2Request);
+        log.info("service moveExamStep2 : {}", step2Request);
+        log.info("service moveExamStep2 : {}", step2Request.getMinorClassification());
 
         // 요청
-        // postMoveExamStep2Request("item/chapters/item-list", step2Request);
+        MoveExamStep2Response response = postMoveExamStep2Request("item/chapters/item-list", step2Request);
+        List<MoveExamStep2Item> itemList = response.getItemList();
+
+        Map<String, Object> resultCheckCntEqualYnMap;
+        if(itemList == null || itemList.isEmpty()){
+            // itemsTotalCnt = 0 json 만들어서 리턴
+        }else {
+            // 난이도별 출제할 문항 수 계산
+            resultCheckCntEqualYnMap = checkCntEqualYn(step2Request, itemList);
+            log.info("resultCheckCntEqualYnMap {}", resultCheckCntEqualYnMap.get("cntEqualYn"));
+            log.info("resultCheckCntEqualYnMap {}", resultCheckCntEqualYnMap.get("totalLevelCnt"));
+
+            // 랜덤 출제
+
+        }
 
     }
 
     // moveExamStep2
-    private MoveExamStep2Response postMoveExamStep2Request(String urn, Map step2Request) {
+    private MoveExamStep2Response postMoveExamStep2Request(String urn, Step2Request step2Request) {
         // 요청 url
         URI url = UriComponentsBuilder
                 .fromUriString(tsherpaURL)
@@ -200,21 +212,90 @@ public class Step1Service {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         // 요청 httpEntity의 body에 포함 될 jsonObject 생성
-        JSONObject body = convertMapToJson(step2Request);
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("minorClassification", step2Request.getMinorClassification());
+        requestBody.put("activityCategoryList", step2Request.getActivityCategoryList());
+        requestBody.put("levelCnt", step2Request.getLevelCnt());
+        requestBody.put("questionForm", step2Request.getQuestionForm());
         // 요청 HttpEntity
-        HttpEntity<String> request = new HttpEntity<>(body.toString(), headers);
+        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
 
         // 요청 & 응답
         RestTemplate restTemplate = new RestTemplate();
-        MoveExamStep2Response moveExamStep2Response = restTemplate.postForObject(
-                url, request, MoveExamStep2Response.class
-        );
+        ResponseEntity<MoveExamStep2Response> responseEntity;
+        try {
+            responseEntity = restTemplate.exchange(
+                    url, HttpMethod.POST, requestEntity, MoveExamStep2Response.class);
+        } catch (RestClientException e) {
+            // 예외 처리
+            return null;
+        }
 
-        log.info("postMoveExamStep2Request : ", moveExamStep2Response);
-
+        MoveExamStep2Response moveExamStep2Response = responseEntity.getBody();
         return moveExamStep2Response;
     }
 
+    // 요청사항 충족 여부 계산
+    private Map<String, Object> checkCntEqualYn(Step2Request step2Request, List<MoveExamStep2Item> itemList) {
+        // 1. itemList를 순회하며 Map<난이도, List<문제>>를 만듦
+        // 2. totalLevelCnt 배열을 만듦 (api를 통해 가져온 문제들의 난이도별 문제 개수 배열)
+        // 3. availableLevelCnt 배열을 만듦
+        // 요청 > 가능 -> available을 가능 개수에 맞춤 & required += (요청-가능)
+        // 요청 <= 가능 -> available을 요청 개수에 맞춤
+        // 02 하, 03 중, 04 상
+
+        // 1. itemList를 순회하며 Map<난이도, List<문제>>를 만듦
+        Map<String, List<MoveExamStep2Item>> itemMap = new HashMap<>();
+        String difficultyCode;
+        for(int i=0; i<itemList.size(); i++){
+            // 현재 난이도
+            difficultyCode = itemList.get(i).getDifficultyCode();
+
+            if(!itemMap.containsKey(difficultyCode)){   // 현재 난이도의 list가 없을 경우 생성
+                List<MoveExamStep2Item> list = new ArrayList<>();
+                itemMap.put(difficultyCode, list);
+            }
+
+            // 현재 난이도의 문제 리스트에 현재 문제를 넣는다.
+            itemMap.get(difficultyCode).add(itemList.get(i));
+        }
+
+        // 2. totalLevelCnt 배열을 만듦
+        int[] totalLevelCnt = new int[5];
+        for(String s: itemMap.keySet()){
+            Integer i = Integer.parseInt(s);
+            totalLevelCnt[i] = itemMap.get(s).size();
+        }
+
+        // 3. 난이도별 출제할 문제 개수 배열을 만듦
+        int required = 0;   // api를 통해 얻은 문제 수가 적어서 요청 문제 수를 맞추지 못한 경우, '하' 난이도 문제 개수에 추가된다.
+        boolean cntEqualYn = true; // 사용자의 요청에 부합한지 여부
+        for(int i=3; i>=1; i--){ // [02 하-03 중-04 상]만 사용하여 문제를 출제한다.
+            String reqStr = step2Request.getLevelCnt().get(i);    // 사용자가 요청한 난이도별 문제 개수
+            Integer reqCnt = Integer.parseInt(reqStr);
+
+            if(i == 1 && required > 0){ // '하' 난이도의 문제 개수를 추가한다.
+                reqCnt += required;
+            }
+
+            if(reqCnt == 0){}
+
+            if(reqCnt > totalLevelCnt[i]){  // 요청 > 가능 -> 가능 개수에 맞춤 & required
+                required += (reqCnt - totalLevelCnt[i]);
+                cntEqualYn = false;
+            }else{  // 요청 <= 가능 -> 요청 개수에 맞춤
+                totalLevelCnt[i] = reqCnt;
+            }
+        }
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("cntEqualYn", cntEqualYn);
+        resultMap.put("totalLevelCnt", totalLevelCnt);
+        return resultMap;
+    }
+
+
+    // 하단 미사용 메소드
     // map -> JSONObject
     public JSONObject convertMapToJson(Map<String, Object> map) {
         JSONObject json = new JSONObject();
@@ -228,11 +309,6 @@ public class Step1Service {
         return json;
     }
 
-
-
-
-
-    // 미사용
     private List ResponseEntityToStep1DTOList(String response) throws ParseException {
         // [*****] null일 경우 예외처리
 
@@ -266,7 +342,6 @@ public class Step1Service {
                     .build();
             chapterList.add(s);
         }
-
 
         return chapterList;
 

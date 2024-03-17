@@ -1,7 +1,12 @@
 package com.sherpa.exambank.step1.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sherpa.exambank.step1.domain.Chapter;
+import com.sherpa.exambank.step1.domain.MinorClassification;
 import com.sherpa.exambank.step1.domain.Step1Response;
 import com.sherpa.exambank.step1.domain.Subject;
 import com.sherpa.exambank.step1.service.Step1Service;
@@ -17,6 +22,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,16 +52,11 @@ public class Step1Controller {
      */
     @PostMapping("/customExam/step1")
     public String postStep1Page(@ModelAttribute("Subject") Subject subject, Model model) throws ParseException {
-        log.info(String.valueOf(subject));
-
         Step1Response step1Response = step1Service.step1Page(subject);
         model.addAttribute("chapterList", step1Response.getChapterList());   // 단원 정보
         model.addAttribute("evaluationList", step1Response.getEvaluationList());   // 평가 영역
         model.addAttribute("chapterTree", step1Response.getChapterTree());   // 단원 정보 트리
         model.addAttribute("subject", subject); // [*****] 교과서 정보
-
-        log.info("test_chapterTree : " + step1Response.getChapterTree());
-        log.info("test_evaluationList : " + step1Response.getEvaluationList());
 
         // subjectName [*****] step2.jsp 출력할 때 보내기
 
@@ -103,18 +105,48 @@ public class Step1Controller {
 
     // step2로 이동
     @PostMapping("/customExam/loadStep2")
-    public ResponseEntity moveExamStep2(@RequestBody Step2Request step2Request){
-        //log.info("draw Item Counts: " + map.get("chapterList"));
+    public ResponseEntity moveExamStep2(@RequestBody Map<String, Object> step2Request) throws JsonProcessingException {
         log.info("controller moveExamStep2 : " + step2Request);
-        log.info("hashcode moveExamStep2 : " + step2Request.hashCode());
-        log.info("hashcode2 moveExamStep2 : " + step2Request.getLevelCnt());
+
+        log.info("controller chapterList : " + step2Request.get("chapterList"));
+        log.info("controller activityCategoryList : " + step2Request.get("activityCategoryList"));
+        log.info("controller levelCnt : " + step2Request.get("levelCnt"));
+        log.info("controller questionForm : " + step2Request.get("questionForm"));
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        List<MinorClassification> list = mapper.readValue(step2Request.get("chapterList").toString(), new TypeReference<ArrayList<MinorClassification>>(){});
+
+
+/*        log.info("controller getLevelCnt : " + step2Request.getLevelCnt());
+        log.info("controller getChapterList : " + step2Request.getChapterList());
+        log.info("controller getQuestionForm : " + step2Request.getQuestionForm());*/
 
         // map -> Step2Request
+        // Step2Request temp = new Step2Request(step2Request.get("chapterList"), step2Request.get("activityCategoryList"), step2Request.get("levelCnt"), step2Request.get("questionForm("));
 
-        step1Service.moveExamStep2(step2Request);
+        /*log.info("컨트롤러 ", temp);
+        step1Service.temp(temp);*/
         // listSmallItemCount
         // listTopicItemCount
         // successYn
+
+        return new ResponseEntity<>("test", HttpStatus.OK);
+    }
+
+    @PostMapping("/customExam/loadStep2/test")
+    public ResponseEntity moveExamStep2Test(@RequestBody Step2Request step2Request) {
+        log.info("moveExamStep2Test : {}", step2Request);
+        // chapterList=[MinorClassification{subject=1159, large=115901, medium=11590101, small=1159010101, topic=115901010101}
+        // activityCategoryList=[415, 416, 417, 418], levelCnt=[0, 10, 10, 10, 0], questionForm=multiple,subjective,descriptive
+        step1Service.moveExamStep2(step2Request);
+
+        // cntEqualYn
+        // itemsTotalCnt
+        // levelGroup 배열 형태
+        // queIdList
+        //
 
         return new ResponseEntity<>("test", HttpStatus.OK);
     }
