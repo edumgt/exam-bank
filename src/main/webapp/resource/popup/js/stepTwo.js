@@ -196,7 +196,7 @@ $(function () {
         //http://localhost:8080/customExam/similar-List
         ajaxCall("post","/customExam/similar-List", JSON.stringify(_param), function (data) {
             let simData = data.body.itemList;
-            console.log("data == ",data.body.itemList);
+            console.log("data == ",simData);
 
             if (simData.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");
@@ -234,6 +234,7 @@ $(function () {
                                         <div class="que-bottom">
                                              <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
                                              <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                                             <!--지문에 딸려있는 문제의 수가 1이라면 빈문자 넣고 아니면 전체추가 버튼을 넣어라-->
                                                   ${group.length === 1 ? "" :
                             `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
                                              </div>
@@ -241,13 +242,14 @@ $(function () {
                                      </div>
                                  </div>`;
                     }
-                    console.log("지문 영역 html == ",html);
+                    console.log("group.length == " , );
+                     console.log("지문 영역 html == ",html);
                     // 문항 영역
 
                     // 문항 영역에 개별 추가 버튼 추가
-                    for (let b = 0; b < group.length; b++) {
+                    for (let b = 0; b < simData.length; b++) {
                         console.log("for 문")
-                        let item = group[b];
+                        let item = simData[b];
                         console.log("item : ",item);
                         similarItemNum++;
 
