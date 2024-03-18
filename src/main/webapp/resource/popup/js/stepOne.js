@@ -9,7 +9,7 @@ $(function () {
     disActiveProblemCnt();
 
     // 단원 정보 문항수 가져오기
-    drawItemCounts();
+    //drawItemCounts();
 
     tempLevelArray = [];
 
@@ -266,7 +266,11 @@ function drawItemCounts() {
         "subjectId": $('#subjectId').val()
     };
 
-    ajaxCall("POST", "/customExam/count", params, function (data) {
+    params = JSON.stringify(params);
+
+    console.log(params);
+
+    ajaxCall("POST", "/customExam/step1/count", params, function (data) {
         let smallItemCount = data.listSmallItemCount;
         let topicItemCount = data.listTopicItemCount;
 
@@ -678,13 +682,24 @@ function moveExamStep2() {
 
 
     qParam = {};
-    qParam.chapterList = JSON.stringify(chapterArr);
+    qParam.chapterList = chapterArr;
     qParam.activityCategoryList = categoryArr;
     qParam.levelCnt = tempLevelArray;
     qParam.questionForm = questionFormArr.join(",");
 
-    ajaxCall("POST", "/customExam/loadStep2", qParam, function (data) {
-        console.log(qParam);
+    qParam = JSON.stringify(qParam);
+
+    /*
+    {chapterList: '[{"subject":"1159","topic":115901010101,"small":11…ll":1159010401,"medium":11590104,"large":115901}]', activityCategoryList: Array(4), levelCnt: Array(5), questionForm: 'multiple,subjective,descriptive'}
+
+     {chapterList: '[{"subject":"1159","topic":115901010101,"small":11…ll":1159010401,"medium":11590104,"large":115901}]',
+     activityCategoryList: Array(4),
+     levelCnt: Array(5),
+     questionForm: 'multiple,subjective,descriptive'}
+     */
+
+    ajaxCall("POST", "/customExam/loadStep2/test", qParam, function (data) {
+
         if (data != null) {
             if(data.itemsTotalCnt === 0){
                 showPop("no-data-pop");
