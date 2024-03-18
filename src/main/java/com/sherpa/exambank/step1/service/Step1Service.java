@@ -186,8 +186,10 @@ public class Step1Service {
         if(itemList == null || itemList.isEmpty()){
             // itemsTotalCnt = 0 json 만들어서 리턴
         }else {
+            // itemList를 순회하며 Map<난이도, List<문제>>를 만듦
+            Map<String, List<MoveExamStep2Item>> itemMap = filterItemListByDifficultyCode(itemList);
             // 난이도별 출제할 문항 수 계산
-            int[] resultCheckCntEqualYn = checkCntEqualYn(step2Request, itemList);
+            int[] resultCheckCntEqualYn = checkCntEqualYn(step2Request, itemMap);
             IntStream.of(resultCheckCntEqualYn)
                     .forEach(num -> log.info("moveExamStep2 resultCheckCntEqualYn: {}", Integer.toString(num)));
             // 랜덤 출제
@@ -243,16 +245,8 @@ public class Step1Service {
         return moveExamStep2Response;
     }
 
-    // 요청사항 충족 여부 & 난이도별 출제할 문제 개수 계산
-    public int[] checkCntEqualYn(Step2Request step2Request, List<MoveExamStep2Item> itemList) {
-        // 1. itemList를 순회하며 Map<난이도, List<문제>>를 만듦
-        // 2. totalLevelCnt 배열을 만듦 (api를 통해 가져온 문제들의 난이도별 문제 개수 배열)
-        // 3. availableLevelCnt 배열을 만듦
-        // 요청 > 가능 -> available을 가능 개수에 맞춤 & required += (요청-가능)
-        // 요청 <= 가능 -> available을 요청 개수에 맞춤
-        // 02 하, 03 중, 04 상
-
-        // 1. itemList를 순회하며 Map<난이도, List<문제>>를 만듦
+    // itemList를 순회하며 Map<난이도, List<문제>>를 만듦
+    private Map<String, List<MoveExamStep2Item>> filterItemListByDifficultyCode(List<MoveExamStep2Item> itemList){
         Map<String, List<MoveExamStep2Item>> itemMap = new HashMap<>();
         String difficultyCode;
         for(int i=0; i<itemList.size(); i++){
@@ -267,6 +261,18 @@ public class Step1Service {
             // 현재 난이도의 문제 리스트에 현재 문제를 넣는다.
             itemMap.get(difficultyCode).add(itemList.get(i));
         }
+
+        return itemMap;
+    }
+
+    // 요청사항 충족 여부 & 난이도별 출제할 문제 개수 계산
+    public int[] checkCntEqualYn(Step2Request step2Request, Map<String, List<MoveExamStep2Item>> itemMap) {
+        // 1. itemList를 순회하며 Map<난이도, List<문제>>를 만듦 -> filterItemListByDifficultyCode()
+        // 2. totalLevelCnt 배열을 만듦 (api를 통해 가져온 문제들의 난이도별 문제 개수 배열)
+        // 3. availableLevelCnt 배열을 만듦
+        // 요청 > 가능 -> available을 가능 개수에 맞춤 & required += (요청-가능)
+        // 요청 <= 가능 -> available을 요청 개수에 맞춤
+        // 02 하, 03 중, 04 상
 
         // 2. totalLevelCnt 배열을 만듦
         // 0: 요청 미충족 여부(1 = 미충족), 1: 최하 ~ 5: 최상, 6: 총 개수
@@ -324,17 +330,39 @@ public class Step1Service {
 
                 totalLevelCnt[i] += temp;
                 required[6] -= temp;    // 부족한 문제 총 개수 갱신
+                totalLevelCnt[6] += temp;   // 출제 문제 총 개수 갱신
             }
         }
-
 
         if(!cntEqualYn) totalLevelCnt[0] = 1;   // 요청에 부합하지 않을 경우, 1
         return totalLevelCnt;
     }
 
     // 문제 랜덤 출제
-    private void setRandomQuestions(int[] levelCnt, List<MoveExamStep2Item> itemList){
-        // 각 난이도별로
+    private void setRandomQuestions(int[] levelCnt, Map<String, List<MoveExamStep2Item>> itemMap){
+        // 각 난이도(i)별로 levelCnt[i]개의 랜덤 문제를 itemList에서 뽑는다.
+        Random random = new Random();
+        random.setSeed(System.currentTimeMillis());
+        IntStream randStream;
+        List<MoveExamStep2Item> list;
+        String queIdList = "";
+
+        /*// levelCnt[난이도] 개수의 난수를 생성한다. 난수의 범위는 0 이상 난이도별 문제 개수-1 이하 이다.
+        int[] randomIndices = random.ints(levelCnt[i], 0, list.size()).toArray();
+        for (int num : randomIndices) {
+            queIdList += list.get(num);
+        }*/
+
+        for(int i=2; i<=4; i++){    // 하~상
+            list = itemMap.get(i);
+            if(list == null || list.isEmpty()) continue;
+
+            // levelCnt[난이도] 개수의 난수를 생성한다. 난수의 범위는 0 이상 난이도별 문제 개수-1 이하 이다.
+            /*randStream = random.ints(levelCnt[i++], 0, list.size());
+            randStream.forEach(num -> {queIdList += list.get(num)});*/
+        }
+
+
     }
 
 
