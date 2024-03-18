@@ -63,13 +63,14 @@ public class MinorClassification {
 
     @Override
     public String toString() {
-        return "MinorClassification{" +
-                "subject=" + subject +
-                ", large=" + large +
-                ", medium=" + medium +
-                ", small=" + small +
-                ", topic=" + topic +
-                '}';
+        return
+                '{' +
+                "\"subject\":\"" + subject + "\"" +
+                ", \"large\":\"" + large +  "\"" +
+                ", \"medium\":\"" + medium +  "\"" +
+                ", \"small\":\"" + small +  "\"" +
+                ", \"topic\":\"" + topic +  "\"" +
+                "}";
     }
 
     @Override
