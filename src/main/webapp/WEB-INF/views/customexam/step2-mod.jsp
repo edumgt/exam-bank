@@ -143,13 +143,13 @@
                     </div>
                   </c:when>
                   <c:otherwise>
-                    <%-- todo: itemDTOList 값 읽어 script에 붙이기 --%>
                     <%--지문+문항--%>
+                    <%-- 지문 영역 --%>
                     <c:if test="${dto.passageId != null}">
-                      <c:out value="${dto.passageId}"/>
-                      <div class="passage-view-que-box" data-sortnum=""
+                      <div class="passage-view-que-box sort-group" data-sortnum=""
                            data-sortvalue="${(dto.largeChapterId)+(dto.mediumChapterId)+(dto.smallChapterId)+(dto.topicChapterId)}">
                         <div class="view-que-box passage-box" data-passageid="${dto.passageId}">
+                          <c:out value="${dto.passageId}"/>
                           <div class="que-top">
                             <div class="title"><span class="num"></span></div>
                             <div class="btn-wrap delete-btn-wrap"></div>
@@ -162,73 +162,76 @@
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <c:if test="${dto.itemId != null}">
-                        <div class="view-que-box item-box" data-paperTitle="">
-                          <div class="que-top">
-                            <div class="title">
-                              문제 id : <c:out value="${dto.itemId}"/>
-                              <span class="num">${dto.itemNo}</span>
-                              <div class="que-badge-group">
-                                <span class="que-badge">${dto.difficultyName}</span>
-                                <span class="que-badge gray">${(dto.questionFormCode)}</span>
-                                <input type="hidden" id="questionId" value="${dto.itemId}">
-                                <input type="hidden" id="chapterGp"
-                                       value="${dto.largeChapterId}${dto.mediumChapterId}${dto.smallChapterId}${dto.topicChapterId}">
-                                <input type="hidden" id="difficultyCode" value="${dto.difficultyCode}">
-                                <input type="hidden" id="questionFormCode" value="${dto.questionFormCode}">
+                          <%-- 문항 영역 --%>
+                        <c:if test="${dto.itemId != null}">
+                          <div class="view-que-box item-box" data-paperTitle="">
+                            <div class="que-top">
+                              <div class="title">
+                                <span class="num">${dto.itemNo}</span>
+                                <div class="que-badge-group">
+                                  <span class="que-badge">${dto.difficultyName}</span>
+                                  <span class="que-badge gray">${(dto.questionFormCode)}</span>
+                                  <input type="hidden" id="questionId" value="${dto.itemId}">
+                                  <input type="hidden" id="chapterGp"
+                                         value="${dto.largeChapterId}${dto.mediumChapterId}${dto.smallChapterId}${dto.topicChapterId}">
+                                  <input type="hidden" id="difficultyCode" value="${dto.difficultyCode}">
+                                  <input type="hidden" id="questionFormCode" value="${dto.questionFormCode}">
+                                </div>
                               </div>
-                            </div>
-                            <div class="btn-wrap delete-btn-wrap">
-                              <span class="tooltip-wrap">
-                                <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
-                                <span class="tooltip type02">
-                                    <div class="tool-type01">문항오류신고</div>
+                              <div class="btn-wrap delete-btn-wrap">
+                                <span class="tooltip-wrap">
+                                  <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
+                                  <span class="tooltip type02">
+                                      <div class="tool-type01">문항오류신고</div>
+                                  </span>
                                 </span>
-                              </span>
-                              <button type="button" class="btn-delete"></button>
-                            </div>
-                          </div>
-                          <div class="view-que">
-                              <%-- 문항 이미지 --%>
-                            <div class="que-content">
-                              <img src="${dto.questionUrl}" alt="${dto.itemId}" width="453px">
-                            </div>
-                            <div class="que-bottom">
-                              <div class="data-area">
-                                  <%-- 정답 이미지 --%>
-                                <div class="que-info answer-area" style="display: none">
-                                  <p class="answer"><span class="label type01">정답</span></p>
-                                  <div class="data-answer-area"><img src="${dto.answerUrl}" alt="${dto.itemId}"
-                                                                     width="453px"></div>
-                                </div>
-                              </div>
-                                <%-- 해설 이미지 및 유사 문항 버튼 --%>
-                              <div class="data-area type01">
-                                  <%-- 해설 이미지 --%>
-                                <div class="que-info explain-area" style="display: none">
-                                  <p class="answer"><span class="label">해설</span></p>
-                                  <div class="data-answer-area"><img
-                                          src="${dto.explainUrl}"
-                                          alt="${dto.itemId}" width="453px"></div>
-                                </div>
-                                <div class="btn-wrap etc-btn-wrap">
-                                  <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제
-                                  </button>
-                                </div>
+                                <button type="button" class="btn-delete"></button>
                               </div>
                             </div>
+                            <div class="view-que">
+                                <%-- 문항 이미지 --%>
+                              <div class="que-content">
+                                <img src="${dto.questionUrl}" alt="${dto.itemId}" width="453px">
+                              </div>
+                              <div class="que-bottom">
+                                <div class="data-area">
+                                    <%-- 정답 이미지 --%>
+                                  <div class="que-info answer-area" style="display: none">
+                                    <p class="answer"><span class="label type01">정답</span></p>
+                                    <div class="data-answer-area"><img src="${dto.answerUrl}" alt="${dto.itemId}"
+                                                                       width="453px"></div>
+                                  </div>
+                                </div>
+                                  <%-- 해설 이미지 및 유사 문항 버튼 --%>
+                                <div class="data-area type01">
+                                    <%-- 해설 이미지 --%>
+                                  <div class="que-info explain-area" style="display: none">
+                                    <p class="answer"><span class="label">해설</span></p>
+                                    <div class="data-answer-area"><img
+                                            src="${dto.explainUrl}"
+                                            alt="${dto.itemId}" width="453px"></div>
+                                  </div>
+                                  <div class="btn-wrap etc-btn-wrap">
+                                    <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사
+                                      문제
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                              <%-- 문항 정보 --%>
+                            <div class="que-info-last"
+                                 title="${dto.largeChapterName} > ${dto.mediumChapterName} > ${dto.smallChapterName} > ${dto.topicChapterName}">
+                              <p class="chapter">${dto.largeChapterName} > ${dto.mediumChapterName}
+                                > ${dto.smallChapterName}
+                                > ${dto.topicChapterName}</p>
+                            </div>
                           </div>
-                            <%-- 문항 정보 --%>
-                          <div class="que-info-last"
-                               title="${dto.largeChapterName} > ${dto.mediumChapterName} > ${dto.smallChapterName} > ${dto.topicChapterName}">
-                            <p class="chapter">${dto.largeChapterName} > ${dto.mediumChapterName}
-                              > ${dto.smallChapterName}
-                              > ${dto.topicChapterName}</p>
-                          </div>
-                        </div>
-                      </c:if>
+                          <%--                      </c:if>--%>
+                        </c:if>
+                      </div>
                     </c:if>
+
                     <%--문항만--%>
                     <c:if test="${dto.passageId == null}">
                       <div class="view-que-box item-box" data-paperTitle="">
@@ -475,7 +478,7 @@
                 }--%>
 
               <%-- 문항 리스트 - 지문이 있는 경우 --%>
-              <div class="passage-view-que-box sort-group" data-sortnum="0"
+              <%--<div class="passage-view-que-box sort-group" data-sortnum="0"
                    data-sortvalue="115901115901011159010101115901010102">
 
                 <!-- s: 지문 영역 -->
@@ -859,7 +862,7 @@
                       해석</p>
                   </div>
                 </div>
-              </div>
+              </div>--%>
               <%--<div class="passage-view-que-box sort-group" data-sortnum="1"
                    data-sortvalue="115901115901011159010101115901010106">
 
@@ -2881,185 +2884,111 @@
                     <div class="scroll-inner">
                       <div class="test ui-sortable" id="table-1">
 
-
                         <!-- s: 지문 묶음 영역 -->
-
                         <!-- e : 지문 묶음 영역-->
 
-
-                        <!-- s: 지문 묶음 영역 -->
-
-                        <!-- e : 지문 묶음 영역-->
-
-
-                        <!-- s: 지문 묶음 영역 -->
-
-                        <!-- e : 지문 묶음 영역-->
-
-
-                        <!-- s: 지문 묶음 영역 -->
-
-                        <!-- e : 지문 묶음 영역-->
-
-
-                        <!-- s: 지문 묶음 영역 -->
-
-                        <!-- e : 지문 묶음 영역-->
-
-
-                        <!-- s: 지문 묶음 영역 -->
-
-                        <!-- e : 지문 묶음 영역-->
-
-
-                        <!-- s: 지문 묶음 영역 -->
-
-                        <!-- e : 지문 묶음 영역-->
-
-
-                        <div class="depth-01 summary-box ui-sortable" data-sortsummary="0">
-                          <div class="dragHandle drag-type02"><img src="/resource/popup/img/ico_move_type01.png"
-                                                                   alt=""></div>
+                        <%--<div class="depth-01 summary-box ui-sortable" data-sortsummary="0">
+                          <div class="dragHandle drag-type02">
+                            <img src="/resource/popup/img/ico_move_type01.png" alt="">
+                          </div>
                           <div class="col-group passage-table ui-sortable">
-
-
+                            &lt;%&ndash; depth 2&ndash;%&gt;
                             <div class="col depth-02 que">
                               <a href="javascript:">
-
-
-                                  <span class="dragHandle drag-type01 ui-sortable ui-sortable-handle"><img
-                                          src="/resource/popup/img/ico_move_type02.png" alt=""></span>
-
-
+                                <span class="dragHandle drag-type01 ui-sortable ui-sortable-handle">
+                                  <img src="/resource/popup/img/ico_move_type02.png" alt="">
+                                </span>
+                                <span class="summary-num"></span>
+                                <span class="tit">
+                                  <div class="txt"
+                                       title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 내용">
+                                          1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt; 작품의 내용
+                                  </div>
+                                  <div class="tooltip-wrap"></div>
+                                </span>
+                                <span>객관식</span>
+                                <span><span class="que-badge">중</span></span>
+                              </a>
+                            </div>
+                            &lt;%&ndash; // depth 2&ndash;%&gt;
+                            &lt;%&ndash; depth 2&ndash;%&gt;
+                            <div class="col depth-02 que">
+                              <a href="javascript:">
+                                <span class="dragHandle drag-type01 ui-sortable ui-sortable-handle">
+                                  <img src="/resource/popup/img/ico_move_type02.png" alt="">
+                                </span>
                                 <span class="summary-num">1</span>
                                 <span class="tit">
-                                                                                            <div class="txt"
-                                                                                                 title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 내용">
-                                                                                                    1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt; 작품의 내용
-                                                                                            </div>
-                                                                                            <div class="tooltip-wrap">
-
-                                                                                            </div>
-                                                                                        </span>
-                                <span>
-
-                                                                                                객관식
-
-
-                                                                                        </span>
+                                  <div class="txt"
+                                       title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 내용">
+                                          1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt; 작품의 내용
+                                  </div>
+                                  <div class="tooltip-wrap"></div>
+                                </span>
+                                <span>객관식</span>
                                 <span><span class="que-badge">중</span></span>
                               </a>
                             </div>
+                            &lt;%&ndash; // depth 2&ndash;%&gt;
+                            &lt;%&ndash; depth 2&ndash;%&gt;
                             <div class="col depth-02 que">
                               <a href="javascript:">
-
-
-                                  <span class="dragHandle drag-type01 ui-sortable ui-sortable-handle"><img
-                                          src="/resource/popup/img/ico_move_type02.png" alt=""></span>
-
-
-                                <span class="summary-num">2</span>
+                                <span class="dragHandle drag-type01 ui-sortable ui-sortable-handle">
+                                  <img src="/resource/popup/img/ico_move_type02.png" alt="">
+                                </span>
+                                <span class="summary-num">1</span>
                                 <span class="tit">
-                                                                                            <div class="txt"
-                                                                                                 title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 감상">
-                                                                                                    1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt; 작품의 감상
-                                                                                            </div>
-                                                                                            <div class="tooltip-wrap">
-
-                                                                                            </div>
-                                                                                        </span>
-                                <span>
-
-                                                                                                객관식
-
-
-                                                                                        </span>
+                                  <div class="txt"
+                                       title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 내용">
+                                          1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt; 작품의 내용
+                                  </div>
+                                  <div class="tooltip-wrap"></div>
+                                </span>
+                                <span>객관식</span>
                                 <span><span class="que-badge">중</span></span>
                               </a>
                             </div>
+                            &lt;%&ndash; // depth 2&ndash;%&gt;
+                            &lt;%&ndash; depth 2&ndash;%&gt;
                             <div class="col depth-02 que">
                               <a href="javascript:">
-
-
-                                  <span class="dragHandle drag-type01 ui-sortable ui-sortable-handle"><img
-                                          src="/resource/popup/img/ico_move_type02.png" alt=""></span>
-
-
-                                <span class="summary-num">3</span>
+                                <span class="dragHandle drag-type01 ui-sortable ui-sortable-handle">
+                                  <img src="/resource/popup/img/ico_move_type02.png" alt="">
+                                </span>
+                                <span class="summary-num">1</span>
                                 <span class="tit">
-                                                                                            <div class="txt"
-                                                                                                 title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 감상">
-                                                                                                    1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt; 작품의 감상
-                                                                                            </div>
-                                                                                            <div class="tooltip-wrap">
-
-                                                                                            </div>
-                                                                                        </span>
-                                <span>
-
-
-                                                                                                주관식
-
-                                                                                        </span>
-                                <span><span class="que-badge">상</span></span>
-                              </a>
-                            </div>
-                            <div class="col depth-02 que">
-                              <a href="javascript:">
-
-
-                                  <span class="dragHandle drag-type01 ui-sortable ui-sortable-handle"><img
-                                          src="/resource/popup/img/ico_move_type02.png" alt=""></span>
-
-
-                                <span class="summary-num">4</span>
-                                <span class="tit">
-                                                                                            <div class="txt"
-                                                                                                 title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 특징">
-                                                                                                    1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt; 작품의 특징
-                                                                                            </div>
-                                                                                            <div class="tooltip-wrap">
-
-                                                                                            </div>
-                                                                                        </span>
-                                <span>
-
-                                                                                                객관식
-
-
-                                                                                        </span>
+                                  <div class="txt"
+                                       title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 내용">
+                                          1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt; 작품의 내용
+                                  </div>
+                                  <div class="tooltip-wrap"></div>
+                                </span>
+                                <span>객관식</span>
                                 <span><span class="que-badge">중</span></span>
                               </a>
                             </div>
+                            &lt;%&ndash; // depth 2&ndash;%&gt;
+                            &lt;%&ndash; depth 2&ndash;%&gt;
                             <div class="col depth-02 que">
                               <a href="javascript:">
-
-
-                                  <span class="dragHandle drag-type01 ui-sortable ui-sortable-handle"><img
-                                          src="/resource/popup/img/ico_move_type02.png" alt=""></span>
-
-
-                                <span class="summary-num">5</span>
+                                <span class="dragHandle drag-type01 ui-sortable ui-sortable-handle">
+                                  <img src="/resource/popup/img/ico_move_type02.png" alt="">
+                                </span>
+                                <span class="summary-num">1</span>
                                 <span class="tit">
-                                                                                            <div class="txt"
-                                                                                                 title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 해석">
-                                                                                                    1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt; 작품의 해석
-                                                                                            </div>
-                                                                                            <div class="tooltip-wrap">
-
-                                                                                            </div>
-                                                                                        </span>
-                                <span>
-
-                                                                                                객관식
-
-
-                                                                                        </span>
+                                  <div class="txt"
+                                       title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 내용">
+                                          1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt; 작품의 내용
+                                  </div>
+                                  <div class="tooltip-wrap"></div>
+                                </span>
+                                <span>객관식</span>
                                 <span><span class="que-badge">중</span></span>
                               </a>
                             </div>
+                            &lt;%&ndash; // depth 2&ndash;%&gt;
                           </div>
-                        </div>
+                        </div>--%>
                         <%--<div class="depth-01 summary-box ui-sortable" data-sortsummary="1">
                           <div class="dragHandle drag-type02"><img src="/resource/popup/img/ico_move_type01.png"
                                                                    alt=""></div>
