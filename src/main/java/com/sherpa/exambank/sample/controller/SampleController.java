@@ -43,4 +43,9 @@ public class SampleController {
         return "customexam/complete";
     }
 
+    @RequestMapping("/TestDirectory/Test2")
+    public String testPaper(){
+        return "TestDirectory/Test2";
+    }
+
 }
