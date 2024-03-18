@@ -198,6 +198,11 @@ $(function () {
             let simData = data.body.itemList;
             console.log("data == ",simData);
 
+
+
+
+
+
             if (simData.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");
                 // 다시 문제지 요약 탭으로
@@ -212,52 +217,57 @@ $(function () {
                 let addedPassageIds = [];
                 let addedItemIds = [];
 
+
+
                 for (let a = 0; a < simData.length; a++) {
                     let group = simData[a];
-                    console.log("group == ",group);
+                    // console.log("group == ",group);
 
-                    // passageYn 값이 없어서 이렇게 넣어봤더니 그냥 생성되면서 넣어지네? 뭐지?
+                    // passageYn 값이 없어서 이렇게 넣어봤더니 그냥 생성되면서 넣어짐
                     if (group.passageId != null){
                         group.passageYn = "Y";
                     }
-                    console.log("group.passageYn == ",group.passageYn);
 
+                    // 지문 ID 를 중복값 없이 배열로 만들어 놓음.
+                    if (!addedPassageIds.includes(group.passageId)) {
+                        addedPassageIds.push(group.passageId); // 추가한 지문으로 표시
+                    }
+                    group.groupNum = addedPassageIds.length -1;
+                    console.log("group.groupNum == ",group.groupNum);
+
+
+                    // let setGroupNum = new Set(group.groupNum);
+                    // console.log("setGroupNum",setGroupNum);
                     let passageBox = group.passageYn === "Y" ? "passage-view-que-box" : "";
                     html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+group.groupNum+'" data-sortValue="">';
-                    console.log("passageBox == ",passageBox);
+
 
 
                     // 지문영역
                     if(group.passageYn === "Y") {
-                        if (!addedPassageIds.includes(group.passageId)) {
-                            addedPassageIds.push(group.passageId); // 추가한 지문으로 표시
-                            html += `<div class="view-que-box passage-box" data-passageId="${group.passageId}">
-                                     <div class="que-top">
-                                         <div class="title"><span class="num"></span></div>
-                                         <div class="btn-wrap delete-btn-wrap"></div>
-                                     </div>
-                                     <div class="view-que">
-                                        <div class="que-bottom">
-                                             <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
-                                             <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                             <!--지문에 딸려있는 문제의 수가 1이라면 빈문자 넣고 아니면 전체추가 버튼을 넣어라 ( 여기가 문제임 )-->
-                                                  ${simData.length === 1 ? "" :
-                                `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
-                                             </div>
+
+                        html += `<div class="view-que-box passage-box" data-passageId="${group.passageId}">
+                                 <div class="que-top">
+                                     <div class="title"><span class="num">${group.passageId}</span></div>
+                                     <div class="btn-wrap delete-btn-wrap"></div>
+                                 </div>
+                                 <div class="view-que">
+                                    <div class="que-bottom">
+                                         <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
+                                         <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                                              ${simData.length === 1 ? "" :
+                            `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
                                          </div>
                                      </div>
-                                 </div>`;
-                        }
-                    }
-                    console.log("group.length == " ,simData.length);
-                     console.log("지문 영역 html == ",html);
-                    // 문항 영역
+                                 </div>
+                             </div>`;
 
+                    }
                     // 문항 영역에 개별 추가 버튼 추가
                     for (let b = 0; b < simData.length; b++) {
                         console.log("for 문")
                         let item = simData[b];
-                        console.log("item : ",item);
+                        // console.log("item : ",item);
 
                         // 이미 추가한 문항인지 확인
                         if (!addedItemIds.includes(item.itemId)) {
@@ -947,6 +957,8 @@ function sortQue(target, sortType,moveSortNum) {
             }).appendTo($("#view-que-detail-list"));
 
             setSortNum(target);
+
+
         }
 
     } else if (target === "summary") {
@@ -956,7 +968,7 @@ function sortQue(target, sortType,moveSortNum) {
                 let bVal = Number(b.getAttribute("data-sortSummary"));
                 return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
             }).appendTo($("#table-1"));
-
+            console.log("헬로우")
             //지문 내 순서 정렬
             $(".summary-box").each(function (i) {
                 $(this).find(".col.que").sort(function (a, b) {
@@ -967,6 +979,7 @@ function sortQue(target, sortType,moveSortNum) {
             })
         }
     }
+    console.log("sortType == ",sortType);
 }
 
 // 문항 번호 세팅
@@ -1277,7 +1290,7 @@ function setPassageNum(passageBox){
         passage.find(".btn-add[data-type=all]").toggle(!isSingleItem);
         passage.find(".btn-delete[data-type=all]").toggle(!isSingleItem);
     });
-    console.log("onload .. passageBox == ", passageBox);
+
 }
 
 // 문항 번호 설정
