@@ -60,6 +60,7 @@
         let url = 'http://localhost:8080/customTest/step3';
         window.open(url, '_blank', 'width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0');
     }
+
 </script>
 <div class="data_buttons">
     <a href="javascript:;" onclick="customExamPopup('1159');" title="새창 열림" class="button">
@@ -80,6 +81,8 @@
 
     <h3>Hello itext pdf</h3>
     <p>Click <a href="/attachment/pdf">here</a> to download the pdf</p>
+
+    <br><a href="/customExam/pdftest">pdf다운로드 테스트</a><br>
 </div>
 
 
