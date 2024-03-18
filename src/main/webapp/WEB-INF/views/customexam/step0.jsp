@@ -27,15 +27,15 @@
     <script>
 
         function moveToStep1() {
-            alert('re');
             let new_form = $('<form></form>');
-            new_form.attr("name", "subject");
+            new_form.attr("name", "Subject");
             new_form.attr("charset", "UTF-8");
             new_form.attr("method", "post");
             new_form.attr("action", "/customExam/step1");
 
             new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
-            new_form.append($('<input/>', {type: 'hidden', name: 'subjectName', value: $("#subjectId").val()+"-2015"}));
+            new_form.append($('<input/>', {type: 'hidden', name: 'subjectName', value: $("#subjectName").text()}));
+            new_form.append($('<input/>', {type: 'hidden', name: 'curriculumName', value: $("#curriculumName").text()}));
 
             new_form.appendTo('body');
             new_form.submit();
@@ -552,8 +552,8 @@
 
                         <span></span>
                         <input type="hidden" id="subjectId" name="subjectId" value="${subjectId}">
-                        <span class="subject">${subjectName}</span>
-                        <span>${curriculumName}</span>
+                        <span id="subjectName" class="subject">${subjectName}</span>
+                        <span id="curriculumName">${curriculumName}</span>
                         <span class="number">
 								    <span class="tooltip-wrap">
 									<button class="tip-btn blue" id="chk_item_cnt">0</button>
