@@ -1,29 +1,27 @@
-package com.sherpa.exambank.step2.domain;
+package com.sherpa.exambank.method.domain;
 
 import lombok.Data;
 
 @Data
-public class ItemDTO {  // response
-    private int itemNo;
-    private Long itemId;
+public class Item {
+    
+    private String itemNo;
+    private String itemId;
     private String questionFormCode;
     private String questionFormName;
     private String difficultyCode;
     private String difficultyName;
-    private Long largeChapterId;
+    private String largeChapterId;
     private String largeChapterName;
-    private Long mediumChapterId;
+    private String mediumChapterId;
     private String mediumChapterName;
-    private Long smallChapterId;
+    private String smallChapterId;
     private String smallChapterName;
-    private Long topicChapterId;
+    private String topicChapterId;
     private String topicChapterName;
-    private Long passageId;
+    private String passageId;
     private String passageUrl;
     private String questionUrl;
     private String answerUrl;
     private String explainUrl;
-    private String passageYn;
-    /*private String successYn;*/
-
 }

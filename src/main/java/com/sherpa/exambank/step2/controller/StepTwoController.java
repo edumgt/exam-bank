@@ -1,12 +1,12 @@
 package com.sherpa.exambank.step2.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.sherpa.exambank.step2.domain.ItemDTO;
-import com.sherpa.exambank.step2.domain.SimilarItemListRequest;
-import com.sherpa.exambank.step2.domain.SimilarItemListResponse;
+import com.sherpa.exambank.step2.domain.*;
 import com.sherpa.exambank.step2.service.StepTwoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,14 +33,45 @@ public class StepTwoController {
         return "customexam/step2";
     }
 
-    // step 2 유사문제 버튼 ajaxCall
+
+    /**
+     * step 2 유사문제 버튼 ajaxCall
+     * @param similarItemListRequest
+     * @param model
+     * @return
+     * @throws JsonProcessingException
+     */
     @PostMapping("/customExam/similar-List")
     @ResponseBody
-    public SimilarItemListResponse similarQueList(@RequestBody SimilarItemListRequest similarItemListRequest, Model model) throws JsonProcessingException {
+    public ResponseEntity similarQueList(@RequestBody SimilarItemListRequest similarItemListRequest, Model model) throws JsonProcessingException {
         log.info("호출 성공 : "+ similarItemListRequest);
-        SimilarItemListResponse similarItemList = stepTwoService.similarItemList(similarItemListRequest);
-        model.addAttribute("similarItemList",similarItemList.getItemList());
-        log.info("similar-List response : "+similarItemList.getItemList());
-        return similarItemList;
+        ResponseEntity<SimilarItemListResponse> similarItemList = stepTwoService.similarItemList(similarItemListRequest);
+        model.addAttribute("similarItemList",similarItemList);
+        log.info("similar-List response : "+similarItemList);
+        return new ResponseEntity<>(similarItemList, HttpStatus.OK) ;
     }
+
+
+    /**
+     * step 2 출제 범위 ajaxCall
+     * @param itemListRequest
+     * @param model
+     * @return
+     * @throws JsonProcessingException
+     */
+    @PostMapping("/customExam/range-list")
+    @ResponseBody
+    public ResponseEntity rangeList(@RequestBody ItemListRequest itemListRequest, Model model) throws JsonProcessingException {
+        log.info("call rangeList");
+        ResponseEntity<ItemListResponse> chapterIdList = stepTwoService.getChapterList(itemListRequest);
+        model.addAttribute("chapterIdList",chapterIdList);
+        return new ResponseEntity<>(chapterIdList, HttpStatus.OK) ;
+    }
+
+/*    @PostMapping("/customExam/step3")
+    @ResponseBody
+    public ResponseEntity loadStep3(@RequestBody ){
+
+    }*/
+
 }

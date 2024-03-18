@@ -32,4 +32,15 @@ public class SampleController {
     public String secondStepPage(){
         return "customexam/step2";
     }
+
+    @RequestMapping("/customTest/step3")
+    public String thirdStepPage(){
+        return "customexam/step3";
+    }
+
+    @RequestMapping("/customExam/complete")
+    public String completePage(){
+        return "customexam/complete";
+    }
+
 }

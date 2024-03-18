@@ -125,12 +125,12 @@
                             <div class="view-que-list no-data" id="no-data-detail-area" style="display:none">
                                 <p>문항이 없습니다.</p>
                             </div>
-                            <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
+                            <%--<c:forEach items="${itemDTOList}" var="dto" varStatus="status">
                                 ${dto.itemId} :
                                 <button value="${dto.itemId}">유사문제</button>
                                 <button value="${dto.itemId}">삭제</button>
                                 <br/>
-                            </c:forEach>
+                            </c:forEach>--%>
                             <c:out value="${itemDTOList}"/>
 
                             <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
@@ -144,7 +144,7 @@
                                     <c:otherwise>
                                         <c:forEach items="${itemDTOList}" var="item" varStatus="status">
                                             <%--지문 영역--%>
-                                            <c:if test="${item.passageId != null}">
+
                                                 <div class="passage-view-que-box sort-group" data-sortnum="0" data-sortvalue="${(item.largeChapterId)+(item.mediumChapterId)+(item.smallChapterId)+(item.topicChapterId)}">
                                                     <div class="view-que-box passage-box" data-passageId="${item.passageId}">
                                                         <div class="que-top">
@@ -161,7 +161,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                            </c:if>
+
                                             <%--문항 영역--%>
                                             <c:if test="${item.itemId != null}">
 
@@ -3655,6 +3655,7 @@
     let qParam ={};
 
     // 재검색
+    //
     function rescan(){
         qParam = {};
         const chapterList = '${itemDTOList}';
@@ -3675,8 +3676,8 @@
         qParam.levelCnt = levelCnt;
         qParam.tmpLevelCnt = plusTempLevelArray;
         qParam.questionForm = questionForm;
-
-        ajaxCall("POST", "/customExam/step2", qParam, function (data) {
+        console.log("qparam : ", qParam);
+        ajaxCall("POST", "/customExam/rescan", qParam, function (data) {
 
             if (data != null) {
                 for(let j=1; j<=5; j++){
@@ -3702,7 +3703,7 @@
         new_form.attr("name", "new_form");
         new_form.attr("charset", "UTF-8");
         new_form.attr("method", "post");
-        new_form.attr("action", "/customExam/step2");
+        new_form.attr("action", "/customExam/step3");
 
         new_form.append($('<input/>', {type: 'hidden', name: 'chapterList', value:  qParam.chapterList}));
         new_form.append($('<input/>', {type: 'hidden', name: 'activityCategoryList', value: qParam.activityCategoryList}));

@@ -3,17 +3,13 @@ package com.sherpa.exambank.step2.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.sherpa.exambank.step2.domain.ItemDTO;
-import com.sherpa.exambank.step2.domain.SimilarItemListRequest;
-import com.sherpa.exambank.step2.domain.SimilarItemListResponse;
+import com.sherpa.exambank.step2.domain.*;
 import com.sherpa.exambank.step2.mapper.StepTwoMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -333,10 +329,22 @@ public class StepTwoService {
 
         ObjectMapper objectMapper = new ObjectMapper();
         ItemDTO[] itemDTOArray = objectMapper.readValue(jsonData, ItemDTO[].class);
+
+        // 넘어온 문제에 대해서 조건에 맞는 문제 수를 반환
+        /*for (int i = 0; itemDTOArray.length < 90; i++){
+
+        }*/
+
         return Arrays.asList(itemDTOArray);
     }
 
-    public SimilarItemListResponse similarItemList(SimilarItemListRequest similarItemListRequest) throws JsonProcessingException {
+    /**
+     * step 2 유사문제 버튼 ajaxCall
+     * @param similarItemListRequest
+     * @return
+     * @throws JsonProcessingException
+     */
+    public ResponseEntity<SimilarItemListResponse> similarItemList(SimilarItemListRequest similarItemListRequest) throws JsonProcessingException {
         // 요청 url
         URI uri = UriComponentsBuilder
                 .fromUriString(tsherpaURL)
@@ -345,22 +353,58 @@ public class StepTwoService {
                 .build()
                 .toUri();
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String similarItemListJsonObj = objectMapper.writeValueAsString(similarItemListRequest);
+        log.info("similarItemListRequest exchange JSON : " + similarItemListJsonObj);
+        HttpEntity<String> requestSimilarItemListJsonObj = new HttpEntity<>(similarItemListJsonObj,headers);
+        log.info("HttpEntity : "+requestSimilarItemListJsonObj);
+
+
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<SimilarItemListResponse> similarItemListResponse = restTemplate.postForEntity(uri,
+                requestSimilarItemListJsonObj, SimilarItemListResponse.class);
+        log.info("헤더정보 포함? : " + similarItemListResponse);
+
+
+
+        return similarItemListResponse;
+    }
+
+    /**
+     * step 2 출제 범위
+     * @param itemListRequest
+     * @return
+     * @throws JsonProcessingException
+     */
+    public ResponseEntity<ItemListResponse> getChapterList(ItemListRequest itemListRequest) throws JsonProcessingException {
+        URI uri = UriComponentsBuilder
+                .fromUriString(tsherpaURL)
+                .path("/item-img/item-list")
+                .encode()
+                .build()
+                .toUri();
         // 요청 httpEntity의 Header 생성
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // 요청 HttpEntity의 body에 포함될 JSONObject 생성
         ObjectMapper objectMapper = new ObjectMapper();
-        String similarItemListJsonObj = objectMapper.writeValueAsString(similarItemListRequest);
-        log.info("similarItemListRequest exchange JSON : " + similarItemListJsonObj);  // similarItemListRequest exchange JSON : {"itemIdList":[494552],"excludeCode":[496128,496129]}
-        HttpEntity<String> requestSimilarItemListJsonObj = new HttpEntity<>(similarItemListJsonObj,headers);
-        log.info("HttpEntity : "+requestSimilarItemListJsonObj);
 
+        // itemListRequest에서 요청할 데이터를 jsonobject로 변환
+        String itemListRequestJsonObj = objectMapper.writeValueAsString(itemListRequest);
+        log.info("itemListRequestJsonObj : "+ itemListRequestJsonObj);
+        // itemList에 header 정보 넣은 객체 생성
+        HttpEntity<String> itemListIncHeader = new HttpEntity<>(itemListRequestJsonObj,headers);
+        log.info("itemListIncHeader : " + itemListIncHeader);
+        // RestTemplate 인스턴스 생성
         RestTemplate restTemplate = new RestTemplate();
-        SimilarItemListResponse similarItemListResponse = restTemplate.postForObject(uri,
-                requestSimilarItemListJsonObj, SimilarItemListResponse.class);
-        log.info("Call : "+similarItemListResponse);
-
-        return similarItemListResponse;
+        ResponseEntity<ItemListResponse> responseItemDTO = restTemplate.postForEntity(uri,itemListIncHeader, ItemListResponse.class);
+        log.info("responseItemDTO : " + responseItemDTO);
+        return responseItemDTO;
     }
 }
