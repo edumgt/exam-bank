@@ -149,185 +149,273 @@
                   </c:when>
                   <c:otherwise>
                     <%-- todo: itemDTOList 출력 --%>
-
-                    <%-- 유사 문항 --%>
-                    <%--<c:forEach items="${itemDTOList}" var="item" varStatus="status">
-                      &lt;%&ndash;지문 영역&ndash;%&gt;
-                    <c:if test="${item.passageId != null}">
-                    <div class="passage-view-que-box sort-group" data-sortnum="0"
-                         data-sortvalue="${(item.largeChapterId)+(item.mediumChapterId)+(item.smallChapterId)+(item.topicChapterId)}">
-                      <div class="view-que-box passage-box" data-passageId="${item.passageId}">
-                        <div class="que-top">
-                          <div class="title"><span class="num"></span></div>
-                          <div class="btn-wrap delete-btn-wrap"></div>
-                        </div>
-                        <div class="view-que">
-                          <div class="que-bottom">
-                            <div class="passage-area"><img src="${item.passageUrl}" alt="${item.passageId}" width="453px">
+                    <%--지문 영역--%>
+                    <c:if test="${dto.passageId != null}">
+                      <div class="passage-view-que-box sort-group" data-sortnum="0"
+                           data-sortvalue="${(dto.largeChapterId)+(dto.mediumChapterId)+(dto.smallChapterId)+(dto.topicChapterId)}">
+                        <div class="view-que-box passage-box" data-passageId="${dto.passageId}">
+                          <div class="que-top">
+                            <div class="title"><span class="num"></span></div>
+                            <div class="btn-wrap delete-btn-wrap"></div>
+                          </div>
+                          <div class="view-que">
+                            <div class="que-bottom">
+                              <div class="passage-area"><img src="${dto.passageUrl}" alt="${dto.passageId}"
+                                                             width="453px">
+                              </div>
+                                <%--<div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                                        ${dto.itemGroupList.length === 1 ? "" :
+                                                `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                                </div>--%>
                             </div>
-                              &lt;%&ndash;<div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                      ${dto.itemGroupList.length === 1 ? "" :
-                                              `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
-                              </div>&ndash;%&gt;
                           </div>
                         </div>
                       </div>
-                      </c:if>
-                        &lt;%&ndash;문항 영역&ndash;%&gt;
-                      <c:if test="${item.itemId != null}">
-                        <div class="view-que-box item-box" data-paperTitle="">
-                          <div class="que-top">
-                            <div class="title">
-                              <span class="num">${item.itemNo}</span>
-                              <div class="que-badge-group">
-                                <span class="que-badge">${item.difficultyName}</span>
-                                <span class="que-badge gray">${(item.questionFormCode)}</span>
-                                <input type="hidden" id="questionId" value="${item.itemId}">
-                                <input type="hidden" id="chapterGp"
-                                       value="${item.largeChapterId}${item.mediumChapterId}${item.smallChapterId}${item.topicChapterId}">
-                                <input type="hidden" id="difficultyCode" value="${item.difficultyCode}">
-                                <input type="hidden" id="questionFormCode" value="${item.questionFormCode}">
-                              </div>
-                            </div>
-                            <div class="btn-wrap delete-btn-wrap">
-                              <span class="tooltip-wrap">
-                                <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
-                                <span class="tooltip type02">
-                                  <div class="tool-type01">문항오류신고</div>
-                                </span>
-                              </span>
-                              <button type="button" class="btn-delete"></button>
+                    </c:if>
+                    <%--문항 영역--%>
+                    <c:if test="${dto.itemId != null}">
+                      <div class="view-que-box item-box" data-paperTitle="">
+                        <div class="que-top">
+                          <div class="title">
+                            <span class="num">${dto.itemNo}</span>
+                            <div class="que-badge-group">
+                              <span class="que-badge">${dto.difficultyName}</span>
+                              <span class="que-badge gray">${(dto.questionFormCode)}</span>
+                              <input type="hidden" id="questionId" value="${dto.itemId}">
+                              <input type="hidden" id="chapterGp"
+                                     value="${dto.largeChapterId}${dto.mediumChapterId}${dto.smallChapterId}${dto.topicChapterId}">
+                              <input type="hidden" id="difficultyCode" value="${dto.difficultyCode}">
+                              <input type="hidden" id="questionFormCode" value="${dto.questionFormCode}">
                             </div>
                           </div>
-                          <div class="view-que">
-                            <div class="que-content">
-                              <img src="${item.questionUrl}" alt="${item.itemId}" width="453px">
-                            </div>
-                            <div class="que-bottom">
-                              <div class="data-area">
-                                <div class="que-info answer-area">
-                                  <p class="answer"><span class="label type01">정답</span></p>
-                                  <div class="data-answer-area"><img src="${item.answerUrl}" alt="${item.itemId}"
-                                                                     width="453px"></div>
-                                </div>
+                          <div class="btn-wrap delete-btn-wrap">
+                        <span class="tooltip-wrap">
+                          <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
+                          <span class="tooltip type02">
+                              <div class="tool-type01">문항오류신고</div>
+                          </span>
+                        </span>
+                            <button type="button" class="btn-delete"></button>
+                          </div>
+                        </div>
+                        <div class="view-que">
+                            <%-- 문항 이미지 --%>
+                          <div class="que-content">
+                            <img src="${dto.questionUrl}" alt="${dto.itemId}" width="453px">
+                          </div>
+                          <div class="que-bottom">
+                            <div class="data-area">
+                                <%-- 정답 이미지 --%>
+                              <div class="que-info answer-area" style="display: none">
+                                <p class="answer"><span class="label type01">정답</span></p>
+                                <div class="data-answer-area"><img src="${dto.answerUrl}" alt="${dto.itemId}"
+                                                                   width="453px"></div>
                               </div>
-                              <div class="data-area type01">
-                                <div class="que-info explain-area">
-                                  <p class="answer"><span class="label">해설</span></p>
-                                  <div class="data-answer-area"><img src="${item.explainUrl}" alt="${item.itemId}"
-                                                                     width="453px"></div>
-                                </div>
+                            </div>
+                              <%-- 해설 이미지 및 유사 문항 버튼 --%>
+                            <div class="data-area type01">
+                                <%-- 해설 이미지 --%>
+                              <div class="que-info explain-area" style="display: none">
+                                <p class="answer"><span class="label">해설</span></p>
+                                <div class="data-answer-area"><img
+                                        src="${dto.explainUrl}"
+                                        alt="${dto.itemId}" width="453px"></div>
                               </div>
                               <div class="btn-wrap etc-btn-wrap">
-                                <button type="button" class="btn-default btn-add" data-type=""><i class="add-type02"></i>추가
+                                <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제
                                 </button>
                               </div>
                             </div>
                           </div>
-                          <div class="que-info-last"
-                               title="${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}">
-                            <p class="chapter">${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName}
-                              > ${item.topicChapterName}</p>
-                          </div>
                         </div>
-                      </c:if>
-                      </c:forEach>--%>
-                    <%--if (data.length === 0) {
-                      alert("검색된 유사 문제가 없습니다.");
-                      // 다시 문제지 요약 탭으로
-                      $("#tab-summary").click();
-
-                      } else {
-                      $("#init-similar-area").css("display", "none");
-                      let html = '';
-                      let similarItemNum = 0;
-
-                      for (let a = 0; a < data.length; a++) {
-                      let group = data[a];
-
-                      let passageBox = group.passageYn === "Y" ? "passage-view-que-box" : "";
-                      html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+group.groupNum+'" data-sortValue="">';
-
-                      // 지문영역
-                      if(group.passageYn === "Y") {
-                      html += `<div class="view-que-box passage-box" data-passageId="${group.passageId}">
-                          <div class="que-top">
-                              <div class="title"><span class="num"></span></div>
-                              <div class="btn-wrap delete-btn-wrap"></div>
-                          </div>
-                          <div class="view-que">
-                              <div class="que-bottom">
-                                  <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
-                                  <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                      ${group.itemGroupList.length === 1 ? "" :
-                                              `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
-                                  </div>
-                              </div>
-                          </div>
-                      </div>`;
-                      }
-
-                      // 문항 영역
-                      // 문항 영역에 개별 추가 버튼 추가
-                      for (let b = 0; b < group.itemGroupList.length; b++) {
-                      let item = group.itemGroupList[b];
-                      similarItemNum++;
-
-                      html += `
-                      <div class="view-que-box item-box" data-paperTitle="">
-                          <div class="que-top">
-                              <div class="title">
-                                  <span class="num">${similarItemNum}</span>
-                                  <div class="que-badge-group">
-                                      <span class="que-badge ${getColorClass(item.difficultyCode)}">${item.difficultyName}</span>
-                                      <span class="que-badge gray">${getQuestionType(item.questionFormCode)}</span>
-                                      <input type="hidden" id="questionId" value="${item.itemId}">
-                                      <input type="hidden" id="chapterGp" value="${item.largeChapterId}${item.mediumChapterId}${item.smallChapterId}${item.topicChapterId}">
-                                      <input type="hidden" id="difficultyCode" value="${item.difficultyCode}">
-                                      <input type="hidden" id="questionFormCode" value="${item.questionFormCode}">
-                                  </div>
-                              </div>
-                              <div class="btn-wrap">
-                                  <span class="tooltip-wrap type02">
-                                      <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
-                                      <span class="tooltip type02">
-                                          <div class="tool-type01">문항오류신고</div>
-                                      </span>
-                                  </span>
-                              </div>
-                          </div>
-                          <div class="view-que">
-                              <div class="que-content">
-                                  <img src="${item.questionUrl}" alt="${item.itemId}" width="453px">
-                              </div>
-                              <div class="que-bottom">
-                                  <div class="data-area">
-                                      <div class="que-info answer-area" style="display: ${$("#select-view-btn").attr("data-select") === "type1" ? "none" : ""}">
-                                          <p class="answer"><span class="label type01">정답</span></p>
-                                          <div class="data-answer-area"><img src="${item.answerUrl}" alt="${item.itemId}" width="453px"></div>
-                                      </div>
-                                  </div>
-                                  <div class="data-area type01" style="display: ${$("#select-view-btn").attr("data-select") === "type3" ? "" : "none"}">
-                                      <div class="que-info explain-area">
-                                          <p class="answer"><span class="label">해설</span></p>
-                                          <div class="data-answer-area"><img src="${item.explainUrl}" alt="${item.itemId}" width="453px"></div>
-                                      </div>
-                                  </div>
-                                  <div class="btn-wrap etc-btn-wrap">
-                                      <button type="button" class="btn-default btn-add" data-type=""><i class="add-type02"></i>추가</button>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="que-info-last" title="${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}">
-                              <p class="chapter">${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}</p>
-                          </div>
-                      </div>`;
-                      }
-                      html += '</div>';
-                      }--%>
+                          <%-- 문항 정보 --%>
+                        <div class="que-info-last"
+                             title="${dto.largeChapterName} > ${dto.mediumChapterName} > ${dto.smallChapterName} > ${dto.topicChapterName}">
+                          <p class="chapter">${dto.largeChapterName} > ${dto.mediumChapterName}
+                            > ${dto.smallChapterName}
+                            > ${dto.topicChapterName}</p>
+                        </div>
+                      </div>
+                    </c:if>
                   </c:otherwise>
                 </c:choose>
               </c:forEach>
+
+              <%-- 유사 문항 --%>
+              <%--<c:forEach items="${itemDTOList}" var="item" varStatus="status">
+                &lt;%&ndash;지문 영역&ndash;%&gt;
+              <c:if test="${item.passageId != null}">
+              <div class="passage-view-que-box sort-group" data-sortnum="0"
+                   data-sortvalue="${(item.largeChapterId)+(item.mediumChapterId)+(item.smallChapterId)+(item.topicChapterId)}">
+                <div class="view-que-box passage-box" data-passageId="${item.passageId}">
+                  <div class="que-top">
+                    <div class="title"><span class="num"></span></div>
+                    <div class="btn-wrap delete-btn-wrap"></div>
+                  </div>
+                  <div class="view-que">
+                    <div class="que-bottom">
+                      <div class="passage-area"><img src="${item.passageUrl}" alt="${item.passageId}" width="453px">
+                      </div>
+                        &lt;%&ndash;<div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                                ${dto.itemGroupList.length === 1 ? "" :
+                                        `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                        </div>&ndash;%&gt;
+                    </div>
+                  </div>
+                </div>
+                </c:if>
+                  &lt;%&ndash;문항 영역&ndash;%&gt;
+                <c:if test="${item.itemId != null}">
+                  <div class="view-que-box item-box" data-paperTitle="">
+                    <div class="que-top">
+                      <div class="title">
+                        <span class="num">${item.itemNo}</span>
+                        <div class="que-badge-group">
+                          <span class="que-badge">${item.difficultyName}</span>
+                          <span class="que-badge gray">${(item.questionFormCode)}</span>
+                          <input type="hidden" id="questionId" value="${item.itemId}">
+                          <input type="hidden" id="chapterGp"
+                                 value="${item.largeChapterId}${item.mediumChapterId}${item.smallChapterId}${item.topicChapterId}">
+                          <input type="hidden" id="difficultyCode" value="${item.difficultyCode}">
+                          <input type="hidden" id="questionFormCode" value="${item.questionFormCode}">
+                        </div>
+                      </div>
+                      <div class="btn-wrap delete-btn-wrap">
+                        <span class="tooltip-wrap">
+                          <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
+                          <span class="tooltip type02">
+                            <div class="tool-type01">문항오류신고</div>
+                          </span>
+                        </span>
+                        <button type="button" class="btn-delete"></button>
+                      </div>
+                    </div>
+                    <div class="view-que">
+                      <div class="que-content">
+                        <img src="${item.questionUrl}" alt="${item.itemId}" width="453px">
+                      </div>
+                      <div class="que-bottom">
+                        <div class="data-area">
+                          <div class="que-info answer-area">
+                            <p class="answer"><span class="label type01">정답</span></p>
+                            <div class="data-answer-area"><img src="${item.answerUrl}" alt="${item.itemId}"
+                                                               width="453px"></div>
+                          </div>
+                        </div>
+                        <div class="data-area type01">
+                          <div class="que-info explain-area">
+                            <p class="answer"><span class="label">해설</span></p>
+                            <div class="data-answer-area"><img src="${item.explainUrl}" alt="${item.itemId}"
+                                                               width="453px"></div>
+                          </div>
+                        </div>
+                        <div class="btn-wrap etc-btn-wrap">
+                          <button type="button" class="btn-default btn-add" data-type=""><i class="add-type02"></i>추가
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="que-info-last"
+                         title="${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}">
+                      <p class="chapter">${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName}
+                        > ${item.topicChapterName}</p>
+                    </div>
+                  </div>
+                </c:if>
+                </c:forEach>--%>
+              <%--if (data.length === 0) {
+                alert("검색된 유사 문제가 없습니다.");
+                // 다시 문제지 요약 탭으로
+                $("#tab-summary").click();
+
+                } else {
+                $("#init-similar-area").css("display", "none");
+                let html = '';
+                let similarItemNum = 0;
+
+                for (let a = 0; a < data.length; a++) {
+                let group = data[a];
+
+                let passageBox = group.passageYn === "Y" ? "passage-view-que-box" : "";
+                html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+group.groupNum+'" data-sortValue="">';
+
+                // 지문영역
+                if(group.passageYn === "Y") {
+                html += `<div class="view-que-box passage-box" data-passageId="${group.passageId}">
+                    <div class="que-top">
+                        <div class="title"><span class="num"></span></div>
+                        <div class="btn-wrap delete-btn-wrap"></div>
+                    </div>
+                    <div class="view-que">
+                        <div class="que-bottom">
+                            <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
+                            <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                                ${group.itemGroupList.length === 1 ? "" :
+                                        `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+                }
+
+                // 문항 영역
+                // 문항 영역에 개별 추가 버튼 추가
+                for (let b = 0; b < group.itemGroupList.length; b++) {
+                let item = group.itemGroupList[b];
+                similarItemNum++;
+
+                html += `
+                <div class="view-que-box item-box" data-paperTitle="">
+                    <div class="que-top">
+                        <div class="title">
+                            <span class="num">${similarItemNum}</span>
+                            <div class="que-badge-group">
+                                <span class="que-badge ${getColorClass(item.difficultyCode)}">${item.difficultyName}</span>
+                                <span class="que-badge gray">${getQuestionType(item.questionFormCode)}</span>
+                                <input type="hidden" id="questionId" value="${item.itemId}">
+                                <input type="hidden" id="chapterGp" value="${item.largeChapterId}${item.mediumChapterId}${item.smallChapterId}${item.topicChapterId}">
+                                <input type="hidden" id="difficultyCode" value="${item.difficultyCode}">
+                                <input type="hidden" id="questionFormCode" value="${item.questionFormCode}">
+                            </div>
+                        </div>
+                        <div class="btn-wrap">
+                            <span class="tooltip-wrap type02">
+                                <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
+                                <span class="tooltip type02">
+                                    <div class="tool-type01">문항오류신고</div>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="view-que">
+                        <div class="que-content">
+                            <img src="${item.questionUrl}" alt="${item.itemId}" width="453px">
+                        </div>
+                        <div class="que-bottom">
+                            <div class="data-area">
+                                <div class="que-info answer-area" style="display: ${$("#select-view-btn").attr("data-select") === "type1" ? "none" : ""}">
+                                    <p class="answer"><span class="label type01">정답</span></p>
+                                    <div class="data-answer-area"><img src="${item.answerUrl}" alt="${item.itemId}" width="453px"></div>
+                                </div>
+                            </div>
+                            <div class="data-area type01" style="display: ${$("#select-view-btn").attr("data-select") === "type3" ? "" : "none"}">
+                                <div class="que-info explain-area">
+                                    <p class="answer"><span class="label">해설</span></p>
+                                    <div class="data-answer-area"><img src="${item.explainUrl}" alt="${item.itemId}" width="453px"></div>
+                                </div>
+                            </div>
+                            <div class="btn-wrap etc-btn-wrap">
+                                <button type="button" class="btn-default btn-add" data-type=""><i class="add-type02"></i>추가</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="que-info-last" title="${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}">
+                        <p class="chapter">${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}</p>
+                    </div>
+                </div>`;
+                }
+                html += '</div>';
+                }--%>
 
               <%-- 문항 리스트 - 지문이 있는 경우 --%>
               <%--<div class="passage-view-que-box sort-group" data-sortnum="0"
@@ -3777,7 +3865,7 @@
             <th>첨부파일</th>
             <td class="file">
               <input type="file" id="file-error" name="file" onchange="changeFile(this)"
-                     accept=".jpg,.jpeg, .png, .hwp">
+                     accept=".jpg,.jpeg, .png, .hwp" style="display: none">
               <input type="text" id="error-file-name" placeholder="최대 100MB까지 등록가능" disabled="">
               <button type="button" class="btn-icon" id="btn-upload-error">파일 첨부</button>
             </td>
@@ -3785,8 +3873,8 @@
           <tr>
             <th>오류 내용</th>
             <td>
-                                    <textarea name="content" id="txt-error-area" cols="30" rows="8" placeholder="오류내용을 간단히 적어주세요.
-(최대 200자)"></textarea>
+              <textarea name="content" id="txt-error-area" cols="30" rows="8"
+                        placeholder="오류내용을 간단히 적어주세요. (최대 200자)"></textarea>
               <input type="hidden" id="question-id-error" name="questionId">
             </td>
           </tr>
