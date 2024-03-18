@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace='com.sherpa.exambank.step3.mapper.TestSaveMapper'>
+
+
+    <!-- 시험지 정보 저장 쿼리 수정 -->
+    <insert id="insertExamData" parameterType="com.sherpa.exambank.step3.domain.TestSaveDTO">
+        INSERT INTO tb_exam (name, user_seq, subject_name, item_cnt, reg_date, update_date, delete_flag, setting_subject)
+        VALUES (#{paperTitle}, 1 , #{textName}, 0, now(), now(), 0, 0)
+    </insert>
+
+    <!-- 시험지 문항 정보 저장 -->
+<!--    <insert id="insertExamItemData" parameterType="com.sherpa.exambank.step3.domain.TestSaveDTO">-->
+<!--        INSERT INTO tb_exam_item (exam_seq, item_no, item_id)-->
+<!--        VALUES-->
+<!--        <foreach collection="queArr" item="itemId" separator=",">-->
+<!--            (#{examSeq}, #{itemNo}, #{itemId})-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+</mapper>
