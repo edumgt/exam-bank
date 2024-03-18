@@ -43,4 +43,9 @@ public class SampleController {
         return "customexam/complete";
     }
 
+    @RequestMapping("/customExam/pdftest")
+    public String pdfTestPage(){
+        return "TestDirectory/Test2";
+    }
+
 }
