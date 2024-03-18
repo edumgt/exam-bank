@@ -331,13 +331,19 @@ public class StepTwoService {
         ItemDTO[] itemDTOArray = objectMapper.readValue(jsonData, ItemDTO[].class);
 
         // 넘어온 문제에 대해서 조건에 맞는 문제 수를 반환
-        for (int i = 0; itemDTOArray.length < 90; i++){
+        /*for (int i = 0; itemDTOArray.length < 90; i++){
 
-        }
+        }*/
 
         return Arrays.asList(itemDTOArray);
     }
 
+    /**
+     * step 2 유사문제 버튼 ajaxCall
+     * @param similarItemListRequest
+     * @return
+     * @throws JsonProcessingException
+     */
     public ResponseEntity<SimilarItemListResponse> similarItemList(SimilarItemListRequest similarItemListRequest) throws JsonProcessingException {
         // 요청 url
         URI uri = UriComponentsBuilder
@@ -356,14 +362,25 @@ public class StepTwoService {
         HttpEntity<String> requestSimilarItemListJsonObj = new HttpEntity<>(similarItemListJsonObj,headers);
         log.info("HttpEntity : "+requestSimilarItemListJsonObj);
 
+
+
         RestTemplate restTemplate = new RestTemplate();
+
         ResponseEntity<SimilarItemListResponse> similarItemListResponse = restTemplate.postForEntity(uri,
                 requestSimilarItemListJsonObj, SimilarItemListResponse.class);
         log.info("헤더정보 포함? : " + similarItemListResponse);
 
+
+
         return similarItemListResponse;
     }
 
+    /**
+     * step 2 출제 범위
+     * @param itemListRequest
+     * @return
+     * @throws JsonProcessingException
+     */
     public ResponseEntity<ItemListResponse> getChapterList(ItemListRequest itemListRequest) throws JsonProcessingException {
         URI uri = UriComponentsBuilder
                 .fromUriString(tsherpaURL)

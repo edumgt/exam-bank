@@ -3655,6 +3655,7 @@
     let qParam ={};
 
     // 재검색
+    //
     function rescan(){
         qParam = {};
         const chapterList = '${itemDTOList}';
@@ -3675,8 +3676,8 @@
         qParam.levelCnt = levelCnt;
         qParam.tmpLevelCnt = plusTempLevelArray;
         qParam.questionForm = questionForm;
-
-        ajaxCall("POST", "/customExam/step2", qParam, function (data) {
+        console.log("qparam : ", qParam);
+        ajaxCall("POST", "/customExam/rescan", qParam, function (data) {
 
             if (data != null) {
                 for(let j=1; j<=5; j++){
@@ -3702,7 +3703,7 @@
         new_form.attr("name", "new_form");
         new_form.attr("charset", "UTF-8");
         new_form.attr("method", "post");
-        new_form.attr("action", "/customExam/step2");
+        new_form.attr("action", "/customExam/step3");
 
         new_form.append($('<input/>', {type: 'hidden', name: 'chapterList', value:  qParam.chapterList}));
         new_form.append($('<input/>', {type: 'hidden', name: 'activityCategoryList', value: qParam.activityCategoryList}));
