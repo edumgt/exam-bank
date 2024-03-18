@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 @Slf4j
-@RequestMapping("/customExam")
+@RequestMapping("/exambank/customExam")
 public class MethodController {
 
     private final MethodService methodService;

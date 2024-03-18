@@ -18,14 +18,6 @@
 <script src="/resource/popup/js/jquery-3.6.0.min.js"></script>
 <script>
    function customExamPopup(subjectId) {
-        // if (!checkUserLoggedIn(location.href)) {
-        //     return false;
-        // }
-        //새창으로 열기
-        // let url = 'http://localhost:8080/customExam/step0';
-        //
-        // window.open(url,'_blank','width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0');
-
        //새창으로 열기
        let pop_title = "win_pop";
        let url = 'customExam/step0';

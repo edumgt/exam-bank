@@ -13,7 +13,12 @@ public class SampleController {
 
     private final SampleService sampleService;
 
-    @RequestMapping("/")
+    @RequestMapping({"","/"})
+    public String mainPage(){
+        return "redirect:/exambank/booklist";
+    }
+
+    @RequestMapping("/sample")
     public String sampleHome(){
         return "sample";
     }
