@@ -3,6 +3,7 @@ package com.sherpa.exambank.step1.service;
 import com.sherpa.exambank.step1.domain.*;
 import com.sherpa.exambank.step1.mapper.Step1Mapper;
 import com.sherpa.exambank.step2.domain.Step2Request;
+import com.sherpa.exambank.step2.domain.Step2Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -17,12 +18,11 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 @Service
@@ -170,7 +170,7 @@ public class Step1Service {
         }
     }
 
-    public void moveExamStep2(Step2Request step2Request) {
+    public void moveExamStep2(Step2Request step2Request) throws IOException {
         // 4번 api 사용
         // https://tsherpa.item-factory.com/item/chapters/item-list
         // map 정보 수정
@@ -183,22 +183,30 @@ public class Step1Service {
         MoveExamStep2Response response = postMoveExamStep2Request("item/chapters/item-list", step2Request);
         List<MoveExamStep2Item> itemList = response.getItemList();
 
-        Map<String, Object> resultCheckCntEqualYnMap;
         if(itemList == null || itemList.isEmpty()){
             // itemsTotalCnt = 0 json 만들어서 리턴
         }else {
             // 난이도별 출제할 문항 수 계산
-            resultCheckCntEqualYnMap = checkCntEqualYn(step2Request, itemList);
-            log.info("resultCheckCntEqualYnMap {}", resultCheckCntEqualYnMap.get("cntEqualYn"));
-            log.info("resultCheckCntEqualYnMap {}", resultCheckCntEqualYnMap.get("totalLevelCnt"));
-
+            int[] resultCheckCntEqualYn = checkCntEqualYn(step2Request, itemList);
+            IntStream.of(resultCheckCntEqualYn)
+                    .forEach(num -> log.info("moveExamStep2 resultCheckCntEqualYn: {}", Integer.toString(num)));
             // 랜덤 출제
+            // String queIdList = setRandomQuestions(resultCheckCntEqualYn, itemList);
 
+            // 응답 객체 만들기
+            Step2Response step2Response = Step2Response.builder()
+                    .itemsTotalCnt(Integer.toUnsignedLong(resultCheckCntEqualYn[5]))
+                    .cntEqualYn((resultCheckCntEqualYn[6] == 1) ? "N" : "Y")
+                    .levelGroup(Arrays.stream(resultCheckCntEqualYn).mapToObj(String::valueOf).toArray(String[]::new))
+                    .build();
+
+            // queIdList 넣기
         }
+
 
     }
 
-    // moveExamStep2
+    // moveExamStep2 요청
     private MoveExamStep2Response postMoveExamStep2Request(String urn, Step2Request step2Request) {
         // 요청 url
         URI url = UriComponentsBuilder
@@ -235,8 +243,8 @@ public class Step1Service {
         return moveExamStep2Response;
     }
 
-    // 요청사항 충족 여부 계산
-    private Map<String, Object> checkCntEqualYn(Step2Request step2Request, List<MoveExamStep2Item> itemList) {
+    // 요청사항 충족 여부 & 난이도별 출제할 문제 개수 계산
+    public int[] checkCntEqualYn(Step2Request step2Request, List<MoveExamStep2Item> itemList) {
         // 1. itemList를 순회하며 Map<난이도, List<문제>>를 만듦
         // 2. totalLevelCnt 배열을 만듦 (api를 통해 가져온 문제들의 난이도별 문제 개수 배열)
         // 3. availableLevelCnt 배열을 만듦
@@ -261,37 +269,72 @@ public class Step1Service {
         }
 
         // 2. totalLevelCnt 배열을 만듦
-        int[] totalLevelCnt = new int[5];
+        // 0: 요청 미충족 여부(1 = 미충족), 1: 최하 ~ 5: 최상, 6: 총 개수
+        int[] totalLevelCnt = new int[7];   // api 통해 얻은 난이도별 총 문제 개수
         for(String s: itemMap.keySet()){
             Integer i = Integer.parseInt(s);
             totalLevelCnt[i] = itemMap.get(s).size();
         }
 
+        IntStream.of(totalLevelCnt)
+                .forEach(num -> log.info("checkCntEqualYn totalLevelCnt: {}", Integer.toString(num)));
+
         // 3. 난이도별 출제할 문제 개수 배열을 만듦
-        int required = 0;   // api를 통해 얻은 문제 수가 적어서 요청 문제 수를 맞추지 못한 경우, '하' 난이도 문제 개수에 추가된다.
-        boolean cntEqualYn = true; // 사용자의 요청에 부합한지 여부
-        for(int i=3; i>=1; i--){ // [02 하-03 중-04 상]만 사용하여 문제를 출제한다.
-            String reqStr = step2Request.getLevelCnt().get(i);    // 사용자가 요청한 난이도별 문제 개수
+        int[] requested = new int[7];   // 사용자의 요청
+        int[] required = new int[7];    // 사용자의 요청 - 전체 문제 개수
+        boolean cntEqualYn = true;      // 사용자의 요청에 부합한지 여부
+        // totalLevelCnt: 최종적으로 출제할 난이도별 문제 개수
+        // 3-1. 먼저 사용자의 요청에 맞춘다.
+        for(int i=2; i<=4; i++){
+            // requested 구하기
+            String reqStr = step2Request.getLevelCnt().get(i-1);    // i 난이도의 사용자가 요청한 문제 개수
             Integer reqCnt = Integer.parseInt(reqStr);
+            requested[i] = reqCnt;
+            requested[6] += requested[i];   // 누적 합
 
-            if(i == 1 && required > 0){ // '하' 난이도의 문제 개수를 추가한다.
-                reqCnt += required;
+            // required 구하기
+            required[i] = requested[i] - totalLevelCnt[i];
+
+            // totalLevelCnt 구하기
+            if (required[i] <= 0){   // 사용자 요청에 맞춤
+                totalLevelCnt[i] = requested[i];
             }
+            // else -> 사용자 요청 개수보다 부족
+            totalLevelCnt[6] += totalLevelCnt[i];   // 누적 합
+        }
+        required[6] = requested[6] - totalLevelCnt[6];  // 부족한 문제 총 개수
+        if(required[6] > 0) cntEqualYn = false;
 
-            if(reqCnt == 0){}
+        IntStream.of(requested)
+                .forEach(num -> log.info("checkCntEqualYn requested: {}", Integer.toString(num)));
 
-            if(reqCnt > totalLevelCnt[i]){  // 요청 > 가능 -> 가능 개수에 맞춤 & required
-                required += (reqCnt - totalLevelCnt[i]);
-                cntEqualYn = false;
-            }else{  // 요청 <= 가능 -> 요청 개수에 맞춤
-                totalLevelCnt[i] = reqCnt;
+        IntStream.of(required)
+                .forEach(num -> log.info("checkCntEqualYn required: {}", Integer.toString(num)));
+
+        // 3-2. 제일 낮은 난이도부터 부족한 문제 개수를 채워 최대한 총 문제 개수를 맞춘다.
+        for(int i=2; i<=4; i++){
+            // 부족한 문제 개수가 0
+            if(required[6] <= 0)    break;
+            // 사용자의 요청 문제 개수가 0
+            if(requested[i] <= 0)   continue;
+
+            if(required[i] < 0){    // 출제 가능한 잉여 문제가 있다.
+                int absRequired = Math.abs(required[i]); // 잉여 문제 개수
+                int temp = Math.min(absRequired, required[6]); // 잉여 문제 개수와 부족한 문제 총 개수 중 최소 값
+
+                totalLevelCnt[i] += temp;
+                required[6] -= temp;    // 부족한 문제 총 개수 갱신
             }
         }
 
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("cntEqualYn", cntEqualYn);
-        resultMap.put("totalLevelCnt", totalLevelCnt);
-        return resultMap;
+
+        if(!cntEqualYn) totalLevelCnt[0] = 1;   // 요청에 부합하지 않을 경우, 1
+        return totalLevelCnt;
+    }
+
+    // 문제 랜덤 출제
+    private void setRandomQuestions(int[] levelCnt, List<MoveExamStep2Item> itemList){
+        // 각 난이도별로
     }
 
 

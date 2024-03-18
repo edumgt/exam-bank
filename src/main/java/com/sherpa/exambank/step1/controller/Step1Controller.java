@@ -136,7 +136,7 @@ public class Step1Controller {
     }
 
     @PostMapping("/customExam/loadStep2/test")
-    public ResponseEntity moveExamStep2Test(@RequestBody Step2Request step2Request) {
+    public ResponseEntity moveExamStep2Test(@RequestBody Step2Request step2Request) throws IOException {
         log.info("moveExamStep2Test : {}", step2Request);
         // chapterList=[MinorClassification{subject=1159, large=115901, medium=11590101, small=1159010101, topic=115901010101}
         // activityCategoryList=[415, 416, 417, 418], levelCnt=[0, 10, 10, 10, 0], questionForm=multiple,subjective,descriptive
