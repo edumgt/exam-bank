@@ -24,7 +24,7 @@
 
     <!-- S 230808 순서 변경-->
     <script src="/resource/popup/js/jquery-1.12.4.min.js"></script>
-    <script src="/resource/popup/js/jquery-3.6.0.min.js"></script>
+    <!--<script src="/resource/popup/js/jquery-3.6.0.min.js"></script> -->
     <script src="/resource/popup/js/jquery-ui.js"></script>
     <script src="/resource/popup/js/swiper-bundle.min.js"></script>
     <!-- E 230808 순서 변경-->
