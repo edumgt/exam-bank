@@ -225,26 +225,26 @@ $(function () {
                     if (!group[passageId].some(existingItem => existingItem.itemId === item.itemId)) {
                         group[passageId].push(item);
                     }
+                    console.log("values === ",...Object.keys(group));
+                    // console.log("passageId",Object.values(group[passageId])[0].passageId);
+                    // console.log("item.passageId == " ,Object.values(group[passageId]))
 
-                    console.log("group.groupNum ==== ",Object.keys(group).length);
-                    // if (passageId != null){
-                    //     group.passageYn = "Y";
-                    // }
+                    // data-sortNum 값 할당을 잘 해줘야 나머지가 돌아갈듯...
+                    const newGroup= Object.keys(group);
 
-                    // 지문에 담긴 문항 개수를 구하기
+                    // 같은 지문에 문항 묶기
 
-                    let passageBox = pArrLength > 0 ? "passage-view-que-box" : "";
-                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+Object.keys(group).length+'" data-sortValue="">';
 
+                    let passageBox = Object.values(group).length > 0 ? "passage-view-que-box" : "";
+                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+ newGroup +'" data-sortValue="">';
                     // 지문영역
-
 
                         if(group[passageId].length > 0) {
                             if (!addedPassageIds.includes(item.passageId)) {
                                 addedPassageIds.push(item.passageId); // 추가한 문항 표시
 
                             html +=
-                                `<div class="view-que-box passage-box" data-passageId="${Object.keys(group)}">
+                                `<div class="view-que-box passage-box" data-passageId="${item.passageId}">
                                  <div class="que-top">
                                      <div class="title"><span class="num">${Object.values(group)}</span></div>
                                      <div class="btn-wrap delete-btn-wrap"></div>
@@ -274,7 +274,7 @@ $(function () {
 
 
                             html += `
-                            <div class="view-que-box item-box" data-paperTitle="">
+                            <div class="view-que-box item-box" data-paperTitle="${currentItem.itemId}">
                                 <div class="que-top">
                                     <div class="title">
                                         <span class="num">${similarItemNum}</span>
@@ -925,6 +925,7 @@ function sortQue(target, sortType,moveSortNum) {
 
                     let sortValue = $(this).find(".que-top #chapterGp").val();
                     $(this).attr("data-sortValue",sortValue);
+                    console.log("onload sortValue",sortValue)
                 })
             } else if (sortType === "level") {
                 //지문 내 순서 정렬
@@ -1004,7 +1005,7 @@ function setSortNum(target, moveSortNum) {
         // 그룹 정렬 번호
         $("#view-que-detail-list .sort-group").each(function (i) {
             let beforeGroupNum = $(this).attr("data-sortNum");
-            numGroupArr.push(beforeGroupNum);
+                numGroupArr.push(beforeGroupNum);
             $(this).attr("data-sortNum",i);
         });
 
@@ -1290,7 +1291,7 @@ function setPassageNum(passageBox){
             tmpText += ' ~ ' + item.last().find(".num").text();
         }
         $(this).find(".num").text(tmpText);
-        console.log("tmpText == ",tmpText);
+        console.log("tmpText == ",item);
         // 지문문항에 문항 1개만 있으면 전체추가, 삭제 버튼 제거
         let isSingleItem = item.length === 1;
         passage.find(".btn-add[data-type=all]").toggle(!isSingleItem);
