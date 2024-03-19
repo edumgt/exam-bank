@@ -20,8 +20,9 @@ public class TestSaveController {
     @PostMapping("/customExam/saveExamData")
     @ResponseBody
     public ResponseEntity<?> saveSecondResult(@RequestBody TestSaveDTO testSaveDTO) {
-        testSaveService.saveExamData(testSaveDTO);
         log.info(String.valueOf(testSaveDTO));
+        testSaveService.saveExamData(testSaveDTO);
+
         return ResponseEntity.status(HttpStatus.OK).body("");
     }
 
