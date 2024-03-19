@@ -5,13 +5,21 @@ $(function () {
   
   // 초기 문제지 요약 목록
   $("#content-summary-area #table-1").empty();
-  
   $("#view-que-detail-list .sort-group").each(function (i, e) {
     makeSummary($(e), $(e).attr("data-sortnum", i),'add');
   });
   
+  // 문항 타이틀 영역 - 난이도 뱃지에 색상 부여
+  $(".view-que-box.item-box").each(function (i, e) {
+    $(this).find("#difficultyColor").addClass(getColorClass(
+      $(this).find("#difficultyCode").val()
+    ));
+  });
   
-  
+  // 문제 형식에 따른 텍스트 출력
+  $(".que-badge.gray").text(
+    getQuestionType($("#questionFormCode").val())
+  );
   
   
   // 초기 정렬 순서
@@ -450,6 +458,7 @@ $(function () {
     // 선택한 지문
     let selectedPassageBox = questionGroup.children(".passage-box");
     let selectedPassageId = selectedPassageBox.attr("data-passageId");
+    console.log("selectedPassageId : " + selectedPassageId);
     
     // 지문, 문항 active 제거
     questionGroup.find('.active').removeClass('active');
@@ -1215,20 +1224,19 @@ function makeSummary(target, sortNum, type) {
         `;
     
     target.find(".item-box").each(function (i) {
-      console.log($(this).find("#questionId").val());
       html += `
                 <div class="col depth-02 que">
                   <a href="javascript:;">
-                    ${target.find(".item-box").length !== 1 ? '<span class="dragHandle ui-sortable-handle drag-type01"><img src="/images/common/ico_move_type02.png" alt=""></span>' : '<span></span>'}
+                    ${target.find(".item-box").length !== 1 ? '<span class="dragHandle ui-sortable-handle drag-type01"><img src="/resource/popup/img/ico_move_type02.png" alt=""></span>' : '<span></span>'}
                     <span class="summary-num">${$(this).find(".num").text()}</span>
                     <span class="tit" title="${$(this).find(".chapter").text()}">
                       <div class="txt">${$(this).find(".chapter").text()}</div>
                       <div class="tooltip-wrap">
-                        ${$(this).attr("data-paperTitle") !== "" ? '<button type="button" class="btn-tip" style="position: relative; top: 1px; width: 14px; height: 16px; margin-left: 15px; background: url(../../images/common/ico_btn_tip.png) no-repeat; background-size: contain;"></button>' : ''}
+                        ${$(this).attr("data-paperTitle") !== "" ? '<button type="button" class="btn-tip" style="position: relative; top: 1px; width: 14px; height: 16px; margin-left: 15px; background: url(https://testbank.tsherpa.co.kr/images/common/ico_btn_tip.png) no-repeat; background-size: contain; display: none"></button>' : ''}
                         ${$(this).attr("data-paperTitle") !== "" ? '<div class="tooltip type01"><div class="tool-type01">' + $(this).attr("data-paperTitle") + '</div></div>' : ''}
                       </div>
                     </span>
-                    <span>${$(this).find(".que-badge-group .que-badge").eq(1).text()}</span>
+                    <span>${getQuestionType($(this).find("#questionFormCode").val())}</span>
                     <span><span class="que-badge">${$(this).find(".que-badge-group .que-badge").eq(0).text()}</span></span>
                   </a>
                 </div>
@@ -1239,7 +1247,6 @@ function makeSummary(target, sortNum, type) {
     
     // 문항만 있는 경우
   } else {
-    console.log($(this).find("#questionId").val());
     html += `
             <div class="col que summary-box" data-sortSummary=${sortNum}>
                 <a href="javascript:;">
@@ -1305,8 +1312,6 @@ function setPassageNum(passageBox) {
 function setItemNum() {
   $('#view-que-detail-list .item-box').each(function (i) {
     $(this).find(".num").text((i + 1));
-    console.log($(this).find("#questionNo").val());
-    console.log($(this).find("#questionId").val());
   });
   
   $('.summary-num').each(function (i) {
