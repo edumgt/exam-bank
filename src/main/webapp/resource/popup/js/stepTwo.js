@@ -180,27 +180,21 @@ $(function () {
         _problemCode.push(questionId);
 
         _param.itemIdList = _problemCode;
-        console.log("dfddf : "+_problemCode)
+
         _param.excludeCode = _excludeCd;
-        console.log("dfddf : "+_param)
+
         // 문제 목록 순서
         let queNo = $(this).parents(".view-que-box").find(".num").text();
         console.log("queNo = " + queNo );
         $("#target-sort-num").val(_sortGroup.attr("data-sortNum"));
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
 
-        console.log("param에 보낼 json 데이터 : ",JSON.stringify(_param))
-
 
         $.ajaxSetup({async: false});
         //http://localhost:8080/customExam/similar-List
         ajaxCall("post","/customExam/similar-List", JSON.stringify(_param), function (data) {
+
             let simData = data.body.itemList;
-            console.log("data == ",simData);
-
-
-
-
 
 
             if (simData.length === 0) {
@@ -217,62 +211,54 @@ $(function () {
                 let addedPassageIds = [];
                 let addedItemIds = [];
 
+                let group = {};
+                let groupLength = "";
+                let pArrlength = "";
+                data.body.itemList.forEach((item) =>{
+                    const {passageId, itemList} = item;
 
-
-                for (let a = 0; a < simData.length; a++) {
-                    let group = simData[a];
-                    // console.log("group == ",group);
-
-                    // passageYn 값이 없어서 이렇게 넣어봤더니 그냥 생성되면서 넣어짐
-                    if (group.passageId != null){
-                        group.passageYn = "Y";
+                    if (!group[passageId]){
+                        group[passageId] = [];
                     }
+                    group[passageId].push(item);
 
-                    // 지문 ID 를 중복값 없이 배열로 만들어 놓음.
-                    if (!addedPassageIds.includes(group.passageId)) {
-                        addedPassageIds.push(group.passageId); // 추가한 지문으로 표시
-                    }
-                    group.groupNum = addedPassageIds.length -1;
-                    console.log("group.groupNum == ",group.groupNum);
-
-
-                    // let setGroupNum = new Set(group.groupNum);
-                    // console.log("setGroupNum",setGroupNum);
-                    let passageBox = group.passageYn === "Y" ? "passage-view-que-box" : "";
-                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+group.groupNum+'" data-sortValue="">';
-
-
+                    console.log("passageId ==== ",passageId)
+                    let passageBox = item.passageId > 0 ? "passage-view-que-box" : "";
+                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+ group[passageId].length +'" data-sortValue="">';
 
                     // 지문영역
-                    if(group.passageYn === "Y") {
 
-                        html += `<div class="view-que-box passage-box" data-passageId="${group.passageId}">
+                    if(group[passageId].length > 0) {
+                        if (!addedPassageIds.includes(group[passageId])) {
+                            addedPassageIds.push(group[passageId]); // 추가한 문항 표시
+                            html += `<div class="view-que-box passage-box" data-passageId="${item.passageId}">
                                  <div class="que-top">
-                                     <div class="title"><span class="num">${group.passageId}</span></div>
+                                     <div class="title"><span class="num"></span></div>
                                      <div class="btn-wrap delete-btn-wrap"></div>
                                  </div>
                                  <div class="view-que">
                                     <div class="que-bottom">
-                                         <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
-                                         <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                              ${simData.length === 1 ? "" :
-                            `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                                         <div class="passage-area"><img src="${item.passageUrl}" alt="${item.passageId}" width="453px"></div>
+                                         <div class="btn-wrap etc-btn-wrapstyle="margin-top: 10p" x;">
+                                              ${group[passageId].length === 1 ? "" : 
+                                '<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>'}
+                               
                                          </div>
                                      </div>
                                  </div>
                              </div>`;
-
+                        }
                     }
+                    console.log("item.passageId == ",html)
                     // 문항 영역에 개별 추가 버튼 추가
-                    for (let b = 0; b < simData.length; b++) {
-                        console.log("for 문")
-                        let item = simData[b];
-                        // console.log("item : ",item);
+                    for (let b = 0; b < group[passageId].length; b++) {
+                        if (!addedItemIds.includes(group[passageId][b].itemId)) {
+                            addedItemIds.push(group[passageId][b].itemId); // 추가한 문항 표시
 
-                        // 이미 추가한 문항인지 확인
-                        if (!addedItemIds.includes(item.itemId)) {
+                        item[b] = group[passageId];
+
                             similarItemNum++;
-                            addedItemIds.push(item.itemId); // 추가한 문항으로 표시
+                            // 추가한 문항으로 표시
                             html += `
                             <div class="view-que-box item-box" data-paperTitle="">
                                 <div class="que-top">
@@ -325,7 +311,15 @@ $(function () {
                         }
                     }
                     html += '</div>';
+                })
+
+                // 지문에 담긴 문항 개수를 구하기
+                for(let i = 0; i < Object.keys(group).length; i++) {
+                    pArrlength[i] = group[Object.keys(group)[i]].length;
+                    console.log(`pArrlength${i} `, pArrlength);
+
                 }
+
 
                 $("#item-similar-area").empty();
                 $("#list-similar-area").css("display", "block");
@@ -1284,7 +1278,7 @@ function setPassageNum(passageBox){
             tmpText += ' ~ ' + item.last().find(".num").text();
         }
         $(this).find(".num").text(tmpText);
-
+        console.log("tmpText == ",tmpText);
         // 지문문항에 문항 1개만 있으면 전체추가, 삭제 버튼 제거
         let isSingleItem = item.length === 1;
         passage.find(".btn-add[data-type=all]").toggle(!isSingleItem);
