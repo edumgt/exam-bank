@@ -211,57 +211,68 @@ $(function () {
                 let addedPassageIds = [];
                 let addedItemIds = [];
                 let group = {};
-                let pArrlength = "";
+                let pArrLength = 0;
 
-                data.body.itemList.forEach((item) =>{
-                    const {passageId, itemList} = item;
+                data.body.itemList.forEach((item) => {
+                    const { passageId, itemList} = item;
 
-                    if (!group[passageId]){
+                    // passageId에 해당하는 배열이 없으면 새로운 배열 생성
+                    if (!Array.isArray(group[passageId])) {
                         group[passageId] = [];
                     }
-                    group[passageId].push(item);
 
-                    if (passageId != null){
-                        group.passageYn = "Y";
+                    // passageId에 해당하는 배열에 item이 포함되어 있지 않으면 추가
+                    if (!group[passageId].some(existingItem => existingItem.itemId === item.itemId)) {
+                        group[passageId].push(item);
                     }
-                    console.log("passageId ==== ",group.passageYn)
-                    let passageBox = group.passageYn === "Y" ? "passage-view-que-box" : "";
-                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+group.groupNum+'" data-sortValue="">';
+
+                    console.log("group.groupNum ==== ",Object.keys(group).length);
+                    // if (passageId != null){
+                    //     group.passageYn = "Y";
+                    // }
+
+                    // 지문에 담긴 문항 개수를 구하기
+
+                    let passageBox = pArrLength > 0 ? "passage-view-que-box" : "";
+                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+Object.keys(group).length+'" data-sortValue="">';
 
                     // 지문영역
 
-                    if(group.passageYn = "Y") {
-                        if (!addedPassageIds.includes(group[passageId])) {
-                            addedPassageIds.push(group[passageId]); // 추가한 문항 표시
+
+                        if(group[passageId].length > 0) {
+                            if (!addedPassageIds.includes(item.passageId)) {
+                                addedPassageIds.push(item.passageId); // 추가한 문항 표시
+
                             html +=
-                                `<div class="view-que-box passage-box" data-passageId="${item.passageId}">
+                                `<div class="view-que-box passage-box" data-passageId="${Object.keys(group)}">
                                  <div class="que-top">
-                                     <div class="title"><span class="num"></span></div>
+                                     <div class="title"><span class="num">${Object.values(group)}</span></div>
                                      <div class="btn-wrap delete-btn-wrap"></div>
                                  </div>
                                  <div class="view-que">
                                     <div class="que-bottom">
                                          <div class="passage-area"><img src="${item.passageUrl}" alt="${item.passageId}" width="453px"></div>
                                          <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                                  ${group[passageId].length === 1 ? "" :
+                                                  ${addedPassageIds.length === 1 ? "" :
                                                   `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
                                              </div>
                                          </div>
                                      </div>
                                  </div>`
-                            ;
+                            }
                         }
-                    }
+
 
                     // 문항 영역에 개별 추가 버튼 추가
                     for (let b = 0; b < group[passageId].length; b++) {
-                        if (!addedItemIds.includes(group[passageId][b].itemId)) {
-                            addedItemIds.push(group[passageId][b].itemId); // 추가한 문항 표시
 
-                        item[b] = group[passageId];
+                        const currentItem = group[passageId][b];
 
+                        if (!addedItemIds.includes(currentItem.itemId)) {
+                            addedItemIds.push(currentItem.itemId); // 추가한 문항 표시
                             similarItemNum++;
-                            // 추가한 문항으로 표시
+
+
                             html += `
                             <div class="view-que-box item-box" data-paperTitle="">
                                 <div class="que-top">
@@ -318,12 +329,7 @@ $(function () {
                 })
 
 
-                // 지문에 담긴 문항 개수를 구하기
-                for(let i = 0; i < Object.keys(group).length; i++) {
-                    pArrlength[i] = group[Object.keys(group)[i]].length;
-                    console.log(`pArrlength ${i} `, pArrlength);
 
-                }
 
                 $("#item-similar-area").empty();
                 $("#list-similar-area").css("display", "block");
@@ -1277,6 +1283,8 @@ function setPassageNum(passageBox){
         let item = $(this).closest(".sort-group").children(".item-box");
         let passage = $(this).closest(".sort-group").children(".passage-box");
         let tmpText = item.first().find(".num").text();
+        // let tmpText = [2,3];
+
 
         if(item.length > 1){
             tmpText += ' ~ ' + item.last().find(".num").text();
