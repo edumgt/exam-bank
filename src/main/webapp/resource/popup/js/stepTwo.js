@@ -210,10 +210,9 @@ $(function () {
                 // 이미 추가한 문항들의 ID를 저장할 배열
                 let addedPassageIds = [];
                 let addedItemIds = [];
-
                 let group = {};
-                let groupLength = "";
                 let pArrlength = "";
+
                 data.body.itemList.forEach((item) =>{
                     const {passageId, itemList} = item;
 
@@ -222,16 +221,20 @@ $(function () {
                     }
                     group[passageId].push(item);
 
-                    console.log("passageId ==== ",passageId)
-                    let passageBox = item.passageId > 0 ? "passage-view-que-box" : "";
-                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+ group[passageId].length +'" data-sortValue="">';
+                    if (passageId != null){
+                        group.passageYn = "Y";
+                    }
+                    console.log("passageId ==== ",group.passageYn)
+                    let passageBox = group.passageYn === "Y" ? "passage-view-que-box" : "";
+                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+group.groupNum+'" data-sortValue="">';
 
                     // 지문영역
 
-                    if(group[passageId].length > 0) {
+                    if(group.passageYn = "Y") {
                         if (!addedPassageIds.includes(group[passageId])) {
                             addedPassageIds.push(group[passageId]); // 추가한 문항 표시
-                            html += `<div class="view-que-box passage-box" data-passageId="${item.passageId}">
+                            html +=
+                                `<div class="view-que-box passage-box" data-passageId="${item.passageId}">
                                  <div class="que-top">
                                      <div class="title"><span class="num"></span></div>
                                      <div class="btn-wrap delete-btn-wrap"></div>
@@ -239,17 +242,17 @@ $(function () {
                                  <div class="view-que">
                                     <div class="que-bottom">
                                          <div class="passage-area"><img src="${item.passageUrl}" alt="${item.passageId}" width="453px"></div>
-                                         <div class="btn-wrap etc-btn-wrapstyle="margin-top: 10p" x;">
-                                              ${group[passageId].length === 1 ? "" : 
-                                '<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>'}
-                               
+                                         <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                                                  ${group[passageId].length === 1 ? "" :
+                                                  `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                                             </div>
                                          </div>
                                      </div>
-                                 </div>
-                             </div>`;
+                                 </div>`
+                            ;
                         }
                     }
-                    console.log("item.passageId == ",html)
+
                     // 문항 영역에 개별 추가 버튼 추가
                     for (let b = 0; b < group[passageId].length; b++) {
                         if (!addedItemIds.includes(group[passageId][b].itemId)) {
@@ -311,22 +314,23 @@ $(function () {
                         }
                     }
                     html += '</div>';
+
                 })
+
 
                 // 지문에 담긴 문항 개수를 구하기
                 for(let i = 0; i < Object.keys(group).length; i++) {
                     pArrlength[i] = group[Object.keys(group)[i]].length;
-                    console.log(`pArrlength${i} `, pArrlength);
+                    console.log(`pArrlength ${i} `, pArrlength);
 
                 }
-
 
                 $("#item-similar-area").empty();
                 $("#list-similar-area").css("display", "block");
                 $(html).prependTo($("#item-similar-area"));
                 $("#similar-title").text(queNo + "번 유사 문제");
-
                 setPassageNum($("#item-similar-area .passage-box"));
+
                 // 유사 문제 영역 스크롤 최상단 지정
                 document.getElementById('item-similar-area').getElementsByClassName('sort-group')[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
 
