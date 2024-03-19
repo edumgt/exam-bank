@@ -2,7 +2,17 @@ $(function () {
   
   activeText(2);
   setItemNum();
-  makeSummary($('.passage-view-que-box'), 1, 'add');
+  
+  // 초기 문제지 요약 목록
+  $("#content-summary-area #table-1").empty();
+  
+  $("#view-que-detail-list .sort-group").each(function (i, e) {
+    makeSummary($(e), $(e).attr("data-sortnum", i),'add');
+  });
+  
+  
+  
+  
   
   // 초기 정렬 순서
   // 셋팅지,시험지 편집/ 뒤로가기 진입시 : 사용자정렬
@@ -88,7 +98,7 @@ $(function () {
     
     let _idx = $('.col.que').index(this);
     document.getElementsByClassName('item-box')[_idx].scrollIntoView({behavior: "smooth"},);
-    
+
     let _this = $(this);
     if (!_this.hasClass('active')) {
       _this.closest('.test.ui-sortable').find('.col').removeClass('active');
@@ -404,7 +414,8 @@ $(function () {
     // 문제지 요약 생성 재설정
     $("#content-summary-area #table-1").empty();
     $("#view-que-detail-list .sort-group").each(function (i, e) {
-      makeSummary($(e), $(e).attr("data-sortnum"), 'add');
+      makeSummary($(e), $(e).attr("data-sortNum"), 'add');
+      console.log($(e).data("sortNum"));
     });
     
     // scrollTarget에 따라 스크롤 이동처리
@@ -470,7 +481,8 @@ $(function () {
     // 문제지 요약 생성 재설정
     $("#content-summary-area #table-1").empty();
     $("#view-que-detail-list .sort-group").each(function (i, e) {
-      makeSummary($(e), $(e).attr("data-sortnum"), 'delete');
+      makeSummary($(e), $(e).attr("data-sortNum"), 'delete');
+      console.log($(e).data("data-sortNum"));
     });
     
     // 문제지 요약 active
@@ -571,7 +583,7 @@ $(function () {
       
       // 문제 목록으로 이동
       if (target === "view-que-detail-list") {
-        newGroup = newGroup.attr('data-sortnum', passageGroup.siblings(".item-box").length + 1);
+        newGroup = newGroup.attr('data-sortNum', passageGroup.siblings(".item-box").length + 1);
         // active 여부에 따라 이동할 위치 설정
         let activeTarget = $(`#${target}`).find(".sort-group").find(".item-box.active").closest(".sort-group");
         activeTarget.length > 0 ? newGroup.insertAfter(activeTarget) : newGroup.appendTo(`#${target}`);
@@ -978,7 +990,7 @@ function sortQue(target, sortType, moveSortNum) {
 
 // 문항 번호 세팅
 function setSortNum(target, moveSortNum) {
-  if (target === "detail") { // 문제지 요약
+  if (target === "detail") {
     let numArr = [];
     let numGroupArr = [];
     let cnt = 0
@@ -1203,6 +1215,7 @@ function makeSummary(target, sortNum, type) {
         `;
     
     target.find(".item-box").each(function (i) {
+      console.log($(this).find("#questionId").val());
       html += `
                 <div class="col depth-02 que">
                   <a href="javascript:;">
@@ -1226,6 +1239,7 @@ function makeSummary(target, sortNum, type) {
     
     // 문항만 있는 경우
   } else {
+    console.log($(this).find("#questionId").val());
     html += `
             <div class="col que summary-box" data-sortSummary=${sortNum}>
                 <a href="javascript:;">
@@ -1246,8 +1260,6 @@ function makeSummary(target, sortNum, type) {
         `;
   }
   
-  console.log(html)
-  
   if (type === 'add') {
     $("#content-summary-area #table-1").append($(html));
     
@@ -1265,6 +1277,7 @@ function makeSummary(target, sortNum, type) {
   $(".summary-box").each(function (i) {
     $(this).attr("data-sortSummary", i);
   });
+  
 }
 
 
@@ -1292,6 +1305,8 @@ function setPassageNum(passageBox) {
 function setItemNum() {
   $('#view-que-detail-list .item-box').each(function (i) {
     $(this).find(".num").text((i + 1));
+    console.log($(this).find("#questionNo").val());
+    console.log($(this).find("#questionId").val());
   });
   
   $('.summary-num').each(function (i) {

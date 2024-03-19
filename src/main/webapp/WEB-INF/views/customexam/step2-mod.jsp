@@ -75,7 +75,9 @@
           <div class="paper-info">
             <span>국어3-2(노미숙)</span>-2015개정 교육과정
           </div>
-
+          <form action="/customExam/step2" method="post">
+            <input type="submit" value="제출">
+          </form>
           <button class="btn-default btn-research" onclick="rescan()"><i class="research"></i>재검색</button>
           <button class="btn-default" id="btn-range">출제범위</button>
         </div>
@@ -125,10 +127,6 @@
               </div>
             </div>
 
-            <form action="/customExam/step2" method="post">
-              <input type="submit" value="제출">
-            </form>
-
             <%-- 좌측 메인 (문항 리스트) --%>
             <div class="view-que-list scroll-inner" style="display: -webkit-box;-webkit-box-orient:vertical"
                  id="view-que-detail-list">
@@ -149,7 +147,7 @@
                       <div class="passage-view-que-box sort-group" data-sortnum=""
                            data-sortvalue="${(dto.largeChapterId)+(dto.mediumChapterId)+(dto.smallChapterId)+(dto.topicChapterId)}">
                         <div class="view-que-box passage-box" data-passageid="${dto.passageId}">
-                          <c:out value="${dto.passageId}"/>
+<%--                          <c:out value="${dto.passageId}"/>--%>
                           <div class="que-top">
                             <div class="title"><span class="num"></span></div>
                             <div class="btn-wrap delete-btn-wrap"></div>
@@ -167,11 +165,12 @@
                           <div class="view-que-box item-box" data-paperTitle="">
                             <div class="que-top">
                               <div class="title">
-                                <span class="num">${dto.itemNo}</span>
+                                <span class="num"></span>
                                 <div class="que-badge-group">
                                   <span class="que-badge">${dto.difficultyName}</span>
                                   <span class="que-badge gray">${(dto.questionFormCode)}</span>
                                   <input type="hidden" id="questionId" value="${dto.itemId}">
+                                  <input type="hidden" id="questionNo" value="${dto.itemNo}">
                                   <input type="hidden" id="chapterGp"
                                          value="${dto.largeChapterId}${dto.mediumChapterId}${dto.smallChapterId}${dto.topicChapterId}">
                                   <input type="hidden" id="difficultyCode" value="${dto.difficultyCode}">
