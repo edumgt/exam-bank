@@ -3,7 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js" integrity="sha512-Z8CqofpIcnJN80feS2uccz+pXWgZzeKxDsDNMD/dJ6997/LSRY+W4NmEt9acwR+Gt9OHN0kkI1CTianCwoqcjQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<script src="/resource/popup/js/jquery-1.12.4.min.js"></script>
 <html>
 <head>
     <title>Title</title>
@@ -18,6 +18,7 @@
             margin-bottom: 10px;
         }
         .title_header{
+            width: 76%;
             font-size: 16px;
             font-weight: bold;
             line-height: 46px;
@@ -74,24 +75,26 @@
         }
         .item_answer:after{
             float: left;
-            height: 12px;
+            height: 15px;
             background: palevioletred;
             width: 30px;
             font-size: 10px;
-            line-height: 12px;
+            line-height: 15px;
             font-weight: bold;
             color: #fff;
+            text-align: center;
             content: "정답";
         }
         .item_explain:after{
             float: left;
-            height: 12px;
+            height: 15px;
             background: rgba(80, 141, 253, 0.68);
             width: 30px;
             font-size: 10px;
-            line-height: 12px;
+            line-height: 15px;
             font-weight: bold;
             color: #fff;
+            text-align: center;
             content: "해설";
         }
         .page-break-after {
@@ -138,42 +141,542 @@
             }
         });
         doc.save('savePDF.pdf');
-
-
-
-        // html2canvas(document.querySelector('.test_paper'), {
-        //     allowTaint: true, // cross-origin allow
-        //     useCORS: true,    // CORS 사용한 서버로부터 이미지 로드할 것인지 여부
-        //     scale: 2         // 기본 96dpi에서 해상도를 두 배로 증가
-        // }).then(function(canvas) {
-        //     var imgData = canvas.toDataURL('image/png');
-        //     var imgWidth = 190; // 이미지 가로 길이(mm) / A4 기준 210mm
-        //     var pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
-        //     var imgHeight = canvas.height * imgWidth / canvas.width;
-        //     var heightLeft = imgHeight;
-        //     var margin = 10; // 출력 페이지 여백설정
-        //
-        //
-        //     var doc = new jspdf.jsPDF('p', 'mm', 'a4');
-        //     var position = 0;
-        //
-        //     doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-        //     heightLeft -= pageHeight;
-        //
-        //     while (heightLeft >= 20) {
-        //         position = heightLeft - imgHeight;
-        //         position = position - 20;
-        //
-        //         doc.addPage();
-        //         doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-        //         heightLeft -= pageHeight;
-        //     }
-        //
-        //     doc.save('filename.pdf');
-        // });
     }
+    const itemList = [
+        {
+            "itemNo": 1,
+            "itemId": 521684,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010105,
+            "topicChapterName": "작품의 특징",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg"
+        },
+        {
+            "itemNo": 2,
+            "itemId": 521686,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010102,
+            "topicChapterName": "작품의 내용",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521686/521686_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521686/521686_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521686/521686_2023-10-13.svg"
+        },
+        {
+            "itemNo": 3,
+            "itemId": 521688,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010106,
+            "topicChapterName": "작품의 해석",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521688/521688_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521688/521688_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521688/521688_2023-10-13.svg"
+        },
+        {
+            "itemNo": 4,
+            "itemId": 521690,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010102,
+            "topicChapterName": "작품의 내용",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521690/521690_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521690/521690_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521690/521690_2023-10-13.svg"
+        },
+        {
+            "itemNo": 5,
+            "itemId": 521691,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010102,
+            "topicChapterName": "작품의 내용",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521691/521691_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521691/521691_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521691/521691_2023-10-13.svg"
+        },
+        {
+            "itemNo": 6,
+            "itemId": 521693,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010108,
+            "topicChapterName": "작품의 표현 방법",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521693/521693_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521693/521693_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521693/521693_2023-10-13.svg"
+        },
+        {
+            "itemNo": 7,
+            "itemId": 521695,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010101,
+            "topicChapterName": "작품의 말하는 이",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521695/521695_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521695/521695_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521695/521695_2023-10-13.svg"
+        },
+        {
+            "itemNo": 8,
+            "itemId": 521697,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010104,
+            "topicChapterName": "작품의 감상",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521697/521697_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521697/521697_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521697/521697_2023-10-13.svg"
+        },
+        {
+            "itemNo": 9,
+            "itemId": 521700,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010101,
+            "topicChapterName": "작품의 말하는 이",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521700/521700_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521700/521700_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521700/521700_2023-10-13.svg"
+        },
+        {
+            "itemNo": 10,
+            "itemId": 521701,
+            "questionFormCode": "60",
+            "questionFormName": "단답 유순형",
+            "difficultyCode": "04",
+            "difficultyName": "상",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010106,
+            "topicChapterName": "작품의 해석",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521701/521701_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521701/521701_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521701/521701_2023-10-13.svg"
+        },
+        {
+            "itemNo": 11,
+            "itemId": 521703,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010101,
+            "topicChapterName": "작품의 말하는 이",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521703/521703_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521703/521703_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521703/521703_2023-10-13.svg"
+        },
+        {
+            "itemNo": 12,
+            "itemId": 521709,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010106,
+            "topicChapterName": "작품의 해석",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521709/521709_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521709/521709_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521709/521709_2023-10-13.svg"
+        },
+        {
+            "itemNo": 13,
+            "itemId": 521711,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010106,
+            "topicChapterName": "작품의 해석",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521711/521711_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521711/521711_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521711/521711_2023-10-13.svg"
+        },
+        {
+            "itemNo": 14,
+            "itemId": 521713,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010102,
+            "topicChapterName": "작품의 내용",
+            "passageId": 25280,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25280/25280_2024-02-21.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521713/521713_2024-02-21.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521713/521713_2024-02-21.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521713/521713_2024-02-21.svg"
+        },
+        {
+            "itemNo": 15,
+            "itemId": 521714,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010105,
+            "topicChapterName": "작품의 특징",
+            "passageId": 25280,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25280/25280_2024-02-21.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521714/521714_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521714/521714_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521714/521714_2023-10-13.svg"
+        },
+        {
+            "itemNo": 16,
+            "itemId": 521716,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010106,
+            "topicChapterName": "작품의 해석",
+            "passageId": 25280,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25280/25280_2024-02-21.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521716/521716_2024-02-21.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521716/521716_2024-02-21.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521716/521716_2024-02-21.svg"
+        },
+        {
+            "itemNo": 17,
+            "itemId": 521718,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010104,
+            "topicChapterName": "작품의 감상",
+            "passageId": 25280,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25280/25280_2024-02-21.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521718/521718_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521718/521718_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521718/521718_2023-10-13.svg"
+        },
+        {
+            "itemNo": 18,
+            "itemId": 521720,
+            "questionFormCode": "85",
+            "questionFormName": "서술형",
+            "difficultyCode": "04",
+            "difficultyName": "상",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010104,
+            "topicChapterName": "작품의 감상",
+            "passageId": 25280,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25280/25280_2024-02-21.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521720/521720_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521720/521720_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521720/521720_2023-10-13.svg"
+        },
+        {
+            "itemNo": 19,
+            "itemId": 521707,
+            "questionFormCode": "85",
+            "questionFormName": "서술형",
+            "difficultyCode": "04",
+            "difficultyName": "상",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010106,
+            "topicChapterName": "작품의 해석",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521707/521707_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521707/521707_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521707/521707_2023-10-13.svg"
+        },
+        {
+            "itemNo": 20,
+            "itemId": 521706,
+            "questionFormCode": "85",
+            "questionFormName": "서술형",
+            "difficultyCode": "04",
+            "difficultyName": "상",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010104,
+            "topicChapterName": "작품의 감상",
+            "passageId": 25279,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521706/521706_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521706/521706_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521706/521706_2023-10-13.svg"
+        },
+        {
+            "itemNo": 21,
+            "itemId": 521262,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "04",
+            "difficultyName": "상",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010106,
+            "topicChapterName": "작품의 해석",
+            "passageId": 25273,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25273/25273_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521262/521262_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521262/521262_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521262/521262_2023-10-13.svg"
+        },
+        {
+            "itemNo": 22,
+            "itemId": 521260,
+            "questionFormCode": "50",
+            "questionFormName": "5지 선택",
+            "difficultyCode": "03",
+            "difficultyName": "중",
+            "largeChapterId": 115901,
+            "largeChapterName": "1. 문학의 샘",
+            "mediumChapterId": 11590101,
+            "mediumChapterName": "(1) 문학의 다양한 해석",
+            "smallChapterId": 1159010101,
+            "smallChapterName": "청포도",
+            "topicChapterId": 115901010102,
+            "topicChapterName": "작품의 내용",
+            "passageId": 25273,
+            "passageUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25273/25273_2023-12-19.svg",
+            "questionUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/question/521260/521260_2023-10-13.svg",
+            "answerUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521260/521260_2023-10-13.svg",
+            "explainUrl": "https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521260/521260_2023-10-13.svg"
+        }
+    ];
 
     function renderImg(){
+        const examName = "[수지니 시험지]";
+        $(".title_header").text(examName);
+        console.log("itemList.length",itemList.length);
+
+        const contents = $("#contents");
+        let itemHtml = '<div class="column column-first">';
+
+        let passageList = {};
+
+        itemList.forEach(item => {
+            console.log(item);
+
+            console.log(item.passageId);
+            itemHtml += '<figure>';
+
+
+            // 지문이 있는 문항의 경우
+            if(!passageList[item.passageId]) { // 해당 지문의 첫번째 문제인 경우, 문제번호 만들고 img 보이기
+                passageList[item.passageId] = [];
+                passageList[item.passageId].push(item.itemNo);
+                itemHtml += '<span class="item_no" passage-id="'+item.passageId+'_'+item.itemNo+'">[' + item.itemNo + '-</span>';
+                itemHtml += '<img src="' + item.passageUrl + '" style="margin-bottom: 10px">';
+            } else { // 해당 지문의 첫번째 문제가 아닌 경우, 마지막 문제번호 추가하기
+                let currentPassageId = passageList[item.passageId];
+                console.log(currentPassageId[currentPassageId.length-1]);
+                if(currentPassageId[currentPassageId.length-1]+1 != item.itemNo) { // 연속된 문제가 아니라면 지문 출력
+                    console.log("새로운문제");
+                    passageList[item.passageId] = [];
+                    passageList[item.passageId].push(item.itemNo);
+                    itemHtml += '<span class="item_no" passage-id="'+item.passageId+'">[' + item.itemNo + '-]</span>';
+                    itemHtml += '<img src="' + item.passageUrl + '" style="margin-bottom: 10px">';
+                } else {
+                    passageList[item.passageId].push(item.itemNo);
+                }
+            }
+
+            itemHtml += '<span class="item_no">'+item.itemNo+'</span>';
+            itemHtml += '<img src="'+item.questionUrl+'">';
+            itemHtml += '<div class="item_answer"></div>';
+            itemHtml += '<img src="'+item.answerUrl+'">';
+            itemHtml += '<div class="item_explain"></div>';
+            itemHtml += '<img src="'+item.explainUrl+'">';
+            itemHtml += '</figure>';
+
+        });
+
+        itemHtml += '</div>';
+        contents.html(itemHtml);
+
+        console.log(passageList);
+        console.log(Object.keys(passageList));
+
+        for (const key of Object.keys(passageList)){
+            console.log("ff",key);
+            console.log($("span[passage-id="+key+"_"+passageList[key][0]+"]").text());
+            console.log(passageList[key].length);
+            let originRange = $("span[passage-id="+key+"_"+passageList[key][0]+"]").text();
+            $("span[passage-id="+key+"_"+passageList[key][0]+"]").text(originRange+passageList[key][passageList[key].length-1]+"]");
+        }
+
+
+
+
+
+
+
+
+        // --------------------------------------------------
+
         let startPosition = 0; // 캡쳐를 시작할 위치
         let leftHeight = 0; // 캡쳐해야할 남은 높이
         let setHeight = 0; // 캡쳐할 canvas 높이
@@ -216,7 +719,9 @@
                         setHeight = leftHeight <= PAGE_LIMIT_HEIGHT ? leftHeight : PAGE_LIMIT_HEIGHT;
                         addDataUrl();
                     } else {
-                        savePDF(result);
+                        alert("pdf추출 성공!!");
+                        // savePDF(result);
+
                     }
 
                 });
@@ -238,75 +743,76 @@
             </tr>
         </table>
     </header>
+    <div id="contents">
+        <div class="column column-first">
+            <figure>
+                <span class="item_no">01</span>
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
+                <div class="item_answer"></div>
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
+                <div class="item_explain"></div>
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
+            </figure>
 
-    <div class="column column-first">
-        <figure>
-            <span class="item_no">01</span>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
-            <div class="item_answer"></div>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-            <div class="item_explain"></div>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
+            <figure>
+                <span class="item_no">01</span>
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
+            </figure>
 
-        <figure>
-            <span class="item_no">01</span>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
+            <figure>
+                <span class="item_no">01</span>
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
+            </figure>
+        </div>
 
-        <figure>
-            <span class="item_no">01</span>
-        <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
-        <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
-        <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-        <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
-    </div>
+        <%--    <h1 class="page-break-after"></h1>--%>
 
-<%--    <h1 class="page-break-after"></h1>--%>
+        <div class="column">
 
-    <div class="column">
-
-        <figure>
-            <span class="item_no">01</span>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
+            <figure>
+                <span class="item_no">01</span>
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
+            </figure>
 
 
 
-        <figure>
-            <span class="item_no">01</span>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
-    </div>
+            <figure>
+                <span class="item_no">01</span>
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
+            </figure>
+        </div>
 
-<%--    <h1 class="page-break-after"></h1>--%>
+        <%--    <h1 class="page-break-after"></h1>--%>
 
-    <div class="column">
-        <figure>
-            <span class="item_no">01</span>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
-        <figure>
-            <span class="item_no">01</span>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
+        <div class="column">
+            <figure>
+                <span class="item_no">01</span>
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
+            </figure>
+            <figure>
+                <span class="item_no">01</span>
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
+                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
+            </figure>
+        </div>
     </div>
 
 </div>
