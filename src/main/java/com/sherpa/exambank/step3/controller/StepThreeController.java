@@ -5,7 +5,6 @@ import com.sherpa.exambank.step3.domain.*;
 import com.sherpa.exambank.step3.service.StepThreeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,9 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
@@ -151,10 +148,13 @@ public class StepThreeController {
     /* ck step2 -> step3 */
 //
     @PostMapping("/customExam/step3")
-    public Step3Response moveToStep3 (@ModelAttribute("new_form") Step3Request step3Request , Model model){
-        log.info("Here in moveToStep3");
+    public String moveToStep3 (@ModelAttribute("new_form2") Step3Request step3Request, Model model) throws IOException {
+        log.info("Here in moveToStep3 = {}", step3Request); // formdata - vo 바로 맵핑한 결과
         Step3Response step3Response = stepThreeService.moveToStep3(step3Request);
-        return null;
+        log.info("step3Request data == ", step3Response);
+        model.addAttribute("itemIdList",step3Response.getQueIdList());
+        model.addAttribute("subjectName",step3Response.getSubjectName());
+        return "/customexam/step3";
     }
 
 

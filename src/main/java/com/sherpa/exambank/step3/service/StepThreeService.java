@@ -2,8 +2,7 @@ package com.sherpa.exambank.step3.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sherpa.exambank.method.domain.Step0ExamResponse;
-import com.sherpa.exambank.step2.domain.Step2Response;
+import com.sherpa.exambank.step1.domain.MoveExamStep2Item;
 import com.sherpa.exambank.step3.domain.*;
 import com.sherpa.exambank.step3.mapper.StepThreeMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.DataInput;
+import java.io.IOException;
 import java.net.URI;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.http.*;
 
 @Service
@@ -136,7 +140,14 @@ public class StepThreeService {
                 .queIdList(step3Request.getQueArr())
                 .subjectName(step3Request.getSubjectName())
                 .build();
-        log.info("moveToStep3 Service ::::: ",step3Response);
-        return null;
+        log.info("moveToStep3 Service ::::: = {}",step3Response);
+
+        /*MoveExamStep2Item[] itemArray = objectMapper.readValue(step2Request.getItemListByForm(), MoveExamStep2Item[].class);
+        List<MoveExamStep2Item> itemList = Arrays.asList(itemArray);
+        step2Response.setItemList(itemList);*/
+
+        // Step3Response[]
+
+        return step3Response;
     }
 }
