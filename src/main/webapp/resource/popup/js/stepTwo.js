@@ -3,22 +3,22 @@ $(function () {
     activeText(2);
     setItemNum();
 // 초기 문제지 요약 목록
-//     $("#content-summary-area #table-1").empty();
-//     $("#view-que-detail-list .sort-group").each(function (i, e) {
-//         makeSummary($(e), $(e).attr("data-sortnum", i),'add');
-//     });
-//
-//     // 문항 타이틀 영역 - 난이도 뱃지에 색상 부여
-//     $(".view-que-box.item-box").each(function (i, e) {
-//         $(this).find("#difficultyColor").addClass(getColorClass(
-//             $(this).find("#difficultyCode").val()
-//         ));
-//     });
-//
-//     // 문제 형식에 따른 텍스트 출력
-//     $(".que-badge.gray").text(
-//         getQuestionType($("#questionFormCode").val())
-//     );
+    $("#content-summary-area #table-1").empty();
+    $("#view-que-detail-list .sort-group").each(function (i, e) {
+        makeSummary($(e), $(e).attr("data-sortnum", i),'add');
+    });
+
+    // 문항 타이틀 영역 - 난이도 뱃지에 색상 부여
+    $(".view-que-box.item-box").each(function (i, e) {
+        $(this).find("#difficultyColor").addClass(getColorClass(
+            $(this).find("#difficultyCode").val()
+        ));
+    });
+
+    // 문제 형식에 따른 텍스트 출력
+    $(".que-badge.gray").text(
+        getQuestionType($("#questionFormCode").val())
+    );
 
     // 초기 정렬 순서
     // 셋팅지,시험지 편집/ 뒤로가기 진입시 : 사용자정렬
