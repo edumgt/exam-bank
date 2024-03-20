@@ -2,6 +2,23 @@ $(function () {
 
     activeText(2);
     setItemNum();
+// 초기 문제지 요약 목록
+//     $("#content-summary-area #table-1").empty();
+//     $("#view-que-detail-list .sort-group").each(function (i, e) {
+//         makeSummary($(e), $(e).attr("data-sortnum", i),'add');
+//     });
+//
+//     // 문항 타이틀 영역 - 난이도 뱃지에 색상 부여
+//     $(".view-que-box.item-box").each(function (i, e) {
+//         $(this).find("#difficultyColor").addClass(getColorClass(
+//             $(this).find("#difficultyCode").val()
+//         ));
+//     });
+//
+//     // 문제 형식에 따른 텍스트 출력
+//     $(".que-badge.gray").text(
+//         getQuestionType($("#questionFormCode").val())
+//     );
 
     // 초기 정렬 순서
     // 셋팅지,시험지 편집/ 뒤로가기 진입시 : 사용자정렬
@@ -132,8 +149,10 @@ $(function () {
         }
     });
 
+
     // 유사문제 버튼
     $("#view-que-detail-list").on("click", ".btn-similar-que", function () {
+        console.log("유사문제 버튼")
         // 토글 및 셀렉트박스 초기화
         clearSimilarCondition();
         $("#tab-box").removeClass("type03");
@@ -143,7 +162,7 @@ $(function () {
 
         // 클릭한 문항 id
         let questionId =  $(this).closest(".view-que-box").find("#questionId").val();
-
+        console.log("유사문제 버튼2");
         // 기존에 active 된 부분 지우기
         $("#view-que-detail-list .view-que-box").removeClass("active");
 
@@ -169,22 +188,30 @@ $(function () {
             }
         })
 
-        _param.excludeCdStr = JSON.stringify(_excludeCd);
+
 
         // 선택한 지문 id 목록
         _problemCode.push(questionId);
-        _param.problemCode = JSON.stringify(_problemCode);
+
+        _param.itemIdList = _problemCode;
+
+        _param.excludeCode = _excludeCd;
 
         // 문제 목록 순서
         let queNo = $(this).parents(".view-que-box").find(".num").text();
-
+        console.log("queNo = " + queNo );
         $("#target-sort-num").val(_sortGroup.attr("data-sortNum"));
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
 
-        $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/step2", _param, function (data) {
 
-            if (data.length === 0) {
+        $.ajaxSetup({async: false});
+        //http://localhost:8080/customExam/similar-List
+        ajaxCall("post","/customExam/similar-List", JSON.stringify(_param), function (data) {
+
+            let simData = data.body.itemList;
+            console.log("simData === ",simData)
+
+            if (simData.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");
                 // 다시 문제지 요약 탭으로
                 $("#tab-summary").click();
@@ -194,40 +221,57 @@ $(function () {
                 let html = '';
                 let similarItemNum = 0;
 
-                for (let a = 0; a < data.length; a++) {
-                    let group = data[a];
+                // 이미 추가한 문항들의 ID를 저장할 배열
+                let addedPassageIds = [];
+                let addedItemIds = [];
+                let group = {};
+                let pArrLength = 0;
 
-                    let passageBox = group.passageYn === "Y" ? "passage-view-que-box" : "";
-                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+group.groupNum+'" data-sortValue="">';
+                simData.forEach((item) => {
+                    const { passageId } = item;
+                    // group 객체 내에 해당 passageId 키가 존재하지 않으면, 해당 키에 빈 배열 할당
+                    if (!group[passageId]) {
+                        group[passageId] = [];
+                    }
+                    // 현재 아이템을 해당 passageId 배열에 추가
+                    group[passageId].push(item);
 
+                    console.log("group[passageId] = ",group[passageId]);
+                });
+                let groupNum = 0;
+                Object.keys(group).forEach(passageId => {
+                    const items = group[passageId];
+
+
+                    let passageBox = items.length > 0 ? "passage-view-que-box" : "";
+                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+ groupNum +'" data-sortValue="">';
+                    console.log("items - ",items)
+                    groupNum++;
                     // 지문영역
-                    if(group.passageYn === "Y") {
-                        html += `<div class="view-que-box passage-box" data-passageId="${group.passageId}">
-                                     <div class="que-top">
-                                         <div class="title"><span class="num"></span></div>
-                                         <div class="btn-wrap delete-btn-wrap"></div>
-                                     </div>
-                                     <div class="view-que">
-                                        <div class="que-bottom">
-                                             <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
-                                             <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                                  ${group.itemGroupList.length === 1 ? "" :
-                            `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                    if (items[0].passageUrl){
+                        html +=
+                            `<div class="view-que-box passage-box" data-passageId="${passageId}">
+                                 <div class="que-top">
+                                     <div class="title"><span class="num"></span></div>
+                                     <div class="btn-wrap delete-btn-wrap"></div>
+                                 </div>
+                                 <div class="view-que">
+                                    <div class="que-bottom">
+                                         <div class="passage-area"><img src="${items[0].passageUrl}" alt="${passageId}" width="453px"></div>
+                                         <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                                                  ${items.length === 1 ? "" :
+                                `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
                                              </div>
                                          </div>
                                      </div>
                                  </div>`;
                     }
-
-                    // 문항 영역
-
-                    // 문항 영역에 개별 추가 버튼 추가
-                    for (let b = 0; b < group.itemGroupList.length; b++) {
-                        let item = group.itemGroupList[b];
+                    // 각 문항에 대한 HTML
+                    items.forEach(item => {
                         similarItemNum++;
-
+                        console.log("item.explainUrl -- ",item.explainUrl)
                         html += `
-                            <div class="view-que-box item-box" data-paperTitle="">
+                            <div class="view-que-box item-box" data-paperTitle="${passageId}">
                                 <div class="que-top">
                                     <div class="title">
                                         <span class="num">${similarItemNum}</span>
@@ -275,16 +319,18 @@ $(function () {
                                     <p class="chapter">${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}</p>
                                 </div>
                             </div>`;
-                    }
+                    });
+
                     html += '</div>';
-                }
+                });
+
 
                 $("#item-similar-area").empty();
                 $("#list-similar-area").css("display", "block");
                 $(html).prependTo($("#item-similar-area"));
                 $("#similar-title").text(queNo + "번 유사 문제");
-
                 setPassageNum($("#item-similar-area .passage-box"));
+
                 // 유사 문제 영역 스크롤 최상단 지정
                 document.getElementById('item-similar-area').getElementsByClassName('sort-group')[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
 
@@ -294,6 +340,7 @@ $(function () {
                     $("#tab-right-group .ui-tab-btn").removeClass('active');
                     $("#tab-similar").addClass('active');
                 }
+
             }
         });
     });
@@ -577,6 +624,7 @@ $(function () {
         }
 
         _form.appendTo('body');
+        alert(typeof queArr);
         _form.submit();
 
     });
@@ -591,6 +639,7 @@ $(function () {
         $("#view-que-detail-list .item-box").each(function (i) {
             chapterArr.push($(this).find(".que-top input[id=chapterGp]").val());
         });
+        console.log( "chapterArr : " ,chapterArr);
 
         chapterArr.sort();
 
@@ -604,40 +653,86 @@ $(function () {
             return false;
         }
 
-        rangeParam.queArr = rangeQueArr;
+        rangeParam.itemIdList = rangeQueArr;
+        console.log("rangeParam : " , rangeParam)
 
         $.ajaxSetup({async: false});
-        ajaxCall("POST", "/customExam/step2", rangeParam, function (data) {
-            if (data == null || data.length === 0) {
-                alert("오류가 발생하였습니다.")
+        ajaxCall("POST", "/customExam/range-list", JSON.stringify(rangeParam), function (data) {
 
-            } else {
-                let html = '';
-                let lChapterG = data.root.children;
-                for (let l = 0; l < lChapterG.length; l++) {
-                    let lChapter = lChapterG[l];
-                    let mChapterG = lChapter.children;
-                    html += '<ul>' + lChapter.text;
+            if (data == null || data.length === 0) { // 응답 데이터가 없거나 길이가 0인 경우
+                alert("오류가 발생하였습니다."); // 오류 메시지를 경고창으로 표시
+            } else { // 응답 데이터가 있는 경우
 
-                    for (let m = 0; m < mChapterG.length; m++) {
-                        let mChapter = mChapterG[m];
-                        let sChapterG = mChapter.children;
-                        html += '<li>' + mChapter.text;
+                let html = ''; // HTML을 저장할 변수 초기화
+                // let lChapterG = data.body.itemList.largeChapterName; // 응답 데이터에서 대분류 정보 추출
 
-                        for (let s = 0; s < sChapterG.length; s++) {
-                            let sChapter = sChapterG[s];
-                            html += '<span>'+sChapter.text + '</span>';
-                        }
-                        html += '</li>';
+                // 대분류 정보를 담을 배열 초기화
+                let uniqueLargeChapters = [];
+
+                // 대분류별로 순회
+                data.body.itemList.forEach(item => {
+                    // 현재 아이템의 대분류가 이전에 처리된 적이 있는지 확인
+                    if (!uniqueLargeChapters.includes(item.largeChapterName)) {
+                        // 아직 처리되지 않은 대분류인 경우
+                        uniqueLargeChapters.push(item.largeChapterName); // 대분류 배열에 추가
+                        html += `<ul>${item.largeChapterName}`; // 대분류 정보를 HTML에 추가
+
+                        // 중분류 정보를 담을 배열 초기화
+                        let uniqueMediumChapters = [];
+
+                        // 현재 대분류에 해당하는 중분류별로 순회
+                        data.body.itemList.forEach(subItem => {
+                            if (subItem.largeChapterName === item.largeChapterName && !uniqueMediumChapters.includes(subItem.mediumChapterName)) {
+                                // 현재 중분류가 이전에 처리된 적이 없는 경우
+                                uniqueMediumChapters.push(subItem.mediumChapterName); // 중분류 배열에 추가
+                                html += `<li>${subItem.mediumChapterName}`; // 중분류 정보를 HTML에 추가
+
+                                // 소분류 정보를 담을 배열 초기화
+                                let uniqueSmallChapters = [];
+
+                                // 현재 대분류와 중분류에 해당하는 소분류별로 순회
+                                data.body.itemList.forEach(innerItem => {
+                                    if (innerItem.largeChapterName === item.largeChapterName && innerItem.mediumChapterName === subItem.mediumChapterName &&
+                                        !uniqueSmallChapters.includes(innerItem.smallChapterName)) {
+                                        // 현재 소분류가 이전에 처리된 적이 없는 경우
+                                        uniqueSmallChapters.push(innerItem.smallChapterName); // 소분류 배열에 추가
+                                        html += `<span>${innerItem.smallChapterName}</span>`; // 소분류 정보를 HTML에 추가
+                                    }
+                                });
+
+                                html += `</li>`; // 중분류 닫는 태그 추가
+                            }
+                        });
+
+                        html += `</ul>`; // 대분류 닫는 태그 추가
                     }
-                    html += '</ul>';
-                }
+                });
 
-                $('html , body').css('overflow', 'hidden');
-                $('.dim').fadeIn();
-                $("#scope-list").empty();
-                $(html).prependTo($("#scope-list"));
-                $(".pop-wrap[data-pop=que-scope-pop]").show();
+               /* 기존 코드
+                
+                for (let l = 0; l < lChapterG.length; l++) { // 대분류 반복
+                    let lChapter = lChapterG[l]; // 현재 대분류 정보
+                    let mChapterG = lChapter.children; // 현재 대분류의 하위 중분류 정보 추출
+                    html += '<ul>' + lChapter.text; // 대분류 정보를 ul 태그로 추가
+                    for (let m = 0; m < mChapterG.length; m++) { // 중분류 반복
+                        let mChapter = mChapterG[m]; // 현재 중분류 정보
+                        let sChapterG = mChapter.children; // 현재 중분류의 하위 소분류 정보 추출
+                        html += '<li>' + mChapter.text; // 중분류 정보를 li 태그로 추가
+                        for (let s = 0; s < sChapterG.length; s++) { // 소분류 반복
+                            let sChapter = sChapterG[s]; // 현재 소분류 정보
+                            html += '<span>' + sChapter.text + '</span>'; // 소분류 정보를 span 태그로 추가
+                        }
+                        html += '</li>'; // 중분류 닫는 태그 추가
+                    }
+                    html += '</ul>'; // 대분류 닫는 태그 추가
+                }
+                
+                */
+                $('html , body').css('overflow', 'hidden'); // HTML과 body 요소의 overflow 속성을 hidden으로 설정하여 스크롤을 막음
+                $('.dim').fadeIn(); // 어둡게 만드는 효과를 가진 요소 표시
+                $("#scope-list").empty(); // #scope-list 요소 비우기
+                $(html).prependTo($("#scope-list")); // 생성된 HTML을 #scope-list 요소의 맨 앞에 추가
+                $(".pop-wrap[data-pop=que-scope-pop]").show(); // "que-scope-pop" 클래스를 가진 팝업 표시
             }
         });
     });
@@ -826,6 +921,7 @@ function sortQue(target, sortType,moveSortNum) {
 
                     let sortValue = $(this).find(".que-top #chapterGp").val();
                     $(this).attr("data-sortValue",sortValue);
+                    console.log("onload sortValue",sortValue)
                 })
             } else if (sortType === "level") {
                 //지문 내 순서 정렬
@@ -862,6 +958,8 @@ function sortQue(target, sortType,moveSortNum) {
             }).appendTo($("#view-que-detail-list"));
 
             setSortNum(target);
+
+
         }
 
     } else if (target === "summary") {
@@ -871,7 +969,7 @@ function sortQue(target, sortType,moveSortNum) {
                 let bVal = Number(b.getAttribute("data-sortSummary"));
                 return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
             }).appendTo($("#table-1"));
-
+            console.log("헬로우")
             //지문 내 순서 정렬
             $(".summary-box").each(function (i) {
                 $(this).find(".col.que").sort(function (a, b) {
@@ -882,6 +980,7 @@ function sortQue(target, sortType,moveSortNum) {
             })
         }
     }
+    console.log("sortType == ",sortType);
 }
 
 // 문항 번호 세팅
@@ -902,7 +1001,7 @@ function setSortNum(target, moveSortNum) {
         // 그룹 정렬 번호
         $("#view-que-detail-list .sort-group").each(function (i) {
             let beforeGroupNum = $(this).attr("data-sortNum");
-            numGroupArr.push(beforeGroupNum);
+                numGroupArr.push(beforeGroupNum);
             $(this).attr("data-sortNum",i);
         });
 
@@ -1106,37 +1205,38 @@ function makeSummary(target, sortNum, type) {
     if (target.hasClass("passage-view-que-box")) {
         html += `
             <div class="depth-01 summary-box ui-sortable" data-sortSummary=${sortNum}>
-                <div class="dragHandle ui-sortable-handle drag-type02"><img src="/images/common/ico_move_type01.png" alt=""></div>
+                <div class="dragHandle ui-sortable-handle drag-type02"><img src="/resource/popup/img/ico_move_type01.png" alt=""></div>
                 <div class="col-group passage-table">
         `;
 
         target.find(".item-box").each(function (i) {
             html += `
                 <div class="col depth-02 que">
-                    <a href="javascript:;">
-                        ${target.find(".item-box").length !== 1 ? '<span class="dragHandle ui-sortable-handle drag-type01"><img src="/images/common/ico_move_type02.png" alt=""></span>' : '<span></span>'}
-                        <span class="summary-num">${$(this).find(".num").text()}</span>
-                        <span class="tit" title="${$(this).find(".chapter").text()}">
-                            <div class="txt">${$(this).find(".chapter").text()}</div>
-                            <div class="tooltip-wrap">
-                                ${$(this).attr("data-paperTitle") !== "" ? '<button type="button" class="btn-tip" style="position: relative; top: 1px; width: 14px; height: 16px; margin-left: 15px; background: url(../../images/common/ico_btn_tip.png) no-repeat; background-size: contain;"></button>' : ''}
-                                ${$(this).attr("data-paperTitle") !== "" ? '<div class="tooltip type01"><div class="tool-type01">' + $(this).attr("data-paperTitle") + '</div></div>' : ''}
-                            </div>
-                        </span>
-                        <span>${$(this).find(".que-badge-group .que-badge").eq(1).text()}</span>
-                        <span><span class="que-badge">${$(this).find(".que-badge-group .que-badge").eq(0).text()}</span></span>
-                    </a>
+                  <a href="javascript:;">
+                    ${target.find(".item-box").length !== 1 ? '<span class="dragHandle ui-sortable-handle drag-type01"><img src="/resource/popup/img/ico_move_type02.png" alt=""></span>' : '<span></span>'}
+                    <span class="summary-num">${$(this).find(".num").text()}</span>
+                    <span class="tit" title="${$(this).find(".chapter").text()}">
+                      <div class="txt">${$(this).find(".chapter").text()}</div>
+                      <div class="tooltip-wrap">
+                        ${$(this).attr("data-paperTitle") !== "" ? '<button type="button" class="btn-tip" style="position: relative; top: 1px; width: 14px; height: 16px; margin-left: 15px; background: url(https://testbank.tsherpa.co.kr/images/common/ico_btn_tip.png) no-repeat; background-size: contain; display: none"></button>' : ''}
+                        ${$(this).attr("data-paperTitle") !== "" ? '<div class="tooltip type01"><div class="tool-type01">' + $(this).attr("data-paperTitle") + '</div></div>' : ''}
+                      </div>
+                    </span>
+                    <span>${getQuestionType($(this).find("#questionFormCode").val())}</span>
+                    <span><span class="que-badge">${$(this).find(".que-badge-group .que-badge").eq(0).text()}</span></span>
+                  </a>
                 </div>
             `;
         });
 
         html += '</div></div>';
 
+        // 문항만 있는 경우
     } else {
         html += `
             <div class="col que summary-box" data-sortSummary=${sortNum}>
                 <a href="javascript:;">
-                    <span class="dragHandle ui-sortable-handle"><img src="/images/common/ico_move_type01.png" alt=""></span>
+                    <span class="dragHandle ui-sortable-handle"><img src="/resource/popup/img/ico_move_type01.png" alt=""></span>
                     <span></span>
                     <span class="summary-num">${target.find(".num").text()}</span>
                     <span class="tit" title="${target.find(".chapter").text()}">
@@ -1146,18 +1246,17 @@ function makeSummary(target, sortNum, type) {
                             ${target.find(".item-box").attr("data-paperTitle") !== "" ? '<div class="tooltip type01"><div class="tool-type01">' + target.find(".item-box").attr("data-paperTitle") + '</div></div>' : ''}
                         </div>
                     </span>
-                    <span>${target.find(".que-badge-group .que-badge").eq(1).text()}</span>
+                    <span>${getQuestionType($(this).find("#questionFormCode").val())}</span>
                     <span><span class="que-badge">${target.find(".que-badge-group .que-badge").eq(0).text()}</span></span>
                 </a>
             </div>
         `;
     }
 
-
     if (type === 'add') {
         $("#content-summary-area #table-1").append($(html));
 
-    }else if(type === 'delete'){
+    } else if (type === 'delete') {
         $("#content-summary-area #table-1").append($(html));
     }
     // 넘버링
@@ -1171,6 +1270,7 @@ function makeSummary(target, sortNum, type) {
     $(".summary-box").each(function (i) {
         $(this).attr("data-sortSummary", i);
     });
+
 }
 
 
@@ -1181,17 +1281,21 @@ function setPassageNum(passageBox){
         let item = $(this).closest(".sort-group").children(".item-box");
         let passage = $(this).closest(".sort-group").children(".passage-box");
         let tmpText = item.first().find(".num").text();
+        // console.log("tmpText == ",tmpText);
+        // let tmpText = [2,3];
+
 
         if(item.length > 1){
             tmpText += ' ~ ' + item.last().find(".num").text();
         }
         $(this).find(".num").text(tmpText);
-
+        // console.log("setPassageNum,item == ",item);
         // 지문문항에 문항 1개만 있으면 전체추가, 삭제 버튼 제거
         let isSingleItem = item.length === 1;
         passage.find(".btn-add[data-type=all]").toggle(!isSingleItem);
         passage.find(".btn-delete[data-type=all]").toggle(!isSingleItem);
     });
+
 }
 
 // 문항 번호 설정

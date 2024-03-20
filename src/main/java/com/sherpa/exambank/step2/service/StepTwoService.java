@@ -1,17 +1,21 @@
 package com.sherpa.exambank.step2.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonObject;
-import com.sherpa.exambank.step2.domain.ItemDTO;
+
+import com.sherpa.exambank.step2.domain.*;
 import com.sherpa.exambank.step2.mapper.StepTwoMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +23,10 @@ import java.util.List;
 public class StepTwoService {
 
     private final StepTwoMapper stepTwoMapper;
+
+    @Value("${tsherpa.api.url}")
+    private String tsherpaURL;
+
 
     public List postResponse() throws JsonProcessingException {
         String jsonData = "[" +
@@ -320,6 +328,100 @@ public class StepTwoService {
 
         ObjectMapper objectMapper = new ObjectMapper();
         ItemDTO[] itemDTOArray = objectMapper.readValue(jsonData, ItemDTO[].class);
+
+        // 넘어온 문제에 대해서 {passageId,[itemId]} 이런 형태로 보내주기
+        // JSON 데이터를 List<Map<String, Object>>으로 역직렬화
+        List<Map<String, Object>> itemList = objectMapper.readValue(jsonData, List.class);
+
+        // passageId를 키로 하고 해당 passageId에 속하는 itemId들을 배열로 값으로 가지는 맵 생성
+        Map<Integer, List<Integer>> passageIdMap = new HashMap<>();
+        for (Map<String, Object> item : itemList) {
+            int itemId = (int) item.get("itemId");
+            int passageId = (int) item.get("passageId");
+
+            // 해당 passageId에 속하는 itemId들을 배열로 가지는 리스트를 생성하거나 기존 리스트를 가져옴
+            List<Integer> itemIdList = passageIdMap.getOrDefault(passageId, new ArrayList<>());
+            itemIdList.add(itemId);
+
+            // 맵에 업데이트
+            passageIdMap.put(passageId, itemIdList);
+        }
+
+        // 결과 출력
+        for (Map.Entry<Integer, List<Integer>> entry : passageIdMap.entrySet()) {
+            log.info("Passage ID: " + entry.getKey() + ", Item IDs: " + entry.getValue());
+        }
+
         return Arrays.asList(itemDTOArray);
+    }
+
+    /**
+     * step 2 유사문제 버튼 ajaxCall
+     * @param similarItemListRequest
+     * @return
+     * @throws JsonProcessingException
+     */
+    public ResponseEntity<SimilarItemListResponse> similarItemList(SimilarItemListRequest similarItemListRequest) throws JsonProcessingException {
+        // 요청 url
+        URI uri = UriComponentsBuilder
+                .fromUriString(tsherpaURL)
+                .path("/item-img/similar-list") // api #11 유사문제 목록 버튼 기능
+                .encode()
+                .build()
+                .toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String similarItemListJsonObj = objectMapper.writeValueAsString(similarItemListRequest);
+        log.info("similarItemListRequest exchange JSON : " + similarItemListJsonObj);
+        HttpEntity<String> requestSimilarItemListJsonObj = new HttpEntity<>(similarItemListJsonObj,headers);
+        log.info("HttpEntity : "+requestSimilarItemListJsonObj);
+
+
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<SimilarItemListResponse> similarItemListResponse = restTemplate.postForEntity(uri,
+                requestSimilarItemListJsonObj, SimilarItemListResponse.class);
+        log.info("헤더정보 포함? : " + similarItemListResponse);
+
+
+
+        return similarItemListResponse;
+    }
+
+    /**
+     * step 2 출제 범위
+     * @param itemListRequest
+     * @return
+     * @throws JsonProcessingException
+     */
+    public ResponseEntity<ItemListResponse> getChapterList(ItemListRequest itemListRequest) throws JsonProcessingException {
+        URI uri = UriComponentsBuilder
+                .fromUriString(tsherpaURL)
+                .path("/item-img/item-list")
+                .encode()
+                .build()
+                .toUri();
+        // 요청 httpEntity의 Header 생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // 요청 HttpEntity의 body에 포함될 JSONObject 생성
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // itemListRequest에서 요청할 데이터를 jsonobject로 변환
+        String itemListRequestJsonObj = objectMapper.writeValueAsString(itemListRequest);
+        log.info("itemListRequestJsonObj : "+ itemListRequestJsonObj);
+        // itemList에 header 정보 넣은 객체 생성
+        HttpEntity<String> itemListIncHeader = new HttpEntity<>(itemListRequestJsonObj,headers);
+        log.info("itemListIncHeader : " + itemListIncHeader);
+        // RestTemplate 인스턴스 생성
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<ItemListResponse> responseItemDTO = restTemplate.postForEntity(uri,itemListIncHeader, ItemListResponse.class);
+        log.info("responseItemDTO : " + responseItemDTO);
+        return responseItemDTO;
     }
 }
