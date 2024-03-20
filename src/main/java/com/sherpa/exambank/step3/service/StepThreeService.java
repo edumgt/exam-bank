@@ -75,7 +75,7 @@ public class StepThreeService {
     public ResponseEntity<ItemListResponse> getChapterThreeList(ItemListRequest itemListRequest) throws JsonProcessingException {
         URI uri = UriComponentsBuilder
                 .fromUriString(tsherpaURL)
-                .path("/item-img/item-list")
+                .path("/item-img/item-list") // api #9 문항id 배열로 티셀파 문항 리스트 조회
                 .encode()
                 .build()
                 .toUri();

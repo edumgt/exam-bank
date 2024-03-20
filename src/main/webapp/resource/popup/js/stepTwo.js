@@ -624,6 +624,7 @@ $(function () {
         }
 
         _form.appendTo('body');
+        alert(typeof queArr);
         _form.submit();
 
     });
