@@ -616,15 +616,16 @@ $(function () {
         _form.attr("action", "/customExam/step3");
 
         _form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArr}));
-        _form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
-        _form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: $("#paperGubun").val()}));
-        if('update' === $("#paperGubun").val()){
-            _form.append($('<input/>', {type: 'hidden', name: 'paperId', value: $("#updatePaperId").val()}));
-            _form.append($('<input/>', {type: 'hidden', name: 'paperTitle', value: $("#updatePaperTitle").val()}));
-        }
+        _form.append($('<input/>', {type: 'hidden', name: 'subjectName', value: $("#subjectName").val()}));
+        // _form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
+        //
+        // if('update' === $("#paperGubun").val()){
+        //     _form.append($('<input/>', {type: 'hidden', name: 'paperId', value: $("#updatePaperId").val()}));
+        //     _form.append($('<input/>', {type: 'hidden', name: 'paperTitle', value: $("#updatePaperTitle").val()}));
+        // }
 
         _form.appendTo('body');
-        alert(typeof queArr);
+
         _form.submit();
 
     });
