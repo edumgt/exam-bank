@@ -596,6 +596,7 @@ $(function () {
         $("#view-que-detail-list .que-top #questionId").each(function (i) {
             let param = {};
             queArr.push($(this).val());
+            console.log(queArr);
         });
 
         if(queArr.length == 0) {
@@ -610,20 +611,20 @@ $(function () {
 
         let _form = $('<form></form>');
 
-        _form.attr("name", "new_form");
+        _form.attr("name", "new_form2");
         _form.attr("charset", "UTF-8");
         _form.attr("method", "post");
         _form.attr("action", "/customExam/step3");
 
         _form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArr}));
         _form.append($('<input/>', {type: 'hidden', name: 'subjectName', value: $("#subjectName").val()}));
-        // _form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
-        //
-        // if('update' === $("#paperGubun").val()){
-        //     _form.append($('<input/>', {type: 'hidden', name: 'paperId', value: $("#updatePaperId").val()}));
-        //     _form.append($('<input/>', {type: 'hidden', name: 'paperTitle', value: $("#updatePaperTitle").val()}));
-        // }
-
+        _form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
+        _form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: $("#paperGubun").val()}));
+        if('update' === $("#paperGubun").val()){
+            _form.append($('<input/>', {type: 'hidden', name: 'paperId', value: $("#updatePaperId").val()}));
+            _form.append($('<input/>', {type: 'hidden', name: 'paperTitle', value: $("#updatePaperTitle").val()}));
+        }
+        alert(queArr);
         _form.appendTo('body');
 
         _form.submit();
