@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MoveExamStep2Item extends ItemDTO {
+public class MoveExamStep2Item extends ItemDTO { // api #4 reponse
     private String passage;
     private String passageHtml;
     private String question;

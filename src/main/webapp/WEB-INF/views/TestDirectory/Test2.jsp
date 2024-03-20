@@ -610,17 +610,18 @@
     function renderImg(){
         const examName = "[수지니 시험지]";
         $(".title_header").text(examName);
-        console.log("itemList.length",itemList.length);
+        // console.log("itemList.length",itemList.length);
 
         const contents = $("#contents");
         let itemHtml = '<div class="column column-first">';
 
         let passageList = {};
+        let duplicatePassageList = {};
 
         itemList.forEach(item => {
-            console.log(item);
-
-            console.log(item.passageId);
+            // console.log(item);
+            //
+            // console.log(item.passageId);
             itemHtml += '<figure>';
 
 
@@ -632,12 +633,17 @@
                 itemHtml += '<img src="' + item.passageUrl + '" style="margin-bottom: 10px">';
             } else { // 해당 지문의 첫번째 문제가 아닌 경우, 마지막 문제번호 추가하기
                 let currentPassageId = passageList[item.passageId];
-                console.log(currentPassageId[currentPassageId.length-1]);
+                // console.log(currentPassageId[currentPassageId.length-1]);
                 if(currentPassageId[currentPassageId.length-1]+1 != item.itemNo) { // 연속된 문제가 아니라면 지문 출력
-                    console.log("새로운문제");
+                    // console.log("새로운문제");
+                    let lastItemNo = currentPassageId[currentPassageId.length-1]; // 같은 지문의 이전 마지막 문제 번호
+                    // duplicatePassageList[item.passageId+'_'+currentPassageId[0]] = [];
+                    duplicatePassageList[item.passageId+'_'+currentPassageId[0]] = currentPassageId;
+
+                    // 새로 덮어쓰기
                     passageList[item.passageId] = [];
                     passageList[item.passageId].push(item.itemNo);
-                    itemHtml += '<span class="item_no" passage-id="'+item.passageId+'">[' + item.itemNo + '-]</span>';
+                    itemHtml += '<span class="item_no" passage-id="'+item.passageId+'_'+item.itemNo+'">[' + item.itemNo + '-</span>';
                     itemHtml += '<img src="' + item.passageUrl + '" style="margin-bottom: 10px">';
                 } else {
                     passageList[item.passageId].push(item.itemNo);
@@ -657,17 +663,23 @@
         itemHtml += '</div>';
         contents.html(itemHtml);
 
-        console.log(passageList);
-        console.log(Object.keys(passageList));
+        // console.log(passageList);
+        // console.log(Object.keys(passageList));
 
         for (const key of Object.keys(passageList)){
-            console.log("ff",key);
-            console.log($("span[passage-id="+key+"_"+passageList[key][0]+"]").text());
-            console.log(passageList[key].length);
+            // console.log("ff",key);
+            // console.log($("span[passage-id="+key+"_"+passageList[key][0]+"]").text());
+            // console.log(passageList[key].length);
             let originRange = $("span[passage-id="+key+"_"+passageList[key][0]+"]").text();
             $("span[passage-id="+key+"_"+passageList[key][0]+"]").text(originRange+passageList[key][passageList[key].length-1]+"]");
         }
-
+        for (const key of Object.keys(duplicatePassageList)){
+            // console.log("ff",key);
+            // console.log("중복지문 앞쪽꺼",$("span[passage-id="+key+"]").text());
+            // console.log(duplicatePassageList[key]);
+            let originRange = $("span[passage-id="+key+"]").text();
+            $("span[passage-id="+key+"]").text(originRange+duplicatePassageList[key][duplicatePassageList[key].length-1]+"]");
+        }
 
 
 

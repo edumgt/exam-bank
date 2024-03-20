@@ -11,6 +11,7 @@ import com.sherpa.exambank.step1.domain.Step1Response;
 import com.sherpa.exambank.step1.domain.Subject;
 import com.sherpa.exambank.step1.service.Step1Service;
 import com.sherpa.exambank.step2.domain.Step2Request;
+import com.sherpa.exambank.step2.domain.Step2Response;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -103,51 +104,12 @@ public class Step1Controller {
         return new ResponseEntity<>("test", HttpStatus.OK);
     }
 
-    // step2로 이동
+    // step2 이동전 문항수 확인
+    // stepOne.js의 moveExamStep2()
     @PostMapping("/customExam/loadStep2")
-    public ResponseEntity moveExamStep2(@RequestBody Map<String, Object> step2Request) throws JsonProcessingException {
-        log.info("controller moveExamStep2 : " + step2Request);
+    public ResponseEntity<Step2Response> moveExamStep2(@RequestBody Step2Request step2Request) {
+        Step2Response step2Response = step1Service.moveExamStep2(step2Request);
 
-        log.info("controller chapterList : " + step2Request.get("chapterList"));
-        log.info("controller activityCategoryList : " + step2Request.get("activityCategoryList"));
-        log.info("controller levelCnt : " + step2Request.get("levelCnt"));
-        log.info("controller questionForm : " + step2Request.get("questionForm"));
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        List<MinorClassification> list = mapper.readValue(step2Request.get("chapterList").toString(), new TypeReference<ArrayList<MinorClassification>>(){});
-
-
-/*        log.info("controller getLevelCnt : " + step2Request.getLevelCnt());
-        log.info("controller getChapterList : " + step2Request.getChapterList());
-        log.info("controller getQuestionForm : " + step2Request.getQuestionForm());*/
-
-        // map -> Step2Request
-        // Step2Request temp = new Step2Request(step2Request.get("chapterList"), step2Request.get("activityCategoryList"), step2Request.get("levelCnt"), step2Request.get("questionForm("));
-
-        /*log.info("컨트롤러 ", temp);
-        step1Service.temp(temp);*/
-        // listSmallItemCount
-        // listTopicItemCount
-        // successYn
-
-        return new ResponseEntity<>("test", HttpStatus.OK);
-    }
-
-    @PostMapping("/customExam/loadStep2/test")
-    public ResponseEntity moveExamStep2Test(@RequestBody Step2Request step2Request) throws IOException {
-        log.info("moveExamStep2Test : {}", step2Request);
-        // chapterList=[MinorClassification{subject=1159, large=115901, medium=11590101, small=1159010101, topic=115901010101}
-        // activityCategoryList=[415, 416, 417, 418], levelCnt=[0, 10, 10, 10, 0], questionForm=multiple,subjective,descriptive
-        step1Service.moveExamStep2(step2Request);
-
-        // cntEqualYn
-        // itemsTotalCnt
-        // levelGroup 배열 형태
-        // queIdList
-        //
-
-        return new ResponseEntity<>("test", HttpStatus.OK);
+        return ResponseEntity.ok(step2Response);
     }
 }

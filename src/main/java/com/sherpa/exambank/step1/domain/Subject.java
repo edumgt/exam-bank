@@ -11,8 +11,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 public class Subject {
-    private String curriculumCode;      // 교육과정
-    private String curriculumName;
-    private String subjectId;           // 교과서
-    private String subjectName;
+    protected String curriculumCode;      // 교육과정
+    protected String curriculumName;
+    protected String subjectId;           // 교과서
+    protected String subjectName;
 }

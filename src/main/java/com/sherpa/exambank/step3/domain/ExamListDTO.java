@@ -1,16 +1,19 @@
-package com.sherpa.exambank.step2.domain;
+package com.sherpa.exambank.step3.domain;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.ToString;
 
 @Data
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
-public class ItemDTO {
+@ToString
+public class ExamListDTO {
+    private final String itemIdList;
+
+//    @Builder.Default
+//    private Long[] itemIdList = new Long[0];
+
     private int itemNo;
     private Long itemId;
     private String questionFormCode;
@@ -30,5 +33,11 @@ public class ItemDTO {
     private String questionUrl;
     private String answerUrl;
     private String explainUrl;
-    private String passageYn;
+
+
+     //생성자에 @JsonCreator 어노테이션 추가
+    @JsonCreator
+    public ExamListDTO(@JsonProperty("itemIdList") String itemIdList) {
+        this.itemIdList = itemIdList;
+    }
 }

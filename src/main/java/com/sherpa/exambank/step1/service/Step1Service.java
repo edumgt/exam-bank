@@ -11,7 +11,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -170,9 +169,8 @@ public class Step1Service {
         }
     }
 
-    public void moveExamStep2(Step2Request step2Request) throws IOException {
-        // 4번 api 사용
-        // https://tsherpa.item-factory.com/item/chapters/item-list
+    public Step2Response moveExamStep2(Step2Request step2Request){
+        // 5번 api 사용
         // map 정보 수정
         step2Request.setMinorClassification(step2Request.getChapterList());
 
@@ -180,30 +178,58 @@ public class Step1Service {
         log.info("service moveExamStep2 : {}", step2Request.getMinorClassification());
 
         // 요청
-        MoveExamStep2Response response = postMoveExamStep2Request("item/chapters/item-list", step2Request);
+        MoveExamStep2Response response = postMoveExamStep2Request("item-img/chapters/item-list", step2Request);
         List<MoveExamStep2Item> itemList = response.getItemList();
 
+        // 응답
+        Step2Response step2Response;
         if(itemList == null || itemList.isEmpty()){
             // itemsTotalCnt = 0 json 만들어서 리턴
+            // 응답 객체 만들기
+            step2Response = Step2Response.builder()
+                    .itemsTotalCnt(0L)
+                    .cntEqualYn("N")
+                    .build();
         }else {
+            // itemList를 순회하며 Map<난이도, List<문제>>를 만듦
+            Map<String, List<MoveExamStep2Item>> itemMap = filterItemListByDifficultyCode(itemList);
+
             // 난이도별 출제할 문항 수 계산
-            int[] resultCheckCntEqualYn = checkCntEqualYn(step2Request, itemList);
+            int[] resultCheckCntEqualYn = checkCntEqualYn(step2Request, itemMap);
             IntStream.of(resultCheckCntEqualYn)
                     .forEach(num -> log.info("moveExamStep2 resultCheckCntEqualYn: {}", Integer.toString(num)));
-            // 랜덤 출제
-            // String queIdList = setRandomQuestions(resultCheckCntEqualYn, itemList);
+            Map<String, Integer> levelGroup = new HashMap<>();
+            levelGroup.put("02", resultCheckCntEqualYn[2]); // 하
+            levelGroup.put("03", resultCheckCntEqualYn[3]); // 중
+            levelGroup.put("04", resultCheckCntEqualYn[4]); // 상
 
-            // 응답 객체 만들기
-            Step2Response step2Response = Step2Response.builder()
-                    .itemsTotalCnt(Integer.toUnsignedLong(resultCheckCntEqualYn[5]))
-                    .cntEqualYn((resultCheckCntEqualYn[6] == 1) ? "N" : "Y")
-                    .levelGroup(Arrays.stream(resultCheckCntEqualYn).mapToObj(String::valueOf).toArray(String[]::new))
-                    .build();
+            // 난이도별 랜덤 출제
+            Map<String, List<MoveExamStep2Item>> queListMap = setRandomQuestions(resultCheckCntEqualYn, itemMap);
+            // 난이도별 랜덤 출제 문제 리스트 생성
+            List<MoveExamStep2Item> resultItemList = new ArrayList<>();
+            for(String diffCode: queListMap.keySet()){
+                List<MoveExamStep2Item> tempList = queListMap.get(diffCode);
+                if(tempList != null && !tempList.isEmpty()){
+                    resultItemList.addAll(tempList);
+                }
+            }
+            Collections.shuffle(resultItemList);
 
             // queIdList 넣기
+            List<Long> queIdList = getQueIdList(queListMap);
+            Arrays.stream(queIdList.toArray()).forEach(num -> log.info("queIdList : {}", num));
+
+            // 응답 객체 만들기
+            step2Response = Step2Response.builder()
+                    .itemsTotalCnt(Integer.toUnsignedLong(resultCheckCntEqualYn[6]))
+                    .cntEqualYn((resultCheckCntEqualYn[0] == 1) ? "N" : "Y")
+                    .levelGroup(levelGroup)
+                    .queIdList(queIdList)
+                    .itemList(resultItemList)
+                    .build();
         }
 
-
+        return step2Response;
     }
 
     // moveExamStep2 요청
@@ -243,16 +269,9 @@ public class Step1Service {
         return moveExamStep2Response;
     }
 
-    // 요청사항 충족 여부 & 난이도별 출제할 문제 개수 계산
-    public int[] checkCntEqualYn(Step2Request step2Request, List<MoveExamStep2Item> itemList) {
-        // 1. itemList를 순회하며 Map<난이도, List<문제>>를 만듦
-        // 2. totalLevelCnt 배열을 만듦 (api를 통해 가져온 문제들의 난이도별 문제 개수 배열)
-        // 3. availableLevelCnt 배열을 만듦
-        // 요청 > 가능 -> available을 가능 개수에 맞춤 & required += (요청-가능)
-        // 요청 <= 가능 -> available을 요청 개수에 맞춤
-        // 02 하, 03 중, 04 상
-
-        // 1. itemList를 순회하며 Map<난이도, List<문제>>를 만듦
+    // itemList를 순회하며 Map<난이도, List<문제>>를 만듦
+    // 난이도별 문제 List 생성
+    private Map<String, List<MoveExamStep2Item>> filterItemListByDifficultyCode(List<MoveExamStep2Item> itemList){
         Map<String, List<MoveExamStep2Item>> itemMap = new HashMap<>();
         String difficultyCode;
         for(int i=0; i<itemList.size(); i++){
@@ -267,6 +286,20 @@ public class Step1Service {
             // 현재 난이도의 문제 리스트에 현재 문제를 넣는다.
             itemMap.get(difficultyCode).add(itemList.get(i));
         }
+
+        return itemMap;
+    }
+
+    // 요청사항 충족 여부 & 난이도별 출제할 문제 개수 계산
+    public int[] checkCntEqualYn(Step2Request step2Request, Map<String, List<MoveExamStep2Item>> itemMap) {
+        // 1. itemList를 순회하며 난이도별 문제 리스트(Map<난이도, List<문제>>)를 만듦 -> filterItemListByDifficultyCode()
+        // 2. totalLevelCnt 배열을 만듦 (api를 통해 가져온 문제들의 난이도별 문제 개수 배열)
+        // 3. availableLevelCnt 배열을 만듦
+        // 3-1. 먼저 사용자의 요청에 맞춘다.
+        // 3-2. 제일 낮은 난이도부터 부족한 문제 개수를 채워 최대한 총 문제 개수를 맞춘다.
+        // 요청 > 가능 -> available을 가능 개수에 맞춤 & required += (요청-가능)
+        // 요청 <= 가능 -> available을 요청 개수에 맞춤
+        // 02 하, 03 중, 04 상
 
         // 2. totalLevelCnt 배열을 만듦
         // 0: 요청 미충족 여부(1 = 미충족), 1: 최하 ~ 5: 최상, 6: 총 개수
@@ -324,17 +357,48 @@ public class Step1Service {
 
                 totalLevelCnt[i] += temp;
                 required[6] -= temp;    // 부족한 문제 총 개수 갱신
+                totalLevelCnt[6] += temp;   // 출제 문제 총 개수 갱신
             }
         }
-
 
         if(!cntEqualYn) totalLevelCnt[0] = 1;   // 요청에 부합하지 않을 경우, 1
         return totalLevelCnt;
     }
 
     // 문제 랜덤 출제
-    private void setRandomQuestions(int[] levelCnt, List<MoveExamStep2Item> itemList){
-        // 각 난이도별로
+    // Map<난이도, List<문제 ID>>: 난이도별 출제 문제 리스트
+    private Map<String, List<MoveExamStep2Item>> setRandomQuestions(int[] levelCnt, Map<String, List<MoveExamStep2Item>> itemMap){
+        List<MoveExamStep2Item> itemList;   // 각 난이도별 문제 리스트
+        Map<String, List<MoveExamStep2Item>> resultMap = new HashMap<>();  // 결과
+
+        // 각 난이도별 문제 리스트를 shuffle하여 랜덤한 문제를 구힌다.
+        for(int i=2; i<=4; i++) {    // 난이도 i: 하~상
+            String diffCode = String.format("%02d", i); // 난이도 코드 문자열
+
+            itemList = itemMap.get(diffCode);  // i 난이도의 문제 리스트
+            if (levelCnt[i] <= 0 || itemList == null || itemList.isEmpty()) continue;
+
+            log.info("diffCode: {}",diffCode);
+
+            Collections.shuffle(itemList);  // 리스트 셔플
+            resultMap.put(diffCode, itemList.subList(0, levelCnt[i]));  // 셔플된 리스트에서 levelCnt[난이도]개를 꺼내기
+        }
+
+        return resultMap;
+    }
+
+    // 출제할 문제의 itemId 리스트 생성
+    private List<Long> getQueIdList(Map<String, List<MoveExamStep2Item>> queListMap) {
+        List<Long> idList = new ArrayList<>();
+
+        for(String difficultyCode: queListMap.keySet()){
+            List<MoveExamStep2Item> qList = queListMap.get(difficultyCode);
+            for(MoveExamStep2Item item: qList){
+                idList.add(item.getItemId());
+            }
+        }
+
+        return idList;
     }
 
 
@@ -387,18 +451,5 @@ public class Step1Service {
         }
 
         return chapterList;
-
-        // LinkedHashMap
-        /*
-        // [*****] 예외처리 해야 함
-        // ParseException 예외처리, Exception 예외처리
-
-        // 응답이 200일 때만 응답 body를 linkedhashmap으로 변경
-        log.info("postwithParamAndBody getclass" + responseEntity.getBody().getClass());    // string
-
-        log.info("postwithParamAndBody getHeaders : " + responseEntity.getHeaders());
-        log.info("postwithParamAndBody getStatusCode : " + responseEntity.getStatusCode()); // 200 OK
-        log.info("postwithParamAndBody getStatusCode valueOf : " + ((responseEntity.getStatusCode() == HttpStatusCode.valueOf(200))? "true" : "false") ); // 200 OK
-         */
     }
 }
