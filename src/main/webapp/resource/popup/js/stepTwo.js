@@ -3,22 +3,22 @@ $(function () {
     activeText(2);
     setItemNum();
 // 초기 문제지 요약 목록
-    $("#content-summary-area #table-1").empty();
-    $("#view-que-detail-list .sort-group").each(function (i, e) {
-        makeSummary($(e), $(e).attr("data-sortnum", i),'add');
-    });
-
-    // 문항 타이틀 영역 - 난이도 뱃지에 색상 부여
-    $(".view-que-box.item-box").each(function (i, e) {
-        $(this).find("#difficultyColor").addClass(getColorClass(
-            $(this).find("#difficultyCode").val()
-        ));
-    });
-
-    // 문제 형식에 따른 텍스트 출력
-    $(".que-badge.gray").text(
-        getQuestionType($("#questionFormCode").val())
-    );
+//     $("#content-summary-area #table-1").empty();
+//     $("#view-que-detail-list .sort-group").each(function (i, e) {
+//         makeSummary($(e), $(e).attr("data-sortnum", i),'add');
+//     });
+//
+//     // 문항 타이틀 영역 - 난이도 뱃지에 색상 부여
+//     $(".view-que-box.item-box").each(function (i, e) {
+//         $(this).find("#difficultyColor").addClass(getColorClass(
+//             $(this).find("#difficultyCode").val()
+//         ));
+//     });
+//
+//     // 문제 형식에 따른 텍스트 출력
+//     $(".que-badge.gray").text(
+//         getQuestionType($("#questionFormCode").val())
+//     );
 
     // 초기 정렬 순서
     // 셋팅지,시험지 편집/ 뒤로가기 진입시 : 사용자정렬
@@ -238,14 +238,15 @@ $(function () {
 
                     console.log("group[passageId] = ",group[passageId]);
                 });
-
+                let groupNum = 0;
                 Object.keys(group).forEach(passageId => {
                     const items = group[passageId];
 
-                    let passageBox = items.length > 0 ? "passage-view-que-box" : "";
-                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+ items.length +'" data-sortValue="">';
-                    console.log("items - ",items)
 
+                    let passageBox = items.length > 0 ? "passage-view-que-box" : "";
+                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+ groupNum +'" data-sortValue="">';
+                    console.log("items - ",items)
+                    groupNum++;
                     // 지문영역
                     if (items[0].passageUrl){
                         html +=
@@ -258,7 +259,7 @@ $(function () {
                                     <div class="que-bottom">
                                          <div class="passage-area"><img src="${items[0].passageUrl}" alt="${passageId}" width="453px"></div>
                                          <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                                  ${addedPassageIds.length === 1 ? "" :
+                                                  ${items.length === 1 ? "" :
                                 `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
                                              </div>
                                          </div>
@@ -268,6 +269,7 @@ $(function () {
                     // 각 문항에 대한 HTML
                     items.forEach(item => {
                         similarItemNum++;
+                        console.log("item.explainUrl -- ",item.explainUrl)
                         html += `
                             <div class="view-que-box item-box" data-paperTitle="${passageId}">
                                 <div class="que-top">
