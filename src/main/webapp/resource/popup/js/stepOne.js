@@ -704,10 +704,13 @@ function moveExamStep2() {
                 $(".pop-wrap[data-pop='que-pop'] #pop-total-sum .num").text(data.itemsTotalCnt);
                 $(".pop-wrap[data-pop='que-pop'] #nxt-data").val(data.queIdList);
 
+                qParam.itemList = data.itemList;
+
                 showPop("que-pop");
 
             } else {
                 console.log("호출");
+                qParam.itemList = data.itemList;
                 moveToStep2(data.queIdList);
             }
         }
@@ -756,6 +759,7 @@ function moveToStep2(queArr) {
     new_form.append($('<input/>', {type: 'hidden', name: 'questionForm', value: qParam.questionForm}));
     new_form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: 'new'}));
     new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
+    new_form.append($('<input/>', {type: 'hidden', name: 'itemListByForm', value: JSON.stringify(qParam.itemList)}));
 
     new_form.appendTo('body');
 
