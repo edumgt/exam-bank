@@ -1657,7 +1657,7 @@ input[type=checkbox]:checked + label::before {
     width: 8px;
     height: 8px;
     transform: rotate(180deg);
-    background: url(../img/ico_arrow_tooltip_type01.png) no-repeat;
+    background: url(https://testbank.tsherpa.co.kr/images/common/ico_arrow_tooltip_type01.png) no-repeat;
 }
 .full-pop-que .full-pop-wrap .view-box .view-top {
     height: 80px;
