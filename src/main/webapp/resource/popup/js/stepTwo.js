@@ -2,6 +2,23 @@ $(function () {
 
     activeText(2);
     setItemNum();
+// 초기 문제지 요약 목록
+    $("#content-summary-area #table-1").empty();
+    $("#view-que-detail-list .sort-group").each(function (i, e) {
+        makeSummary($(e), $(e).attr("data-sortnum", i),'add');
+    });
+
+    // 문항 타이틀 영역 - 난이도 뱃지에 색상 부여
+    $(".view-que-box.item-box").each(function (i, e) {
+        $(this).find("#difficultyColor").addClass(getColorClass(
+            $(this).find("#difficultyCode").val()
+        ));
+    });
+
+    // 문제 형식에 따른 텍스트 출력
+    $(".que-badge.gray").text(
+        getQuestionType($("#questionFormCode").val())
+    );
 
     // 초기 정렬 순서
     // 셋팅지,시험지 편집/ 뒤로가기 진입시 : 사용자정렬
@@ -180,23 +197,22 @@ $(function () {
         _problemCode.push(questionId);
 
         _param.itemIdList = _problemCode;
-        console.log("dfddf : "+_problemCode)
+
         _param.excludeCode = _excludeCd;
-        console.log("dfddf : "+_param)
+
         // 문제 목록 순서
         let queNo = $(this).parents(".view-que-box").find(".num").text();
         console.log("queNo = " + queNo );
         $("#target-sort-num").val(_sortGroup.attr("data-sortNum"));
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
 
-        console.log("param에 보낼 json 데이터 : ",JSON.stringify(_param))
-
 
         $.ajaxSetup({async: false});
         //http://localhost:8080/customExam/similar-List
         ajaxCall("post","/customExam/similar-List", JSON.stringify(_param), function (data) {
+
             let simData = data.body.itemList;
-            console.log("data == ",simData);
+
 
             if (simData.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");
@@ -211,60 +227,73 @@ $(function () {
                 // 이미 추가한 문항들의 ID를 저장할 배열
                 let addedPassageIds = [];
                 let addedItemIds = [];
+                let group = {};
+                let pArrLength = 0;
 
-                for (let a = 0; a < simData.length; a++) {
-                    let group = simData[a];
-                    console.log("group == ",group);
+                data.body.itemList.forEach((item) => {
+                    const { passageId, itemList} = item;
 
-                    // passageYn 값이 없어서 이렇게 넣어봤더니 그냥 생성되면서 넣어지네? 뭐지?
-                    if (group.passageId != null){
-                        group.passageYn = "Y";
+                    // passageId에 해당하는 배열이 없으면 새로운 배열 생성
+                    if (!Array.isArray(group[passageId])) {
+                        group[passageId] = [];
                     }
-                    console.log("group.passageYn == ",group.passageYn);
 
-                    let passageBox = group.passageYn === "Y" ? "passage-view-que-box" : "";
-                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+group.groupNum+'" data-sortValue="">';
-                    console.log("passageBox == ",passageBox);
+                    // passageId에 해당하는 배열에 item이 포함되어 있지 않으면 추가
+                    if (!group[passageId].some(existingItem => existingItem.itemId === item.itemId)) {
+                        group[passageId].push(item);
+                    }
+                    console.log("values === ",Object.keys(group));
+                    // console.log("passageId",Object.values(group[passageId])[0].passageId);
+                    // console.log("item.passageId == " ,Object.values(group[passageId]))
 
+                    // data-sortNum 값 할당을 잘 해줘야 나머지가 돌아갈듯...
+                    const newGroup= Object.keys(group).length;
 
+                    // 같은 지문에 문항 묶기
+                    for (let c = 0; c < Object.values(group).length; c++){
+
+                    }
+
+                    let passageBox = Object.values(group).length > 0 ? "passage-view-que-box" : "";
+                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+ newGroup +'" data-sortValue="'+item.largeChapterId+'">';
                     // 지문영역
-                    if(group.passageYn === "Y") {
-                        if (!addedPassageIds.includes(group.passageId)) {
-                            addedPassageIds.push(group.passageId); // 추가한 지문으로 표시
-                            html += `<div class="view-que-box passage-box" data-passageId="${group.passageId}">
-                                     <div class="que-top">
-                                         <div class="title"><span class="num"></span></div>
-                                         <div class="btn-wrap delete-btn-wrap"></div>
-                                     </div>
-                                     <div class="view-que">
-                                        <div class="que-bottom">
-                                             <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
-                                             <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                             <!--지문에 딸려있는 문제의 수가 1이라면 빈문자 넣고 아니면 전체추가 버튼을 넣어라 ( 여기가 문제임 )-->
-                                                  ${simData.length === 1 ? "" :
-                                `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                    console.log("newGroup : ", newGroup)
+                        if(group[passageId].length > 0) {
+                            if (!addedPassageIds.includes(item.passageId)) {
+                                addedPassageIds.push(item.passageId); // 추가한 문항 표시
+
+                            html +=
+                                `<div class="view-que-box passage-box" data-passageId="${item.passageId}">
+                                 <div class="que-top">
+                                     <div class="title"><span class="num">${Object.values(group)}</span></div>
+                                     <div class="btn-wrap delete-btn-wrap"></div>
+                                 </div>
+                                 <div class="view-que">
+                                    <div class="que-bottom">
+                                         <div class="passage-area"><img src="${item.passageUrl}" alt="${item.passageId}" width="453px"></div>
+                                         <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                                                  ${addedPassageIds.length === 1 ? "" :
+                                                  `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
                                              </div>
                                          </div>
                                      </div>
-                                 </div>`;
+                                 </div>`
+                            }
                         }
-                    }
-                    console.log("group.length == " ,simData.length);
-                     console.log("지문 영역 html == ",html);
-                    // 문항 영역
+
 
                     // 문항 영역에 개별 추가 버튼 추가
-                    for (let b = 0; b < simData.length; b++) {
-                        console.log("for 문")
-                        let item = simData[b];
-                        console.log("item : ",item);
+                    for (let b = 0; b < group[passageId].length; b++) {
 
-                        // 이미 추가한 문항인지 확인
-                        if (!addedItemIds.includes(item.itemId)) {
+                        const currentItem = group[passageId][b];
+
+                        if (!addedItemIds.includes(currentItem.itemId)) {
+                            addedItemIds.push(currentItem.itemId); // 추가한 문항 표시
                             similarItemNum++;
-                            addedItemIds.push(item.itemId); // 추가한 문항으로 표시
+
+
                             html += `
-                            <div class="view-que-box item-box" data-paperTitle="">
+                            <div class="view-que-box item-box" data-paperTitle="${currentItem.passageId}">
                                 <div class="que-top">
                                     <div class="title">
                                         <span class="num">${similarItemNum}</span>
@@ -315,14 +344,18 @@ $(function () {
                         }
                     }
                     html += '</div>';
-                }
+
+                })
+
+
+
 
                 $("#item-similar-area").empty();
                 $("#list-similar-area").css("display", "block");
                 $(html).prependTo($("#item-similar-area"));
                 $("#similar-title").text(queNo + "번 유사 문제");
-
                 setPassageNum($("#item-similar-area .passage-box"));
+
                 // 유사 문제 영역 스크롤 최상단 지정
                 document.getElementById('item-similar-area').getElementsByClassName('sort-group')[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
 
@@ -911,6 +944,7 @@ function sortQue(target, sortType,moveSortNum) {
 
                     let sortValue = $(this).find(".que-top #chapterGp").val();
                     $(this).attr("data-sortValue",sortValue);
+                    console.log("onload sortValue",sortValue)
                 })
             } else if (sortType === "level") {
                 //지문 내 순서 정렬
@@ -947,6 +981,8 @@ function sortQue(target, sortType,moveSortNum) {
             }).appendTo($("#view-que-detail-list"));
 
             setSortNum(target);
+
+
         }
 
     } else if (target === "summary") {
@@ -956,7 +992,7 @@ function sortQue(target, sortType,moveSortNum) {
                 let bVal = Number(b.getAttribute("data-sortSummary"));
                 return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
             }).appendTo($("#table-1"));
-
+            console.log("헬로우")
             //지문 내 순서 정렬
             $(".summary-box").each(function (i) {
                 $(this).find(".col.que").sort(function (a, b) {
@@ -967,6 +1003,7 @@ function sortQue(target, sortType,moveSortNum) {
             })
         }
     }
+    console.log("sortType == ",sortType);
 }
 
 // 문항 번호 세팅
@@ -987,7 +1024,7 @@ function setSortNum(target, moveSortNum) {
         // 그룹 정렬 번호
         $("#view-que-detail-list .sort-group").each(function (i) {
             let beforeGroupNum = $(this).attr("data-sortNum");
-            numGroupArr.push(beforeGroupNum);
+                numGroupArr.push(beforeGroupNum);
             $(this).attr("data-sortNum",i);
         });
 
@@ -1191,37 +1228,38 @@ function makeSummary(target, sortNum, type) {
     if (target.hasClass("passage-view-que-box")) {
         html += `
             <div class="depth-01 summary-box ui-sortable" data-sortSummary=${sortNum}>
-                <div class="dragHandle ui-sortable-handle drag-type02"><img src="/images/common/ico_move_type01.png" alt=""></div>
+                <div class="dragHandle ui-sortable-handle drag-type02"><img src="/resource/popup/img/ico_move_type01.png" alt=""></div>
                 <div class="col-group passage-table">
         `;
 
         target.find(".item-box").each(function (i) {
             html += `
                 <div class="col depth-02 que">
-                    <a href="javascript:;">
-                        ${target.find(".item-box").length !== 1 ? '<span class="dragHandle ui-sortable-handle drag-type01"><img src="/images/common/ico_move_type02.png" alt=""></span>' : '<span></span>'}
-                        <span class="summary-num">${$(this).find(".num").text()}</span>
-                        <span class="tit" title="${$(this).find(".chapter").text()}">
-                            <div class="txt">${$(this).find(".chapter").text()}</div>
-                            <div class="tooltip-wrap">
-                                ${$(this).attr("data-paperTitle") !== "" ? '<button type="button" class="btn-tip" style="position: relative; top: 1px; width: 14px; height: 16px; margin-left: 15px; background: url(../../images/common/ico_btn_tip.png) no-repeat; background-size: contain;"></button>' : ''}
-                                ${$(this).attr("data-paperTitle") !== "" ? '<div class="tooltip type01"><div class="tool-type01">' + $(this).attr("data-paperTitle") + '</div></div>' : ''}
-                            </div>
-                        </span>
-                        <span>${$(this).find(".que-badge-group .que-badge").eq(1).text()}</span>
-                        <span><span class="que-badge">${$(this).find(".que-badge-group .que-badge").eq(0).text()}</span></span>
-                    </a>
+                  <a href="javascript:;">
+                    ${target.find(".item-box").length !== 1 ? '<span class="dragHandle ui-sortable-handle drag-type01"><img src="/resource/popup/img/ico_move_type02.png" alt=""></span>' : '<span></span>'}
+                    <span class="summary-num">${$(this).find(".num").text()}</span>
+                    <span class="tit" title="${$(this).find(".chapter").text()}">
+                      <div class="txt">${$(this).find(".chapter").text()}</div>
+                      <div class="tooltip-wrap">
+                        ${$(this).attr("data-paperTitle") !== "" ? '<button type="button" class="btn-tip" style="position: relative; top: 1px; width: 14px; height: 16px; margin-left: 15px; background: url(https://testbank.tsherpa.co.kr/images/common/ico_btn_tip.png) no-repeat; background-size: contain; display: none"></button>' : ''}
+                        ${$(this).attr("data-paperTitle") !== "" ? '<div class="tooltip type01"><div class="tool-type01">' + $(this).attr("data-paperTitle") + '</div></div>' : ''}
+                      </div>
+                    </span>
+                    <span>${getQuestionType($(this).find("#questionFormCode").val())}</span>
+                    <span><span class="que-badge">${$(this).find(".que-badge-group .que-badge").eq(0).text()}</span></span>
+                  </a>
                 </div>
             `;
         });
 
         html += '</div></div>';
 
+        // 문항만 있는 경우
     } else {
         html += `
             <div class="col que summary-box" data-sortSummary=${sortNum}>
                 <a href="javascript:;">
-                    <span class="dragHandle ui-sortable-handle"><img src="/images/common/ico_move_type01.png" alt=""></span>
+                    <span class="dragHandle ui-sortable-handle"><img src="/resource/popup/img/ico_move_type01.png" alt=""></span>
                     <span></span>
                     <span class="summary-num">${target.find(".num").text()}</span>
                     <span class="tit" title="${target.find(".chapter").text()}">
@@ -1231,18 +1269,17 @@ function makeSummary(target, sortNum, type) {
                             ${target.find(".item-box").attr("data-paperTitle") !== "" ? '<div class="tooltip type01"><div class="tool-type01">' + target.find(".item-box").attr("data-paperTitle") + '</div></div>' : ''}
                         </div>
                     </span>
-                    <span>${target.find(".que-badge-group .que-badge").eq(1).text()}</span>
+                    <span>${getQuestionType($(this).find("#questionFormCode").val())}</span>
                     <span><span class="que-badge">${target.find(".que-badge-group .que-badge").eq(0).text()}</span></span>
                 </a>
             </div>
         `;
     }
 
-
     if (type === 'add') {
         $("#content-summary-area #table-1").append($(html));
 
-    }else if(type === 'delete'){
+    } else if (type === 'delete') {
         $("#content-summary-area #table-1").append($(html));
     }
     // 넘버링
@@ -1256,6 +1293,7 @@ function makeSummary(target, sortNum, type) {
     $(".summary-box").each(function (i) {
         $(this).attr("data-sortSummary", i);
     });
+
 }
 
 
@@ -1266,18 +1304,20 @@ function setPassageNum(passageBox){
         let item = $(this).closest(".sort-group").children(".item-box");
         let passage = $(this).closest(".sort-group").children(".passage-box");
         let tmpText = item.first().find(".num").text();
+        // let tmpText = [2,3];
+
 
         if(item.length > 1){
             tmpText += ' ~ ' + item.last().find(".num").text();
         }
         $(this).find(".num").text(tmpText);
-
+        console.log("tmpText == ",item);
         // 지문문항에 문항 1개만 있으면 전체추가, 삭제 버튼 제거
         let isSingleItem = item.length === 1;
         passage.find(".btn-add[data-type=all]").toggle(!isSingleItem);
         passage.find(".btn-delete[data-type=all]").toggle(!isSingleItem);
     });
-    console.log("onload .. passageBox == ", passageBox);
+
 }
 
 // 문항 번호 설정
