@@ -2,6 +2,23 @@ $(function () {
 
     activeText(2);
     setItemNum();
+// 초기 문제지 요약 목록
+    $("#content-summary-area #table-1").empty();
+    $("#view-que-detail-list .sort-group").each(function (i, e) {
+        makeSummary($(e), $(e).attr("data-sortnum", i),'add');
+    });
+
+    // 문항 타이틀 영역 - 난이도 뱃지에 색상 부여
+    $(".view-que-box.item-box").each(function (i, e) {
+        $(this).find("#difficultyColor").addClass(getColorClass(
+            $(this).find("#difficultyCode").val()
+        ));
+    });
+
+    // 문제 형식에 따른 텍스트 출력
+    $(".que-badge.gray").text(
+        getQuestionType($("#questionFormCode").val())
+    );
 
     // 초기 정렬 순서
     // 셋팅지,시험지 편집/ 뒤로가기 진입시 : 사용자정렬
@@ -225,20 +242,22 @@ $(function () {
                     if (!group[passageId].some(existingItem => existingItem.itemId === item.itemId)) {
                         group[passageId].push(item);
                     }
-                    console.log("values === ",...Object.keys(group));
+                    console.log("values === ",Object.keys(group));
                     // console.log("passageId",Object.values(group[passageId])[0].passageId);
                     // console.log("item.passageId == " ,Object.values(group[passageId]))
 
                     // data-sortNum 값 할당을 잘 해줘야 나머지가 돌아갈듯...
-                    const newGroup= Object.keys(group);
+                    const newGroup= Object.keys(group).length;
 
                     // 같은 지문에 문항 묶기
+                    for (let c = 0; c < Object.values(group).length; c++){
 
+                    }
 
                     let passageBox = Object.values(group).length > 0 ? "passage-view-que-box" : "";
-                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+ newGroup +'" data-sortValue="">';
+                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+ newGroup +'" data-sortValue="'+item.largeChapterId+'">';
                     // 지문영역
-
+                    console.log("newGroup : ", newGroup)
                         if(group[passageId].length > 0) {
                             if (!addedPassageIds.includes(item.passageId)) {
                                 addedPassageIds.push(item.passageId); // 추가한 문항 표시
@@ -274,7 +293,7 @@ $(function () {
 
 
                             html += `
-                            <div class="view-que-box item-box" data-paperTitle="${currentItem.itemId}">
+                            <div class="view-que-box item-box" data-paperTitle="${currentItem.passageId}">
                                 <div class="que-top">
                                     <div class="title">
                                         <span class="num">${similarItemNum}</span>
@@ -1209,37 +1228,38 @@ function makeSummary(target, sortNum, type) {
     if (target.hasClass("passage-view-que-box")) {
         html += `
             <div class="depth-01 summary-box ui-sortable" data-sortSummary=${sortNum}>
-                <div class="dragHandle ui-sortable-handle drag-type02"><img src="/images/common/ico_move_type01.png" alt=""></div>
+                <div class="dragHandle ui-sortable-handle drag-type02"><img src="/resource/popup/img/ico_move_type01.png" alt=""></div>
                 <div class="col-group passage-table">
         `;
 
         target.find(".item-box").each(function (i) {
             html += `
                 <div class="col depth-02 que">
-                    <a href="javascript:;">
-                        ${target.find(".item-box").length !== 1 ? '<span class="dragHandle ui-sortable-handle drag-type01"><img src="/images/common/ico_move_type02.png" alt=""></span>' : '<span></span>'}
-                        <span class="summary-num">${$(this).find(".num").text()}</span>
-                        <span class="tit" title="${$(this).find(".chapter").text()}">
-                            <div class="txt">${$(this).find(".chapter").text()}</div>
-                            <div class="tooltip-wrap">
-                                ${$(this).attr("data-paperTitle") !== "" ? '<button type="button" class="btn-tip" style="position: relative; top: 1px; width: 14px; height: 16px; margin-left: 15px; background: url(../../images/common/ico_btn_tip.png) no-repeat; background-size: contain;"></button>' : ''}
-                                ${$(this).attr("data-paperTitle") !== "" ? '<div class="tooltip type01"><div class="tool-type01">' + $(this).attr("data-paperTitle") + '</div></div>' : ''}
-                            </div>
-                        </span>
-                        <span>${$(this).find(".que-badge-group .que-badge").eq(1).text()}</span>
-                        <span><span class="que-badge">${$(this).find(".que-badge-group .que-badge").eq(0).text()}</span></span>
-                    </a>
+                  <a href="javascript:;">
+                    ${target.find(".item-box").length !== 1 ? '<span class="dragHandle ui-sortable-handle drag-type01"><img src="/resource/popup/img/ico_move_type02.png" alt=""></span>' : '<span></span>'}
+                    <span class="summary-num">${$(this).find(".num").text()}</span>
+                    <span class="tit" title="${$(this).find(".chapter").text()}">
+                      <div class="txt">${$(this).find(".chapter").text()}</div>
+                      <div class="tooltip-wrap">
+                        ${$(this).attr("data-paperTitle") !== "" ? '<button type="button" class="btn-tip" style="position: relative; top: 1px; width: 14px; height: 16px; margin-left: 15px; background: url(https://testbank.tsherpa.co.kr/images/common/ico_btn_tip.png) no-repeat; background-size: contain; display: none"></button>' : ''}
+                        ${$(this).attr("data-paperTitle") !== "" ? '<div class="tooltip type01"><div class="tool-type01">' + $(this).attr("data-paperTitle") + '</div></div>' : ''}
+                      </div>
+                    </span>
+                    <span>${getQuestionType($(this).find("#questionFormCode").val())}</span>
+                    <span><span class="que-badge">${$(this).find(".que-badge-group .que-badge").eq(0).text()}</span></span>
+                  </a>
                 </div>
             `;
         });
 
         html += '</div></div>';
 
+        // 문항만 있는 경우
     } else {
         html += `
             <div class="col que summary-box" data-sortSummary=${sortNum}>
                 <a href="javascript:;">
-                    <span class="dragHandle ui-sortable-handle"><img src="/images/common/ico_move_type01.png" alt=""></span>
+                    <span class="dragHandle ui-sortable-handle"><img src="/resource/popup/img/ico_move_type01.png" alt=""></span>
                     <span></span>
                     <span class="summary-num">${target.find(".num").text()}</span>
                     <span class="tit" title="${target.find(".chapter").text()}">
@@ -1249,18 +1269,17 @@ function makeSummary(target, sortNum, type) {
                             ${target.find(".item-box").attr("data-paperTitle") !== "" ? '<div class="tooltip type01"><div class="tool-type01">' + target.find(".item-box").attr("data-paperTitle") + '</div></div>' : ''}
                         </div>
                     </span>
-                    <span>${target.find(".que-badge-group .que-badge").eq(1).text()}</span>
+                    <span>${getQuestionType($(this).find("#questionFormCode").val())}</span>
                     <span><span class="que-badge">${target.find(".que-badge-group .que-badge").eq(0).text()}</span></span>
                 </a>
             </div>
         `;
     }
 
-
     if (type === 'add') {
         $("#content-summary-area #table-1").append($(html));
 
-    }else if(type === 'delete'){
+    } else if (type === 'delete') {
         $("#content-summary-area #table-1").append($(html));
     }
     // 넘버링
@@ -1274,6 +1293,7 @@ function makeSummary(target, sortNum, type) {
     $(".summary-box").each(function (i) {
         $(this).attr("data-sortSummary", i);
     });
+
 }
 
 
