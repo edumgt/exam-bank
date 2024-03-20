@@ -1,18 +1,33 @@
 package com.sherpa.exambank.step1.domain;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class MinorClassification {
-    private Long subject;
-    private Long large;
-    private Long medium;
-    private Long small;
-    private Long topic;
+    String subject;
+    Long large;
+    Long medium;
+    Long small;
+    Long topic;
+
+    @Override
+    public String toString() {
+        return
+                '{' +
+                "\"subject\":\"" + subject + "\"" +
+                ", \"large\":\"" + large +  "\"" +
+                ", \"medium\":\"" + medium +  "\"" +
+                ", \"small\":\"" + small +  "\"" +
+                ", \"topic\":\"" + topic +  "\"" +
+                "}";
+    }
 }

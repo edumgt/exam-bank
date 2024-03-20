@@ -680,26 +680,13 @@ function moveExamStep2() {
         }
     })
 
-
     qParam = {};
     qParam.chapterList = chapterArr;
     qParam.activityCategoryList = categoryArr;
     qParam.levelCnt = tempLevelArray;
     qParam.questionForm = questionFormArr.join(",");
 
-    qParam = JSON.stringify(qParam);
-
-    /*
-    {chapterList: '[{"subject":"1159","topic":115901010101,"small":11…ll":1159010401,"medium":11590104,"large":115901}]', activityCategoryList: Array(4), levelCnt: Array(5), questionForm: 'multiple,subjective,descriptive'}
-
-     {chapterList: '[{"subject":"1159","topic":115901010101,"small":11…ll":1159010401,"medium":11590104,"large":115901}]',
-     activityCategoryList: Array(4),
-     levelCnt: Array(5),
-     questionForm: 'multiple,subjective,descriptive'}
-     */
-
-    ajaxCall("POST", "/customExam/loadStep2", qParam, function (data) {
-
+    ajaxCall("POST", "/customExam/loadStep2", JSON.stringify(qParam), function (data) {
         if (data != null) {
             if(data.itemsTotalCnt === 0){
                 showPop("no-data-pop");
@@ -708,7 +695,7 @@ function moveExamStep2() {
                 $(".pop-wrap[data-pop='que-pop'] .range").not(".total").hide();
 
                 for(let i=1; i<=5; i++){
-                    if (data.levelGroup['0'+i] !== undefined) {
+                    if (data.levelGroup['0'+i] !== undefined && data.levelGroup['0'+i] != 0) {
                         $(".pop-wrap[data-pop='que-pop'] #pop-level"+i).show();
                         $(".pop-wrap[data-pop='que-pop'] #pop-level"+i).find(".num").text(data.levelGroup['0'+i]);
                     }
@@ -717,10 +704,13 @@ function moveExamStep2() {
                 $(".pop-wrap[data-pop='que-pop'] #pop-total-sum .num").text(data.itemsTotalCnt);
                 $(".pop-wrap[data-pop='que-pop'] #nxt-data").val(data.queIdList);
 
+                qParam.itemList = data.itemList;
+
                 showPop("que-pop");
 
             } else {
                 console.log("호출");
+                qParam.itemList = data.itemList;
                 moveToStep2(data.queIdList);
             }
         }
@@ -756,16 +746,22 @@ function moveToStep2(queArr) {
     new_form.attr("name", "new_form");
     new_form.attr("charset", "UTF-8");
     new_form.attr("method", "post");
-    new_form.attr("action", "/customExam/step2");
+    new_form.attr("action", "/customExam/step2/jy");
 
-    new_form.append($('<input/>', {type: 'hidden', name: 'chapterList', value:  qParam.chapterList}));
+    console.log("moveToStep2 : ", qParam.chapterList);
+    console.log("moveToStep2 queArrParam : ", queArrParam);
+    //return false;
+
+    new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArrParam}));
+    new_form.append($('<input/>', {type: 'hidden', name: 'chapterListJSONString', value: JSON.stringify(qParam.chapterList) }));
     new_form.append($('<input/>', {type: 'hidden', name: 'activityCategoryList', value: qParam.activityCategoryList}));
     new_form.append($('<input/>', {type: 'hidden', name: 'levelCnt', value: qParam.levelCnt}));
     new_form.append($('<input/>', {type: 'hidden', name: 'questionForm', value: qParam.questionForm}));
-    new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArrParam}));
     new_form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: 'new'}));
     new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
+    new_form.append($('<input/>', {type: 'hidden', name: 'itemListByForm', value: JSON.stringify(qParam.itemList)}));
 
     new_form.appendTo('body');
+
     new_form.submit();
 }

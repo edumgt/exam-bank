@@ -1,11 +1,17 @@
 package com.sherpa.exambank.step1.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sherpa.exambank.step1.domain.Chapter;
+import com.sherpa.exambank.step1.domain.MinorClassification;
 import com.sherpa.exambank.step1.domain.Step1Response;
 import com.sherpa.exambank.step1.domain.Subject;
 import com.sherpa.exambank.step1.service.Step1Service;
 import com.sherpa.exambank.step2.domain.Step2Request;
+import com.sherpa.exambank.step2.domain.Step2Response;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +23,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,16 +53,11 @@ public class Step1Controller {
      */
     @PostMapping("/customExam/step1")
     public String postStep1Page(@ModelAttribute("Subject") Subject subject, Model model) throws ParseException {
-        log.info(String.valueOf(subject));
-
         Step1Response step1Response = step1Service.step1Page(subject);
         model.addAttribute("chapterList", step1Response.getChapterList());   // 단원 정보
         model.addAttribute("evaluationList", step1Response.getEvaluationList());   // 평가 영역
         model.addAttribute("chapterTree", step1Response.getChapterTree());   // 단원 정보 트리
         model.addAttribute("subject", subject); // [*****] 교과서 정보
-
-        log.info("test_chapterTree : " + step1Response.getChapterTree());
-        log.info("test_evaluationList : " + step1Response.getEvaluationList());
 
         // subjectName [*****] step2.jsp 출력할 때 보내기
 
@@ -101,21 +104,12 @@ public class Step1Controller {
         return new ResponseEntity<>("test", HttpStatus.OK);
     }
 
-    // step2로 이동
+    // step2 이동전 문항수 확인
+    // stepOne.js의 moveExamStep2()
     @PostMapping("/customExam/loadStep2")
-    public ResponseEntity moveExamStep2(@RequestBody Step2Request step2Request){
-        //log.info("draw Item Counts: " + map.get("chapterList"));
-        log.info("controller moveExamStep2 : " + step2Request);
-        log.info("hashcode moveExamStep2 : " + step2Request.hashCode());
-        log.info("hashcode2 moveExamStep2 : " + step2Request.getLevelCnt());
+    public ResponseEntity<Step2Response> moveExamStep2(@RequestBody Step2Request step2Request) {
+        Step2Response step2Response = step1Service.moveExamStep2(step2Request);
 
-        // map -> Step2Request
-
-        step1Service.moveExamStep2(step2Request);
-        // listSmallItemCount
-        // listTopicItemCount
-        // successYn
-
-        return new ResponseEntity<>("test", HttpStatus.OK);
+        return ResponseEntity.ok(step2Response);
     }
 }
