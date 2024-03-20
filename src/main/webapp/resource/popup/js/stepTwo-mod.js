@@ -2,37 +2,35 @@ $(function () {
   
   activeText(2);
   setItemNum();
-  sortQue("detail", "unit");
   setSortNum("detail");
-  
-  // 페이지 로드 시 지문+다중 문항 그룹 생성
   makeSortGroup();
   
+  /* 2024-03-21 추가 : 이양진 */
+  // s: 페이지 로드 시 지문+다중 문항 그룹 생성
   function makeSortGroup() {
-    
     let passageList = [];  // 지문 ID 리스트
     
     $(".passage-view-que-box.sort-group").each(function () {
       let passageId = $(this).children('.passage-box').attr('data-passageid');
+      passageList.push(passageId);
       console.log("지문 ID : ", passageId);  // 지문 ID 확인
       console.log("sortNum : ", $(this).data('sortnum'));
       console.log("문항 ID : ", $(this).children('.item-box').find('#questionId').val());
       console.log("=========================")
-      passageList.push(passageId);
-    })
-    
+    });
     console.log(passageList.toString());
-    console.log(passageList.length);  // 기본 30개
+    // console.log(passageList.length);  // 기본 30개
     
-    // 지문 ID가 동일하면 sort-group으로 묶기
+    // 지문 ID가 동일하면 동일한 sort-group으로 묶기
     for (let i = 0; i < passageList.length; i++) {
-      
+      // 지문 ID 중 최상단에 위치하는 그룹에 붙이기
       let rootPassage = $('.sort-group').filter(function () {
         return $(this).data('sortnum') == i;
       });
       console.log("root : ", passageList[i]);
       console.log("rootPassage sortnum : ", rootPassage.data('sortnum'));
       
+      // 지문 ID가 중복되는 경우 찾기
       for (let j = i + 1; j < passageList.length; j++) {
         if (passageList[j] === passageList[i]) {
           
@@ -45,23 +43,25 @@ $(function () {
           // let itemId = currentPassage.children('.item-box').find('#questionId').val();
           // console.log("문항 Id : ", itemId);
           
+          // 문항 영역을 최상단 sort-group 안으로 옮기고, 기존의 sort-group div는 삭제
           let itemToGroup = currentPassage.children('.item-box');
           itemToGroup.appendTo(rootPassage.children('.item-box').last());
           currentPassage.remove();
         }
-        
       }
     }
     
+    setSortNum("detail");
+    
+    // 초기 문제지 요약 항목 정렬
+    $("#content-summary-area #table-1").empty();
+    $("#view-que-detail-list .sort-group").each(function (i, e) {
+      makeSummary($(e), $(e).attr("data-sortnum"), 'add');
+    });
   }
+  // e: 페이지 로드 시 지문+다중 문항 그룹 생성
   
   
-  // 초기 문제지 요약 항목 정렬
-  $("#content-summary-area #table-1").empty();
-  
-  $("#view-que-detail-list .sort-group").each(function (i, e) {
-    makeSummary($(e), $(e).attr("data-sortnum"), 'add');
-  });
   
   // 문항 타이틀 영역 - 난이도 뱃지에 색상 부여
   $(".view-que-box.item-box").each(function () {
