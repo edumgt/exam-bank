@@ -11,25 +11,25 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ItemDTO {
-    private int itemNo;
-    private Long itemId;
-    private String questionFormCode;
-    private String questionFormName;
-    private String difficultyCode;
-    private String difficultyName;
-    private Long largeChapterId;
-    private String largeChapterName;
-    private Long mediumChapterId;
-    private String mediumChapterName;
-    private Long smallChapterId;
-    private String smallChapterName;
-    private Long topicChapterId;
-    private String topicChapterName;
-    private Long passageId;
-    private String passageUrl;
-    private String questionUrl;
-    private String answerUrl;
-    private String explainUrl;
+    protected int itemNo;
+    protected Long itemId;
+    protected String questionFormCode;
+    protected String questionFormName;
+    protected String difficultyCode;
+    protected String difficultyName;
+    protected Long largeChapterId;
+    protected String largeChapterName;
+    protected Long mediumChapterId;
+    protected String mediumChapterName;
+    protected Long smallChapterId;
+    protected String smallChapterName;
+    protected Long topicChapterId;
+    protected String topicChapterName;
+    protected Long passageId;
+    protected String passageUrl;
+    protected String questionUrl;
+    protected String answerUrl;
+    protected String explainUrl;
 
 
 
