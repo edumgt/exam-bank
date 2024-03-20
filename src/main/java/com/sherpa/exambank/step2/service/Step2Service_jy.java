@@ -29,27 +29,37 @@ public class Step2Service_jy {
                         .activityCategoryList(step2Request.getActivityCategoryList())
                         .questionForm(step2Request.getQuestionForm())
                         .build();
-        // 난이도별 문제 개수
-        List<String> levelCnt = step2Request.getLevelCnt();
-        Map<String, Integer> levelGroup = new HashMap<>();
-        for(int i=0; i<levelCnt.size(); i++){
-            String diffCode = String.format("%02d", (i+1)); // 난이도 코드 문자열
-            String cnt = levelCnt.get(i);
-            levelGroup.put(diffCode, Integer.parseInt(cnt));
-        }
-        step2Response.setLevelGroup(levelGroup);
 
-        // log.info("moveToStep2: {}", step2Request.getChapterListJSONString().toString());
-        // 단원 정보 List
         ObjectMapper objectMapper = new ObjectMapper();
-        MinorClassification[] minorClassificationArray = objectMapper.readValue(step2Request.getChapterListJSONString(), MinorClassification[].class);
-        List<MinorClassification> mList = Arrays.asList(minorClassificationArray);
-        step2Response.setChapterList(mList);
-
         // 문제 정보 List
         MoveExamStep2Item[] itemArray = objectMapper.readValue(step2Request.getItemListByForm(), MoveExamStep2Item[].class);
         List<MoveExamStep2Item> itemList = Arrays.asList(itemArray);
         step2Response.setItemList(itemList);
+
+        // 난이도별 문제 개수
+        Map<String, Integer> levelGroup = new HashMap<>();
+        levelGroup.put("02", 0);
+        levelGroup.put("03", 0);
+        levelGroup.put("04", 0);
+        for(int i=0; i<itemList.size(); i++){
+            String itemDiffCode = itemList.get(i).getDifficultyCode();  // 문제의 난이도
+            if(!levelGroup.containsKey(itemDiffCode)){
+                levelGroup.put(itemDiffCode, 0);
+            }
+            int temp = levelGroup.get(itemDiffCode);
+            levelGroup.put(itemDiffCode, ++temp);
+        }
+        step2Response.setLevelGroup(levelGroup);
+
+        // 총 문제 개수
+        step2Response.setItemsTotalCnt((long) itemList.size());
+
+        // log.info("moveToStep2: {}", step2Request.getChapterListJSONString().toString());
+
+        // 단원 정보 List
+        MinorClassification[] minorClassificationArray = objectMapper.readValue(step2Request.getChapterListJSONString(), MinorClassification[].class);
+        List<MinorClassification> mList = Arrays.asList(minorClassificationArray);
+        step2Response.setChapterList(mList);
 
         return step2Response;
 

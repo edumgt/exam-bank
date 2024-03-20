@@ -23,7 +23,7 @@ public class Step2Controller_jy {
         Step2Response step2Response = step2Service.moveToStep2(step2Request);
 
         model.addAttribute("step2Response", step2Response);
-
-        return "customexam/step222";
+        log.info("moveToStep2 : {}", String.valueOf(step2Response));
+        return "customexam/step2-mod";
     }
 }
