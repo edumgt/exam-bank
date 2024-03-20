@@ -18,22 +18,17 @@
  * */
 /** 1. 텍스트 입력 시 글자 수 표시    (입력폼 : for  - 출력폼 : id ) */
 // ajax 공통호출
-const   ajaxCall = (type, url, param, callback) => {
+const ajaxCall = (type, url, param, callback) => {
     $.ajax({
         url: url,
         type : type,
         data : param,
-        contentType: "application/json",
         success: function (data) {
-            console.log("ajaxCall 호출 ", data);
             return callback(data);
+            console.log("호출")
         },
         error : function (xhr, status, error) {
-            console.log("xhr ", xhr);
-            console.log("status ", status);
-            console.log("error ", error);
-            alert("jy");
-            // window.location.href="/error/error";
+            window.location.href="/error/error";
         }
     });
 }

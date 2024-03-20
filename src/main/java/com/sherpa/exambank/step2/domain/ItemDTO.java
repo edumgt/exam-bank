@@ -30,7 +30,5 @@ public class ItemDTO {
     protected String questionUrl;
     protected String answerUrl;
     protected String explainUrl;
-
-
-
+    protected String passageYn;
 }
