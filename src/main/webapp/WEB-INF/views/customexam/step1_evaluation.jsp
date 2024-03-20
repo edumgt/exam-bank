@@ -200,16 +200,11 @@
                                     </div>
                                     <div class="count-area">
                                         <div class="btn-wrap" id="btn-num-group">
-                                            <button type="button" class="btn-line" id="q_10" disabled="disabled">10
-                                            </button>
-                                            <button type="button" class="btn-line" id="q_15" disabled="disabled">15
-                                            </button>
-                                            <button type="button" class="btn-line" id="q_20" disabled="disabled">20
-                                            </button>
-                                            <button type="button" class="btn-line" id="q_25" disabled="disabled">25
-                                            </button>
-                                            <button type="button" class="btn-line" id="q_30" disabled="disabled">30
-                                            </button>
+                                            <button type="button" class="btn-line" id="q_10" disabled="disabled">10</button>
+                                            <button type="button" class="btn-line" id="q_15" disabled="disabled">15</button>
+                                            <button type="button" class="btn-line" id="q_20" disabled="disabled">20</button>
+                                            <button type="button" class="btn-line" id="q_25" disabled="disabled">25</button>
+                                            <button type="button" class="btn-line" id="q_30" disabled="disabled">30</button>
                                         </div>
                                         <div class="input-area">
                                             <span class="num">총 <input type="number" value="" id="txt-exam-num"
@@ -261,7 +256,7 @@
                                                     <button type="button" class="btn-line"
                                                             data-value="${evaluation.domainId}"
                                                             id="eval_${evaluation.domainId}" disabled="disabled">
-                                                        jy_${evaluation.domainName}</button>
+                                                        ${evaluation.domainName}</button>
                                                 </c:forEach>
                                             </c:otherwise>
                                         </c:choose>

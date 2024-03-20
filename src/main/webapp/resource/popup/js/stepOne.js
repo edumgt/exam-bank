@@ -196,9 +196,31 @@ $(function () {
 
     // 출제옵션 > 문제수 버튼 클릭 - 문항 체크
     $("#btn-num-group button").on("click", function () {
-        $("#txt-exam-num").val($(this).text());
+        $("#txt-exam-num").val($.trim($(this).text()));
         $("#txt-exam-num").css("border-color", "");
-        levelCheck();
+
+        $("#btn-num-group button").removeClass("active");
+
+        let inputNum = Number($.trim($(this).text()));
+        switch (inputNum) {
+            case 10:
+                $("#q_10").addClass("active");
+                break;
+            case 15:
+                $("#q_15").addClass("active");
+                break;
+            case 20:
+                $("#q_20").addClass("active");
+                break;
+            case 25:
+                $("#q_25").addClass("active");
+                break;
+            case 30:
+                $("#q_30").addClass("active");
+                break;
+        }
+
+        levelCheck();   // 난이도별 문제 수 지정
         $("#total-num").show();
         $("#total-num-val").text($(this).text());
     });
@@ -552,7 +574,7 @@ function disActiveProblemCnt() {
     $("#txt-exam-num").val(null);
     $("#txt-exam-num").text(null);
     $("#txt-exam-num").data("columns", 100);
-    $("#questionCntMessage").text(null);
+    $("#questionCntMessage").text("");
     $("#total-num").hide();
 
     // 난이도 구성 비활성

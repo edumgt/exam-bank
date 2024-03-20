@@ -170,8 +170,7 @@ public class Step1Service {
     }
 
     public Step2Response moveExamStep2(Step2Request step2Request){
-        // 4번 api 사용
-        // https://tsherpa.item-factory.com/item/chapters/item-list
+        // 5번 api 사용
         // map 정보 수정
         step2Request.setMinorClassification(step2Request.getChapterList());
 
@@ -179,7 +178,7 @@ public class Step1Service {
         log.info("service moveExamStep2 : {}", step2Request.getMinorClassification());
 
         // 요청
-        MoveExamStep2Response response = postMoveExamStep2Request("item/chapters/item-list", step2Request);
+        MoveExamStep2Response response = postMoveExamStep2Request("item-img/chapters/item-list", step2Request);
         List<MoveExamStep2Item> itemList = response.getItemList();
 
         // 응답
