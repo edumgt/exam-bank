@@ -236,40 +236,55 @@ $(function () {
                     // 현재 아이템을 해당 passageId 배열에 추가
                     group[passageId].push(item);
 
-                    console.log("group[passageId] = ",group[passageId]);
+                    console.log(group[passageId]);
                 });
 
                 Object.keys(group).forEach(passageId => {
                     const items = group[passageId];
 
-                    let passageBox = items.length > 0 ? "passage-view-que-box" : "";
-                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+ items.length +'" data-sortValue="">';
-                    console.log("items - ",items)
-
+                })
+                    let passageBox = group[passageId].length > 0 ? "passage-view-que-box" : "";
+                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+ passageId +'" data-sortValue="">';
                     // 지문영역
-                    if (items[0].passageUrl){
-                        html +=
-                            `<div class="view-que-box passage-box" data-passageId="${passageId}">
+
+                    if (!addedPassageIds.includes(item.passageId)) {
+                        addedPassageIds.push(item.passageId); // 추가한 지문 표시
+
+                        if(group[passageId].length > 0) {
+
+                            html +=
+                                `<div class="view-que-box passage-box" data-passageId="${passageId}">
                                  <div class="que-top">
                                      <div class="title"><span class="num"></span></div>
                                      <div class="btn-wrap delete-btn-wrap"></div>
                                  </div>
                                  <div class="view-que">
                                     <div class="que-bottom">
-                                         <div class="passage-area"><img src="${items[0].passageUrl}" alt="${passageId}" width="453px"></div>
+                                         <div class="passage-area"><img src="${item.passageUrl}" alt="${item.passageId}" width="453px"></div>
                                          <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
                                                   ${addedPassageIds.length === 1 ? "" :
-                                `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
+                                                  `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
                                              </div>
                                          </div>
                                      </div>
-                                 </div>`;
+                                 </div>`
+                        }
                     }
-                    // 각 문항에 대한 HTML
-                    items.forEach(item => {
-                        similarItemNum++;
-                        html += `
-                            <div class="view-que-box item-box" data-paperTitle="${passageId}">
+                    console.log("newGroup === ",group[passageId])
+                    // console.log("newGroup === ",Object.values(group[passageId][0]).length)
+                    // 문항 영역에 개별 추가 버튼 추가
+                    for (let b = 0; b < group[passageId].length; b++) {
+
+
+                        const currentItem = group[passageId][b];
+
+                        if (!addedItemIds.includes(currentItem.itemId)) {
+                            addedItemIds.push(currentItem.itemId); // 추가한 문항 표시
+                            similarItemNum++;
+                            // console.log("currentItem",currentItem)
+
+                            html += `
+                            <div class="view-que-box item-box" data-paperTitle="${currentItem.passageId}">
                                 <div class="que-top">
                                     <div class="title">
                                         <span class="num">${similarItemNum}</span>
@@ -317,10 +332,14 @@ $(function () {
                                     <p class="chapter">${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}</p>
                                 </div>
                             </div>`;
-                    });
-
+                        }
+                    }
                     html += '</div>';
-                });
+
+
+
+
+
 
 
                 $("#item-similar-area").empty();
@@ -338,7 +357,6 @@ $(function () {
                     $("#tab-right-group .ui-tab-btn").removeClass('active');
                     $("#tab-similar").addClass('active');
                 }
-
             }
         });
     });
