@@ -143,7 +143,8 @@
                                 </c:when>
 
                                 <c:otherwise>
-                                    <c:forEach items="${step2Response.itemList}" var="dto" varStatus="status">
+                                    <c:forEach items="${itemDTOList}" var="dto" varStatus="status">
+                                        <%--                      <c:out value="${step2Response.itemList}" />--%>
                                         <%--지문+문항--%>
                                         <%-- 지문 영역 --%>
                                         <c:if test="${dto.passageId != null}">
@@ -157,6 +158,9 @@
                                                     </div>
                                                     <div class="view-que">
                                                         <div class="que-bottom">
+                                                                <%--                                                            <p>testtesttest</p>--%>
+                                                                <%--                                                            <p>${dto.passageUrl} </p>--%>
+                                                                <%--                                                            <script>console.log("step2-mod : ",${dto.passageUrl})</script>--%>
                                                             <div class="passage-area"><img src="${dto.passageUrl}" alt="${dto.passageId}"
                                                                                            width="453px">
                                                             </div>
@@ -306,389 +310,389 @@
 
 
                             <%-- 문항 리스트 - 지문이 있는 경우 --%>
-                           <%-- <div class="passage-view-que-box sort-group">
+                            <%--<div class="passage-view-que-box sort-group">
 
-                                <!-- s: 지문 영역 -->
-                                <div class="view-que-box passage-box" data-passageid="25266">
-                                    <div class="que-top">
-                                        <div class="title">
-                                            <span class="num"></span>
-                                        </div>
-                                        <div class="btn-wrap delete-btn-wrap">
-                                            <input type="hidden">
-                                            <button type="button" class="btn-delete" data-type="all"></button>
+                              <!-- s: 지문 영역 -->
+                              <div class="view-que-box passage-box" data-passageid="25266">
+                                <div class="que-top">
+                                  <div class="title">
+                                    <span class="num"></span>
+                                  </div>
+                                  <div class="btn-wrap delete-btn-wrap">
+                                    <input type="hidden">
+                                    <button type="button" class="btn-delete" data-type="all"></button>
 
-                                        </div>
-                                    </div>
-                                    <div class="view-que">
-
-                                        <div class="que-bottom">
-                                            <div class="passage-area">
-                                                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25280/25280_2024-02-21.svg"
-                                                     alt="25280" width="453px">
-                                            </div>
-                                            <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                            </div>
-                                        </div>
-                                    </div>
+                                  </div>
                                 </div>
-                                <!-- e: 지문 영역-->
+                                <div class="view-que">
 
-
-                                <!-- s: 문항 영역 -->
-
-
-                                <!-- e: 문항 영역 -->
-                                <div class="view-que-box item-box">
-                                    <div class="que-top">
-                                        <div class="title">
-                                            <span class="num">1</span>
-                                            <div class="que-badge-group">
-
-
-                                                <span class="que-badge green">중</span>
-
-
-                                                <span class="que-badge gray">
-
-                                                                    객관식
-
-
-                                                                </span>
-                                                <input type="hidden" id="questionId" value="521713">
-                                                <input type="hidden" id="chapterGp" value="115901115901011159010101115901010102">
-                                                <input type="hidden" id="difficultyCode" value="03">
-                                                <input type="hidden" id="questionFormCode" value="50">
-                                                <input type="hidden" id="paperId" value="">
-                                                <input type="hidden" id="paperTitle" value="">
-                                            </div>
-                                        </div>
-                                        <div class="btn-wrap delete-btn-wrap">
-                                                            <span class="tooltip-wrap">
-                                                                <button type="button" class="btn-error pop-btn"
-                                                                        data-pop="error-report-pop"></button>
-                                                                <span class="tooltip type02">
-                                                                    <div class="tool-type01">문항오류신고</div>
-                                                                </span>
-                                                            </span>
-                                            <button type="button" class="btn-delete"></button>
-                                        </div>
+                                  <div class="que-bottom">
+                                    <div class="passage-area">
+                                      <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25280/25280_2024-02-21.svg"
+                                           alt="25280" width="453px">
                                     </div>
-                                    <div class="view-que">
-                                        <div class="que-content">
-                                            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521713/521713_2024-02-21.svg"
-                                                 alt="521713" width="453px">
-                                        </div>
-                                        <div class="que-bottom">
-                                            <div class="data-area">
-                                                <div class="que-info answer-area" style="display: none">
-                                                    <p class="answer"><span class="label type01">정답</span></p>
-                                                    <div class="data-answer-area"><img
-                                                            src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521713/521713_2024-02-21.svg"
-                                                            alt="521713" width="453px"></div>
-                                                </div>
-
-                                            </div>
-                                            <div class="data-area type01">
-                                                <div class="que-info explain-area" style="display: none">
-                                                    <p class="answer"><span class="label">해설</span></p>
-                                                    <div class="data-answer-area"><img
-                                                            src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521713/521713_2024-02-21.svg"
-                                                            alt="521713" width="453px"></div>
-                                                </div>
-                                                <div class="btn-wrap etc-btn-wrap">
-                                                    <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
                                     </div>
-                                    <div class="que-info-last"
-                                         title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 내용">
-                                        <p class="chapter">1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt;&nbsp;작품의
-                                            내용</p>
-                                    </div>
+                                  </div>
                                 </div>
-                                <div class="view-que-box item-box">
-                                    <div class="que-top">
-                                        <div class="title">
-                                            <span class="num"></span>
-                                            <div class="que-badge-group">
+                              </div>
+                              <!-- e: 지문 영역-->
 
 
-                                                <span class="que-badge green">중</span>
+                              <!-- s: 문항 영역 -->
 
 
-                                                <span class="que-badge gray">
+                              <!-- e: 문항 영역 -->
+                              <div class="view-que-box item-box">
+                                <div class="que-top">
+                                  <div class="title">
+                                    <span class="num">1</span>
+                                    <div class="que-badge-group">
 
-                                                                    객관식
+
+                                      <span class="que-badge green">중</span>
 
 
-                                                                </span>
-                                                <input type="hidden" id="questionId" value="521718">
-                                                <input type="hidden" id="chapterGp" value="115901115901011159010101115901010104">
-                                                <input type="hidden" id="difficultyCode" value="03">
-                                                <input type="hidden" id="questionFormCode" value="50">
-                                                <input type="hidden" id="paperId" value="">
-                                                <input type="hidden" id="paperTitle" value="">
-                                            </div>
-                                        </div>
-                                        <div class="btn-wrap delete-btn-wrap">
-                                                            <span class="tooltip-wrap">
-                                                                <button type="button" class="btn-error pop-btn"
-                                                                        data-pop="error-report-pop"></button>
-                                                                <span class="tooltip type02">
-                                                                    <div class="tool-type01">문항오류신고</div>
-                                                                </span>
-                                                            </span>
-                                            <button type="button" class="btn-delete"></button>
-                                        </div>
+                                      <span class="que-badge gray">
+
+                                                                                  객관식
+
+
+                                                                              </span>
+                                      <input type="hidden" id="questionId" value="521713">
+                                      <input type="hidden" id="chapterGp" value="115901115901011159010101115901010102">
+                                      <input type="hidden" id="difficultyCode" value="03">
+                                      <input type="hidden" id="questionFormCode" value="50">
+                                      <input type="hidden" id="paperId" value="">
+                                      <input type="hidden" id="paperTitle" value="">
                                     </div>
-                                    <div class="view-que">
-                                        <div class="que-content">
-                                            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521718/521718_2023-10-13.svg"
-                                                 alt="521718" width="453px">
-                                        </div>
-                                        <div class="que-bottom">
-                                            <div class="data-area">
-                                                <div class="que-info answer-area" style="display: none">
-                                                    <p class="answer"><span class="label type01">정답</span></p>
-                                                    <div class="data-answer-area"><img
-                                                            src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521718/521718_2023-10-13.svg"
-                                                            alt="521718" width="453px"></div>
-                                                </div>
-
-                                            </div>
-                                            <div class="data-area type01">
-                                                <div class="que-info explain-area" style="display: none">
-                                                    <p class="answer"><span class="label">해설</span></p>
-                                                    <div class="data-answer-area"><img
-                                                            src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521718/521718_2023-10-13.svg"
-                                                            alt="521718" width="453px"></div>
-                                                </div>
-                                                <div class="btn-wrap etc-btn-wrap">
-                                                    <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="que-info-last"
-                                         title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 감상">
-                                        <p class="chapter">1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt;&nbsp;작품의
-                                            감상</p>
-                                    </div>
+                                  </div>
+                                  <div class="btn-wrap delete-btn-wrap">
+                                                                          <span class="tooltip-wrap">
+                                                                              <button type="button" class="btn-error pop-btn"
+                                                                                      data-pop="error-report-pop"></button>
+                                                                              <span class="tooltip type02">
+                                                                                  <div class="tool-type01">문항오류신고</div>
+                                                                              </span>
+                                                                          </span>
+                                    <button type="button" class="btn-delete"></button>
+                                  </div>
                                 </div>
-                                <div class="view-que-box item-box">
-                                    <div class="que-top">
-                                        <div class="title">
-                                            <span class="num"></span>
-                                            <div class="que-badge-group">
+                                <div class="view-que">
+                                  <div class="que-content">
+                                    <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521713/521713_2024-02-21.svg"
+                                         alt="521713" width="453px">
+                                  </div>
+                                  <div class="que-bottom">
+                                    <div class="data-area">
+                                      <div class="que-info answer-area" style="display: none">
+                                        <p class="answer"><span class="label type01">정답</span></p>
+                                        <div class="data-answer-area"><img
+                                                src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521713/521713_2024-02-21.svg"
+                                                alt="521713" width="453px"></div>
+                                      </div>
 
-
-                                                <span class="que-badge yellow">상</span>
-
-
-                                                <span class="que-badge gray">
-
-
-                                                                    주관식
-
-                                                                </span>
-                                                <input type="hidden" id="questionId" value="521720">
-                                                <input type="hidden" id="chapterGp" value="115901115901011159010101115901010104">
-                                                <input type="hidden" id="difficultyCode" value="04">
-                                                <input type="hidden" id="questionFormCode" value="85">
-                                                <input type="hidden" id="paperId" value="">
-                                                <input type="hidden" id="paperTitle" value="">
-                                            </div>
-                                        </div>
-                                        <div class="btn-wrap delete-btn-wrap">
-                                                            <span class="tooltip-wrap">
-                                                                <button type="button" class="btn-error pop-btn"
-                                                                        data-pop="error-report-pop"></button>
-                                                                <span class="tooltip type02">
-                                                                    <div class="tool-type01">문항오류신고</div>
-                                                                </span>
-                                                            </span>
-                                            <button type="button" class="btn-delete"></button>
-                                        </div>
                                     </div>
-                                    <div class="view-que">
-                                        <div class="que-content">
-                                            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521720/521720_2023-10-13.svg"
-                                                 alt="521720" width="453px">
-                                        </div>
-                                        <div class="que-bottom">
-                                            <div class="data-area">
-                                                <div class="que-info answer-area" style="display: none">
-                                                    <p class="answer"><span class="label type01">정답</span></p>
-                                                    <div class="data-answer-area"><img
-                                                            src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521720/521720_2023-10-13.svg"
-                                                            alt="521720" width="453px"></div>
-                                                </div>
-
-                                            </div>
-                                            <div class="data-area type01">
-                                                <div class="que-info explain-area" style="display: none">
-                                                    <p class="answer"><span class="label">해설</span></p>
-                                                    <div class="data-answer-area"><img
-                                                            src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521720/521720_2023-10-13.svg"
-                                                            alt="521720" width="453px"></div>
-                                                </div>
-                                                <div class="btn-wrap etc-btn-wrap">
-                                                    <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="data-area type01">
+                                      <div class="que-info explain-area" style="display: none">
+                                        <p class="answer"><span class="label">해설</span></p>
+                                        <div class="data-answer-area"><img
+                                                src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521713/521713_2024-02-21.svg"
+                                                alt="521713" width="453px"></div>
+                                      </div>
+                                      <div class="btn-wrap etc-btn-wrap">
+                                        <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제
+                                        </button>
+                                      </div>
                                     </div>
-                                    <div class="que-info-last"
-                                         title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 감상">
-                                        <p class="chapter">1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt;&nbsp;작품의
-                                            감상</p>
-                                    </div>
+                                  </div>
                                 </div>
-                                <div class="view-que-box item-box">
-                                    <div class="que-top">
-                                        <div class="title">
-                                            <span class="num"></span>
-                                            <div class="que-badge-group">
-
-
-                                                <span class="que-badge green">중</span>
-
-
-                                                <span class="que-badge gray">
-
-                                                                    객관식
-
-
-                                                                </span>
-                                                <input type="hidden" id="questionId" value="521714">
-                                                <input type="hidden" id="chapterGp" value="115901115901011159010101115901010105">
-                                                <input type="hidden" id="difficultyCode" value="03">
-                                                <input type="hidden" id="questionFormCode" value="50">
-                                                <input type="hidden" id="paperId" value="">
-                                                <input type="hidden" id="paperTitle" value="">
-                                            </div>
-                                        </div>
-                                        <div class="btn-wrap delete-btn-wrap">
-                                                            <span class="tooltip-wrap">
-                                                                <button type="button" class="btn-error pop-btn"
-                                                                        data-pop="error-report-pop"></button>
-                                                                <span class="tooltip type02">
-                                                                    <div class="tool-type01">문항오류신고</div>
-                                                                </span>
-                                                            </span>
-                                            <button type="button" class="btn-delete"></button>
-                                        </div>
-                                    </div>
-                                    <div class="view-que">
-                                        <div class="que-content">
-                                            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521714/521714_2023-10-13.svg"
-                                                 alt="521714" width="453px">
-                                        </div>
-                                        <div class="que-bottom">
-                                            <div class="data-area">
-                                                <div class="que-info answer-area" style="display: none">
-                                                    <p class="answer"><span class="label type01">정답</span></p>
-                                                    <div class="data-answer-area"><img
-                                                            src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521714/521714_2023-10-13.svg"
-                                                            alt="521714" width="453px"></div>
-                                                </div>
-
-                                            </div>
-                                            <div class="data-area type01">
-                                                <div class="que-info explain-area" style="display: none">
-                                                    <p class="answer"><span class="label">해설</span></p>
-                                                    <div class="data-answer-area"><img
-                                                            src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521714/521714_2023-10-13.svg"
-                                                            alt="521714" width="453px"></div>
-                                                </div>
-                                                <div class="btn-wrap etc-btn-wrap">
-                                                    <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="que-info-last"
-                                         title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 특징">
-                                        <p class="chapter">1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt;&nbsp;작품의
-                                            특징</p>
-                                    </div>
+                                <div class="que-info-last"
+                                     title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 내용">
+                                  <p class="chapter">1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt;&nbsp;작품의
+                                    내용</p>
                                 </div>
-                                <div class="view-que-box item-box">
-                                    <div class="que-top">
-                                        <div class="title">
-                                            <span class="num"></span>
-                                            <div class="que-badge-group">
+                              </div>
+                              <div class="view-que-box item-box">
+                                <div class="que-top">
+                                  <div class="title">
+                                    <span class="num"></span>
+                                    <div class="que-badge-group">
 
 
-                                                <span class="que-badge green">중</span>
+                                      <span class="que-badge green">중</span>
 
 
-                                                <span class="que-badge gray">
+                                      <span class="que-badge gray">
 
-                                                                    객관식
+                                                                                  객관식
 
 
-                                                                </span>
-                                                <input type="hidden" id="questionId" value="521716">
-                                                <input type="hidden" id="chapterGp" value="115901115901011159010101115901010106">
-                                                <input type="hidden" id="difficultyCode" value="03">
-                                                <input type="hidden" id="questionFormCode" value="50">
-                                                <input type="hidden" id="paperId" value="">
-                                                <input type="hidden" id="paperTitle" value="">
-                                            </div>
-                                        </div>
-                                        <div class="btn-wrap delete-btn-wrap">
-                                                            <span class="tooltip-wrap">
-                                                                <button type="button" class="btn-error pop-btn"
-                                                                        data-pop="error-report-pop"></button>
-                                                                <span class="tooltip type02">
-                                                                    <div class="tool-type01">문항오류신고</div>
-                                                                </span>
-                                                            </span>
-                                            <button type="button" class="btn-delete"></button>
-                                        </div>
+                                                                              </span>
+                                      <input type="hidden" id="questionId" value="521718">
+                                      <input type="hidden" id="chapterGp" value="115901115901011159010101115901010104">
+                                      <input type="hidden" id="difficultyCode" value="03">
+                                      <input type="hidden" id="questionFormCode" value="50">
+                                      <input type="hidden" id="paperId" value="">
+                                      <input type="hidden" id="paperTitle" value="">
                                     </div>
-                                    <div class="view-que">
-                                        <div class="que-content">
-                                            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521716/521716_2024-02-21.svg"
-                                                 alt="521716" width="453px">
-                                        </div>
-                                        <div class="que-bottom">
-                                            <div class="data-area">
-                                                <div class="que-info answer-area" style="display: none">
-                                                    <p class="answer"><span class="label type01">정답</span></p>
-                                                    <div class="data-answer-area"><img
-                                                            src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521716/521716_2024-02-21.svg"
-                                                            alt="521716" width="453px"></div>
-                                                </div>
-
-                                            </div>
-                                            <div class="data-area type01">
-                                                <div class="que-info explain-area" style="display: none">
-                                                    <p class="answer"><span class="label">해설</span></p>
-                                                    <div class="data-answer-area"><img
-                                                            src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521716/521716_2024-02-21.svg"
-                                                            alt="521716" width="453px"></div>
-                                                </div>
-                                                <div class="btn-wrap etc-btn-wrap">
-                                                    <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="que-info-last"
-                                         title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 해석">
-                                        <p class="chapter">1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt;&nbsp;작품의
-                                            해석</p>
-                                    </div>
+                                  </div>
+                                  <div class="btn-wrap delete-btn-wrap">
+                                                                          <span class="tooltip-wrap">
+                                                                              <button type="button" class="btn-error pop-btn"
+                                                                                      data-pop="error-report-pop"></button>
+                                                                              <span class="tooltip type02">
+                                                                                  <div class="tool-type01">문항오류신고</div>
+                                                                              </span>
+                                                                          </span>
+                                    <button type="button" class="btn-delete"></button>
+                                  </div>
                                 </div>
+                                <div class="view-que">
+                                  <div class="que-content">
+                                    <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521718/521718_2023-10-13.svg"
+                                         alt="521718" width="453px">
+                                  </div>
+                                  <div class="que-bottom">
+                                    <div class="data-area">
+                                      <div class="que-info answer-area" style="display: none">
+                                        <p class="answer"><span class="label type01">정답</span></p>
+                                        <div class="data-answer-area"><img
+                                                src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521718/521718_2023-10-13.svg"
+                                                alt="521718" width="453px"></div>
+                                      </div>
+
+                                    </div>
+                                    <div class="data-area type01">
+                                      <div class="que-info explain-area" style="display: none">
+                                        <p class="answer"><span class="label">해설</span></p>
+                                        <div class="data-answer-area"><img
+                                                src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521718/521718_2023-10-13.svg"
+                                                alt="521718" width="453px"></div>
+                                      </div>
+                                      <div class="btn-wrap etc-btn-wrap">
+                                        <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="que-info-last"
+                                     title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 감상">
+                                  <p class="chapter">1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt;&nbsp;작품의
+                                    감상</p>
+                                </div>
+                              </div>
+                              <div class="view-que-box item-box">
+                                <div class="que-top">
+                                  <div class="title">
+                                    <span class="num"></span>
+                                    <div class="que-badge-group">
+
+
+                                      <span class="que-badge yellow">상</span>
+
+
+                                      <span class="que-badge gray">
+
+
+                                                                                  주관식
+
+                                                                              </span>
+                                      <input type="hidden" id="questionId" value="521720">
+                                      <input type="hidden" id="chapterGp" value="115901115901011159010101115901010104">
+                                      <input type="hidden" id="difficultyCode" value="04">
+                                      <input type="hidden" id="questionFormCode" value="85">
+                                      <input type="hidden" id="paperId" value="">
+                                      <input type="hidden" id="paperTitle" value="">
+                                    </div>
+                                  </div>
+                                  <div class="btn-wrap delete-btn-wrap">
+                                                                          <span class="tooltip-wrap">
+                                                                              <button type="button" class="btn-error pop-btn"
+                                                                                      data-pop="error-report-pop"></button>
+                                                                              <span class="tooltip type02">
+                                                                                  <div class="tool-type01">문항오류신고</div>
+                                                                              </span>
+                                                                          </span>
+                                    <button type="button" class="btn-delete"></button>
+                                  </div>
+                                </div>
+                                <div class="view-que">
+                                  <div class="que-content">
+                                    <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521720/521720_2023-10-13.svg"
+                                         alt="521720" width="453px">
+                                  </div>
+                                  <div class="que-bottom">
+                                    <div class="data-area">
+                                      <div class="que-info answer-area" style="display: none">
+                                        <p class="answer"><span class="label type01">정답</span></p>
+                                        <div class="data-answer-area"><img
+                                                src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521720/521720_2023-10-13.svg"
+                                                alt="521720" width="453px"></div>
+                                      </div>
+
+                                    </div>
+                                    <div class="data-area type01">
+                                      <div class="que-info explain-area" style="display: none">
+                                        <p class="answer"><span class="label">해설</span></p>
+                                        <div class="data-answer-area"><img
+                                                src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521720/521720_2023-10-13.svg"
+                                                alt="521720" width="453px"></div>
+                                      </div>
+                                      <div class="btn-wrap etc-btn-wrap">
+                                        <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="que-info-last"
+                                     title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 감상">
+                                  <p class="chapter">1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt;&nbsp;작품의
+                                    감상</p>
+                                </div>
+                              </div>
+                              <div class="view-que-box item-box">
+                                <div class="que-top">
+                                  <div class="title">
+                                    <span class="num"></span>
+                                    <div class="que-badge-group">
+
+
+                                      <span class="que-badge green">중</span>
+
+
+                                      <span class="que-badge gray">
+
+                                                                                  객관식
+
+
+                                                                              </span>
+                                      <input type="hidden" id="questionId" value="521714">
+                                      <input type="hidden" id="chapterGp" value="115901115901011159010101115901010105">
+                                      <input type="hidden" id="difficultyCode" value="03">
+                                      <input type="hidden" id="questionFormCode" value="50">
+                                      <input type="hidden" id="paperId" value="">
+                                      <input type="hidden" id="paperTitle" value="">
+                                    </div>
+                                  </div>
+                                  <div class="btn-wrap delete-btn-wrap">
+                                                                          <span class="tooltip-wrap">
+                                                                              <button type="button" class="btn-error pop-btn"
+                                                                                      data-pop="error-report-pop"></button>
+                                                                              <span class="tooltip type02">
+                                                                                  <div class="tool-type01">문항오류신고</div>
+                                                                              </span>
+                                                                          </span>
+                                    <button type="button" class="btn-delete"></button>
+                                  </div>
+                                </div>
+                                <div class="view-que">
+                                  <div class="que-content">
+                                    <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521714/521714_2023-10-13.svg"
+                                         alt="521714" width="453px">
+                                  </div>
+                                  <div class="que-bottom">
+                                    <div class="data-area">
+                                      <div class="que-info answer-area" style="display: none">
+                                        <p class="answer"><span class="label type01">정답</span></p>
+                                        <div class="data-answer-area"><img
+                                                src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521714/521714_2023-10-13.svg"
+                                                alt="521714" width="453px"></div>
+                                      </div>
+
+                                    </div>
+                                    <div class="data-area type01">
+                                      <div class="que-info explain-area" style="display: none">
+                                        <p class="answer"><span class="label">해설</span></p>
+                                        <div class="data-answer-area"><img
+                                                src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521714/521714_2023-10-13.svg"
+                                                alt="521714" width="453px"></div>
+                                      </div>
+                                      <div class="btn-wrap etc-btn-wrap">
+                                        <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="que-info-last"
+                                     title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 특징">
+                                  <p class="chapter">1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt;&nbsp;작품의
+                                    특징</p>
+                                </div>
+                              </div>
+                              <div class="view-que-box item-box">
+                                <div class="que-top">
+                                  <div class="title">
+                                    <span class="num"></span>
+                                    <div class="que-badge-group">
+
+
+                                      <span class="que-badge green">중</span>
+
+
+                                      <span class="que-badge gray">
+
+                                                                                  객관식
+
+
+                                                                              </span>
+                                      <input type="hidden" id="questionId" value="521716">
+                                      <input type="hidden" id="chapterGp" value="115901115901011159010101115901010106">
+                                      <input type="hidden" id="difficultyCode" value="03">
+                                      <input type="hidden" id="questionFormCode" value="50">
+                                      <input type="hidden" id="paperId" value="">
+                                      <input type="hidden" id="paperTitle" value="">
+                                    </div>
+                                  </div>
+                                  <div class="btn-wrap delete-btn-wrap">
+                                                                          <span class="tooltip-wrap">
+                                                                              <button type="button" class="btn-error pop-btn"
+                                                                                      data-pop="error-report-pop"></button>
+                                                                              <span class="tooltip type02">
+                                                                                  <div class="tool-type01">문항오류신고</div>
+                                                                              </span>
+                                                                          </span>
+                                    <button type="button" class="btn-delete"></button>
+                                  </div>
+                                </div>
+                                <div class="view-que">
+                                  <div class="que-content">
+                                    <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521716/521716_2024-02-21.svg"
+                                         alt="521716" width="453px">
+                                  </div>
+                                  <div class="que-bottom">
+                                    <div class="data-area">
+                                      <div class="que-info answer-area" style="display: none">
+                                        <p class="answer"><span class="label type01">정답</span></p>
+                                        <div class="data-answer-area"><img
+                                                src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521716/521716_2024-02-21.svg"
+                                                alt="521716" width="453px"></div>
+                                      </div>
+
+                                    </div>
+                                    <div class="data-area type01">
+                                      <div class="que-info explain-area" style="display: none">
+                                        <p class="answer"><span class="label">해설</span></p>
+                                        <div class="data-answer-area"><img
+                                                src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521716/521716_2024-02-21.svg"
+                                                alt="521716" width="453px"></div>
+                                      </div>
+                                      <div class="btn-wrap etc-btn-wrap">
+                                        <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="que-info-last"
+                                     title="1. 문학의 샘&nbsp;>&nbsp;(1) 문학의 다양한 해석&nbsp;>&nbsp;청포도&nbsp;>&nbsp;작품의 해석">
+                                  <p class="chapter">1. 문학의 샘&nbsp;&gt;&nbsp;(1) 문학의 다양한 해석&nbsp;&gt;&nbsp;청포도&nbsp;&gt;&nbsp;작품의
+                                    해석</p>
+                                </div>
+                              </div>
                             </div>--%>
                             <%--<div class="passage-view-que-box sort-group" data-sortnum="1"
                                  data-sortvalue="115901115901011159010101115901010106">
