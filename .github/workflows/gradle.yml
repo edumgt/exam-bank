@@ -87,8 +87,8 @@ jobs:
         port: ${{ secrets.PORT }}
         envs: TOMCAT_PATH, TARGET_DIR
         script: |
-          sudo $TOMCAT_PATH/bin/shutdown.sh
+          sudo $TOMCAT_PATH/scripts/shutdown.sh
           sudo cp $TARGET_DIR/build/libs/*SNAPSHOT.war $TOMCAT_PATH/webapps
-          sudo $TOMCAT_PATH/bin/startup.sh
+          sudo $TOMCAT_PATH/scripts/startup.sh
 
 # sudo cp $TARGET_DIR/build/libs/*.war $TOMCAT_PATH/webapps
