@@ -23,9 +23,10 @@ const ajaxCall = (type, url, param, callback) => {
         url: url,
         type : type,
         data : param,
+        contentType: "application/json",
         success: function (data) {
+            console.log("ajaxCall 호출");
             return callback(data);
-            console.log("호출")
         },
         error : function (xhr, status, error) {
             window.location.href="/error/error";
