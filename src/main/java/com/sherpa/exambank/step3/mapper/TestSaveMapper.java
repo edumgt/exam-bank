@@ -11,7 +11,7 @@ public interface TestSaveMapper {
 
     void insertExamItemData(TestSaveDTO testSaveDTO);
 
-    Long getMaxItemNo(@Param("seq") Long seq);
+    Long getMaxItemNo(Long seq);
 
     void updateItemCount(@Param("seq") Long seq, @Param("itemCnt") Long itemCnt);
 }

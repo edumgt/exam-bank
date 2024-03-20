@@ -126,13 +126,13 @@
 <%--                                    <span class="num">10</span>--%>
 <%--                                </div>--%>
 
-                                <c:forEach var="item" items="${itemIdList}">
+<%--                                <c:forEach var="item" items="${itemIdList}">--%>
                                     <div class="que-badge-group" id="difficultyBadges">
 <%--                                        <input type="hidden" name="" value="${itemIdList.difficultyCode}">--%>
 <%--                                        <span class="que-badge oceanblue">${itemIdList.difficultyName}</span>--%>
 <%--                                        <span class="num"></span>--%>
                                     </div>
-                                </c:forEach>
+<%--                                </c:forEach>--%>
 <%--                                <div class="que-badge-wrap" style="display: none">--%>
 <%--                                    <span class="que-badge oceanblue">최하</span>--%>
 <%--                                    <span class="num"></span>--%>
@@ -157,12 +157,12 @@
                         </div>
                         <div class="right-wrap">
                             <span class="tit">문제 형태</span>
-                            <div class="que-badge-group">
-<%--                                <div class="que-badge-wrap" style="">--%>
+                            <div class="que-badge-group2">
+<%--                                <div class="que-badge-wrap2" style="">--%>
 <%--                                    <span class="que-badge gray">객관식</span>--%>
 <%--                                    <span class="num">25</span>--%>
 <%--                                </div>--%>
-<%--                                <div class="que-badge-wrap" style="">--%>
+<%--                                <div class="que-badge-wrap2" style="">--%>
 <%--                                    <span class="que-badge gray">주관식</span>--%>
 <%--                                    <span class="num">5</span>--%>
 <%--                                </div>--%>
@@ -464,52 +464,64 @@
         }
     }
 
-    $(document).ready(function () {
-        $.ajax({
-            url: '/customExam/rangeList', // 요청할 URL
-            type: 'POST', // 요청 방식
-            contentType: 'application/json', // 요청 데이터의 타입
-            data: JSON.stringify(requestData), // 요청 데이터
-            success: function(response) { // 요청이 성공했을 때 실행될 콜백 함수
-                let responseHtml = ''; // HTML 문자열 변수 초기화
-                let index = 1; // 아이템 ID의 시작 값
-                // 응답 데이터가 배열 형태인지 확인 후 처리
-                if (Array.isArray(response.itemList)) {
-                    response.itemList.forEach(function(item) { // 응답 데이터를 순회하며 HTML 문자열 생성
-                        let questionType = ''; // 질문 유형 초기화
-                        // 질문 유형에 따라 처리
-                        switch(item.questionFormName) {
-                            case '5지 선택':
-                            case '자유 선지형':
-                                questionType = '객관식';
-                                break;
-                            case '단답 유순형':
-                            case '서술형':
-                                questionType = '주관식';
-                                break;
-                            default:
-                                questionType = ''; // 기타 유형에 대해서는 처리하지 않음
-                                break;
+            $(document).ready(function () {
+                $.ajax({
+                    url: '/customExam/rangeList', // 요청할 URL
+                    type: 'POST', // 요청 방식
+                    contentType: 'application/json', // 요청 데이터의 타입
+                    data: JSON.stringify(requestData), // 요청 데이터
+                    success: function(response) { // 요청이 성공했을 때 실행될 콜백 함수
+                        let responseHtml = ''; // HTML 문자열 변수 초기화
+                        let index = 1; // 아이템 ID의 시작 값
+                        let objectiveCount = 0; // 객관식 개수 초기화
+                        let subjectiveCount = 0; // 주관식 개수 초기화
+
+                        // 응답 데이터가 배열 형태인지 확인 후 처리
+                        if (Array.isArray(response.itemList)) {
+                            response.itemList.forEach(function(item) { // 응답 데이터를 순회하며 HTML 문자열 생성
+                                let questionType = ''; // 질문 유형 초기화
+                                // 질문 유형에 따라 처리
+                                switch(item.questionFormName) {
+                                    case '5지 선택':
+                                    case '자유 선지형':
+                                        questionType = '객관식';
+                                        objectiveCount++; // 객관식 개수 증가
+                                        break;
+                                    case '단답 유순형':
+                                    case '서술형':
+                                        questionType = '주관식';
+                                        subjectiveCount++; // 주관식 개수 증가
+                                        break;
+                                    default:
+                                        questionType = ''; // 기타 유형에 대해서는 처리하지 않음
+                                        break;
+                                }
+                                responseHtml += '<div class="col">';
+                                responseHtml += '<span>' + index + '</span>'; // 아이템 ID 출력
+                                responseHtml += '<span class="tit">' + item.largeChapterName + ' &gt; ' + item.mediumChapterName + ' &gt; ' + item.smallChapterName + '</span>';
+                                responseHtml += '<span>' + questionType + '</span>'; // 질문 유형 추가
+                                responseHtml += '<span>' + item.difficultyName + '</span>';
+                                responseHtml += '</div>';
+                                index++; // 아이템 ID 증가
+                            });
+                        } else {
+                            // 응답 데이터가 배열 형태가 아닌 경우, 적절한 처리를 수행하도록 수정
+                            console.error('서버 응답 형식이 올바르지 않습니다.');
                         }
-                        responseHtml += '<div class="col">';
-                        responseHtml += '<span>' + index + '</span>'; // 아이템 ID 출력
-                        responseHtml += '<span class="tit">' + item.largeChapterName + ' &gt; ' + item.mediumChapterName + ' &gt; ' + item.smallChapterName + '</span>';
-                        responseHtml += '<span>' + questionType + '</span>'; // 질문 유형 추가
-                        responseHtml += '<span>' + item.difficultyName + '</span>';
-                        responseHtml += '</div>';
-                        index++; // 아이템 ID 증가
-                    });
-                } else {
-                    // 응답 데이터가 배열 형태가 아닌 경우, 적절한 처리를 수행하도록 수정
-                    console.error('서버 응답 형식이 올바르지 않습니다.');
-                }
-                $('#responseContainer').html(responseHtml); // 생성된 HTML을 #responseContainer 요소에 추가
-            },
-            error: function(xhr, status, error) { // 요청이 실패했을 때 실행될 콜백 함수
-                console.error('API 요청이 실패했습니다.');
-            }
-        });
-    });
+
+                        // 객관식과 주관식 개수를 포함하는 HTML을 생성
+                        let objectiveHtml = '<div class="que-badge-wrap"><span class="que-badge gray">객관식</span><span class="num">' + objectiveCount + '</span></div>';
+                        let subjectiveHtml = '<div class="que-badge-wrap"><span class="que-badge gray">주관식</span><span class="num">' + subjectiveCount + '</span></div>';
+
+                        // 생성된 HTML을 원하는 위치에 추가
+                        $('.que-badge-group2').html(objectiveHtml + subjectiveHtml);
+                        $('#responseContainer').html(responseHtml); // 생성된 HTML을 #responseContainer 요소에 추가
+                    },
+                    error: function(xhr, status, error) { // 요청이 실패했을 때 실행될 콜백 함수
+                        console.error('API 요청이 실패했습니다.');
+                    }
+                });
+            });
 </script>
 <script>
     let qParam ={};
