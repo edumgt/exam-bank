@@ -2,12 +2,65 @@ $(function () {
   
   activeText(2);
   setItemNum();
+  sortQue("detail", "unit");
+  setSortNum("detail");
+  
+  // 페이지 로드 시 지문+다중 문항 그룹 생성
+  makeSortGroup();
+  
+  function makeSortGroup() {
+    
+    let passageList = [];  // 지문 ID 리스트
+    
+    $(".passage-view-que-box.sort-group").each(function () {
+      let passageId = $(this).children('.passage-box').attr('data-passageid');
+      console.log("지문 ID : ", passageId);  // 지문 ID 확인
+      console.log("sortNum : ", $(this).data('sortnum'));
+      console.log("문항 ID : ", $(this).children('.item-box').find('#questionId').val());
+      console.log("=========================")
+      passageList.push(passageId);
+    })
+    
+    console.log(passageList.toString());
+    console.log(passageList.length);  // 기본 30개
+    
+    // 지문 ID가 동일하면 sort-group으로 묶기
+    for (let i = 0; i < passageList.length; i++) {
+      
+      let rootPassage = $('.sort-group').filter(function () {
+        return $(this).data('sortnum') == i;
+      });
+      console.log("root : ", passageList[i]);
+      console.log("rootPassage sortnum : ", rootPassage.data('sortnum'));
+      
+      for (let j = i + 1; j < passageList.length; j++) {
+        if (passageList[j] === passageList[i]) {
+          
+          let currentPassage = $('.sort-group').filter(function () {
+            return $(this).data('sortnum') == j;
+          });
+          
+          console.log("current : ", passageList[j]);
+          console.log("currentPassage sortnum : ", currentPassage.data('sortnum'));
+          // let itemId = currentPassage.children('.item-box').find('#questionId').val();
+          // console.log("문항 Id : ", itemId);
+          
+          let itemToGroup = currentPassage.children('.item-box');
+          itemToGroup.appendTo(rootPassage.children('.item-box').last());
+          currentPassage.remove();
+        }
+        
+      }
+    }
+    
+  }
+  
   
   // 초기 문제지 요약 항목 정렬
   $("#content-summary-area #table-1").empty();
   
   $("#view-que-detail-list .sort-group").each(function (i, e) {
-    makeSummary($(e), $(e).attr("data-sortnum", i), 'add');
+    makeSummary($(e), $(e).attr("data-sortnum"), 'add');
   });
   
   // 문항 타이틀 영역 - 난이도 뱃지에 색상 부여
@@ -20,7 +73,6 @@ $(function () {
       getQuestionType($(this).find("#questionFormCode").val())
     );
   });
-
   
   
   // 초기 정렬 순서
@@ -503,7 +555,6 @@ $(function () {
       $("#no-data-detail-area").show();
     }
   });
-  // e: 문항 삭제 기능 ================================
   
   // 이동할 위치 ,문항 유형에 따라 문항 만들어주기
   // view-que-detail-list 이면 문제 목록
