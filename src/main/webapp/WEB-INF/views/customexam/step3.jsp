@@ -65,7 +65,7 @@
             <div class="view-box">
                 <div class="view-top">
                     <div class="paper-info">
-                        <span>과학2(노태희)</span>- 2015개정 교육과정
+                        <span>${subjectName}</span>- 2015개정 교육과정
                     </div>
 
                     <div class="btn-wrap">
@@ -279,7 +279,8 @@
                     itemIdList: ${itemIdList}, // 문항 ID 리스트
                     subjectName: ${subjectName}
                 };
-
+                console.log("저장 : " , requestData)
+                alert("대기")
                 $.ajax({
                     url: "/customExam/saveExamData",
                     type: "POST",
