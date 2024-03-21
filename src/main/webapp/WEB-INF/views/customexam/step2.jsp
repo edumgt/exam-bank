@@ -24,7 +24,9 @@
   <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
   <script type="text/javascript" src="/resource/common/js/legacy_common.js"></script>
   <script type="text/javascript" src="/resource/midhigh/js/common.js"></script>
-  <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
+    <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
+    <script type="text/javascript" src="/resource/popup/js/stepOne.js"></script>
+<%--  <script type="text/javascript" src="/resource/popup/js/stepTwo-mod.js"></script>--%>
 
 </head>
 <body>
@@ -66,7 +68,7 @@
     <div class="pop-content">
       <div class="view-box">
         <input type="hidden" id="paperGubun" value="new">
-        <input type="hidden" id="subjectId" value="1159">
+        <input type="hidden" name="subjectId" value="${step2Response.subjectId}">
         <input type="hidden" id="subjectName" value="국어3-2(노미숙)">
         <input type="hidden" id="areaCode" value="KO">
         <input type="hidden" id="backYn" value="">
@@ -76,9 +78,6 @@
           <div class="paper-info">
             <span>국어3-2(노미숙)</span>-2015개정 교육과정
           </div>
-          <%--<form action="/customExam/step2" method="post">
-            <input type="submit" value="제출">
-          </form>--%>
           <button class="btn-default btn-research" onclick="rescan()"><i class="research"></i>재검색</button>
           <button class="btn-default" id="btn-range">출제범위</button>
         </div>
@@ -91,6 +90,7 @@
             <div class="cnt-top">
               <span class="title">문제 목록</span>
               <div class="right-area">
+                <%-- 정답 및 해설 보기 옵션 설정 --%>
                 <div class="select-wrap">
                   <button type="button" class="select-btn" id="select-view-btn" data-select="type1">문제만 보기</button>
                   <ul class="select-list" id="select-view-list">
@@ -108,6 +108,7 @@
                     </li>
                   </ul>
                 </div>
+                <%-- 정렬 옵션 --%>
                 <div class="select-wrap">
                   <button type="button" class="select-btn" id="select-sort-btn">단원순</button>
                   <ul class="select-list" id="select-sort-list">
@@ -146,159 +147,171 @@
                   <c:forEach items="${step2Response.itemList}" var="dto" varStatus="status">
                     <%--지문+문항--%>
                     <%-- 지문 영역 --%>
-                    <c:if test="${dto.passageId != null}">
-                      <div class="passage-view-que-box sort-group" data-sortnum=""
-                           data-sortvalue="${(dto.largeChapterId)+(dto.mediumChapterId)+(dto.smallChapterId)+(dto.topicChapterId)}">
+                    <div class="passage-view-que-box sort-group" data-sortnum=""
+                         data-sortvalue="${(dto.largeChapterId)+(dto.mediumChapterId)+(dto.smallChapterId)+(dto.topicChapterId)}">
+
+                      <c:if test="${dto.passageId != null}">
                         <div class="view-que-box passage-box" data-passageid="${dto.passageId}">
                           <div class="que-top">
                             <div class="title"><span class="num"></span></div>
-                            <div class="btn-wrap delete-btn-wrap"></div>
+                            <p>${dto.passageId}</p>
+                            <div class="btn-wrap delete-btn-wrap">
+                              <button type="button" class="btn-delete" data-type="all"></button>
+                            </div>
                           </div>
                           <div class="view-que">
                             <div class="que-bottom">
                               <div class="passage-area"><img src="${dto.passageUrl}" alt="${dto.passageId}"
                                                              width="453px">
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                          <%-- 문항 영역 --%>
-                        <c:if test="${dto.itemId != null}">
-                          <div class="view-que-box item-box" data-paperTitle="">
-                            <div class="que-top">
-                              <div class="title">
-                                <span class="num"></span>
-                                <div class="que-badge-group">
-                                  <span class="que-badge"
-                                        id="difficultyColor">${dto.difficultyName}</span>
-                                  <span class="que-badge gray">${(dto.questionFormCode)}</span>
-                                  <input type="hidden" id="questionId" value="${dto.itemId}">
-                                  <input type="hidden" id="questionNo" value="${dto.itemNo}">
-                                  <input type="hidden" id="chapterGp"
-                                         value="${dto.largeChapterId}${dto.mediumChapterId}${dto.smallChapterId}${dto.topicChapterId}">
-                                  <input type="hidden" id="difficultyCode" value="${dto.difficultyCode}">
-                                  <input type="hidden" id="questionFormCode" value="${dto.questionFormCode}">
-                                </div>
-                              </div>
-                              <div class="btn-wrap delete-btn-wrap">
-                                <span class="tooltip-wrap">
-                                  <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
-                                  <span class="tooltip type02">
-                                      <div class="tool-type01">문항오류신고</div>
-                                  </span>
-                                </span>
-                                <button type="button" class="btn-delete"></button>
-                              </div>
-                            </div>
-                            <div class="view-que">
-                                <%-- 문항 이미지 --%>
-                              <div class="que-content">
-                                <img src="${dto.questionUrl}" alt="${dto.itemId}" width="453px">
-                              </div>
-                              <div class="que-bottom">
-                                <div class="data-area">
-                                    <%-- 정답 이미지 --%>
-                                  <div class="que-info answer-area" style="display: none">
-                                    <p class="answer"><span class="label type01">정답</span></p>
-                                    <div class="data-answer-area"><img src="${dto.answerUrl}" alt="${dto.itemId}"
-                                                                       width="453px"></div>
-                                  </div>
-                                </div>
-                                  <%-- 해설 이미지 및 유사 문항 버튼 --%>
-                                <div class="data-area type01">
-                                    <%-- 해설 이미지 --%>
-                                  <div class="que-info explain-area" style="display: none">
-                                    <p class="answer"><span class="label">해설</span></p>
-                                    <div class="data-answer-area"><img
-                                            src="${dto.explainUrl}"
-                                            alt="${dto.itemId}" width="453px"></div>
-                                  </div>
-                                  <div class="btn-wrap etc-btn-wrap">
-                                    <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사
-                                      문제
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                              <%-- 문항 정보 --%>
-                            <div class="que-info-last"
-                                 title="${dto.largeChapterName} > ${dto.mediumChapterName} > ${dto.smallChapterName} > ${dto.topicChapterName}">
-                              <p class="chapter">${dto.largeChapterName} > ${dto.mediumChapterName}
-                                > ${dto.smallChapterName}
-                                > ${dto.topicChapterName}</p>
-                            </div>
-                          </div>
-                          <%--                      </c:if>--%>
-                        </c:if>
-                      </div>
-                    </c:if>
-
-                    <%--문항만--%>
-                    <c:if test="${dto.passageId == null}">
-                      <div class="view-que-box item-box" data-paperTitle="">
-                        <div class="que-top">
-                          <div class="title">
-                            <span class="num">${dto.itemNo}</span>
-                            <div class="que-badge-group">
-                              <span class="que-badge">${dto.difficultyName}</span>
-                              <span class="que-badge gray">${(dto.questionFormCode)}</span>
-                              <input type="hidden" id="questionId" value="${dto.itemId}">
-                              <input type="hidden" id="chapterGp"
-                                     value="${dto.largeChapterId}${dto.mediumChapterId}${dto.smallChapterId}${dto.topicChapterId}">
-                              <input type="hidden" id="difficultyCode" value="${dto.difficultyCode}">
-                              <input type="hidden" id="questionFormCode" value="${dto.questionFormCode}">
-                            </div>
-                          </div>
-                          <div class="btn-wrap delete-btn-wrap">
-                        <span class="tooltip-wrap">
-                          <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
-                          <span class="tooltip type02">
-                              <div class="tool-type01">문항오류신고</div>
-                          </span>
-                        </span>
-                            <button type="button" class="btn-delete"></button>
-                          </div>
-                        </div>
-                        <div class="view-que">
-                            <%-- 문항 이미지 --%>
-                          <div class="que-content">
-                            <img src="${dto.questionUrl}" alt="${dto.itemId}" width="453px">
-                          </div>
-                          <div class="que-bottom">
-                            <div class="data-area">
-                                <%-- 정답 이미지 --%>
-                              <div class="que-info answer-area" style="display: none">
-                                <p class="answer"><span class="label type01">정답</span></p>
-                                <div class="data-answer-area"><img src="${dto.answerUrl}" alt="${dto.itemId}"
-                                                                   width="453px"></div>
-                              </div>
-                            </div>
-                              <%-- 해설 이미지 및 유사 문항 버튼 --%>
-                            <div class="data-area type01">
-                                <%-- 해설 이미지 --%>
-                              <div class="que-info explain-area" style="display: none">
-                                <p class="answer"><span class="label">해설</span></p>
-                                <div class="data-answer-area"><img
-                                        src="${dto.explainUrl}"
-                                        alt="${dto.itemId}" width="453px"></div>
-                              </div>
-                              <div class="btn-wrap etc-btn-wrap">
-                                <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제
+                              <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                                <button type="button" class="btn-default btn-add" data-type="all"><i
+                                        class="add-type02"></i>전체 추가
                                 </button>
                               </div>
                             </div>
                           </div>
                         </div>
-                          <%-- 문항 정보 --%>
-                        <div class="que-info-last"
-                             title="${dto.largeChapterName} > ${dto.mediumChapterName} > ${dto.smallChapterName} > ${dto.topicChapterName}">
-                          <p class="chapter">${dto.largeChapterName} > ${dto.mediumChapterName}
-                            > ${dto.smallChapterName}
-                            > ${dto.topicChapterName}</p>
+                      </c:if>
+                        <%-- 문항 영역 --%>
+                      <c:if test="${dto.itemId != null}">
+                        <div class="view-que-box item-box" data-paperTitle="">
+                          <div class="que-top">
+                            <div class="title">
+                              <span class="num"></span>
+                              <div class="que-badge-group">
+                                  <span class="que-badge"
+                                        id="difficultyColor">${dto.difficultyName}</span>
+                                <span class="que-badge gray" id="questionForm">${dto.questionFormCode}</span>
+                                <span>${dto.itemId}</span>
+                                <input type="hidden" id="questionId" value="${dto.itemId}">
+                                <input type="hidden" id="questionNo" value="${dto.itemNo}">
+                                <input type="hidden" id="chapterGp"
+                                       value="${dto.largeChapterId}${dto.mediumChapterId}${dto.smallChapterId}${dto.topicChapterId}">
+                                <input type="hidden" id="difficultyCode" value="${dto.difficultyCode}">
+                                <input type="hidden" id="questionFormCode" value="${dto.questionFormCode}">
+                              </div>
+                            </div>
+                            <div class="btn-wrap delete-btn-wrap">
+                                <%-- 문항 오류 신고 항목 => 구현 x (2024.03.20) --%>
+                                <%--<span class="tooltip-wrap">
+                                  <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
+                                  <span class="tooltip type02">
+                                      <div class="tool-type01">문항오류신고</div>
+                                  </span>
+                                </span>--%>
+                              <button type="button" class="btn-delete"></button>
+                            </div>
+                          </div>
+                          <div class="view-que">
+                              <%-- 문항 이미지 --%>
+                            <div class="que-content">
+                              <img src="${dto.questionUrl}" alt="${dto.itemId}" width="453px">
+                            </div>
+                            <div class="que-bottom">
+                              <div class="data-area">
+                                  <%-- 정답 이미지 --%>
+                                <div class="que-info answer-area" style="display: none">
+                                  <p class="answer"><span class="label type01">정답</span></p>
+                                  <div class="data-answer-area"><img src="${dto.answerUrl}" alt="${dto.itemId}"
+                                                                     width="453px"></div>
+                                </div>
+                              </div>
+                                <%-- 해설 이미지 및 유사 문항 버튼 --%>
+                              <div class="data-area type01">
+                                  <%-- 해설 이미지 --%>
+                                <div class="que-info explain-area" style="display: none">
+                                  <p class="answer"><span class="label">해설</span></p>
+                                  <div class="data-answer-area"><img
+                                          src="${dto.explainUrl}"
+                                          alt="${dto.itemId}" width="453px"></div>
+                                </div>
+                                <div class="btn-wrap etc-btn-wrap">
+                                  <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사
+                                    문제
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                            <%-- 문항 정보 --%>
+                          <div class="que-info-last"
+                               title="${dto.largeChapterName} > ${dto.mediumChapterName} > ${dto.smallChapterName} > ${dto.topicChapterName}">
+                            <p class="chapter">${dto.largeChapterName} > ${dto.mediumChapterName}
+                              > ${dto.smallChapterName}
+                              > ${dto.topicChapterName}</p>
+                          </div>
                         </div>
-                      </div>
-                    </c:if>
+                        <%--                      </c:if>--%>
+                      </c:if>
+                    </div>
+
+
+                    <%--문항만--%>
+                    <%--                    <c:if test="${dto.passageId == null}">--%>
+                    <%--                      <div class="view-que-box item-box" data-paperTitle="">--%>
+                    <%--                        <div class="que-top">--%>
+                    <%--                          <div class="title">--%>
+                    <%--                            <span class="num">${dto.itemNo}</span>--%>
+                    <%--                            <div class="que-badge-group">--%>
+                    <%--                              <span class="que-badge">${dto.difficultyName}</span>--%>
+                    <%--                              <span class="que-badge gray">${(dto.questionFormCode)}</span>--%>
+                    <%--                              <input type="hidden" id="questionId" value="${dto.itemId}">--%>
+                    <%--                              <input type="hidden" id="chapterGp"--%>
+                    <%--                                     value="${dto.largeChapterId}${dto.mediumChapterId}${dto.smallChapterId}${dto.topicChapterId}">--%>
+                    <%--                              <input type="hidden" id="difficultyCode" value="${dto.difficultyCode}">--%>
+                    <%--                              <input type="hidden" id="questionFormCode" value="${dto.questionFormCode}">--%>
+                    <%--                            </div>--%>
+                    <%--                          </div>--%>
+                    <%--                          <div class="btn-wrap delete-btn-wrap">--%>
+                    <%--                       &lt;%&ndash; <span class="tooltip-wrap">--%>
+                    <%--                          <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>--%>
+                    <%--                          <span class="tooltip type02">--%>
+                    <%--                              <div class="tool-type01">문항오류신고</div>--%>
+                    <%--                          </span>--%>
+                    <%--                        </span>&ndash;%&gt;--%>
+                    <%--                            <button type="button" class="btn-delete"></button>--%>
+                    <%--                          </div>--%>
+                    <%--                        </div>--%>
+                    <%--                        <div class="view-que">--%>
+                    <%--                            &lt;%&ndash; 문항 이미지 &ndash;%&gt;--%>
+                    <%--                          <div class="que-content">--%>
+                    <%--                            <img src="${dto.questionUrl}" alt="${dto.itemId}" width="453px">--%>
+                    <%--                          </div>--%>
+                    <%--                          <div class="que-bottom">--%>
+                    <%--                            <div class="data-area">--%>
+                    <%--                                &lt;%&ndash; 정답 이미지 &ndash;%&gt;--%>
+                    <%--                              <div class="que-info answer-area" style="display: none">--%>
+                    <%--                                <p class="answer"><span class="label type01">정답</span></p>--%>
+                    <%--                                <div class="data-answer-area"><img src="${dto.answerUrl}" alt="${dto.itemId}"--%>
+                    <%--                                                                   width="453px"></div>--%>
+                    <%--                              </div>--%>
+                    <%--                            </div>--%>
+                    <%--                              &lt;%&ndash; 해설 이미지 및 유사 문항 버튼 &ndash;%&gt;--%>
+                    <%--                            <div class="data-area type01">--%>
+                    <%--                                &lt;%&ndash; 해설 이미지 &ndash;%&gt;--%>
+                    <%--                              <div class="que-info explain-area" style="display: none">--%>
+                    <%--                                <p class="answer"><span class="label">해설</span></p>--%>
+                    <%--                                <div class="data-answer-area"><img--%>
+                    <%--                                        src="${dto.explainUrl}"--%>
+                    <%--                                        alt="${dto.itemId}" width="453px"></div>--%>
+                    <%--                              </div>--%>
+                    <%--                              <div class="btn-wrap etc-btn-wrap">--%>
+                    <%--                                <button type="button" class="btn-similar-que btn-default"><i class="similar"></i>유사 문제--%>
+                    <%--                                </button>--%>
+                    <%--                              </div>--%>
+                    <%--                            </div>--%>
+                    <%--                          </div>--%>
+                    <%--                        </div>--%>
+                    <%--                          &lt;%&ndash; 문항 정보 &ndash;%&gt;--%>
+                    <%--                        <div class="que-info-last"--%>
+                    <%--                             title="${dto.largeChapterName} > ${dto.mediumChapterName} > ${dto.smallChapterName} > ${dto.topicChapterName}">--%>
+                    <%--                          <p class="chapter">${dto.largeChapterName} > ${dto.mediumChapterName}--%>
+                    <%--                            > ${dto.smallChapterName}--%>
+                    <%--                            > ${dto.topicChapterName}</p>--%>
+                    <%--                        </div>--%>
+                    <%--                      </div>--%>
+                    <%--                    </c:if>--%>
                   </c:forEach>
                 </c:otherwise>
               </c:choose>
@@ -2735,14 +2748,14 @@
 
               <%-- 유사 문항 --%>
               <div class="contents" id="contents-similar-area">
-                <div class="view-que-list no-data" id="init-similar-area" style="display: none">
+                <div class="view-que-list no-data" id="init-similar-area" style="">
                   <p>
                     문제 목록에서 <i class="ic-no-data"></i> 유사문제 버튼을 선택해주세요.
                   </p>
                 </div>
                 <div id="list-similar-area" style="display: none">
                   <div class="cnt-top">
-                    <span class="title" id="similar-title">2번 유사 문제</span>
+                    <span class="title" id="similar-title"></span>
                     <input type="hidden" id="target-sort-num" value="">
                     <input type="hidden" id="target-lastItem-num" value="">
                     <div class="right-area">
@@ -2926,7 +2939,7 @@
 <div class="pop-wrap scope-type" data-pop="que-scope-pop">
   <div class="pop-inner">
     <div class="pop-header">
-      <span>국어3-2(노미숙)</span>
+      <span>${step2Response.subjectId}</span>
       <button type="button" class="pop-close"></button>
     </div>
     <div class="pop-content scroll-inner">
@@ -2940,15 +2953,36 @@
 <script type="text/javascript" src="../../js/customExam/stepTwo.js?version=20240308101412"></script>--%>
 <script>
   let qParam = {};
+  let _this = $(this);
+  let param = {};
+  let chapterArr = [];
 
   // 재검색
   function rescan() {
-    qParam = {};
-    const chapterList = '${itemDTOList}';
-    console.log("chapterList : " + chapterList);
-    const activityCategoryList = '415,416,417,418'.split(',');
-    const levelCnt = '0,10,10,10,0'.split(',');
-    const questionForm = 'multiple,subjective,descriptive';
+
+    <%--const chapterArr = '${step2Response.chapterList}';--%>
+
+    // $('#unit-ul li input[type="checkbox"]:checked').not('input[type="checkbox"]:checked.depth01').each(function (x) {
+
+      console.log(${step2Response.subjectId})
+      setChapterParam(param, "subject", ${step2Response.subjectId});
+
+      let _thisIdArr = _this.prop('id').split('_');
+      for (let i = _thisIdArr.length - 1; i > 0; i--) {
+        let prevId = _thisIdArr.join('_');
+        // console.log("prevId", prevId);
+        $('#' + prevId).data('code');
+        $('#' + prevId).data('columns');
+        setChapterParam(param, $('#' + prevId).data('code'), $('#' + prevId).data('columns'));
+        _thisIdArr.pop();
+      }
+      chapterArr.push(param);
+    // })
+    console.log("chapterArr :: ", chapterArr);
+    const activityCategoryList = '${step2Response.activityCategoryList}';
+
+    const levelCnt = ["0","10","10","10","0"]
+
 
     let plusTempLevelArray = [];
     for (let i = 0; i < levelCnt.length; i++) {
@@ -2956,15 +2990,39 @@
       let pVal = cnt === 0 ? 0 : cnt + 20;
       plusTempLevelArray.push(pVal);
     }
+    //문제형태 (10:자유선지형, 50:5지선택 , 60:단답유순형, 85:서술형)
+    let questionFormArr = [];
+    $(".que-badge-group .que-badge.gray").each(function (index, element) {
+      let text = $(element).text().trim();
+      switch (text) {
+        case '객관식':
+          return questionFormArr.push("multiple");
+        case '주관식':
+          return questionFormArr.push("descriptive");
+        // case '상':
+        //   return 'yellow';
+        // default:
+        //   return 'oceanblue';
+      }
+    });
+    // 중복된 값을 제거하는 함수
+    function removeDuplicates(arr) {
+      return Array.from(new Set(arr));
+    }
+    // 중복 제거
+    questionFormArr = removeDuplicates(questionFormArr);
 
-    qParam.chapterList = chapterList;
+
+
+    qParam = {};
+    qParam.chapterList = chapterArr;
     qParam.activityCategoryList = activityCategoryList;
     qParam.levelCnt = levelCnt;
-    qParam.tmpLevelCnt = plusTempLevelArray;
-    qParam.questionForm = questionForm;
+    qParam.questionForm = questionFormArr.join(",");
+    console.log("questionFormArr : ",qParam.questionForm);
 
-    ajaxCall("POST", "/customExam/step2", qParam, function (data) {
-
+    ajaxCall("POST", "/customExam/rescan", JSON.stringify(qParam), function (data) {
+      console.log("qparam : " , qParam);
       if (data != null) {
         for (let j = 1; j <= 5; j++) {
           if (data.levelGroup['0' + j] !== undefined) {
@@ -2976,37 +3034,44 @@
         $(".pop-wrap[data-pop='que-pop'] #pop-total-sum .num").text(data.itemsTotalCnt);
         $(".pop-wrap[data-pop='que-pop'] #nxt-data").val(data.queIdList);
 
+        qParam.itemList = data.itemList;
+
         showPop("que-pop");
+      }else {
+        console.log("호출");
+        qParam.itemList = data.itemList;
+        moveToStep2(data.queIdList);
       }
     });
   }
 
   //재구성된 문항으로 가져오기
-  function moveToStep2() {
-    let queArrParam = $(".pop-wrap #nxt-data").val();
-    let new_form = $('<form></form>');
+  function moveToStep2(queArr) {
+    let queArrParam = queArr === undefined ? $(".pop-wrap #nxt-data").val() : queArr;
 
+    let new_form = $('<form></form>');
     new_form.attr("name", "new_form");
     new_form.attr("charset", "UTF-8");
     new_form.attr("method", "post");
-    new_form.attr("action", "/customExam/step2");
+    new_form.attr("action", "/customExam/step2/jy");
 
-    new_form.append($('<input/>', {type: 'hidden', name: 'chapterList', value: qParam.chapterList}));
-    new_form.append($('<input/>', {
-      type: 'hidden',
-      name: 'activityCategoryList',
-      value: qParam.activityCategoryList
-    }));
+    console.log("moveToStep2 : ", qParam.chapterList);
+    console.log("moveToStep2 queArrParam : ", queArrParam);
+    //return false;
+
+    new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArrParam}));
+    new_form.append($('<input/>', {type: 'hidden', name: 'chapterListJSONString', value: JSON.stringify(qParam.chapterList) }));
+    new_form.append($('<input/>', {type: 'hidden', name: 'activityCategoryList', value: qParam.activityCategoryList}));
     new_form.append($('<input/>', {type: 'hidden', name: 'levelCnt', value: qParam.levelCnt}));
     new_form.append($('<input/>', {type: 'hidden', name: 'questionForm', value: qParam.questionForm}));
-    new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArrParam}));
     new_form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: 'new'}));
     new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
+    new_form.append($('<input/>', {type: 'hidden', name: 'itemListByForm', value: JSON.stringify(qParam.itemList)}));
 
     new_form.appendTo('body');
+
     new_form.submit();
   }
-
   function showPop(pop, className) {
     const dimClass = className === undefined ? "dim" : className;
     $('html , body').css('overflow', 'hidden');

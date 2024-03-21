@@ -65,7 +65,7 @@
             <div class="view-box">
                 <div class="view-top">
                     <div class="paper-info">
-                        <span>과학2(노태희)</span>- 2015개정 교육과정
+                        <span>${subjectName}</span>- 2015개정 교육과정
                     </div>
 
                     <div class="btn-wrap">
@@ -279,7 +279,8 @@
                     itemIdList: ${itemIdList}, // 문항 ID 리스트
                     subjectName: ${subjectName}
                 };
-
+                console.log("저장 : " , requestData)
+                alert("대기")
                 $.ajax({
                     url: "/customExam/saveExamData",
                     type: "POST",
@@ -403,10 +404,11 @@
 <script>
 
             let requestData = {
-                "itemIdList": ${itemIdList}
+                "itemIdList": ${itemIdList},
+                "subjectName": "${subjectName}"
                 //"itemIdList": [1664792,1506466,1664793,1506463,1664798,1664808,1664799,1665537,1665552,1506450,1665539,1665541,1664830,1506453,1665544,1665543,1506454,1664825,1665547,1665546,1665548,1506438,1506589,1506588,1506591,1664899,1664915,1664918,1506604,1506561]
         };
-
+            console.log("controller response : ",requestData.itemIdList);
             $(document).ready(function () {
             $.ajax({
                 url: '/customExam/rangeList', // 요청할 URL
