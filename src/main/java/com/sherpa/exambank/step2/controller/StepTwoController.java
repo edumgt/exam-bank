@@ -68,11 +68,5 @@ public class StepTwoController {
         return new ResponseEntity<>(chapterIdList, HttpStatus.OK) ;
     }
 
-/*    @PostMapping("/customExam/step3")
-    @ResponseBody
-    public ResponseEntity loadStep3(){
-
-        return null;
-    }*/
 
 }
