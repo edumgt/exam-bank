@@ -81,6 +81,17 @@ public class Step1Service {
                 url, request, Step1Response.class
         );
 
+        // subjectName, curriculumCode, curriculumName 정보
+        if(step1Response != null && step1Response.getChapterList() != null && !step1Response.getChapterList().isEmpty()) {
+            Chapter firstChapter = step1Response.getChapterList().get(0);
+
+            if (firstChapter != null) {
+                subject.setSubjectName(firstChapter.getSubjectName());
+                subject.setCurriculumCode(firstChapter.getCurriculumCode());
+                subject.setCurriculumName(firstChapter.getCurriculumName());
+            }
+        }
+
         return step1Response;
     }
 
