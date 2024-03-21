@@ -181,7 +181,7 @@
                               <div class="que-badge-group">
                                   <span class="que-badge"
                                         id="difficultyColor">${dto.difficultyName}</span>
-                                <span class="que-badge gray">${(dto.questionFormCode)}</span>
+                                <span class="que-badge gray" id="questionForm">${dto.questionFormCode}</span>
                                 <span>${dto.itemId}</span>
                                 <input type="hidden" id="questionId" value="${dto.itemId}">
                                 <input type="hidden" id="questionNo" value="${dto.itemNo}">
@@ -2938,7 +2938,7 @@
 <div class="pop-wrap scope-type" data-pop="que-scope-pop">
   <div class="pop-inner">
     <div class="pop-header">
-      <span>국어3-2(노미숙)</span>
+      <span>${step2Response.subjectId}</span>
       <button type="button" class="pop-close"></button>
     </div>
     <div class="pop-content scroll-inner">
@@ -2955,28 +2955,52 @@
 
   // 재검색
   function rescan() {
-    qParam = {};
-    const chapterList = '${itemDTOList}';
-    console.log("chapterList : " + chapterList);
-    const activityCategoryList = '415,416,417,418'.split(',');
-    const levelCnt = '0,10,10,10,0'.split(',');
-    const questionForm = 'multiple,subjective,descriptive';
 
+    const chapterArr = '${step2Response.chapterList}';
+    const activityCategoryList = '${step2Response.activityCategoryList}';
+
+    const levelCnt = ["0","10","10","10","0"]
+
+    console.log("dddd",$("#questionForm").text())
     let plusTempLevelArray = [];
     for (let i = 0; i < levelCnt.length; i++) {
       let cnt = Number(levelCnt[i]);
       let pVal = cnt === 0 ? 0 : cnt + 20;
       plusTempLevelArray.push(pVal);
     }
+    //문제형태 (10:자유선지형, 50:5지선택 , 60:단답유순형, 85:서술형)
+    let questionFormArr = [];
+    $(".que-badge-group .que-badge.gray").each(function (index, element) {
+      let text = $(element).text().trim();
+      switch (text) {
+        case '객관식':
+          return questionFormArr.push("multiple");
+        case '주관식':
+          return questionFormArr.push("descriptive");
+        // case '상':
+        //   return 'yellow';
+        // default:
+        //   return 'oceanblue';
+      }
+    });
+    // 중복된 값을 제거하는 함수
+    function removeDuplicates(arr) {
+      return Array.from(new Set(arr));
+    }
+    // 중복 제거
+    questionFormArr = removeDuplicates(questionFormArr);
 
-    qParam.chapterList = chapterList;
+
+
+    qParam = {};
+    qParam.chapterList = chapterArr;
     qParam.activityCategoryList = activityCategoryList;
     qParam.levelCnt = levelCnt;
-    qParam.tmpLevelCnt = plusTempLevelArray;
-    qParam.questionForm = questionForm;
+    qParam.questionForm = questionFormArr.join(",");
+    console.log("questionFormArr : ",qParam.questionForm);
 
-    ajaxCall("POST", "/customExam/step2", qParam, function (data) {
-
+    ajaxCall("POST", "/customExam/rescan", qParam, function (data) {
+      console.log("qparam : " , qParam);
       if (data != null) {
         for (let j = 1; j <= 5; j++) {
           if (data.levelGroup['0' + j] !== undefined) {
