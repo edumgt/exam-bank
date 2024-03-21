@@ -25,6 +25,7 @@
   <script type="text/javascript" src="/resource/common/js/legacy_common.js"></script>
   <script type="text/javascript" src="/resource/midhigh/js/common.js"></script>
     <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
+    <script type="text/javascript" src="/resource/popup/js/stepOne.js"></script>
 <%--  <script type="text/javascript" src="/resource/popup/js/stepTwo-mod.js"></script>--%>
 
 </head>
@@ -67,7 +68,7 @@
     <div class="pop-content">
       <div class="view-box">
         <input type="hidden" id="paperGubun" value="new">
-        <input type="hidden" id="subjectId" value="1159">
+        <input type="hidden" name="subjectId" value="${step2Response.subjectId}">
         <input type="hidden" id="subjectName" value="국어3-2(노미숙)">
         <input type="hidden" id="areaCode" value="KO">
         <input type="hidden" id="backYn" value="">
@@ -2952,16 +2953,37 @@
 <script type="text/javascript" src="../../js/customExam/stepTwo.js?version=20240308101412"></script>--%>
 <script>
   let qParam = {};
+  let _this = $(this);
+  let param = {};
+  let chapterArr = [];
 
   // 재검색
   function rescan() {
 
-    const chapterArr = '${step2Response.chapterList}';
+    <%--const chapterArr = '${step2Response.chapterList}';--%>
+
+    // $('#unit-ul li input[type="checkbox"]:checked').not('input[type="checkbox"]:checked.depth01').each(function (x) {
+
+      console.log(${step2Response.subjectId})
+      setChapterParam(param, "subject", ${step2Response.subjectId});
+
+      let _thisIdArr = _this.prop('id').split('_');
+      for (let i = _thisIdArr.length - 1; i > 0; i--) {
+        let prevId = _thisIdArr.join('_');
+        // console.log("prevId", prevId);
+        $('#' + prevId).data('code');
+        $('#' + prevId).data('columns');
+        setChapterParam(param, $('#' + prevId).data('code'), $('#' + prevId).data('columns'));
+        _thisIdArr.pop();
+      }
+      chapterArr.push(param);
+    // })
+    console.log("chapterArr :: ", chapterArr);
     const activityCategoryList = '${step2Response.activityCategoryList}';
 
     const levelCnt = ["0","10","10","10","0"]
 
-    console.log("dddd",$("#questionForm").text())
+
     let plusTempLevelArray = [];
     for (let i = 0; i < levelCnt.length; i++) {
       let cnt = Number(levelCnt[i]);
@@ -2999,7 +3021,7 @@
     qParam.questionForm = questionFormArr.join(",");
     console.log("questionFormArr : ",qParam.questionForm);
 
-    ajaxCall("POST", "/customExam/rescan", qParam, function (data) {
+    ajaxCall("POST", "/customExam/rescan", JSON.stringify(qParam), function (data) {
       console.log("qparam : " , qParam);
       if (data != null) {
         for (let j = 1; j <= 5; j++) {
@@ -3012,37 +3034,44 @@
         $(".pop-wrap[data-pop='que-pop'] #pop-total-sum .num").text(data.itemsTotalCnt);
         $(".pop-wrap[data-pop='que-pop'] #nxt-data").val(data.queIdList);
 
+        qParam.itemList = data.itemList;
+
         showPop("que-pop");
+      }else {
+        console.log("호출");
+        qParam.itemList = data.itemList;
+        moveToStep2(data.queIdList);
       }
     });
   }
 
   //재구성된 문항으로 가져오기
-  function moveToStep2() {
-    let queArrParam = $(".pop-wrap #nxt-data").val();
-    let new_form = $('<form></form>');
+  function moveToStep2(queArr) {
+    let queArrParam = queArr === undefined ? $(".pop-wrap #nxt-data").val() : queArr;
 
+    let new_form = $('<form></form>');
     new_form.attr("name", "new_form");
     new_form.attr("charset", "UTF-8");
     new_form.attr("method", "post");
-    new_form.attr("action", "/customExam/step2");
+    new_form.attr("action", "/customExam/step2/jy");
 
-    new_form.append($('<input/>', {type: 'hidden', name: 'chapterList', value: qParam.chapterList}));
-    new_form.append($('<input/>', {
-      type: 'hidden',
-      name: 'activityCategoryList',
-      value: qParam.activityCategoryList
-    }));
+    console.log("moveToStep2 : ", qParam.chapterList);
+    console.log("moveToStep2 queArrParam : ", queArrParam);
+    //return false;
+
+    new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArrParam}));
+    new_form.append($('<input/>', {type: 'hidden', name: 'chapterListJSONString', value: JSON.stringify(qParam.chapterList) }));
+    new_form.append($('<input/>', {type: 'hidden', name: 'activityCategoryList', value: qParam.activityCategoryList}));
     new_form.append($('<input/>', {type: 'hidden', name: 'levelCnt', value: qParam.levelCnt}));
     new_form.append($('<input/>', {type: 'hidden', name: 'questionForm', value: qParam.questionForm}));
-    new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArrParam}));
     new_form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: 'new'}));
     new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
+    new_form.append($('<input/>', {type: 'hidden', name: 'itemListByForm', value: JSON.stringify(qParam.itemList)}));
 
     new_form.appendTo('body');
+
     new_form.submit();
   }
-
   function showPop(pop, className) {
     const dimClass = className === undefined ? "dim" : className;
     $('html , body').css('overflow', 'hidden');

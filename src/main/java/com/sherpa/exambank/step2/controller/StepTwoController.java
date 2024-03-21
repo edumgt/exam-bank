@@ -1,6 +1,7 @@
 package com.sherpa.exambank.step2.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sherpa.exambank.step1.service.Step1Service;
 import com.sherpa.exambank.step2.domain.*;
 import com.sherpa.exambank.step2.service.StepTwoService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,9 @@ import java.util.List;
 @Slf4j
 public class StepTwoController {
 
+    private final Step1Service step1Service;
     private final StepTwoService stepTwoService;
+
     @GetMapping("/customExam/step2")
     public String getStep2Page(){
         return "customexam/step2";
@@ -66,6 +69,14 @@ public class StepTwoController {
         ResponseEntity<ItemListResponse> chapterIdList = stepTwoService.getChapterList(itemListRequest);
         model.addAttribute("chapterIdList",chapterIdList);
         return new ResponseEntity<>(chapterIdList, HttpStatus.OK) ;
+    }
+
+    @PostMapping("/customExam/rescan")
+    public ResponseEntity<Step2Response> rescan(@RequestBody Step2Request step2Request) {
+        log.info("rescan request = {}",step2Request);
+        Step2Response step2Response = step1Service.moveExamStep2(step2Request);
+
+        return ResponseEntity.ok(step2Response);
     }
 
 
