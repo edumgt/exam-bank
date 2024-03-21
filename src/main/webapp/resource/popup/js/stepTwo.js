@@ -2,38 +2,126 @@ $(function () {
 
     activeText(2);
     setItemNum();
-// 초기 문제지 요약 목록
-    $("#content-summary-area #table-1").empty();
-    $("#view-que-detail-list .sort-group").each(function (i, e) {
-        makeSummary($(e), $(e).attr("data-sortnum", i),'add');
-    });
+    setSortNum("detail");
+    makeSortGroup();
+
+    /* 2024-03-21 추가 : 이양진 */
+    // s: 페이지 로드 시 지문+다중 문항 그룹 생성
+    function makeSortGroup() {
+        let passageList = [];  // 지문 ID 리스트
+
+        $(".passage-view-que-box.sort-group").each(function () {
+            let passageId = $(this).children('.passage-box').attr('data-passageid');
+            passageList.push(passageId);
+            console.log("지문 ID : ", passageId);  // 지문 ID 확인
+            console.log("sortNum : ", $(this).data('sortnum'));
+            console.log("문항 ID : ", $(this).children('.item-box').find('#questionId').val());
+            console.log("=========================")
+        });
+        console.log(passageList.toString());
+        // console.log(passageList.length);  // 기본 30개
+
+        // 지문 ID가 동일하면 동일한 sort-group으로 묶기
+        for (let i = 0; i < passageList.length; i++) {
+            if (passageList[i] !== "") {
+                // 지문 ID 중 최상단에 위치하는 그룹에 붙이기
+                let rootPassage = $('.sort-group').filter(function () {
+                    return $(this).data('sortnum') == i;
+                });
+                console.log("root : ", passageList[i]);
+                console.log("rootPassage sortnum : ", rootPassage.data('sortnum'));
+
+                // 지문 ID가 중복되는 경우 찾기
+                for (let j = i + 1; j < passageList.length; j++) {
+                    if (passageList[j] === passageList[i]) {
+
+                        let currentPassage = $('.sort-group').filter(function () {
+                            return $(this).data('sortnum') == j;
+                        });
+
+                        console.log("current : ", passageList[j]);
+                        console.log("currentPassage sortnum : ", currentPassage.data('sortnum'));
+                        // let itemId = currentPassage.children('.item-box').find('#questionId').val();
+                        // console.log("문항 Id : ", itemId);
+
+                        // 문항 영역을 최상단 sort-group 안으로 옮기고, 기존의 sort-group div는 삭제
+                        let itemToGroup = currentPassage.children('.item-box');
+                        itemToGroup.appendTo(rootPassage.children('.item-box').last());
+                        currentPassage.remove();
+                    }
+                }
+            } else if (passageList[i] === "") {
+
+                let rootPassage = $('.sort-group').filter(function () {
+                    return $(this).data('sortnum') === i;
+                });
+
+                let currentItem = $('.sort-group').filter(function () {
+                    return $(this).data('sortnum') === i;
+                }).find('.item-box').first();
+
+                console.log("currentItem Id : ", currentItem.find('#questionId').val());
+                makeNewGroup(currentItem, rootPassage, target);
+                rootPassage.remove();
+            }
+
+        }
+
+        setSortNum("detail");
+
+        // 문제지 요약 항목 정렬
+        $("#content-summary-area #table-1").empty();
+        $("#view-que-detail-list .sort-group").each(function (i, e) {
+            makeSummary($(e), $(e).attr("data-sortnum"), 'add');
+        });
+    }
+    // e: 페이지 로드 시 지문+다중 문항 그룹 생성
 
     // 문항 타이틀 영역 - 난이도 뱃지에 색상 부여
-    $(".view-que-box.item-box").each(function (i, e) {
+    $(".view-que-box.item-box").each(function () {
         $(this).find("#difficultyColor").addClass(getColorClass(
             $(this).find("#difficultyCode").val()
         ));
+        // 문제 형식에 따른 텍스트 출력
+        $(this).find(".que-badge.gray").text(
+            getQuestionType($(this).find("#questionFormCode").val())
+        );
     });
 
-    // 문제 형식에 따른 텍스트 출력
-    $(".que-badge.gray").text(
-        getQuestionType($("#questionFormCode").val())
-    );
 
     // 초기 정렬 순서
     // 셋팅지,시험지 편집/ 뒤로가기 진입시 : 사용자정렬
     // 신규 : 단원순
-    if("new" === $("#paperGubun").val()){
+    if ("new" === $("#paperGubun").val()) {
         sortQue("detail", "unit");
-    }else{
+    } else {
         $("#select-sort-btn").text("사용자 정렬");
         setPassageNum($("#view-que-detail-list .passage-box"));
     }
 
     // 탭 이동시
+    // $("#tab-right-group li").on("click", function () {
+    //   let tabType = $(this).index() + 1;
+    //
+    //   if (tabType === 2) {
+    //     $("#tab-box").removeClass("type03");
+    //     $("#tab-box").addClass("type02");
+    //   } else {
+    //     $("#tab-box").removeClass("type02");
+    //     $("#tab-box").addClass("type03");
+    //   }
+    //
+    //   $("#content-summary-area .col").removeClass("active");
+    //   $("#view-que-detail-list .view-que-box").removeClass("active");
+    //   $("#item-similar-area").empty();
+    //   $("#list-similar-area").css("display", "none");
+    //   $("#init-similar-area").css("display", "");
+    // });
+
+    // 탭 이동시
     $("#tab-right-group li").on("click", function () {
         let tabType = $(this).index()+1;
-
+        let readySimilar = $("#list-similar-area #target-sort-num");
         if(tabType === 2){
             $("#tab-box").removeClass("type03");
             $("#tab-box").addClass("type02");
@@ -56,7 +144,7 @@ $(function () {
         if (!$(this).hasClass("disabled")) {
             $("#select-view-btn").text($(this).find("a").text());
             $("#select-view-btn").val($(this).children().data("columns"));
-            $("#select-view-btn").attr("data-select",$(this).children().data("columns"));
+            $("#select-view-btn").attr("data-select", $(this).children().data("columns"));
             $("#select-view-btn").removeClass("active");
             $("#select-view-list").css("display", "none");
             changeView($(this).children().data("columns"));
@@ -105,7 +193,7 @@ $(function () {
     $('#table-1').on('click', ".col", function () {
 
         let _idx = $('.col.que').index(this);
-        document.getElementsByClassName('item-box')[_idx].scrollIntoView({behavior: "smooth"}, );
+        document.getElementsByClassName('item-box')[_idx].scrollIntoView({behavior: "smooth"},);
 
         let _this = $(this);
         if (!_this.hasClass('active')) {
@@ -127,20 +215,20 @@ $(function () {
 
     // (지문 내 문항 이동) 문제지 요약 > 번호 재설정
     let moveSortNum;
-    $(document).on('mousemove','#table-1 .passage-table',function (){
+    $(document).on('mousemove', '#table-1 .passage-table', function () {
         $(this).sortable({
             handle: '.dragHandle',
-            start: function(e, ui){
+            start: function (e, ui) {
                 moveSortNum = $(this).parent(".summary-box").attr("data-sortSummary"); //이동한 지문그룹 번호
             },
             stop: function (e, ui) {
-                setSortNum("summary",moveSortNum);
+                setSortNum("summary", moveSortNum);
             }
         });
     });
 
     // 문제지요약 > 시험지명 툴팁
-    $(document).on('mouseover','.btn-tip',function (){
+    $(document).on('mouseover', '.btn-tip', function () {
         let _this = $(this);
         let _tooltip = _this.next(".tooltip"); // 툴팁 요소를 바로 뒤에 있는 요소로 찾아옴
         let _tooltipPosition = _this.offset().top; // 버튼(_this)의 전체 문서에서의 위치값을 가져옴
@@ -163,7 +251,7 @@ $(function () {
         let _sortGroup = $(this).closest(".sort-group");
 
         // 클릭한 문항 id
-        let questionId =  $(this).closest(".view-que-box").find("#questionId").val();
+        let questionId = $(this).closest(".view-que-box").find("#questionId").val();
         console.log("유사문제 버튼2");
         // 기존에 active 된 부분 지우기
         $("#view-que-detail-list .view-que-box").removeClass("active");
@@ -191,7 +279,6 @@ $(function () {
         })
 
 
-
         // 선택한 지문 id 목록
         _problemCode.push(questionId);
 
@@ -201,17 +288,17 @@ $(function () {
 
         // 문제 목록 순서
         let queNo = $(this).parents(".view-que-box").find(".num").text();
-        console.log("queNo = " + queNo );
+        console.log("queNo = " + queNo);
         $("#target-sort-num").val(_sortGroup.attr("data-sortNum"));
         $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
 
 
         $.ajaxSetup({async: false});
         //http://localhost:8080/customExam/similar-List
-        ajaxCall("post","/customExam/similar-List", JSON.stringify(_param), function (data) {
+        ajaxCall("post", "/customExam/similar-List", JSON.stringify(_param), function (data) {
 
             let simData = data.body.itemList;
-            console.log("simData === ",simData)
+            console.log("simData === ", simData)
 
             if (simData.length === 0) {
                 alert("검색된 유사 문제가 없습니다.");
@@ -230,7 +317,7 @@ $(function () {
                 let pArrLength = 0;
 
                 simData.forEach((item) => {
-                    const { passageId } = item;
+                    const {passageId} = item;
                     // group 객체 내에 해당 passageId 키가 존재하지 않으면, 해당 키에 빈 배열 할당
                     if (!group[passageId]) {
                         group[passageId] = [];
@@ -238,7 +325,7 @@ $(function () {
                     // 현재 아이템을 해당 passageId 배열에 추가
                     group[passageId].push(item);
 
-                    console.log("group[passageId] = ",group[passageId]);
+                    console.log("group[passageId] = ", group[passageId]);
                 });
                 let groupNum = 0;
                 Object.keys(group).forEach(passageId => {
@@ -246,11 +333,11 @@ $(function () {
 
 
                     let passageBox = items.length > 0 ? "passage-view-que-box" : "";
-                    html += '<div class="'+ passageBox +' sort-group" data-sortNum="'+ groupNum +'" data-sortValue="">';
-                    console.log("items - ",items)
+                    html += '<div class="' + passageBox + ' sort-group" data-sortNum="' + groupNum + '" data-sortValue="">';
+                    console.log("items - ", items)
                     groupNum++;
                     // 지문영역
-                    if (items[0].passageUrl){
+                    if (items[0].passageUrl) {
                         html +=
                             `<div class="view-que-box passage-box" data-passageId="${passageId}">
                                  <div class="que-top">
@@ -271,7 +358,7 @@ $(function () {
                     // 각 문항에 대한 HTML
                     items.forEach(item => {
                         similarItemNum++;
-                        console.log("item.explainUrl -- ",item.explainUrl)
+                        console.log("item.explainUrl -- ", item.explainUrl)
                         html += `
                             <div class="view-que-box item-box" data-paperTitle="${passageId}">
                                 <div class="que-top">
@@ -334,7 +421,10 @@ $(function () {
                 setPassageNum($("#item-similar-area .passage-box"));
 
                 // 유사 문제 영역 스크롤 최상단 지정
-                document.getElementById('item-similar-area').getElementsByClassName('sort-group')[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                document.getElementById('item-similar-area').getElementsByClassName('sort-group')[0].scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
 
                 if (!$("#contents-similar-area").hasClass('on')) {
                     $(".contents").removeClass('on');
@@ -389,7 +479,7 @@ $(function () {
         } else {
             // 개별 추가
             // 단일 문항은 문항 그룹 전체를 넘김
-            if(selectedPassageId === undefined) {
+            if (selectedPassageId === undefined) {
                 convertItem(btnType, questionGroup, selectedPassageBox, "view-que-detail-list");
             } else {
                 // 지문 문항은 문항만 넘김
@@ -415,10 +505,10 @@ $(function () {
         });
 
         // scrollTarget에 따라 스크롤 이동처리
-        scrollTarget.scrollIntoView({behavior: "smooth"}, );
+        scrollTarget.scrollIntoView({behavior: "smooth"},);
 
         // 현 조건에서 유사문제 없을시
-        if($("#item-similar-area .view-que-box").not(':hidden').length === 0){
+        if ($("#item-similar-area .view-que-box").not(':hidden').length === 0) {
             $("#item-similar-area").addClass("no-data");
             $("#item-similar-area").append("<p>유사문제를 모두 추가하였습니다.</p>");
         }
@@ -461,7 +551,7 @@ $(function () {
         } else {
             // 개별 삭제
             // 단일 문항은 문항 그룹 전체를 넘김
-            if(selectedPassageId === undefined) {
+            if (selectedPassageId === undefined) {
                 convertItem(btnType, questionGroup, selectedPassageBox, "item-delete-area");
             } else {
                 // 지문 문항은 문항만 넘김
@@ -521,7 +611,7 @@ $(function () {
             convertHtml = target === "view-que-detail-list" ? convertToLeft(currentGroup) : convertToRigth(currentGroup);
             // active 여부에 따라 이동할 위치 설정
             let activeTarget = $(`#${target}`).find(".sort-group").find(".item-box.active").closest(".sort-group");
-            activeTarget.length > 0 ? convertHtml.insertAfter(activeTarget) :  convertHtml.appendTo(`#${target}`);
+            activeTarget.length > 0 ? convertHtml.insertAfter(activeTarget) : convertHtml.appendTo(`#${target}`);
 
             // 하단 개수 설정
             countBadgeLevel(rLevelNum, num);
@@ -547,14 +637,14 @@ $(function () {
     }
 
     //  지문 + 문항 만들기
-    function makeNewGroup(itemGroup , passageGroup, target){
+    function makeNewGroup(itemGroup, passageGroup, target) {
         // target > view-que-detail-list 이면 문제 목록에 추가
         // 기존 그룹의 id
         let beforeId = passageGroup.parents(".view-que-list").attr("id");
         let passageId = passageGroup.attr("data-passageid");
 
         // 반환할 html
-        let newGroup ;
+        let newGroup;
 
         // 이동할 위치에 지문 존재 여부 확인
         let targetPassageBox = $(`#${target} .passage-box[data-passageId='${passageId}']`);
@@ -574,11 +664,11 @@ $(function () {
             newGroup = target === "view-que-detail-list" ? convertToLeft(newGroup) : convertToRigth(newGroup);
 
             // 문제 목록으로 이동
-            if(target === "view-que-detail-list"){
+            if (target === "view-que-detail-list") {
                 newGroup = newGroup.attr('data-sortnum', passageGroup.siblings(".item-box").length + 1);
                 // active 여부에 따라 이동할 위치 설정
                 let activeTarget = $(`#${target}`).find(".sort-group").find(".item-box.active").closest(".sort-group");
-                activeTarget.length > 0 ? newGroup.insertAfter(activeTarget) :  newGroup.appendTo(`#${target}`);
+                activeTarget.length > 0 ? newGroup.insertAfter(activeTarget) : newGroup.appendTo(`#${target}`);
             } else {
                 // 삭제 목록으로 이동
                 newGroup.appendTo(`#${target}`);
@@ -598,36 +688,35 @@ $(function () {
         $("#view-que-detail-list .que-top #questionId").each(function (i) {
             let param = {};
             queArr.push($(this).val());
-            console.log(queArr);
         });
 
-        if(queArr.length == 0) {
+        if (queArr.length == 0) {
             alert("문제목록이 없습니다.");
             return false;
         }
 
-        if(queArr.length > 100) {
+        if (queArr.length > 100) {
             alert("100문제 이하로 구성 바랍니다.");
             return false;
         }
 
         let _form = $('<form></form>');
 
-        _form.attr("name", "new_form2");
+        _form.attr("name", "new_form");
         _form.attr("charset", "UTF-8");
         _form.attr("method", "post");
         _form.attr("action", "/customExam/step3");
 
         _form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArr}));
-        _form.append($('<input/>', {type: 'hidden', name: 'subjectName', value: $("#subjectName").val()}));
         _form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
         _form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: $("#paperGubun").val()}));
-        if('update' === $("#paperGubun").val()){
+        if ('update' === $("#paperGubun").val()) {
             _form.append($('<input/>', {type: 'hidden', name: 'paperId', value: $("#updatePaperId").val()}));
             _form.append($('<input/>', {type: 'hidden', name: 'paperTitle', value: $("#updatePaperTitle").val()}));
         }
-        alert(queArr);
+
         _form.appendTo('body');
+        alert(typeof queArr);
         _form.submit();
 
     });
@@ -635,29 +724,29 @@ $(function () {
     // 출제범위 버튼
     $("#btn-range").on("click", function (e) {
 
-        let rangeParam= {};
+        let rangeParam = {};
         let chapterArr = [];
         let rangeQueArr = [];
 
         $("#view-que-detail-list .item-box").each(function (i) {
             chapterArr.push($(this).find(".que-top input[id=chapterGp]").val());
         });
-        console.log( "chapterArr : " ,chapterArr);
+        console.log("chapterArr : ", chapterArr);
 
         chapterArr.sort();
 
-        for(let c =0; c < chapterArr.length; c++){
-            let qVal = $("#view-que-detail-list .que-top input[value='"+chapterArr[c]+"']").siblings("#questionId").val();
+        for (let c = 0; c < chapterArr.length; c++) {
+            let qVal = $("#view-que-detail-list .que-top input[value='" + chapterArr[c] + "']").siblings("#questionId").val();
             rangeQueArr.push(qVal);
         }
 
-        if(rangeQueArr.length == 0) {
+        if (rangeQueArr.length == 0) {
             alert("문제목록이 없습니다.");
             return false;
         }
 
         rangeParam.itemIdList = rangeQueArr;
-        console.log("rangeParam : " , rangeParam)
+        console.log("rangeParam : ", rangeParam)
 
         $.ajaxSetup({async: false});
         ajaxCall("POST", "/customExam/range-list", JSON.stringify(rangeParam), function (data) {
@@ -711,26 +800,26 @@ $(function () {
                     }
                 });
 
-               /* 기존 코드
-                
-                for (let l = 0; l < lChapterG.length; l++) { // 대분류 반복
-                    let lChapter = lChapterG[l]; // 현재 대분류 정보
-                    let mChapterG = lChapter.children; // 현재 대분류의 하위 중분류 정보 추출
-                    html += '<ul>' + lChapter.text; // 대분류 정보를 ul 태그로 추가
-                    for (let m = 0; m < mChapterG.length; m++) { // 중분류 반복
-                        let mChapter = mChapterG[m]; // 현재 중분류 정보
-                        let sChapterG = mChapter.children; // 현재 중분류의 하위 소분류 정보 추출
-                        html += '<li>' + mChapter.text; // 중분류 정보를 li 태그로 추가
-                        for (let s = 0; s < sChapterG.length; s++) { // 소분류 반복
-                            let sChapter = sChapterG[s]; // 현재 소분류 정보
-                            html += '<span>' + sChapter.text + '</span>'; // 소분류 정보를 span 태그로 추가
-                        }
-                        html += '</li>'; // 중분류 닫는 태그 추가
-                    }
-                    html += '</ul>'; // 대분류 닫는 태그 추가
-                }
-                
-                */
+                /* 기존 코드
+
+                 for (let l = 0; l < lChapterG.length; l++) { // 대분류 반복
+                     let lChapter = lChapterG[l]; // 현재 대분류 정보
+                     let mChapterG = lChapter.children; // 현재 대분류의 하위 중분류 정보 추출
+                     html += '<ul>' + lChapter.text; // 대분류 정보를 ul 태그로 추가
+                     for (let m = 0; m < mChapterG.length; m++) { // 중분류 반복
+                         let mChapter = mChapterG[m]; // 현재 중분류 정보
+                         let sChapterG = mChapter.children; // 현재 중분류의 하위 소분류 정보 추출
+                         html += '<li>' + mChapter.text; // 중분류 정보를 li 태그로 추가
+                         for (let s = 0; s < sChapterG.length; s++) { // 소분류 반복
+                             let sChapter = sChapterG[s]; // 현재 소분류 정보
+                             html += '<span>' + sChapter.text + '</span>'; // 소분류 정보를 span 태그로 추가
+                         }
+                         html += '</li>'; // 중분류 닫는 태그 추가
+                     }
+                     html += '</ul>'; // 대분류 닫는 태그 추가
+                 }
+
+                 */
                 $('html , body').css('overflow', 'hidden'); // HTML과 body 요소의 overflow 속성을 hidden으로 설정하여 스크롤을 막음
                 $('.dim').fadeIn(); // 어둡게 만드는 효과를 가진 요소 표시
                 $("#scope-list").empty(); // #scope-list 요소 비우기
@@ -764,7 +853,7 @@ $(function () {
     //오류신고 팝업 > 글자수 제한
     $("#txt-error-area").on("keyup", function () {
         let content = $(this).val();
-        if (content.length > 200){
+        if (content.length > 200) {
             alert("최대 200자까지 입력 가능합니다.");
             $(this).val(content.substring(0, 200));
         }
@@ -779,10 +868,10 @@ $(function () {
         }
 
         let hasFile = $("#file-error").val() !== "";
-        if(hasFile){
+        if (hasFile) {
             //파일 확장자 체크
             let ext = $("#error-file-name").val().split('.').pop().toLowerCase();
-            if($.inArray(ext, ['jpg','jpeg','png','hwp']) == -1) {
+            if ($.inArray(ext, ['jpg', 'jpeg', 'png', 'hwp']) == -1) {
                 alert('jpg,jpeg,png,hwp 파일만 업로드 할수 있습니다.');
                 return;
             }
@@ -790,7 +879,7 @@ $(function () {
             //파일 용량 체크
             let maxSize = 100 * 1024 * 1024; // 100MB
             let fileSize = $("#file-error")[0].files[0].size;
-            if(fileSize > maxSize){
+            if (fileSize > maxSize) {
                 alert("업로드할 수 있는 파일의 용량을 초과하였습니다.(최대100MB)");
                 $("#file-error").val("");
                 return;
@@ -799,7 +888,7 @@ $(function () {
 
         let params = new FormData();
         params.append('questionId', $("#pop-error-report #question-id-error").val());
-        if (hasFile)    params.append('file', $("#file-error")[0].files[0]);
+        if (hasFile) params.append('file', $("#file-error")[0].files[0]);
         params.append('type', $("#hidden-type").val());
         params.append('content', $("#txt-error-area").val());
         params.append('subjectName', $("#subjectName").val());
@@ -818,7 +907,7 @@ $(function () {
                     alert(data.msg);
                     return false;
 
-                }else if (data.resultValue === 'success') {
+                } else if (data.resultValue === 'success') {
                     alert("신고처리가 완료되었습니다.");
                     closePop("error-report-pop");
 
@@ -894,9 +983,9 @@ function changeView(type) {
 }
 
 // 화면 정렬
-function sortQue(target, sortType,moveSortNum) {
+function sortQue(target, sortType, moveSortNum) {
     if (target === "detail") {
-        if(sortType === "number"){
+        if (sortType === "number") {
             //그룹 정렬
             $("#view-que-detail-list .sort-group").sort(function (a, b) {
                 let aVal = Number(a.getAttribute("data-sortNum"));
@@ -905,14 +994,14 @@ function sortQue(target, sortType,moveSortNum) {
             }).appendTo($("#view-que-detail-list"));
 
             //지문 내 순서 정렬
-            if(moveSortNum !== 'undefined' || moveSortNum!== null || moveSortNum!==""){
+            if (moveSortNum !== 'undefined' || moveSortNum !== null || moveSortNum !== "") {
                 $("#view-que-detail-list .sort-group").eq(moveSortNum).find(".item-box").sort(function (a, b) {
                     let aVal = Number(a.querySelector(".num").innerText);
                     let bVal = Number(b.querySelector(".num").innerText);
                     return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
                 }).appendTo($(".sort-group").eq(moveSortNum));
             }
-        } else{
+        } else {
             if (sortType === "unit") {
                 //지문 내 순서 정렬
                 $("#view-que-detail-list .sort-group").each(function (i) {
@@ -923,8 +1012,8 @@ function sortQue(target, sortType,moveSortNum) {
                     }).appendTo($(this));
 
                     let sortValue = $(this).find(".que-top #chapterGp").val();
-                    $(this).attr("data-sortValue",sortValue);
-                    console.log("onload sortValue",sortValue)
+                    $(this).attr("data-sortValue", sortValue);
+                    console.log("onload sortValue", sortValue)
                 })
             } else if (sortType === "level") {
                 //지문 내 순서 정렬
@@ -936,7 +1025,7 @@ function sortQue(target, sortType,moveSortNum) {
                     }).appendTo($(this));
 
                     let sortValue = $(this).find(".que-top #difficultyCode").val();
-                    $(this).attr("data-sortValue",sortValue);
+                    $(this).attr("data-sortValue", sortValue);
                 })
 
             } else if (sortType === "type") {
@@ -949,7 +1038,7 @@ function sortQue(target, sortType,moveSortNum) {
                     }).appendTo($(this));
 
                     let sortValue = $(this).find(".que-top #questionFormCode").val();
-                    $(this).attr("data-sortValue",sortValue);
+                    $(this).attr("data-sortValue", sortValue);
                 })
             }
 
@@ -983,7 +1072,7 @@ function sortQue(target, sortType,moveSortNum) {
             })
         }
     }
-    console.log("sortType == ",sortType);
+    console.log("sortType == ", sortType);
 }
 
 // 문항 번호 세팅
@@ -1004,8 +1093,8 @@ function setSortNum(target, moveSortNum) {
         // 그룹 정렬 번호
         $("#view-que-detail-list .sort-group").each(function (i) {
             let beforeGroupNum = $(this).attr("data-sortNum");
-                numGroupArr.push(beforeGroupNum);
-            $(this).attr("data-sortNum",i);
+            numGroupArr.push(beforeGroupNum);
+            $(this).attr("data-sortNum", i);
         });
 
         setPassageNum($("#view-que-detail-list .passage-box"));
@@ -1027,10 +1116,10 @@ function setSortNum(target, moveSortNum) {
         $(".summary-box").each(function (i) {
             let beforeGroupNum = $(this).attr("data-sortSummary");
             numGroupArr.push(beforeGroupNum);
-            $(this).attr("data-sortSummary",i);
+            $(this).attr("data-sortSummary", i);
         });
 
-        setNewNum("detail", numArr,numGroupArr,moveSortNum);
+        setNewNum("detail", numArr, numGroupArr, moveSortNum);
         setPassageNum($("#view-que-detail-list .passage-box"));
 
     } else if (target === "similar") { // 유사문제
@@ -1054,7 +1143,7 @@ function setSortNum(target, moveSortNum) {
 }
 
 // 정렬 동기화(문제목록<->요약)
-function setNewNum(target, numArr, numGroupArr,moveSortNum) {
+function setNewNum(target, numArr, numGroupArr, moveSortNum) {
     if (target === "detail") {
         // 문제목록:문항 번호
         $("#view-que-detail-list .item-box").each(function (i) {
@@ -1064,9 +1153,9 @@ function setNewNum(target, numArr, numGroupArr,moveSortNum) {
         // 문제목록 : 그릅 정렬 번호
         $("#view-que-detail-list .sort-group").each(function (i) {
             let index = numGroupArr.indexOf($(this).attr("data-sortNum"));
-            $(this).attr("data-sortNum",index);
+            $(this).attr("data-sortNum", index);
         });
-        sortQue(target, "number",moveSortNum);
+        sortQue(target, "number", moveSortNum);
         $("#select-sort-btn").text("사용자 정렬");
 
     } else if (target === "summary") {
@@ -1079,7 +1168,7 @@ function setNewNum(target, numArr, numGroupArr,moveSortNum) {
         // 요약 : 그룹 정렬 번호
         $(".summary-box").each(function (i) {
             let index = numGroupArr.indexOf($(this).attr("data-sortSummary"));
-            $(this).attr("data-sortSummary",index);
+            $(this).attr("data-sortSummary", index);
         });
 
         sortQue(target, "number");
@@ -1135,7 +1224,7 @@ function filterSimilar(filterType) {
     if (filterType === "") {
         $("#item-similar-area .sort-group").css("display", "");
         $("#item-similar-area .sort-group .item-box").css("display", "");
-    }else {
+    } else {
         $("#item-similar-area .sort-group").each(function (e) {
             // 문항 난이도 일치 확인
             let hasFilterType = false;
@@ -1163,7 +1252,7 @@ function filterSimilar(filterType) {
     }
     setSortNum("similar");
 
-    if(similarCnt === $("#item-similar-area ").find(".sort-group:hidden").length){
+    if (similarCnt === $("#item-similar-area ").find(".sort-group:hidden").length) {
         $("#item-similar-area").addClass("no-data");
         $("#item-similar-area").append("<p id='similar-no'>해당 난이도의 유사 문제는 존재하지 않습니다.</p>");
     }
@@ -1277,9 +1366,8 @@ function makeSummary(target, sortNum, type) {
 }
 
 
-
 // 지문 번호 설정
-function setPassageNum(passageBox){
+function setPassageNum(passageBox) {
     passageBox.each(function (i) {
         let item = $(this).closest(".sort-group").children(".item-box");
         let passage = $(this).closest(".sort-group").children(".passage-box");
@@ -1288,7 +1376,7 @@ function setPassageNum(passageBox){
         // let tmpText = [2,3];
 
 
-        if(item.length > 1){
+        if (item.length > 1) {
             tmpText += ' ~ ' + item.last().find(".num").text();
         }
         $(this).find(".num").text(tmpText);
@@ -1302,13 +1390,13 @@ function setPassageNum(passageBox){
 }
 
 // 문항 번호 설정
-function setItemNum(){
+function setItemNum() {
     $('#view-que-detail-list .item-box').each(function (i) {
-        $(this).find(".num").text((i+1));
+        $(this).find(".num").text((i + 1));
     });
 
     $('.summary-num').each(function (i) {
-        $(this).text((i+1));
+        $(this).text((i + 1));
     });
 
 }
