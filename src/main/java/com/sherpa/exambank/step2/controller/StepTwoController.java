@@ -70,8 +70,9 @@ public class StepTwoController {
 
 /*    @PostMapping("/customExam/step3")
     @ResponseBody
-    public ResponseEntity loadStep3(@RequestBody ){
+    public ResponseEntity loadStep3(){
 
+        return null;
     }*/
 
 }
