@@ -44,9 +44,11 @@ $(function () {
 
         $("#content-summary-area .col").removeClass("active");
         $("#view-que-detail-list .view-que-box").removeClass("active");
-        $("#item-similar-area").empty();
-        $("#list-similar-area").css("display", "none");
-        $("#init-similar-area").css("display", "");
+        //$("#item-similar-area").empty();
+        if (readySimilar != null){
+            $("#list-similar-area").css("display", "");
+            $("#init-similar-area").css("display", "none");
+        }
     });
 
     // 문제+정답 함께 보기
