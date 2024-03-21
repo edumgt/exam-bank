@@ -48,4 +48,9 @@ public class SampleController {
         return "TestDirectory/Test2";
     }
 
+    @RequestMapping("/TestRepository")
+    public String testRepository(){
+        return "exambank/storage";
+    }
+
 }
