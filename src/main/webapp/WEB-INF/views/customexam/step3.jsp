@@ -65,7 +65,7 @@
             <div class="view-box">
                 <div class="view-top">
                     <div class="paper-info">
-                        <span>과학2(노태희)</span>- 2015개정 교육과정
+                        <span>${subjectName}</span>- 2015개정 교육과정
                     </div>
 
                     <div class="btn-wrap">
@@ -79,7 +79,7 @@
                             <span>시험지명</span>
                             <div class="search-wrap">
                                 <div class="search-box">
-                                    <input type="text" id="paperTitle" placeholder="시험지명을 입력해주세요. (최대 20자)" class="search" maxlength="20" onkeydown="characterCheck(this)" onkeyup="characterCheck(this)">
+                                    <input type="text" id="name" placeholder="시험지명을 입력해주세요. (최대 20자)" class="search" maxlength="20" onkeydown="characterCheck(this)" onkeyup="characterCheck(this)">
                                 </div>
                             </div>
                         </div>
@@ -249,7 +249,8 @@
             _form.append($('<input/>', {type: 'hidden', name: 'queArr', value: '1664792,1506466,1664793,1506463,1664798,1664808,1664799,1665537,1665552,1506450,1665539,1665541,1664830,1506453,1665544,1665543,1506454,1664825,1665547,1665546,1665548,1506438,1506589,1506588,1506591,1664899,1664915,1664918,1506604,1506561'}));
             _form.append($('<input/>', {type: 'hidden', name: 'backYn', value: "Y"}));
             _form.append($('<input/>', {type: 'hidden', name: 'paperId', value: ''}));
-            _form.append($('<input/>', {type: 'hidden', name: 'paperTitle', value: ''}));
+            _form.append($('<input/>', {type: 'hidden', name: 'subjectName', value: ''}));
+            _form.append($('<input/>', {type: 'hidden', name: 'name', value: ''}));
             _form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: 'new'}));
             _form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: '1175'}));
 
@@ -258,16 +259,15 @@
         });
 
         $("#complete-btn").on("click", function (){
-            if($("#paperTitle").val() === ""){
+            if($("#name").val() === ""){
                 alert("시험지명을 입력해주세요.");
                 return false;
-
-            }else if($("#paperTitle").val().length>20){
+            } else if($("#name").val().length > 20){
                 alert("시험지명을 20자 이하로 입력해주세요.");
                 return false;
             }
 
-            if(regExp.test($("#paperTitle").val())  == true){
+            if(regExp.test($("#name").val()) == true){
                 alert("\'\\ / : * ? \" < > | + # % ; \' 문자는 입력하실 수 없습니다.");
                 return false;
             }
@@ -275,9 +275,8 @@
             if (confirm ('시험지를 저장하시겠습니까?')) {
                 // dto로 넘어가는 필드
                 let requestData = {
-                    paperTitle: $("#paperTitle").val(), // 시험지명
-                    itemIdList: ${itemIdList}, // 문항 ID 리스트
-                    subjectName: ${subjectName}
+                    name: $("#name").val(), // 시험지명
+                    itemIdList: ${itemIdList} // 문항 ID 리스트
                 };
 
                 $.ajax({
@@ -286,8 +285,9 @@
                     contentType: "application/json",
                     data: JSON.stringify(requestData),
                     success: function(data) {
-                        if(data && data.success) {
+                        if(data) {
                             alert("시험지가 성공적으로 저장되었습니다.");
+                            window.location.href = '/customExam/complete';
                         } else {
                             alert("시험지 저장에 실패했습니다.");
                         }
@@ -538,6 +538,7 @@
         new_form.append($('<input/>', {type: 'hidden', name: 'questionForm', value: qParam.questionForm}));
         new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: qParam.queArr}));
         new_form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: 'new'}));
+        new_form.append($('<input/>', {type: 'hidden', name: 'subjectName', value: ''}));
         new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
     });
 </script>
