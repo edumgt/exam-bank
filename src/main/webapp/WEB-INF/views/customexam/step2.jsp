@@ -153,7 +153,6 @@
                         <div class="view-que-box passage-box" data-passageid="${dto.passageId}">
                           <div class="que-top">
                             <div class="title"><span class="num"></span></div>
-                            <p>${dto.passageId}</p>
                             <div class="btn-wrap delete-btn-wrap">
                               <button type="button" class="btn-delete" data-type="all"></button>
                             </div>
@@ -182,7 +181,6 @@
                                   <span class="que-badge"
                                         id="difficultyColor">${dto.difficultyName}</span>
                                 <span class="que-badge gray">${(dto.questionFormCode)}</span>
-                                <span>${dto.itemId}</span>
                                 <input type="hidden" id="questionId" value="${dto.itemId}">
                                 <input type="hidden" id="questionNo" value="${dto.itemNo}">
                                 <input type="hidden" id="chapterGp"
