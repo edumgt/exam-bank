@@ -33,7 +33,7 @@ $(function () {
     // 탭 이동시
     $("#tab-right-group li").on("click", function () {
         let tabType = $(this).index()+1;
-        let readySimilar = $("#list-similar-area");
+
         if(tabType === 2){
             $("#tab-box").removeClass("type03");
             $("#tab-box").addClass("type02");
@@ -44,12 +44,9 @@ $(function () {
 
         $("#content-summary-area .col").removeClass("active");
         $("#view-que-detail-list .view-que-box").removeClass("active");
-        // $("#item-similar-area").empty();
-        if (readySimilar != null){
-            $("#list-similar-area").css("display", "");
-            $("#init-similar-area").css("display", "none");
-        }
-
+        $("#item-similar-area").empty();
+        $("#list-similar-area").css("display", "none");
+        $("#init-similar-area").css("display", "");
     });
 
     // 문제+정답 함께 보기
