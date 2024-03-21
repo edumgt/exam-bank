@@ -1,6 +1,8 @@
 let tempLevelArray;
 let active=false;
 
+/* 자동실행 함수 */
+
 $(function () {
 
     activeText(1);
@@ -280,7 +282,48 @@ $(function () {
         }
     });
 
+    // 출제옵션 > 평가영역
+    $('#category-btn-group button').on("click", function () {
+        let btnId = $.trim(String($(this).attr("id")));
+
+        if($("#" + btnId).hasClass("active") === true) { // 활성화 되어 있다.
+            $("#" + btnId).removeClass("active");
+        } else { // 비활성화 되어 있다.
+            $("#" + btnId).addClass("active");
+        }
+    });
+
+    // 출제옵션 > 문제 형태
+    $('#type-btn-group button').on("click", function () {
+        let typeBtnId = $.trim(String($(this).attr("id")));
+
+        if($("#" + typeBtnId).hasClass("active") === true) { // 활성화 되어 있다.
+            $("#" + typeBtnId).removeClass("active");
+        } else { // 비활성화 되어 있다.
+            $("#" + typeBtnId).addClass("active");
+        }
+    });
+
+    // 출제옵션 > 난이도 구성
+    $('#level-btn-group button').on("click", function () {
+        let dataStep = $.trim(String($(this).attr("data-step")));
+
+        if($(this).hasClass("active") === true) { // 활성화 되어 있다.
+            $(this).removeClass("active");
+            $('#level_' + dataStep).attr('style', 'display:none');
+        } else { // 비활성화 되어 있다.
+            $(this).addClass("active");
+            $('#level_' + dataStep).attr('style', '');
+        }
+
+        levelCheck();
+    });
+
+
 })
+
+
+/* 자동실행 함수 */
 
 // 문항수 그려주기
 function drawItemCounts() {
@@ -617,6 +660,8 @@ function moveToStep0() {
     new_form.submit();
 }
 
+
+
 let qParam = {};
 
 //step2 이동전 문항수 확인
@@ -660,7 +705,7 @@ function moveExamStep2() {
 
     //체크된 단원(최소 단원 - 토픽 or 소주제)
     let chapterArr = [];
-    
+
     console.log("checkedList ::", $('#unit-ul li input[type="checkbox"]:checked'));
     console.log("checkedList ::", $('#unit-ul li input[type="checkbox"]:checked').not('input[type="checkbox"]:checked.depth01'));
 
