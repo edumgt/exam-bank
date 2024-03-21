@@ -13,23 +13,22 @@ $(function () {
     $(".passage-view-que-box.sort-group").each(function () {
       let passageId = $(this).children('.passage-box').attr('data-passageid');
       passageList.push(passageId);
-      console.log("지문 ID : ", passageId);  // 지문 ID 확인
+      
       console.log("sortNum : ", $(this).data('sortnum'));
+      console.log("지문 ID : ", passageId);  // 지문 ID 확인
       console.log("문항 ID : ", $(this).children('.item-box').find('#questionId').val());
       console.log("=========================")
     });
     console.log(passageList.toString());
     // console.log(passageList.length);  // 기본 30개
     
-    // 지문 ID가 동일하면 동일한 sort-group으로 묶기
+    // 지문이 있는 경우, 지문 ID가 동일하면 동일한 sort-group으로 묶기
     for (let i = 0; i < passageList.length; i++) {
-      if (passageList[i] !== "") {
+      if (passageList[i] > 0) {
         // 지문 ID 중 최상단에 위치하는 그룹에 붙이기
         let rootPassage = $('.sort-group').filter(function () {
-          return $(this).data('sortnum') == i;
+          return $(this).data('sortnum') === i;
         });
-        console.log("root : ", passageList[i]);
-        console.log("rootPassage sortnum : ", rootPassage.data('sortnum'));
         
         // 지문 ID가 중복되는 경우 찾기
         for (let j = i + 1; j < passageList.length; j++) {
@@ -39,34 +38,15 @@ $(function () {
               return $(this).data('sortnum') == j;
             });
             
-            console.log("current : ", passageList[j]);
-            console.log("currentPassage sortnum : ", currentPassage.data('sortnum'));
-            // let itemId = currentPassage.children('.item-box').find('#questionId').val();
-            // console.log("문항 Id : ", itemId);
-            
             // 문항 영역을 최상단 sort-group 안으로 옮기고, 기존의 sort-group div는 삭제
             let itemToGroup = currentPassage.children('.item-box');
             itemToGroup.appendTo(rootPassage.children('.item-box').last());
             currentPassage.remove();
           }
         }
-      } else if (passageList[i] === "") {
-        
-        let rootPassage = $('.sort-group').filter(function () {
-          return $(this).data('sortnum') === i;
-        });
-        
-        let currentItem = $('.sort-group').filter(function () {
-          return $(this).data('sortnum') === i;
-        }).find('.item-box').first();
-        
-        console.log("currentItem Id : ", currentItem.find('#questionId').val());
-        makeNewGroup(currentItem, rootPassage, target);
-        rootPassage.remove();
       }
       
     }
-    
     setSortNum("detail");
     
     // 문제지 요약 항목 정렬
@@ -373,14 +353,14 @@ $(function () {
                                             <input type="hidden" id="questionFormCode" value="${item.questionFormCode}">
                                         </div>
                                     </div>
-                                    <div class="btn-wrap">
+                                    <!--<div class="btn-wrap">
                                         <span class="tooltip-wrap type02">
                                             <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
                                             <span class="tooltip type02">
                                                 <div class="tool-type01">문항오류신고</div>
                                             </span>
                                         </span>
-                                    </div>
+                                    </div>-->
                                 </div>
                                 <div class="view-que">
                                     <div class="que-content">

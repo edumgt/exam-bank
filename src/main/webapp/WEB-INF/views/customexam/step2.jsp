@@ -24,8 +24,8 @@
   <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
   <script type="text/javascript" src="/resource/common/js/legacy_common.js"></script>
   <script type="text/javascript" src="/resource/midhigh/js/common.js"></script>
-    <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
-<%--  <script type="text/javascript" src="/resource/popup/js/stepTwo-mod.js"></script>--%>
+<%--    <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>--%>
+  <script type="text/javascript" src="/resource/popup/js/stepTwo-mod.js"></script>
 
 </head>
 <body>
@@ -153,7 +153,6 @@
                         <div class="view-que-box passage-box" data-passageid="${dto.passageId}">
                           <div class="que-top">
                             <div class="title"><span class="num"></span></div>
-                            <p>${dto.passageId}</p>
                             <div class="btn-wrap delete-btn-wrap">
                               <button type="button" class="btn-delete" data-type="all"></button>
                             </div>
@@ -182,7 +181,6 @@
                                   <span class="que-badge"
                                         id="difficultyColor">${dto.difficultyName}</span>
                                 <span class="que-badge gray">${(dto.questionFormCode)}</span>
-                                <span>${dto.itemId}</span>
                                 <input type="hidden" id="questionId" value="${dto.itemId}">
                                 <input type="hidden" id="questionNo" value="${dto.itemNo}">
                                 <input type="hidden" id="chapterGp"
@@ -2689,6 +2687,8 @@
                   <span class="num" id="level-5"></span>
                 </div>
               </div>
+              <div style="content: ''; display: block; clear: both; background: #a7a7a7; width: 1px; height: 14px;
+              margin-left: 15px; margin-right: 15px;"></div>
               <p class="total-num">총 <span>${step2Response.itemsTotalCnt.toString()}</span>문제</p>
             </div>
           </div>
