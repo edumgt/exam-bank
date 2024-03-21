@@ -2,24 +2,91 @@ $(function () {
   
   activeText(2);
   setItemNum();
+  setSortNum("detail");
+  makeSortGroup();
   
-  // 초기 문제지 요약 목록
-  $("#content-summary-area #table-1").empty();
-  $("#view-que-detail-list .sort-group").each(function (i, e) {
-    makeSummary($(e), $(e).attr("data-sortnum", i),'add');
-  });
+  /* 2024-03-21 추가 : 이양진 */
+  // s: 페이지 로드 시 지문+다중 문항 그룹 생성
+  function makeSortGroup() {
+    let passageList = [];  // 지문 ID 리스트
+    
+    $(".passage-view-que-box.sort-group").each(function () {
+      let passageId = $(this).children('.passage-box').attr('data-passageid');
+      passageList.push(passageId);
+      console.log("지문 ID : ", passageId);  // 지문 ID 확인
+      console.log("sortNum : ", $(this).data('sortnum'));
+      console.log("문항 ID : ", $(this).children('.item-box').find('#questionId').val());
+      console.log("=========================")
+    });
+    console.log(passageList.toString());
+    // console.log(passageList.length);  // 기본 30개
+    
+    // 지문 ID가 동일하면 동일한 sort-group으로 묶기
+    for (let i = 0; i < passageList.length; i++) {
+      if (passageList[i] !== "") {
+        // 지문 ID 중 최상단에 위치하는 그룹에 붙이기
+        let rootPassage = $('.sort-group').filter(function () {
+          return $(this).data('sortnum') == i;
+        });
+        console.log("root : ", passageList[i]);
+        console.log("rootPassage sortnum : ", rootPassage.data('sortnum'));
+        
+        // 지문 ID가 중복되는 경우 찾기
+        for (let j = i + 1; j < passageList.length; j++) {
+          if (passageList[j] === passageList[i]) {
+            
+            let currentPassage = $('.sort-group').filter(function () {
+              return $(this).data('sortnum') == j;
+            });
+            
+            console.log("current : ", passageList[j]);
+            console.log("currentPassage sortnum : ", currentPassage.data('sortnum'));
+            // let itemId = currentPassage.children('.item-box').find('#questionId').val();
+            // console.log("문항 Id : ", itemId);
+            
+            // 문항 영역을 최상단 sort-group 안으로 옮기고, 기존의 sort-group div는 삭제
+            let itemToGroup = currentPassage.children('.item-box');
+            itemToGroup.appendTo(rootPassage.children('.item-box').last());
+            currentPassage.remove();
+          }
+        }
+      } else if (passageList[i] === "") {
+        
+        let rootPassage = $('.sort-group').filter(function () {
+          return $(this).data('sortnum') === i;
+        });
+        
+        let currentItem = $('.sort-group').filter(function () {
+          return $(this).data('sortnum') === i;
+        }).find('.item-box').first();
+        
+        console.log("currentItem Id : ", currentItem.find('#questionId').val());
+        makeNewGroup(currentItem, rootPassage, target);
+        rootPassage.remove();
+      }
+      
+    }
+    
+    setSortNum("detail");
+    
+    // 문제지 요약 항목 정렬
+    $("#content-summary-area #table-1").empty();
+    $("#view-que-detail-list .sort-group").each(function (i, e) {
+      makeSummary($(e), $(e).attr("data-sortnum"), 'add');
+    });
+  }
+  // e: 페이지 로드 시 지문+다중 문항 그룹 생성
   
   // 문항 타이틀 영역 - 난이도 뱃지에 색상 부여
-  $(".view-que-box.item-box").each(function (i, e) {
+  $(".view-que-box.item-box").each(function () {
     $(this).find("#difficultyColor").addClass(getColorClass(
       $(this).find("#difficultyCode").val()
     ));
+    // 문제 형식에 따른 텍스트 출력
+    $(this).find(".que-badge.gray").text(
+      getQuestionType($(this).find("#questionFormCode").val())
+    );
   });
-  
-  // 문제 형식에 따른 텍스트 출력
-  $(".que-badge.gray").text(
-    getQuestionType($("#questionFormCode").val())
-  );
   
   
   // 초기 정렬 순서
@@ -33,22 +100,43 @@ $(function () {
   }
   
   // 탭 이동시
+  // $("#tab-right-group li").on("click", function () {
+  //   let tabType = $(this).index() + 1;
+  //
+  //   if (tabType === 2) {
+  //     $("#tab-box").removeClass("type03");
+  //     $("#tab-box").addClass("type02");
+  //   } else {
+  //     $("#tab-box").removeClass("type02");
+  //     $("#tab-box").addClass("type03");
+  //   }
+  //
+  //   $("#content-summary-area .col").removeClass("active");
+  //   $("#view-que-detail-list .view-que-box").removeClass("active");
+  //   $("#item-similar-area").empty();
+  //   $("#list-similar-area").css("display", "none");
+  //   $("#init-similar-area").css("display", "");
+  // });
+  
+  // 탭 이동시
   $("#tab-right-group li").on("click", function () {
-    let tabType = $(this).index() + 1;
-    
-    if (tabType === 2) {
+    let tabType = $(this).index()+1;
+    let readySimilar = $("#list-similar-area");
+    if(tabType === 2){
       $("#tab-box").removeClass("type03");
       $("#tab-box").addClass("type02");
-    } else {
+    }else{
       $("#tab-box").removeClass("type02");
       $("#tab-box").addClass("type03");
     }
     
     $("#content-summary-area .col").removeClass("active");
     $("#view-que-detail-list .view-que-box").removeClass("active");
-    $("#item-similar-area").empty();
-    $("#list-similar-area").css("display", "none");
-    $("#init-similar-area").css("display", "");
+    //$("#item-similar-area").empty();
+    if (readySimilar != null){
+      $("#list-similar-area").css("display", "");
+      $("#init-similar-area").css("display", "none");
+    }
   });
   
   // 문제+정답 함께 보기
@@ -106,7 +194,7 @@ $(function () {
     
     let _idx = $('.col.que').index(this);
     document.getElementsByClassName('item-box')[_idx].scrollIntoView({behavior: "smooth"},);
-
+    
     let _this = $(this);
     if (!_this.hasClass('active')) {
       _this.closest('.test.ui-sortable').find('.col').removeClass('active');
@@ -151,9 +239,6 @@ $(function () {
     }
   });
   
-  // $( "#view-que-detail-list" ).on( "click", ".btn-similar-que", function() {
-  //     console.log( $( this ).text(),'11122' );
-  // });
   
   // 유사문제 버튼
   $("#view-que-detail-list").on("click", ".btn-similar-que", function () {
@@ -198,23 +283,22 @@ $(function () {
     _problemCode.push(questionId);
     
     _param.itemIdList = _problemCode;
-    console.log("dfddf : " + _problemCode)
+    
     _param.excludeCode = _excludeCd;
-    console.log("dfddf : " + _param)
+    
     // 문제 목록 순서
     let queNo = $(this).parents(".view-que-box").find(".num").text();
     console.log("queNo = " + queNo);
     $("#target-sort-num").val(_sortGroup.attr("data-sortNum"));
     $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
     
-    console.log("param에 보낼 json 데이터 : ", JSON.stringify(_param))
-    
     
     $.ajaxSetup({async: false});
     //http://localhost:8080/customExam/similar-List
     ajaxCall("post", "/customExam/similar-List", JSON.stringify(_param), function (data) {
+      
       let simData = data.body.itemList;
-      console.log("data == ", simData);
+      console.log("simData === ", simData)
       
       if (simData.length === 0) {
         alert("검색된 유사 문제가 없습니다.");
@@ -229,60 +313,54 @@ $(function () {
         // 이미 추가한 문항들의 ID를 저장할 배열
         let addedPassageIds = [];
         let addedItemIds = [];
+        let group = {};
+        let pArrLength = 0;
         
-        for (let a = 0; a < simData.length; a++) {
-          let group = simData[a];
-          console.log("group == ", group);
-          
-          // passageYn 값이 없어서 이렇게 넣어봤더니 그냥 생성되면서 넣어지네? 뭐지?
-          if (group.passageId != null) {
-            group.passageYn = "Y";
+        simData.forEach((item) => {
+          const {passageId} = item;
+          // group 객체 내에 해당 passageId 키가 존재하지 않으면, 해당 키에 빈 배열 할당
+          if (!group[passageId]) {
+            group[passageId] = [];
           }
-          console.log("group.passageYn == ", group.passageYn);
+          // 현재 아이템을 해당 passageId 배열에 추가
+          group[passageId].push(item);
           
-          let passageBox = group.passageYn === "Y" ? "passage-view-que-box" : "";
-          html += '<div class="' + passageBox + ' sort-group" data-sortNum="' + group.groupNum + '" data-sortValue="">';
-          console.log("passageBox == ", passageBox);
+          console.log("group[passageId] = ", group[passageId]);
+        });
+        let groupNum = 0;
+        Object.keys(group).forEach(passageId => {
+          const items = group[passageId];
           
           
+          let passageBox = items.length > 0 ? "passage-view-que-box" : "";
+          html += '<div class="' + passageBox + ' sort-group" data-sortNum="' + groupNum + '" data-sortValue="">';
+          console.log("items - ", items)
+          groupNum++;
           // 지문영역
-          if (group.passageYn === "Y") {
-            if (!addedPassageIds.includes(group.passageId)) {
-              addedPassageIds.push(group.passageId); // 추가한 지문으로 표시
-              html += `<div class="view-que-box passage-box" data-passageId="${group.passageId}">
-                                     <div class="que-top">
-                                         <div class="title"><span class="num"></span></div>
-                                         <div class="btn-wrap delete-btn-wrap"></div>
-                                     </div>
-                                     <div class="view-que">
-                                        <div class="que-bottom">
-                                             <div class="passage-area"><img src="${group.passageUrl}" alt="${group.passageId}" width="453px"></div>
-                                             <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
-                                             <!--지문에 딸려있는 문제의 수가 1이라면 빈문자 넣고 아니면 전체추가 버튼을 넣어라 ( 여기가 문제임 )-->
-                                                  ${simData.length === 1 ? "" :
+          if (items[0].passageUrl) {
+            html +=
+              `<div class="view-que-box passage-box" data-passageId="${passageId}">
+                                 <div class="que-top">
+                                     <div class="title"><span class="num"></span></div>
+                                     <div class="btn-wrap delete-btn-wrap"></div>
+                                 </div>
+                                 <div class="view-que">
+                                    <div class="que-bottom">
+                                         <div class="passage-area"><img src="${items[0].passageUrl}" alt="${passageId}" width="453px"></div>
+                                         <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                                                  ${items.length === 1 ? "" :
                 `<button type="button" class="btn-default btn-add" data-type="all"><i class="add-type02"></i>전체 추가</button>`}
                                              </div>
                                          </div>
                                      </div>
                                  </div>`;
-            }
           }
-          console.log("group.length == ", simData.length);
-          console.log("지문 영역 html == ", html);
-          // 문항 영역
-          
-          // 문항 영역에 개별 추가 버튼 추가
-          for (let b = 0; b < simData.length; b++) {
-            console.log("for 문")
-            let item = simData[b];
-            console.log("item : ", item);
-            
-            // 이미 추가한 문항인지 확인
-            if (!addedItemIds.includes(item.itemId)) {
-              similarItemNum++;
-              addedItemIds.push(item.itemId); // 추가한 문항으로 표시
-              html += `
-                            <div class="view-que-box item-box" data-paperTitle="">
+          // 각 문항에 대한 HTML
+          items.forEach(item => {
+            similarItemNum++;
+            console.log("item.explainUrl -- ", item.explainUrl)
+            html += `
+                            <div class="view-que-box item-box" data-paperTitle="${passageId}">
                                 <div class="que-top">
                                     <div class="title">
                                         <span class="num">${similarItemNum}</span>
@@ -330,17 +408,18 @@ $(function () {
                                     <p class="chapter">${item.largeChapterName} > ${item.mediumChapterName} > ${item.smallChapterName} > ${item.topicChapterName}</p>
                                 </div>
                             </div>`;
-            }
-          }
+          });
+          
           html += '</div>';
-        }
+        });
+        
         
         $("#item-similar-area").empty();
         $("#list-similar-area").css("display", "block");
         $(html).prependTo($("#item-similar-area"));
         $("#similar-title").text(queNo + "번 유사 문제");
-        
         setPassageNum($("#item-similar-area .passage-box"));
+        
         // 유사 문제 영역 스크롤 최상단 지정
         document.getElementById('item-similar-area').getElementsByClassName('sort-group')[0].scrollIntoView({
           behavior: 'smooth',
@@ -353,9 +432,9 @@ $(function () {
           $("#tab-right-group .ui-tab-btn").removeClass('active');
           $("#tab-similar").addClass('active');
         }
+        
       }
     });
-    
   });
   
   
@@ -422,8 +501,7 @@ $(function () {
     // 문제지 요약 생성 재설정
     $("#content-summary-area #table-1").empty();
     $("#view-que-detail-list .sort-group").each(function (i, e) {
-      makeSummary($(e), $(e).attr("data-sortNum"), 'add');
-      console.log($(e).data("sortNum"));
+      makeSummary($(e), $(e).attr("data-sortnum"), 'add');
     });
     
     // scrollTarget에 따라 스크롤 이동처리
@@ -458,7 +536,6 @@ $(function () {
     // 선택한 지문
     let selectedPassageBox = questionGroup.children(".passage-box");
     let selectedPassageId = selectedPassageBox.attr("data-passageId");
-    console.log("selectedPassageId : " + selectedPassageId);
     
     // 지문, 문항 active 제거
     questionGroup.find('.active').removeClass('active');
@@ -490,8 +567,7 @@ $(function () {
     // 문제지 요약 생성 재설정
     $("#content-summary-area #table-1").empty();
     $("#view-que-detail-list .sort-group").each(function (i, e) {
-      makeSummary($(e), $(e).attr("data-sortNum"), 'delete');
-      console.log($(e).data("data-sortNum"));
+      makeSummary($(e), $(e).attr("data-sortnum"), 'delete');
     });
     
     // 문제지 요약 active
@@ -525,12 +601,9 @@ $(function () {
     let convertHtml;
     console.log("btnType : " + btnType);
     console.log("target : " + target);
-    console.log("currentPassageId: " + currentPassageId);
-    console.log("difficultyCode : " + currentGroup.find("#difficultyCode").val());
-    
     
     // 하단 개수 설정
-    let rLevelNum = currentGroup.find("#difficultyCode").val();
+    let rLevelNum = currentGroup.find("#difficultyCode").val().slice(-1);
     let rFormType = filterFormType(currentGroup.find("#questionFormCode").val());
     
     // 좌측에서 선택한 문항이 단일 문항인 경우
@@ -547,7 +620,7 @@ $(function () {
     } else {
       if (btnType === "all") { // 전체 선택
         currentGroup.find(".item-box").each(function () {
-          rLevelNum = $(this).find("#difficultyCode").val();
+          rLevelNum = $(this).find("#difficultyCode").val().slice(-1);
           rFormType = filterFormType($(this).find("#questionFormCode").val());
           makeNewGroup($(this), currentPassageBox, target);
           // 하단 개수 설정
@@ -574,7 +647,7 @@ $(function () {
     let newGroup;
     
     // 이동할 위치에 지문 존재 여부 확인
-    let targetPassageBox = $(`#${target} .passage-box[data-passageid='${passageId}']`);
+    let targetPassageBox = $(`#${target} .passage-box[data-passageId='${passageId}']`);
     if (targetPassageBox.length > 0) {
       // 이동할 위치 변경: 동일 지문 그룹 하단
       let targetGroup = targetPassageBox.parents(".sort-group");
@@ -585,14 +658,14 @@ $(function () {
     } else {
       // 새로운 지문 + 문항 그룹을 만들어 추가
       newGroup = $("<div class='passage-view-que-box sort-group'></div>");
-      let passageBox = $(`#${beforeId} .passage-box[data-passageid='${passageId}']`);
+      let passageBox = $(`#${beforeId} .passage-box[data-passageId='${passageId}']`);
       passageBox.clone().appendTo(newGroup);
       itemGroup.appendTo(newGroup);
       newGroup = target === "view-que-detail-list" ? convertToLeft(newGroup) : convertToRigth(newGroup);
       
       // 문제 목록으로 이동
       if (target === "view-que-detail-list") {
-        newGroup = newGroup.attr('data-sortNum', passageGroup.siblings(".item-box").length + 1);
+        newGroup = newGroup.attr('data-sortnum', passageGroup.siblings(".item-box").length + 1);
         // active 여부에 따라 이동할 위치 설정
         let activeTarget = $(`#${target}`).find(".sort-group").find(".item-box.active").closest(".sort-group");
         activeTarget.length > 0 ? newGroup.insertAfter(activeTarget) : newGroup.appendTo(`#${target}`);
@@ -643,6 +716,7 @@ $(function () {
     }
     
     _form.appendTo('body');
+    alert(typeof queArr);
     _form.submit();
     
   });
@@ -939,6 +1013,7 @@ function sortQue(target, sortType, moveSortNum) {
           
           let sortValue = $(this).find(".que-top #chapterGp").val();
           $(this).attr("data-sortValue", sortValue);
+          console.log("onload sortValue", sortValue)
         })
       } else if (sortType === "level") {
         //지문 내 순서 정렬
@@ -975,6 +1050,8 @@ function sortQue(target, sortType, moveSortNum) {
       }).appendTo($("#view-que-detail-list"));
       
       setSortNum(target);
+      
+      
     }
     
   } else if (target === "summary") {
@@ -984,7 +1061,7 @@ function sortQue(target, sortType, moveSortNum) {
         let bVal = Number(b.getAttribute("data-sortSummary"));
         return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
       }).appendTo($("#table-1"));
-      
+      console.log("헬로우")
       //지문 내 순서 정렬
       $(".summary-box").each(function (i) {
         $(this).find(".col.que").sort(function (a, b) {
@@ -995,11 +1072,12 @@ function sortQue(target, sortType, moveSortNum) {
       })
     }
   }
+  console.log("sortType == ", sortType);
 }
 
 // 문항 번호 세팅
 function setSortNum(target, moveSortNum) {
-  if (target === "detail") {
+  if (target === "detail") { // 문제지 요약
     let numArr = [];
     let numGroupArr = [];
     let cnt = 0
@@ -1260,7 +1338,7 @@ function makeSummary(target, sortNum, type) {
                             ${target.find(".item-box").attr("data-paperTitle") !== "" ? '<div class="tooltip type01"><div class="tool-type01">' + target.find(".item-box").attr("data-paperTitle") + '</div></div>' : ''}
                         </div>
                     </span>
-                    <span>${target.find(".que-badge-group .que-badge").eq(1).text()}</span>
+                    <span>${getQuestionType($(this).find("#questionFormCode").val())}</span>
                     <span><span class="que-badge">${target.find(".que-badge-group .que-badge").eq(0).text()}</span></span>
                 </a>
             </div>
@@ -1294,18 +1372,21 @@ function setPassageNum(passageBox) {
     let item = $(this).closest(".sort-group").children(".item-box");
     let passage = $(this).closest(".sort-group").children(".passage-box");
     let tmpText = item.first().find(".num").text();
+    // console.log("tmpText == ",tmpText);
+    // let tmpText = [2,3];
+    
     
     if (item.length > 1) {
       tmpText += ' ~ ' + item.last().find(".num").text();
     }
     $(this).find(".num").text(tmpText);
-    
+    // console.log("setPassageNum,item == ",item);
     // 지문문항에 문항 1개만 있으면 전체추가, 삭제 버튼 제거
     let isSingleItem = item.length === 1;
     passage.find(".btn-add[data-type=all]").toggle(!isSingleItem);
     passage.find(".btn-delete[data-type=all]").toggle(!isSingleItem);
   });
-  console.log("onload .. passageBox == ", passageBox);
+  
 }
 
 // 문항 번호 설정
