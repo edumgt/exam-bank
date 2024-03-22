@@ -65,12 +65,17 @@ public class StepTwoController {
     @PostMapping("/customExam/range-list")
     @ResponseBody
     public ResponseEntity rangeList(@RequestBody ItemListRequest itemListRequest, Model model) throws JsonProcessingException {
-        log.info("call rangeList");
+        log.info("call rangeList = {} ",itemListRequest);
         ResponseEntity<ItemListResponse> chapterIdList = stepTwoService.getChapterList(itemListRequest);
         model.addAttribute("chapterIdList",chapterIdList);
         return new ResponseEntity<>(chapterIdList, HttpStatus.OK) ;
     }
 
+    /**
+     * 재검색 기능 ( step1Service 메서드 활용 )
+     * @param step2Request
+     * @return
+     */
     @PostMapping("/customExam/step2/rescan")
     public ResponseEntity<Step2Response> rescan(@RequestBody Step2Request step2Request) {
         log.info("rescan request = {}",step2Request);
