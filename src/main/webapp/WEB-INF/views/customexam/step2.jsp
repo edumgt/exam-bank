@@ -2931,7 +2931,7 @@
     </div>
     <div class="pop-footer">
       <button onclick="closePop('que-pop')">취소</button>
-      <button class="pop-close" onclick="moveToStep2()">확인</button>
+      <button class="pop-close" onclick="moveToStep2CK()">확인</button>
     </div>
   </div>
 </div>
@@ -2983,41 +2983,36 @@
 
   // 재검색
   function rescan() {
-    alert("dddd")
+
     <%--const chapterArr = '${step2Response.chapterList}';--%>
 
     // $('#unit-ul li input[type="checkbox"]:checked').not('input[type="checkbox"]:checked.depth01').each(function (x) {
 
 
-      let levelCnt_02 = '${step2Response.levelGroup.get("02")}';
-      let levelCnt_03 = '${step2Response.levelGroup.get("03")}';
-      let levelCnt_04 = '${step2Response.levelGroup.get("04")}';
+    let levelCnt_02 = '${step2Response.levelGroup.get("02")}';
+    let levelCnt_03 = '${step2Response.levelGroup.get("03")}';
+    let levelCnt_04 = '${step2Response.levelGroup.get("04")}';
 
-      let levelCnt = levelCnt_02+levelCnt_03+levelCnt_04;
-      // console.log('0',levelCnt,'0');
-      setChapterParam(param, "subject", ${step2Response.subjectId});
+    let levelCnt = levelCnt_02+levelCnt_03+levelCnt_04;
+    // console.log('0',levelCnt,'0');
+    setChapterParam(param, "subject", ${step2Response.subjectId});
 
-      let plusTempLevelArray = [0, 0, 0, 0, 0];
+    let chapterArr = '${step2Response.chapterList}';
+    let chapterArrObj = JSON.parse(chapterArr);
+    let plusTempLevelArray = [0, 0, 0, 0, 0];
 
-    plusTempLevelArray[2] = levelCnt_02;
-    plusTempLevelArray[3] = levelCnt_03;
-    plusTempLevelArray[4] = levelCnt_04;
+    plusTempLevelArray[1] = levelCnt_02;
+    plusTempLevelArray[2] = levelCnt_03;
+    plusTempLevelArray[3] = levelCnt_04;
 
-      console.log("plusTempLevelArray : ",plusTempLevelArray)
 
-      let _thisIdArr = _this.prop('id').split('_');
-      for (let i = _thisIdArr.length - 1; i > 0; i--) {
-        let prevId = _thisIdArr.join('_');
-        // console.log("prevId", prevId);
-        $('#' + prevId).data('code');
-        $('#' + prevId).data('columns');
-        setChapterParam(param, $('#' + prevId).data('code'), $('#' + prevId).data('columns'));
-        _thisIdArr.pop();
-      }
-      chapterArr.push(param);
-    // })
-    console.log("chapterArr :: ", chapterArr);
-    const activityCategoryList = '${step2Response.activityCategoryList}';
+    let activityCategoryList = [0,0,0,0];
+
+    activityCategoryList[0] = ${step2Response.activityCategoryList.get(0)};
+    activityCategoryList[1] = ${step2Response.activityCategoryList.get(1)};
+    activityCategoryList[2] = ${step2Response.activityCategoryList.get(2)};
+    activityCategoryList[3] = ${step2Response.activityCategoryList.get(3)};
+
 
 
     //문제형태 (10:자유선지형, 50:5지선택 , 60:단답유순형, 85:서술형)
@@ -3045,15 +3040,17 @@
 
 
     qParam = {};
-    qParam.chapterList = chapterArr;
+    qParam.chapterList = chapterArrObj;
     qParam.activityCategoryList = activityCategoryList;
-    qParam.levelCnt = levelCnt_02,levelCnt_03,levelCnt_04;
+    qParam.levelCnt = plusTempLevelArray;
     qParam.questionForm = questionFormArr.join(",");
-    console.log("levelCnt : ",qParam.levelCnt);
+    console.log("questionFormArr : ",questionFormArr)
+    console.log("plusTempLevelArray : ",plusTempLevelArray)
+    console.log("chapterArr :: ", chapterArrObj);
+    console.log("qParam : ",qParam);
 
 
-    //ajaxCall("POST", "/customExam/step2", qParam, function (data) { // 원본
-    ajaxCall("POST", "/customExam/step2/left", qParam, function (data) { // 03.22 PM 19 수정
+    ajaxCall("POST", "/customExam/step2/rescan", JSON.stringify(qParam) , function (data) {
       if (data != null) {
         for (let j = 1; j <= 5; j++) {
           if (data.levelGroup['0' + j] !== undefined) {
@@ -3084,7 +3081,7 @@
     new_form.attr("name", "new_form");
     new_form.attr("charset", "UTF-8");
     new_form.attr("method", "post");
-      new_form.attr("action", "/customExam/step2/left"); // 03.22. PM 19 수정;
+    new_form.attr("action", "/customExam/step2");
 
     console.log("moveToStep2 : ", qParam.chapterList);
     console.log("moveToStep2 queArrParam : ", queArrParam);

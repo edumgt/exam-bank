@@ -71,7 +71,7 @@ public class StepTwoController {
         return new ResponseEntity<>(chapterIdList, HttpStatus.OK) ;
     }
 
-    @PostMapping("/customExam/rescan")
+    @PostMapping("/customExam/step2/rescan")
     public ResponseEntity<Step2Response> rescan(@RequestBody Step2Request step2Request) {
         log.info("rescan request = {}",step2Request);
         Step2Response step2Response = step1Service.moveExamStep2(step2Request);
