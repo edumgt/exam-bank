@@ -155,7 +155,6 @@
                         <div class="view-que-box passage-box" data-passageid="${dto.passageId}">
                           <div class="que-top">
                             <div class="title"><span class="num"></span></div>
-                            <p>${dto.passageId}</p>
                             <div class="btn-wrap delete-btn-wrap">
                               <button type="button" class="btn-delete" data-type="all"></button>
                             </div>
@@ -183,8 +182,7 @@
                               <div class="que-badge-group">
                                   <span class="que-badge"
                                         id="difficultyColor">${dto.difficultyName}</span>
-                                <span class="que-badge gray" id="questionForm">${dto.questionFormCode}</span>
-                                <span>${dto.itemId}</span>
+                                <span class="que-badge gray">${(dto.questionFormCode)}</span>
                                 <input type="hidden" id="questionId" value="${dto.itemId}">
                                 <input type="hidden" id="questionNo" value="${dto.itemNo}">
                                 <input type="hidden" id="chapterGp"
@@ -2691,6 +2689,8 @@
                   <span class="num" id="level-5"></span>
                 </div>
               </div>
+              <div style="content: ''; display: block; clear: both; background: #a7a7a7; width: 1px; height: 14px;
+              margin-left: 15px; margin-right: 15px;"></div>
               <p class="total-num">총 <span>${step2Response.itemsTotalCnt.toString()}</span>문제</p>
             </div>
           </div>
@@ -2749,7 +2749,7 @@
 
               <%-- 유사 문항 --%>
               <div class="contents" id="contents-similar-area">
-                <div class="view-que-list no-data" id="init-similar-area" style="display: block;">
+                <div class="view-que-list no-data" id="init-similar-area" style="display: none">
                   <p>
                     문제 목록에서 <i class="ic-no-data"></i> 유사문제 버튼을 선택해주세요.
                   </p>
@@ -3051,8 +3051,9 @@
     qParam.questionForm = questionFormArr.join(",");
     console.log("levelCnt : ",qParam.levelCnt);
 
-    ajaxCall("POST", "/customExam/loadStep2", JSON.stringify(qParam), function (data) {
-      console.log("qparam : " , qParam);
+
+    //ajaxCall("POST", "/customExam/step2", qParam, function (data) { // 원본
+    ajaxCall("POST", "/customExam/step2/left", qParam, function (data) { // 03.22 PM 19 수정
       if (data != null) {
         for (let j = 1; j <= 5; j++) {
           if (data.levelGroup['0' + j] !== undefined) {
@@ -3083,7 +3084,7 @@
     new_form.attr("name", "new_form");
     new_form.attr("charset", "UTF-8");
     new_form.attr("method", "post");
-    new_form.attr("action", "/customExam/step2/ck");
+      new_form.attr("action", "/customExam/step2/left"); // 03.22. PM 19 수정;
 
     console.log("moveToStep2 : ", qParam.chapterList);
     console.log("moveToStep2 queArrParam : ", queArrParam);
