@@ -608,6 +608,7 @@
     ];
 
     function renderImg(){
+        // -------------------------------------------------- 시험지 배치 코드 시작
         const examName = "[수지니 시험지]";
         $(".title_header").text(examName);
         // console.log("itemList.length",itemList.length);
@@ -681,13 +682,7 @@
             $("span[passage-id="+key+"]").text(originRange+duplicatePassageList[key][duplicatePassageList[key].length-1]+"]");
         }
 
-
-
-
-
-
-
-        // --------------------------------------------------
+        // -------------------------------------------------- 시험지 배치 코드 끝
 
         let startPosition = 0; // 캡쳐를 시작할 위치
         let leftHeight = 0; // 캡쳐해야할 남은 높이

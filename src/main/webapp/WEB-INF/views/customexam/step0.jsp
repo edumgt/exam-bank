@@ -565,7 +565,7 @@
                                                 <span>${examInfo.itemCnt}</span>
                                                 <span><button type="button" class="btn-icon2 preview-btn"><i class="preview"></i></button></span>
                                                 <span>
-                                                    <div class="btn-wrap">
+                                                    <div class="btn-wrap" exam-name="${examInfo.examName}">
                                                         <div class="tooltip-wrap type01">
                                                             <button type="button" class="btn-default download-btn" exam-id="${examInfo.examId}" data-type="A">전체</button>
                                                             <div class="tooltip type03">
@@ -691,9 +691,16 @@
 </div>
 <script>
     $(".download-btn").on('click',function (){
-        let examName = $(".paperTitle").attr("value");
         let examId = $(this).attr("exam-id");
         let dataType = $(this).attr("data-type");
+
+        let examName;
+        if(dataType=="A"){
+            examName = $(this).parent().parent().attr("exam-name");
+        } else {
+            examName = $(this).parent().attr("exam-name");
+        }
+
 
         const data = {
             "examId": examId,
@@ -710,6 +717,7 @@
             data :  JSON.stringify(data),
             success : function(result) { // 결과 성공 콜백함수
                 console.log(result.itemList);
+                console.log("examName-step0",examName);
                 renderImg(examName,result.itemList);
 
             },
@@ -730,6 +738,8 @@
     });
 </script>
 
+
+<%@ include file="makeExamPaper.jsp"%>
+
 </body>
 </html>
-<%@ include file="makeExamPaper.jsp"%>

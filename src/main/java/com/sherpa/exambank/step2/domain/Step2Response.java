@@ -28,6 +28,7 @@ public class Step2Response {
     private String questionForm; // 문제 형태
 
     private List<MoveExamStep2Item> itemList; // 문제 리스트
+    private String curriculumName; // step2 -> step1
 }
 
 /*
