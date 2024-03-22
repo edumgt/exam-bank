@@ -813,11 +813,8 @@ function moveToStep2(queArr) {
     new_form.attr("name", "new_form");
     new_form.attr("charset", "UTF-8");
     new_form.attr("method", "post");
-    new_form.attr("action", "/customExam/step2/jy");
+    new_form.attr("action", "/customExam/step2");
 
-    console.log("moveToStep2 : ", qParam.chapterList);
-    console.log("moveToStep2 queArrParam : ", queArrParam);
-    //return false;
 
     new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArrParam}));
     new_form.append($('<input/>', {type: 'hidden', name: 'chapterListJSONString', value: JSON.stringify(qParam.chapterList) }));

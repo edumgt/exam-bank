@@ -9,6 +9,7 @@ public class Step3Request {
 
     private List<Long> queArr;
     private String subjectName;
+    private String subjectId;
     private String paperGubun;  // 'new' or 'update'
     private String paperId;  // 시험지 ID
     private String paperTitle; // 시험지 이름
