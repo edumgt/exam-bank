@@ -5,7 +5,6 @@ import com.sherpa.exambank.step3.domain.*;
 import com.sherpa.exambank.step3.service.StepThreeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,9 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,8 +29,8 @@ public class StepThreeController {
             return "customexam/step3";
     }
 
-    @PostMapping("/customExam/step3")
-    public String postStep3Page(/*@RequestParam("itemIdList") String itemIdList, */Model model) throws InstantiationException, IllegalAccessException {
+//    @PostMapping("/customExam/step3")
+//    public String postStep3Page(/*@RequestParam("itemIdList") String itemIdList, */Model model) throws InstantiationException, IllegalAccessException {
 
 ////        // 교과서 정보 얻어오기
 ////        Step3ChapterResponse step3ChapterResponse =  stepThreeService.postChapterListBySubjectId(subjectId);
@@ -101,8 +98,8 @@ public class StepThreeController {
 ////        model.addAttribute("chapterList", step3ChapterResponse.getChapterList());
 //        model.addAttribute("itemIdList", itemListResponse.getItemList());
 
-        return "customexam/step3";
-    }
+//        return "customexam/step3";
+//    }
 
 //    @PostMapping("/customeexam/step3")
 //    public String postStepThree(Model model) throws JsonProcessingException {
@@ -112,18 +109,19 @@ public class StepThreeController {
 //        return "customexam/step3"; // 모델 반환
 //    }
 
-    @GetMapping("/customExam/rangeList")
-    public String getStepThree(Model model, ItemListRequest itemListRequest) {
-        try {
-            List<ItemListResponse> itemIdList = (List<ItemListResponse>) stepThreeService.getChapterThreeList(itemListRequest);
-            model.addAttribute("itemIdList", itemIdList);
-            return "customexam/step3"; // JSP 페이지 이름
-        } catch (Exception e) {
-            // 오류 처리
-            log.error("Error occurred while fetching range list: " + e.getMessage());
-            return "error-page"; // 에러 페이지로 이동하거나 다른 처리를 할 수 있음
-        }
-    }
+//    @GetMapping("/customExam/rangeList")
+//    public String getStepThree(Model model, ItemListRequest itemListRequest) {
+//        try {
+//            List<ItemListResponse> itemIdList = (List<ItemListResponse>) stepThreeService.getChapterThreeList(itemListRequest);
+//            model.addAttribute("itemIdList", itemIdList);
+//            log.info("dddddd ==== ",itemIdList);
+//            return "customexam/step3"; // JSP 페이지 이름
+//        } catch (Exception e) {
+//            // 오류 처리
+//            log.error("Error occurred while fetching range list: " + e.getMessage());
+//            return "error-page"; // 에러 페이지로 이동하거나 다른 처리를 할 수 있음
+//        }
+//    }
 
     @PostMapping("/customExam/rangeList")
     @ResponseBody
@@ -147,5 +145,18 @@ public class StepThreeController {
 
     }*/
 
+    /* ck step2 -> step3 */
+//
+    @PostMapping("/customExam/step3")
+    public String moveToStep3 (@ModelAttribute("new_form2") Step3Request step3Request, Model model) throws IOException {
+        log.info("Here in moveToStep3 = {}", step3Request); // formdata - vo 바로 맵핑한 결과
+        Step3Response step3Response = stepThreeService.moveToStep3(step3Request);
+        log.info("step3Request data == ", step3Response);
+        log.info(step3Response.getSubjectName());
+        model.addAttribute("itemIdList",step3Response.getQueIdList());
+        model.addAttribute("subjectName",step3Response.getSubjectName());
+        model.addAttribute("subjectId", step3Response.getSubjectId());
+        return "/customexam/step3";
+    }
 }
 
