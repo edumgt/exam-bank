@@ -101,7 +101,7 @@ $(function () {
   // 탭 이동시
   $("#tab-right-group li").on("click", function () {
     let tabType = $(this).index()+1;
-    let readySimilar = $("#list-similar-area");
+    let readySimilar = $("#list-similar-area .que-top");
     if(tabType === 2){
       $("#tab-box").removeClass("type03");
       $("#tab-box").addClass("type02");
@@ -113,9 +113,10 @@ $(function () {
     $("#content-summary-area .col").removeClass("active");
     $("#view-que-detail-list .view-que-box").removeClass("active");
     //$("#item-similar-area").empty();
-    if (readySimilar != null){
-      $("#list-similar-area").css("display", "");
-      $("#init-similar-area").css("display", "none");
+    if (readySimilar == null && readySimilar == "") {
+      $("#list-similar-area").css("display", "none");
+      $("#init-similar-area").css("display", "");
+      return false;
     }
   });
 
@@ -689,6 +690,7 @@ $(function () {
 
     _form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArr}));
     _form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
+    _form.append($('<input/>', {type: 'hidden', name: 'subjectName', value: $("#subjectName").val()}));
     _form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: $("#paperGubun").val()}));
     if ('update' === $("#paperGubun").val()) {
       _form.append($('<input/>', {type: 'hidden', name: 'paperId', value: $("#updatePaperId").val()}));
