@@ -152,11 +152,11 @@ public class StepThreeController {
         log.info("Here in moveToStep3 = {}", step3Request); // formdata - vo 바로 맵핑한 결과
         Step3Response step3Response = stepThreeService.moveToStep3(step3Request);
         log.info("step3Request data == ", step3Response);
+        log.info(step3Response.getSubjectName());
         model.addAttribute("itemIdList",step3Response.getQueIdList());
         model.addAttribute("subjectName",step3Response.getSubjectName());
+        model.addAttribute("subjectId", step3Response.getSubjectId());
         return "/customexam/step3";
     }
-
-
 }
 
