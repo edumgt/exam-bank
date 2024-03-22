@@ -13,6 +13,7 @@ import java.util.List;
 public class Step3Response {
     private List<Long> queIdList;
     private String subjectName;
+    private String subjectId;
 
     private List<Step3Request> step3RequestList;
 }

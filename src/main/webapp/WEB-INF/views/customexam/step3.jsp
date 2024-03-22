@@ -195,7 +195,7 @@
                 </div>
             </div>
             <div class="loading-cnt" style="display:none">
-                <img src="../../images/common/loading_icon.gif" alt="로딩중">
+                <img src="/resource/popup/img/loading_icon.gif" alt="로딩중">
                 <div class="txt-box">
                     <span class="tit">시험지 저장 중<br>잠시만 기다려주세요.</span>
                     <span class="txt">이 과정은 인터넷 연결상태와 선택한 범위에 따라 <br>수분이 걸릴 수 있습니다.<br><br><em>진행 과정 중에 창을 닫지 마십시오.</em></span>
@@ -252,7 +252,7 @@
             _form.append($('<input/>', {type: 'hidden', name: 'subjectName', value: ''}));
             _form.append($('<input/>', {type: 'hidden', name: 'name', value: ''}));
             _form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: 'new'}));
-            _form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: '1175'}));
+            _form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $('#subjectId').val()}));
 
             _form.appendTo('body');
             _form.submit();
@@ -276,7 +276,8 @@
                 // dto로 넘어가는 필드
                 let requestData = {
                     name: $("#name").val(), // 시험지명
-                    itemIdList: ${itemIdList} // 문항 ID 리스트
+                    itemIdList: ${itemIdList}, // 문항 ID 리스트
+                    subjectName : "${subjectName}"
                 };
 
                 $.ajax({
@@ -313,10 +314,9 @@
                 newForm.attr("name", "new_form");
                 newForm.attr("charset", "UTF-8");
                 newForm.attr("method", "post");
-                newForm.attr("action", "/customExam/step0");
+                newForm.attr("action", "/customTest/step0");
 
-                newForm.append($('<input/>', {type: 'hidden', name: 'subjectId', value: '1175'}));
-
+                newForm.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $('#subjectId').val()}));
                 newForm.appendTo('body');
                 newForm.submit();
             }
@@ -490,6 +490,7 @@
                                         objectiveCount++; // 객관식 개수 증가
                                         break;
                                     case '단답 유순형':
+                                    case '단답 무순형':
                                     case '서술형':
                                         questionType = '주관식';
                                         subjectiveCount++; // 주관식 개수 증가
@@ -501,7 +502,7 @@
                                 responseHtml += '<div class="col">';
                                 responseHtml += '<span>' + index + '</span>'; // 아이템 ID 출력
                                 responseHtml += '<span class="tit">' + item.largeChapterName + ' &gt; ' + item.mediumChapterName + ' &gt; ' + item.smallChapterName + '</span>';
-                                responseHtml += '<span>' + questionType + '</span>'; // 질문 유형 추가
+                                responseHtml += '<span>' + questionType + '</span>';
                                 responseHtml += '<span>' + item.difficultyName + '</span>';
                                 responseHtml += '</div>';
                                 index++; // 아이템 ID 증가
@@ -524,23 +525,6 @@
                     }
                 });
             });
-</script>
-<script>
-    let qParam ={};
-
-    $(document).ready(function () {
-        let new_form = $('#new_form');
-
-        // 폼 데이터 추가
-        new_form.append($('<input/>', {type: 'hidden', name: 'chapterList', value: qParam.chapterList}));
-        new_form.append($('<input/>', {type: 'hidden', name: 'activityCategoryList', value: qParam.activityCategoryList}));
-        new_form.append($('<input/>', {type: 'hidden', name: 'levelCnt', value: qParam.levelCnt}));
-        new_form.append($('<input/>', {type: 'hidden', name: 'questionForm', value: qParam.questionForm}));
-        new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: qParam.queArr}));
-        new_form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: 'new'}));
-        new_form.append($('<input/>', {type: 'hidden', name: 'subjectName', value: ''}));
-        new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
-    });
 </script>
 </body>
 </html>
