@@ -24,8 +24,9 @@
   <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
   <script type="text/javascript" src="/resource/common/js/legacy_common.js"></script>
   <script type="text/javascript" src="/resource/midhigh/js/common.js"></script>
-    <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
-    <script type="text/javascript" src="/resource/popup/js/stepOne.js"></script>
+  <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
+<%--  <script type="text/javascript" src="/resource/popup/js/stepOne.js"></script>--%>
+
 <%--  <script type="text/javascript" src="/resource/popup/js/stepTwo-mod.js"></script>--%>
 
 </head>
@@ -2748,7 +2749,7 @@
 
               <%-- 유사 문항 --%>
               <div class="contents" id="contents-similar-area">
-                <div class="view-que-list no-data" id="init-similar-area" style="">
+                <div class="view-que-list no-data" id="init-similar-area" style="display: block;">
                   <p>
                     문제 목록에서 <i class="ic-no-data"></i> 유사문제 버튼을 선택해주세요.
                   </p>
@@ -2948,24 +2949,61 @@
     </div>
   </div>
 </div>
-
+</body>
 <%--<script type="text/javascript" src="../../js/common/common.js?version=20240308101412"></script>
 <script type="text/javascript" src="../../js/customExam/stepTwo.js?version=20240308101412"></script>--%>
+
+
+
 <script>
   let qParam = {};
   let _this = $(this);
   let param = {};
   let chapterArr = [];
 
+  function setChapterParam(param, classType, classCode) {
+    switch (classType) {
+      case "subject":
+        param.subject = classCode;
+        break;
+      case "large" :
+        param.large = classCode;
+        break;
+      case "medium" :
+        param.medium = classCode;
+        break;
+      case "small" :
+        param.small = classCode;
+        break;
+      case "topic" :
+        param.topic = classCode;
+        break;
+    }
+  }
+
   // 재검색
   function rescan() {
-
+    alert("dddd")
     <%--const chapterArr = '${step2Response.chapterList}';--%>
 
     // $('#unit-ul li input[type="checkbox"]:checked').not('input[type="checkbox"]:checked.depth01').each(function (x) {
 
-      console.log(${step2Response.subjectId})
+
+      let levelCnt_02 = '${step2Response.levelGroup.get("02")}';
+      let levelCnt_03 = '${step2Response.levelGroup.get("03")}';
+      let levelCnt_04 = '${step2Response.levelGroup.get("04")}';
+
+      let levelCnt = levelCnt_02+levelCnt_03+levelCnt_04;
+      // console.log('0',levelCnt,'0');
       setChapterParam(param, "subject", ${step2Response.subjectId});
+
+      let plusTempLevelArray = [0, 0, 0, 0, 0];
+
+    plusTempLevelArray[2] = levelCnt_02;
+    plusTempLevelArray[3] = levelCnt_03;
+    plusTempLevelArray[4] = levelCnt_04;
+
+      console.log("plusTempLevelArray : ",plusTempLevelArray)
 
       let _thisIdArr = _this.prop('id').split('_');
       for (let i = _thisIdArr.length - 1; i > 0; i--) {
@@ -2981,15 +3019,7 @@
     console.log("chapterArr :: ", chapterArr);
     const activityCategoryList = '${step2Response.activityCategoryList}';
 
-    const levelCnt = ["0","10","10","10","0"]
 
-
-    let plusTempLevelArray = [];
-    for (let i = 0; i < levelCnt.length; i++) {
-      let cnt = Number(levelCnt[i]);
-      let pVal = cnt === 0 ? 0 : cnt + 20;
-      plusTempLevelArray.push(pVal);
-    }
     //문제형태 (10:자유선지형, 50:5지선택 , 60:단답유순형, 85:서술형)
     let questionFormArr = [];
     $(".que-badge-group .que-badge.gray").each(function (index, element) {
@@ -3017,11 +3047,11 @@
     qParam = {};
     qParam.chapterList = chapterArr;
     qParam.activityCategoryList = activityCategoryList;
-    qParam.levelCnt = levelCnt;
+    qParam.levelCnt = levelCnt_02,levelCnt_03,levelCnt_04;
     qParam.questionForm = questionFormArr.join(",");
-    console.log("questionFormArr : ",qParam.questionForm);
+    console.log("levelCnt : ",qParam.levelCnt);
 
-    ajaxCall("POST", "/customExam/rescan", JSON.stringify(qParam), function (data) {
+    ajaxCall("POST", "/customExam/loadStep2", JSON.stringify(qParam), function (data) {
       console.log("qparam : " , qParam);
       if (data != null) {
         for (let j = 1; j <= 5; j++) {
@@ -3040,20 +3070,20 @@
       }else {
         console.log("호출");
         qParam.itemList = data.itemList;
-        moveToStep2(data.queIdList);
+        moveToStep2CK(data.queIdList);
       }
     });
   }
 
   //재구성된 문항으로 가져오기
-  function moveToStep2(queArr) {
+  function moveToStep2CK(queArr) {
     let queArrParam = queArr === undefined ? $(".pop-wrap #nxt-data").val() : queArr;
 
     let new_form = $('<form></form>');
     new_form.attr("name", "new_form");
     new_form.attr("charset", "UTF-8");
     new_form.attr("method", "post");
-    new_form.attr("action", "/customExam/step2/jy");
+    new_form.attr("action", "/customExam/step2/ck");
 
     console.log("moveToStep2 : ", qParam.chapterList);
     console.log("moveToStep2 queArrParam : ", queArrParam);
@@ -3091,5 +3121,5 @@
 
 </script>
 
-</body>
+
 </html>
