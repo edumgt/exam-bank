@@ -65,7 +65,7 @@
             <div class="view-box">
                 <div class="view-top">
                     <div class="paper-info">
-                        <span>과학2(노태희)</span>- 2015개정 교육과정
+                        <span>${subjectName}</span>- 2015개정 교육과정
                     </div>
 
                     <div class="btn-wrap">
@@ -79,7 +79,7 @@
                             <span>시험지명</span>
                             <div class="search-wrap">
                                 <div class="search-box">
-                                    <input type="text" id="paperTitle" placeholder="시험지명을 입력해주세요. (최대 20자)" class="search" maxlength="20" onkeydown="characterCheck(this)" onkeyup="characterCheck(this)">
+                                    <input type="text" id="name" placeholder="시험지명을 입력해주세요. (최대 20자)" class="search" maxlength="20" onkeydown="characterCheck(this)" onkeyup="characterCheck(this)">
                                 </div>
                             </div>
                         </div>
@@ -195,7 +195,7 @@
                 </div>
             </div>
             <div class="loading-cnt" style="display:none">
-                <img src="../../images/common/loading_icon.gif" alt="로딩중">
+                <img src="/resource/popup/img/loading_icon.gif" alt="로딩중">
                 <div class="txt-box">
                     <span class="tit">시험지 저장 중<br>잠시만 기다려주세요.</span>
                     <span class="txt">이 과정은 인터넷 연결상태와 선택한 범위에 따라 <br>수분이 걸릴 수 있습니다.<br><br><em>진행 과정 중에 창을 닫지 마십시오.</em></span>
@@ -249,25 +249,25 @@
             _form.append($('<input/>', {type: 'hidden', name: 'queArr', value: '1664792,1506466,1664793,1506463,1664798,1664808,1664799,1665537,1665552,1506450,1665539,1665541,1664830,1506453,1665544,1665543,1506454,1664825,1665547,1665546,1665548,1506438,1506589,1506588,1506591,1664899,1664915,1664918,1506604,1506561'}));
             _form.append($('<input/>', {type: 'hidden', name: 'backYn', value: "Y"}));
             _form.append($('<input/>', {type: 'hidden', name: 'paperId', value: ''}));
-            _form.append($('<input/>', {type: 'hidden', name: 'paperTitle', value: ''}));
+            _form.append($('<input/>', {type: 'hidden', name: 'subjectName', value: ''}));
+            _form.append($('<input/>', {type: 'hidden', name: 'name', value: ''}));
             _form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: 'new'}));
-            _form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: '1175'}));
+            _form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $('#subjectId').val()}));
 
             _form.appendTo('body');
             _form.submit();
         });
 
         $("#complete-btn").on("click", function (){
-            if($("#paperTitle").val() === ""){
+            if($("#name").val() === ""){
                 alert("시험지명을 입력해주세요.");
                 return false;
-
-            }else if($("#paperTitle").val().length>20){
+            } else if($("#name").val().length > 20){
                 alert("시험지명을 20자 이하로 입력해주세요.");
                 return false;
             }
 
-            if(regExp.test($("#paperTitle").val())  == true){
+            if(regExp.test($("#name").val()) == true){
                 alert("\'\\ / : * ? \" < > | + # % ; \' 문자는 입력하실 수 없습니다.");
                 return false;
             }
@@ -275,9 +275,9 @@
             if (confirm ('시험지를 저장하시겠습니까?')) {
                 // dto로 넘어가는 필드
                 let requestData = {
-                    paperTitle: $("#paperTitle").val(), // 시험지명
+                    name: $("#name").val(), // 시험지명
                     itemIdList: ${itemIdList}, // 문항 ID 리스트
-                    subjectName: ${subjectName}
+                    subjectName : "${subjectName}"
                 };
 
                 $.ajax({
@@ -286,8 +286,9 @@
                     contentType: "application/json",
                     data: JSON.stringify(requestData),
                     success: function(data) {
-                        if(data && data.success) {
+                        if(data) {
                             alert("시험지가 성공적으로 저장되었습니다.");
+                            window.location.href = '/customExam/complete';
                         } else {
                             alert("시험지 저장에 실패했습니다.");
                         }
@@ -313,10 +314,9 @@
                 newForm.attr("name", "new_form");
                 newForm.attr("charset", "UTF-8");
                 newForm.attr("method", "post");
-                newForm.attr("action", "/customExam/step0");
+                newForm.attr("action", "/customTest/step0");
 
-                newForm.append($('<input/>', {type: 'hidden', name: 'subjectId', value: '1175'}));
-
+                newForm.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $('#subjectId').val()}));
                 newForm.appendTo('body');
                 newForm.submit();
             }
@@ -490,6 +490,7 @@
                                         objectiveCount++; // 객관식 개수 증가
                                         break;
                                     case '단답 유순형':
+                                    case '단답 무순형':
                                     case '서술형':
                                         questionType = '주관식';
                                         subjectiveCount++; // 주관식 개수 증가
@@ -501,7 +502,7 @@
                                 responseHtml += '<div class="col">';
                                 responseHtml += '<span>' + index + '</span>'; // 아이템 ID 출력
                                 responseHtml += '<span class="tit">' + item.largeChapterName + ' &gt; ' + item.mediumChapterName + ' &gt; ' + item.smallChapterName + '</span>';
-                                responseHtml += '<span>' + questionType + '</span>'; // 질문 유형 추가
+                                responseHtml += '<span>' + questionType + '</span>';
                                 responseHtml += '<span>' + item.difficultyName + '</span>';
                                 responseHtml += '</div>';
                                 index++; // 아이템 ID 증가
@@ -524,22 +525,6 @@
                     }
                 });
             });
-</script>
-<script>
-    let qParam ={};
-
-    $(document).ready(function () {
-        let new_form = $('#new_form');
-
-        // 폼 데이터 추가
-        new_form.append($('<input/>', {type: 'hidden', name: 'chapterList', value: qParam.chapterList}));
-        new_form.append($('<input/>', {type: 'hidden', name: 'activityCategoryList', value: qParam.activityCategoryList}));
-        new_form.append($('<input/>', {type: 'hidden', name: 'levelCnt', value: qParam.levelCnt}));
-        new_form.append($('<input/>', {type: 'hidden', name: 'questionForm', value: qParam.questionForm}));
-        new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: qParam.queArr}));
-        new_form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: 'new'}));
-        new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
-    });
 </script>
 </body>
 </html>
