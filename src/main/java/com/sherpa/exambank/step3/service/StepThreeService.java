@@ -139,6 +139,7 @@ public class StepThreeService {
         Step3Response step3Response = Step3Response.builder()
                 .queIdList(step3Request.getQueArr())
                 .subjectName(step3Request.getSubjectName())
+                .subjectId(step3Request.getSubjectId())
                 .build();
         log.info("moveToStep3 Service ::::: = {}",step3Response);
 

@@ -22,13 +22,13 @@ public class StepTwoController {
     private final Step1Service step1Service;
     private final StepTwoService stepTwoService;
 
-    @GetMapping("/customExam/step2")
+    /*@GetMapping("/customExam/step2")
     public String getStep2Page(){
         return "customexam/step2";
-    }
+    }*/
 
     // step 2 좌측 아이템 리스트
-    @PostMapping ("/customExam/step2")
+    @PostMapping ("/customExam/step2/left")
     public String postStep2Page(Model model) throws JsonProcessingException {
         List<ItemDTO> itemDTOList = stepTwoService.postResponse();
         model.addAttribute("itemDTOList",itemDTOList);
