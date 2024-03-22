@@ -106,7 +106,7 @@
 
         <!-- 시험지 목록 -->
         <div class="content-list" id="myExamList">
-          <div class="content-list__item">
+          <%--<div class="content-list__item">
             <div class="check item-checkbox"><span
                     class="custom-control custom-checkbox">          <input
                     type="checkbox" class="custom-control-input checkbox-input"
@@ -117,9 +117,9 @@
             <div class="content-list__inner">
               <div class="content-list__item-left">
                 <div class="item__info">
-                  <%--<div class="item__info-name"><img
+                  &lt;%&ndash;<div class="item__info-name"><img
                           src="/resource/midhigh/img/testbank_2023/folder_sm.png" alt="아이콘">전체
-                  </div>--%>
+                  </div>&ndash;%&gt;
                   <div class="item__info-title">안녕1</div>
                   <div class="item__info-extra"><span>국어1-2(노미숙)-2015</span>
                     <span>28문항</span> <span>2023.10.05</span></div>
@@ -679,7 +679,7 @@
                 <div class="button-image"></div>
               </div>
             </div>
-          </div>
+          </div>--%>
         </div>
         <!-- //시험지 목록 -->
 
