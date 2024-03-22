@@ -1262,7 +1262,7 @@ function makeSummary(target, sortNum, type) {
                     <span class="tit" title="${target.find(".chapter").text()}">
                         <div class="txt">${target.find(".chapter").text()}</div>
                         <div class="tooltip-wrap">
-                            ${target.find(".item-box").attr("data-paperTitle") !== "" ? '<button type="button" class="btn-tip" style="position: relative; top: 1px; width: 14px; height: 16px; margin-left: 15px; background: url(../../images/common/ico_btn_tip.png) no-repeat; background-size: contain;"></button>' : ''}
+                            ${target.find(".item-box").attr("data-paperTitle") !== "" ? '<button type="button" class="btn-tip" style="position: relative; top: 1px; width: 14px; height: 16px; margin-left: 15px; background: url(.https://testbank.tsherpa.co.kr/images/common/ico_btn_tip.png) no-repeat; background-size: contain;"></button>' : ''}
                             ${target.find(".item-box").attr("data-paperTitle") !== "" ? '<div class="tooltip type01"><div class="tool-type01">' + target.find(".item-box").attr("data-paperTitle") + '</div></div>' : ''}
                         </div>
                     </span>
