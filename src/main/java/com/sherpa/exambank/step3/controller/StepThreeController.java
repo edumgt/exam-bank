@@ -24,11 +24,6 @@ public class StepThreeController {
     ItemListRequest itemListRequest = new ItemListRequest();
 
 
-    @GetMapping("/customExam/step3")
-    public String getStepThree(Model model, String subjectId) {
-            return "customexam/step3";
-    }
-
 //    @PostMapping("/customExam/step3")
 //    public String postStep3Page(/*@RequestParam("itemIdList") String itemIdList, */Model model) throws InstantiationException, IllegalAccessException {
 
