@@ -426,16 +426,7 @@
 
             function logout() {
                 Storages.cookieStorage.remove("gnb_seleted_grade");
-                $.post("/ssoLogout.do").done(function (data) {
-                    if (data.success) {
-                        let returnUrl = location.protocol + "//" + location.host;
-                        document.location.href =
-                            "https://sso.chunjae.co.kr:446/api/auth/logout?returnUrl=" +
-                            returnUrl;
-                    } else {
-                        alert(data.message);
-                    }
-                });
+                location.href = "/logout";
             }
         </script>
         <div class="header_top">
