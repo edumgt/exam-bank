@@ -1143,10 +1143,18 @@
         let pwd = $(".login_area input[name=q_password]").val();
         pwd = $.trim(pwd);
 
-        if (!id || !pwd) {
-            alert("아이디나 비밀번호가 입력되지 않았습니다.");
+        if (!id) {
+            alert("아이디가 입력되지 않았습니다.");
+            $("#ID").focus();
             return false;
         }
+
+        if (!pwd) {
+            alert("비밀번호가 입력되지 않았습니다.");
+            $("#PW").focus();
+            return false;
+        }
+
         let params = {
             id: id,
             pwd: pwd
@@ -1174,12 +1182,12 @@
                         break;
                     case "fail":
                         alert(
-                            "정보를 불러오는데 문제가 발생하였습니다.\n다시 시도해주세요."
+                            "로그인에 실패하였습니다.\n다시 시도해주세요."
                         );
                         break;
                     default:
                         alert(
-                            "정보를 불러오는데 문제가 발생하였습니다.\n다시 시도해주세요."
+                            "로그인에 실패하였습니다.\n다시 시도해주세요."
                         );
                         break;
                 }
