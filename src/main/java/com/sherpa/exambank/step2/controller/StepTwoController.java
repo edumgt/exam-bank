@@ -84,5 +84,11 @@ public class StepTwoController {
         return ResponseEntity.ok(step2Response);
     }
 
+    @PostMapping("/customExam/step2")
+    public String moveToStep2(@ModelAttribute("new_form") Step2Request step2Request, Model model) throws JsonProcessingException {
+        Step2Response step2Response = stepTwoService.moveToStep2(step2Request);
 
+        model.addAttribute("step2Response", step2Response);
+        return "customexam/step2";
+    }
 }
