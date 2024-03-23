@@ -24,7 +24,9 @@
   <script type="text/javascript" src="/resource/popup/js/lodash.min.js"></script>
   <script type="text/javascript" src="/resource/common/js/legacy_common.js"></script>
   <script type="text/javascript" src="/resource/midhigh/js/common.js"></script>
-    <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
+  <script type="text/javascript" src="/resource/popup/js/stepTwo.js"></script>
+<%--  <script type="text/javascript" src="/resource/popup/js/stepOne.js"></script>--%>
+
 <%--  <script type="text/javascript" src="/resource/popup/js/stepTwo-mod.js"></script>--%>
 
 </head>
@@ -67,7 +69,7 @@
     <div class="pop-content">
       <div class="view-box">
         <input type="hidden" id="paperGubun" value="new">
-        <input type="hidden" id="subjectId" value="1159">
+        <input type="hidden" id="subjectId" name="subjectId" value="${step2Response.subjectId}">
         <input type="hidden" id="subjectName" value="국어3-2(노미숙)">
         <input type="hidden" id="areaCode" value="KO">
         <input type="hidden" id="backYn" value="">
@@ -75,7 +77,7 @@
         <%-- 내용 영역 헤더 --%>
         <div class="view-top">
           <div class="paper-info">
-            <span>국어3-2(노미숙)</span>-2015개정 교육과정
+            <span>${step2Response.subjectId}</span>-2015개정 교육과정
           </div>
           <button class="btn-default btn-research" onclick="rescan()"><i class="research"></i>재검색</button>
           <button class="btn-default" id="btn-range">출제범위</button>
@@ -162,11 +164,11 @@
                               <div class="passage-area"><img src="${dto.passageUrl}" alt="${dto.passageId}"
                                                              width="453px">
                               </div>
-                              <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                              <%--<div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
                                 <button type="button" class="btn-default btn-add" data-type="all"><i
                                         class="add-type02"></i>전체 추가
                                 </button>
-                              </div>
+                              </div>--%>
                             </div>
                           </div>
                         </div>
@@ -2709,7 +2711,7 @@
                 </li>
               </ul>
 
-              <!--s:문제지 요약-->
+              <%--s:문제지 요약--%>
               <div class="contents on" id="content-summary-area">
                 <div class="table half-type ">
                   <div class="fix-head">
@@ -2723,8 +2725,8 @@
                     <div class="scroll-inner">
                       <div class="test ui-sortable" id="table-1">
 
-                        <!-- s: 지문 묶음 영역 -->
-                        <!-- e : 지문 묶음 영역-->
+                        <%--s: 지문 묶음 영역
+                        e : 지문 묶음 영역--%>
 
                       </div>
                     </div>
@@ -2743,18 +2745,18 @@
                   </div>
                 </div>
               </div>
-              <!--e:문제지 요약-->
+              <%--e:문제지 요약--%>
 
               <%-- 유사 문항 --%>
               <div class="contents" id="contents-similar-area">
-                <div class="view-que-list no-data" id="init-similar-area" style="display: none">
+                <div class="view-que-list no-data" id="init-similar-area" style="">
                   <p>
                     문제 목록에서 <i class="ic-no-data"></i> 유사문제 버튼을 선택해주세요.
                   </p>
                 </div>
                 <div id="list-similar-area" style="display: none">
                   <div class="cnt-top">
-                    <span class="title" id="similar-title">2번 유사 문제</span>
+                    <span class="title" id="similar-title"></span>
                     <input type="hidden" id="target-sort-num" value="">
                     <input type="hidden" id="target-lastItem-num" value="">
                     <div class="right-area">
@@ -2810,7 +2812,7 @@
 
 <div class="dim"></div>
 
-<!-- 문항 오류 신고 팝업 -->
+ <%--문항 오류 신고 팝업--%>
 <div class="pop-wrap table-type" data-pop="error-report-pop" id="pop-error-report">
   <div class="pop-inner">
     <div class="pop-header">
@@ -2929,7 +2931,7 @@
     </div>
     <div class="pop-footer">
       <button onclick="closePop('que-pop')">취소</button>
-      <button class="pop-close" onclick="moveToStep2()">확인</button>
+      <button class="pop-close" onclick="moveToStep2CK()">확인</button>
     </div>
   </div>
 </div>
@@ -2938,7 +2940,7 @@
 <div class="pop-wrap scope-type" data-pop="que-scope-pop">
   <div class="pop-inner">
     <div class="pop-header">
-      <span>국어3-2(노미숙)</span>
+      <span>${step2Response.subjectId}</span>
       <button type="button" class="pop-close"></button>
     </div>
     <div class="pop-content scroll-inner">
@@ -2947,36 +2949,108 @@
     </div>
   </div>
 </div>
-
+</body>
 <%--<script type="text/javascript" src="../../js/common/common.js?version=20240308101412"></script>
 <script type="text/javascript" src="../../js/customExam/stepTwo.js?version=20240308101412"></script>--%>
+
+
+
 <script>
   let qParam = {};
+  let _this = $(this);
+  let param = {};
+  let chapterArr = [];
+
+  function setChapterParam(param, classType, classCode) {
+    switch (classType) {
+      case "subject":
+        param.subject = classCode;
+        break;
+      case "large" :
+        param.large = classCode;
+        break;
+      case "medium" :
+        param.medium = classCode;
+        break;
+      case "small" :
+        param.small = classCode;
+        break;
+      case "topic" :
+        param.topic = classCode;
+        break;
+    }
+  }
 
   // 재검색
   function rescan() {
-    qParam = {};
-    const chapterList = '${itemDTOList}';
-    console.log("chapterList : " + chapterList);
-    const activityCategoryList = '415,416,417,418'.split(',');
-    const levelCnt = '0,10,10,10,0'.split(',');
-    const questionForm = 'multiple,subjective,descriptive';
 
-    let plusTempLevelArray = [];
-    for (let i = 0; i < levelCnt.length; i++) {
-      let cnt = Number(levelCnt[i]);
-      let pVal = cnt === 0 ? 0 : cnt + 20;
-      plusTempLevelArray.push(pVal);
+    <%--const chapterArr = '${step2Response.chapterList}';--%>
+
+    // $('#unit-ul li input[type="checkbox"]:checked').not('input[type="checkbox"]:checked.depth01').each(function (x) {
+
+
+    let levelCnt_02 = '${step2Response.levelGroup.get("02")}';
+    let levelCnt_03 = '${step2Response.levelGroup.get("03")}';
+    let levelCnt_04 = '${step2Response.levelGroup.get("04")}';
+
+    let levelCnt = levelCnt_02+levelCnt_03+levelCnt_04;
+    // console.log('0',levelCnt,'0');
+    setChapterParam(param, "subject", ${step2Response.subjectId});
+
+    let chapterArr = '${step2Response.chapterList}';
+    let chapterArrObj = JSON.parse(chapterArr);
+    let plusTempLevelArray = [0, 0, 0, 0, 0];
+
+    plusTempLevelArray[1] = levelCnt_02;
+    plusTempLevelArray[2] = levelCnt_03;
+    plusTempLevelArray[3] = levelCnt_04;
+
+
+    let activityCategoryList = [0,0,0,0];
+
+    activityCategoryList[0] = ${step2Response.activityCategoryList.get(0)};
+    activityCategoryList[1] = ${step2Response.activityCategoryList.get(1)};
+    activityCategoryList[2] = ${step2Response.activityCategoryList.get(2)};
+    activityCategoryList[3] = ${step2Response.activityCategoryList.get(3)};
+
+
+
+    //문제형태 (10:자유선지형, 50:5지선택 , 60:단답유순형, 85:서술형)
+    let questionFormArr = [];
+    $(".que-badge-group .que-badge.gray").each(function (index, element) {
+      let text = $(element).text().trim();
+      switch (text) {
+        case '객관식':
+          return questionFormArr.push("multiple");
+        case '주관식':
+          return questionFormArr.push("descriptive");
+        // case '상':
+        //   return 'yellow';
+        // default:
+        //   return 'oceanblue';
+      }
+    });
+    // 중복된 값을 제거하는 함수
+    function removeDuplicates(arr) {
+      return Array.from(new Set(arr));
     }
+    // 중복 제거
+    questionFormArr = removeDuplicates(questionFormArr);
 
-    qParam.chapterList = chapterList;
+
+
+    qParam = {};
+    qParam.chapterList = chapterArrObj;
     qParam.activityCategoryList = activityCategoryList;
-    qParam.levelCnt = levelCnt;
-    qParam.tmpLevelCnt = plusTempLevelArray;
-    qParam.questionForm = questionForm;
+    qParam.levelCnt = plusTempLevelArray;
+    qParam.questionForm = questionFormArr.join(",");
+    console.log("questionFormArr : ",questionFormArr)
+    console.log("plusTempLevelArray : ",plusTempLevelArray)
+    console.log("chapterArr :: ", chapterArrObj);
+    console.log("qParam : ",qParam);
 
-    //ajaxCall("POST", "/customExam/step2", qParam, function (data) { // 원본
-    ajaxCall("POST", "/customExam/step2/left", qParam, function (data) { // 03.22 PM 19 수정
+
+    ajaxCall("POST", "/customExam/step2/rescan", JSON.stringify(qParam) , function (data) {
       if (data != null) {
         for (let j = 1; j <= 5; j++) {
           if (data.levelGroup['0' + j] !== undefined) {
@@ -2988,38 +3062,44 @@
         $(".pop-wrap[data-pop='que-pop'] #pop-total-sum .num").text(data.itemsTotalCnt);
         $(".pop-wrap[data-pop='que-pop'] #nxt-data").val(data.queIdList);
 
+        qParam.itemList = data.itemList;
+
         showPop("que-pop");
+      }else {
+        console.log("호출");
+        qParam.itemList = data.itemList;
+        moveToStep2CK(data.queIdList);
       }
     });
   }
 
   //재구성된 문항으로 가져오기
-  function moveToStep2() {
-    let queArrParam = $(".pop-wrap #nxt-data").val();
-    let new_form = $('<form></form>');
+  function moveToStep2CK(queArr) {
+    let queArrParam = queArr === undefined ? $(".pop-wrap #nxt-data").val() : queArr;
 
+    let new_form = $('<form></form>');
     new_form.attr("name", "new_form");
     new_form.attr("charset", "UTF-8");
     new_form.attr("method", "post");
-    new_form.attr("action", "/customExam/step2/left"); // 03.22. PM 19 수정
-    // new_form.attr("action", "/customExam/step2");  // 원본
+    new_form.attr("action", "/customExam/step2");
 
-    new_form.append($('<input/>', {type: 'hidden', name: 'chapterList', value: qParam.chapterList}));
-    new_form.append($('<input/>', {
-      type: 'hidden',
-      name: 'activityCategoryList',
-      value: qParam.activityCategoryList
-    }));
+    console.log("moveToStep2 : ", qParam.chapterList);
+    console.log("moveToStep2 queArrParam : ", queArrParam);
+    //return false;
+
+    new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArrParam}));
+    new_form.append($('<input/>', {type: 'hidden', name: 'chapterListJSONString', value: JSON.stringify(qParam.chapterList) }));
+    new_form.append($('<input/>', {type: 'hidden', name: 'activityCategoryList', value: qParam.activityCategoryList}));
     new_form.append($('<input/>', {type: 'hidden', name: 'levelCnt', value: qParam.levelCnt}));
     new_form.append($('<input/>', {type: 'hidden', name: 'questionForm', value: qParam.questionForm}));
-    new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArrParam}));
     new_form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: 'new'}));
     new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
+    new_form.append($('<input/>', {type: 'hidden', name: 'itemListByForm', value: JSON.stringify(qParam.itemList)}));
 
     new_form.appendTo('body');
+
     new_form.submit();
   }
-
   function showPop(pop, className) {
     const dimClass = className === undefined ? "dim" : className;
     $('html , body').css('overflow', 'hidden');
@@ -3039,5 +3119,5 @@
 
 </script>
 
-</body>
+
 </html>
