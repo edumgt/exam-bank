@@ -151,7 +151,7 @@ public class StepThreeController {
     public String moveToStep3 (@ModelAttribute("new_form2") Step3Request step3Request, Model model) throws IOException {
         log.info("Here in moveToStep3 = {}", step3Request); // formdata - vo 바로 맵핑한 결과
         Step3Response step3Response = stepThreeService.moveToStep3(step3Request);
-        log.info("step3Request data == ", step3Response);
+        log.info("step3Request data == {}", step3Response);
         log.info(step3Response.getSubjectName());
         model.addAttribute("itemIdList",step3Response.getQueIdList());
         model.addAttribute("subjectName",step3Response.getSubjectName());
