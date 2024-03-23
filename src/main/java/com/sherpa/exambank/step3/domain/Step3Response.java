@@ -14,6 +14,6 @@ public class Step3Response {
     private List<Long> queIdList;
     private String subjectName;
     private String subjectId;
-
+    private String curriculumName;
     private List<Step3Request> step3RequestList;
 }
