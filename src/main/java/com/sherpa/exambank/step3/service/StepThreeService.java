@@ -139,19 +139,25 @@ public class StepThreeService {
 
     }
 
+    /**
+     *
+     * @param step3Request
+     * @return
+     */
     public Step3Response moveToStep3(Step3Request step3Request) {
-
-        Step3Response step3Response = Step3Response.builder()
-                .queIdList(step3Request.getQueArr())
-                .subjectName(step3Request.getSubjectName())
-                .subjectId(step3Request.getSubjectId())
-                .build();
-
-
+        Step3Response step3Response;
         try {
-            log.info("moveToStep3 Service ::::: = {}",step3Response);
-        } catch (CustomException e){
+            step3Response = Step3Response.builder()
+                    .queIdList(step3Request.getQueArr())
+                    .subjectName(step3Request.getSubjectName())
+                    .subjectId(step3Request.getSubjectId())
+                    .build();
+            log.info("moveToStep3 Service ::::: = {}", step3Response);
+
+        } catch (CustomException e) {
+
             throw new CustomException(RESOURCE_NOT_FOUND);
+
         }
         return step3Response;
 
