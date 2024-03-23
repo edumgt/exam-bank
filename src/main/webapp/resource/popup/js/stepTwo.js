@@ -354,14 +354,16 @@ $(function () {
                                             <input type="hidden" id="questionFormCode" value="${item.questionFormCode}">
                                         </div>
                                     </div>
-                                    <!--<div class="btn-wrap">
-                                        <span class="tooltip-wrap type02">
-                                            <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
-                                            <span class="tooltip type02">
-                                                <div class="tool-type01">문항오류신고</div>
-                                            </span>
+                                    <div class="btn-wrap delete-btn-wrap">
+                                
+                                      <!--<span class="tooltip-wrap">
+                                        <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
+                                        <span class="tooltip type02">
+                                            <div class="tool-type01">문항오류신고</div>
                                         </span>
-                                    </div>-->
+                                      </span>-->
+                                         <!--<button type="button" class="btn-delete"></button>-->
+                                    </div>
                                 </div>
                                 <div class="view-que">
                                     <div class="que-content">
@@ -1253,8 +1255,8 @@ function convertToLeft(target) {
   let btnSimilarHtml = "<button type=\"button\" class=\"btn-similar-que btn-default\" ><i class=\"similar\"></i> 유사 문제</button>";
 
   // 삭제 버튼
-  target.find(".que-top .btn-wrap").append(btnDelHtml);
-  target.find(".passage-box .btn-delete").attr("data-type", "all");
+  target.find(".que-top .delete-btn-wrap").append(btnDelHtml);
+  target.find(".passage-box .delete-btn-wrap").attr("data-type", "all");
   // 유사문항 버튼(문항에만 추가)
   target.find(".passage-box .btn-add").remove();
   target.find(".btn-add").not(".passage-box .btn-add").replaceWith(btnSimilarHtml);
