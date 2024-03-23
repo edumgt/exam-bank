@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class Step2Controller_jy {
     private final Step2Service_jy step2Service;
 
-    @PostMapping("/customExam/step2/jy")
+    @PostMapping("/customExam/step2")
     public String moveToStep2(@ModelAttribute("new_form") Step2Request step2Request, Model model) throws JsonProcessingException {
         // log.info("moveToStep2 : {}", step2Request);
         Step2Response step2Response = step2Service.moveToStep2(step2Request);
 
         model.addAttribute("step2Response", step2Response);
         log.info("moveToStep2 : {}", String.valueOf(step2Response));
-        return "customexam/step2-mod";
+        return "customexam/step2";
     }
 }

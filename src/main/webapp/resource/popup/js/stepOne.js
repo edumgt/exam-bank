@@ -1,5 +1,7 @@
 let tempLevelArray;
-let active=false;
+let active= false;
+
+/* 자동실행 함수 */
 
 /* 자동실행 함수 */
 
@@ -651,7 +653,7 @@ function moveToStep0() {
     new_form.attr("name", "new_form");
     new_form.attr("charset", "UTF-8");
     new_form.attr("method", "post");
-    new_form.attr("action", "/customExam/step0");
+    new_form.attr("action", "/exambank/customExam/step0");
 
     //step0 세팅지 리스트를 위한 subjectId
     new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $('#subjectId').val()}));
@@ -813,11 +815,8 @@ function moveToStep2(queArr) {
     new_form.attr("name", "new_form");
     new_form.attr("charset", "UTF-8");
     new_form.attr("method", "post");
-    new_form.attr("action", "/customExam/step2/jy");
+    new_form.attr("action", "/customExam/step2");
 
-    console.log("moveToStep2 : ", qParam.chapterList);
-    console.log("moveToStep2 queArrParam : ", queArrParam);
-    //return false;
 
     new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArrParam}));
     new_form.append($('<input/>', {type: 'hidden', name: 'chapterListJSONString', value: JSON.stringify(qParam.chapterList) }));
