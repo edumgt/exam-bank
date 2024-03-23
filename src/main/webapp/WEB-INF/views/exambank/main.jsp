@@ -3,7 +3,11 @@
   Date: 2024-03-07
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:include page="/WEB-INF/views/common/headerA.jsp"/>
+
+<jsp:include page="/WEB-INF/views/common/headerA.jsp">
+  <jsp:param name="userId" value="${ sessionScope.userId }"/>
+  <jsp:param name="name" value="${ sessionScope.name }"/>
+</jsp:include>
 
 <!-- 즐겨찾는 교과서 -->
 <%--<div class="tb-container tb-bookmark" style="" id="tb-bookmark">
@@ -2296,6 +2300,15 @@
 
   //평가자료 팝업
   function getExam(id) {
+    // 로그인 확인
+    let loginUserId = '${ sessionScope.userId }';
+    console.log("loginUserId : ", loginUserId);
+
+    if(loginUserId == undefined || loginUserId == null || loginUserId.length == 0){ // 로그아웃 상태
+      alert("로그인 후 이용할 수 있는 서비스입니다.");
+      return false;
+    }
+
     if (!checkUserLoggedIn(location.href)) {
       return false;
     }
@@ -2464,6 +2477,14 @@
   }
 
   function customExamPopup(subjectId) {
+    // 로그인 확인
+    let loginUserId = '${ sessionScope.userId }';
+
+    if(loginUserId == undefined || loginUserId == null || loginUserId.length == 0){ // 로그아웃 상태
+      alert("로그인 후 이용할 수 있는 서비스입니다.");
+      return false;
+    }
+
     //새창으로 열기
     let pop_title = "win_pop";
     let url = 'customExam/step0';

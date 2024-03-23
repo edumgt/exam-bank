@@ -3,11 +3,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js" integrity="sha512-Z8CqofpIcnJN80feS2uccz+pXWgZzeKxDsDNMD/dJ6997/LSRY+W4NmEt9acwR+Gt9OHN0kkI1CTianCwoqcjQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<html>
-<head>
-    <title>Title</title>
-    <link rel="stylesheet" href="/resource/popup/css/font.css">
+<%--<script src="/resource/popup/js/jquery-1.12.4.min.js"></script>--%>
+<%--<html>--%>
+<%--<head>--%>
+<%--    <title>Title</title>--%>
+<%--    <link rel="stylesheet" href="/resource/popup/css/font.css">--%>
     <style>
         .test_paper{
             width: 595px; /* 전체 너비를 사용하도록 설정 */
@@ -18,6 +18,7 @@
             margin-bottom: 10px;
         }
         .title_header{
+            width: 76%;
             font-size: 16px;
             font-weight: bold;
             line-height: 46px;
@@ -74,24 +75,26 @@
         }
         .item_answer:after{
             float: left;
-            height: 12px;
+            height: 15px;
             background: palevioletred;
             width: 30px;
             font-size: 10px;
-            line-height: 12px;
+            line-height: 15px;
             font-weight: bold;
             color: #fff;
+            text-align: center;
             content: "정답";
         }
         .item_explain:after{
             float: left;
-            height: 12px;
+            height: 15px;
             background: rgba(80, 141, 253, 0.68);
             width: 30px;
             font-size: 10px;
-            line-height: 12px;
+            line-height: 15px;
             font-weight: bold;
             color: #fff;
+            text-align: center;
             content: "해설";
         }
         .page-break-after {
@@ -100,9 +103,9 @@
             clear:both;
         }
     </style>
-</head>
-<body>
-<button type="button" onclick="renderImg();">PDF 다운</button>
+<%--</head>--%>
+<%--<body>--%>
+<%--<button type="button" onclick="renderImg();">PDF 다운</button>--%>
 
 <script type="text/javascript">
     const target = document.querySelector('.test_paper'); // pdf로 출력할 요소
@@ -140,8 +143,83 @@
         doc.save('savePDF.pdf');
     }
 
-    function renderImg(examName,itemList){
+    function renderImg(examName, itemList){
+        // -------------------------------------------------- 시험지 배치 코드 시작
+        console.log("examName",examName);
         $(".title_header").text(examName);
+        // console.log("itemList.length",itemList.length);
+
+        const contents = $("#contents");
+        let itemHtml = '<div class="column column-first">';
+
+        let passageList = {};
+        let duplicatePassageList = {};
+
+        itemList.forEach(item => {
+            // console.log(item);
+            //
+            // console.log(item.passageId);
+            itemHtml += '<figure>';
+
+
+            // 지문이 있는 문항의 경우
+            if(item.passageId != null)
+                if(!passageList[item.passageId]) { // 해당 지문의 첫번째 문제인 경우, 문제번호 만들고 img 보이기
+                    passageList[item.passageId] = [];
+                    passageList[item.passageId].push(item.itemNo);
+                    itemHtml += '<span class="item_no" passage-id="'+item.passageId+'_'+item.itemNo+'">[' + item.itemNo + '-</span>';
+                    itemHtml += '<img src="' + item.passageUrl + '" style="margin-bottom: 10px">';
+                } else { // 해당 지문의 첫번째 문제가 아닌 경우, 마지막 문제번호 추가하기
+                    let currentPassageId = passageList[item.passageId];
+                    // console.log(currentPassageId[currentPassageId.length-1]);
+                    if(currentPassageId[currentPassageId.length-1]+1 != item.itemNo) { // 연속된 문제가 아니라면 지문 출력
+                        // console.log("새로운문제");
+                        let lastItemNo = currentPassageId[currentPassageId.length-1]; // 같은 지문의 이전 마지막 문제 번호
+                        // duplicatePassageList[item.passageId+'_'+currentPassageId[0]] = [];
+                        duplicatePassageList[item.passageId+'_'+currentPassageId[0]] = currentPassageId;
+
+                        // 새로 덮어쓰기
+                        passageList[item.passageId] = [];
+                        passageList[item.passageId].push(item.itemNo);
+                        itemHtml += '<span class="item_no" passage-id="'+item.passageId+'_'+item.itemNo+'">[' + item.itemNo + '-</span>';
+                        itemHtml += '<img src="' + item.passageUrl + '" style="margin-bottom: 10px">';
+                    } else {
+                        passageList[item.passageId].push(item.itemNo);
+                    }
+                }
+
+            itemHtml += '<span class="item_no">'+item.itemNo+'</span>';
+            itemHtml += '<img src="'+item.questionUrl+'">';
+            itemHtml += '<div class="item_answer"></div>';
+            itemHtml += '<img src="'+item.answerUrl+'">';
+            itemHtml += '<div class="item_explain"></div>';
+            itemHtml += '<img src="'+item.explainUrl+'">';
+            itemHtml += '</figure>';
+
+        });
+
+        itemHtml += '</div>';
+        contents.html(itemHtml);
+
+        // console.log(passageList);
+        // console.log(Object.keys(passageList));
+
+        for (const key of Object.keys(passageList)){
+            // console.log("ff",key);
+            // console.log($("span[passage-id="+key+"_"+passageList[key][0]+"]").text());
+            // console.log(passageList[key].length);
+            let originRange = $("span[passage-id="+key+"_"+passageList[key][0]+"]").text();
+            $("span[passage-id="+key+"_"+passageList[key][0]+"]").text(originRange+passageList[key][passageList[key].length-1]+"]");
+        }
+        for (const key of Object.keys(duplicatePassageList)){
+            // console.log("ff",key);
+            // console.log("중복지문 앞쪽꺼",$("span[passage-id="+key+"]").text());
+            // console.log(duplicatePassageList[key]);
+            let originRange = $("span[passage-id="+key+"]").text();
+            $("span[passage-id="+key+"]").text(originRange+duplicatePassageList[key][duplicatePassageList[key].length-1]+"]");
+        }
+
+        // -------------------------------------------------- 시험지 배치 코드 끝
 
         let startPosition = 0; // 캡쳐를 시작할 위치
         let leftHeight = 0; // 캡쳐해야할 남은 높이
@@ -185,7 +263,9 @@
                         setHeight = leftHeight <= PAGE_LIMIT_HEIGHT ? leftHeight : PAGE_LIMIT_HEIGHT;
                         addDataUrl();
                     } else {
+                        alert("pdf추출 성공!!");
                         savePDF(result);
+
                     }
 
                 });
@@ -207,77 +287,76 @@
             </tr>
         </table>
     </header>
+    <div id="contents">
+<%--        <div class="column column-first">--%>
+<%--            <figure>--%>
+<%--                <span class="item_no">01</span>--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">--%>
+<%--                <div class="item_answer"></div>--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">--%>
+<%--                <div class="item_explain"></div>--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">--%>
+<%--            </figure>--%>
 
-    <div class="column column-first">
-        <figure>
-            <span class="item_no">01</span>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
-            <div class="item_answer"></div>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-            <div class="item_explain"></div>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
+<%--            <figure>--%>
+<%--                <span class="item_no">01</span>--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">--%>
+<%--            </figure>--%>
 
-        <figure>
-            <span class="item_no">01</span>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
+<%--            <figure>--%>
+<%--                <span class="item_no">01</span>--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">--%>
+<%--            </figure>--%>
+<%--        </div>--%>
 
-        <figure>
-            <span class="item_no">01</span>
-        <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
-        <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
-        <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-        <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
-    </div>
+<%--        &lt;%&ndash;    <h1 class="page-break-after"></h1>&ndash;%&gt;--%>
 
-<%--    <h1 class="page-break-after"></h1>--%>
+<%--        <div class="column">--%>
 
-    <div class="column">
-
-        <figure>
-            <span class="item_no">01</span>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
+<%--            <figure>--%>
+<%--                <span class="item_no">01</span>--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">--%>
+<%--            </figure>--%>
 
 
 
-        <figure>
-            <span class="item_no">01</span>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
-    </div>
+<%--            <figure>--%>
+<%--                <span class="item_no">01</span>--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">--%>
+<%--            </figure>--%>
+<%--        </div>--%>
 
-<%--    <h1 class="page-break-after"></h1>--%>
+<%--        &lt;%&ndash;    <h1 class="page-break-after"></h1>&ndash;%&gt;--%>
 
-    <div class="column">
-        <figure>
-            <span class="item_no">01</span>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
-        <figure>
-            <span class="item_no">01</span>
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">
-            <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">
-        </figure>
+<%--        <div class="column">--%>
+<%--            <figure>--%>
+<%--                <span class="item_no">01</span>--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">--%>
+<%--            </figure>--%>
+<%--            <figure>--%>
+<%--                <span class="item_no">01</span>--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/passage/25279/25279_2023-12-19.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/question/521684/521684_2023-10-13.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/answer/521684/521684_2023-10-13.svg">--%>
+<%--                <img src="https://img.chunjae-platform.com/upload/capture/tsherpa/explain/521684/521684_2023-10-13.svg">--%>
+<%--            </figure>--%>
+<%--        </div>--%>
     </div>
 
 </div>
-</body>
-</html>
