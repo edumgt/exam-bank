@@ -151,6 +151,8 @@ public class StepThreeController {
         model.addAttribute("itemIdList",step3Response.getQueIdList());
         model.addAttribute("subjectName",step3Response.getSubjectName());
         model.addAttribute("subjectId", step3Response.getSubjectId());
+        model.addAttribute("curriculumName", step3Response.getCurriculumName());
+
         return "/customexam/step3";
     }
 }

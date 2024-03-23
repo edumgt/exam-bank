@@ -65,7 +65,7 @@
             <div class="view-box">
                 <div class="view-top">
                     <div class="paper-info">
-                        <span>${subjectName}</span>- 2015개정 교육과정
+                        <span>${subjectName}</span>-${curriculumName}
                     </div>
 
                     <div class="btn-wrap">

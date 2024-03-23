@@ -151,6 +151,7 @@ public class StepThreeService {
                     .queIdList(step3Request.getQueArr())
                     .subjectName(step3Request.getSubjectName())
                     .subjectId(step3Request.getSubjectId())
+                    .curriculumName(step3Request.getCurriculumName())
                     .build();
             log.info("moveToStep3 Service ::::: = {}", step3Response);
 
