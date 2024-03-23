@@ -3,6 +3,7 @@ package com.sherpa.exambank.step2.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
 import com.sherpa.exambank.outapi.resonse.Response14;
 import com.sherpa.exambank.step1.domain.*;
 import com.sherpa.exambank.step1.service.Step1Service;
@@ -427,13 +428,13 @@ public class StepTwoService {
 
         // itemListRequest에서 요청할 데이터를 jsonobject로 변환
         String itemListRequestJsonObj = objectMapper.writeValueAsString(itemListRequest);
-        log.info("itemListRequestJsonObj : "+ itemListRequestJsonObj);
+        log.info("itemListRequestJsonObj : " + itemListRequestJsonObj);
         // itemList에 header 정보 넣은 객체 생성
-        HttpEntity<String> itemListIncHeader = new HttpEntity<>(itemListRequestJsonObj,headers);
+        HttpEntity<String> itemListIncHeader = new HttpEntity<>(itemListRequestJsonObj, headers);
         log.info("itemListIncHeader : " + itemListIncHeader);
         // RestTemplate 인스턴스 생성
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<ItemListResponse> responseItemDTO = restTemplate.postForEntity(uri,itemListIncHeader, ItemListResponse.class);
+        ResponseEntity<ItemListResponse> responseItemDTO = restTemplate.postForEntity(uri, itemListIncHeader, ItemListResponse.class);
         log.info("responseItemDTO : " + responseItemDTO);
 
         if (responseItemDTO == null) {
