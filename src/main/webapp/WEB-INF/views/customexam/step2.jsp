@@ -68,6 +68,7 @@
         <input type="hidden" id="paperGubun" value="new">
         <input type="hidden" id="subjectId" name="subjectId" value="${step2Response.subject.subjectId}">
         <input type="hidden" id="subjectName" value="${step2Response.subject.subjectName}">
+        <input type="hidden" id="curriculumName" value="${step2Response.subject.curriculumName}">
         <input type="hidden" id="areaCode" value="KO">
         <input type="hidden" id="backYn" value="">
 
