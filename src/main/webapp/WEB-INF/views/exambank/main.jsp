@@ -3,7 +3,12 @@
   Date: 2024-03-07
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:include page="/WEB-INF/views/common/headerA.jsp"/>
+<%--<jsp:include page="/WEB-INF/views/common/headerA.jsp"/>--%>
+
+<jsp:include page="/WEB-INF/views/common/headerA.jsp">
+  <jsp:param name="userId" value="${ sessionScope.userId }"/>
+  <jsp:param name="name" value="${ sessionScope.name }"/>
+</jsp:include>
 
 <!-- 즐겨찾는 교과서 -->
 <%--<div class="tb-container tb-bookmark" style="" id="tb-bookmark">
@@ -2464,39 +2469,26 @@
   }
 
   function customExamPopup(subjectId) {
-    // if (!checkUserLoggedIn(location.href)) {
-    //   return false;
-    // }
     //새창으로 열기
     let pop_title = "win_pop";
-    let url = "http://localhost:8080/customTest/step0?subjectId=" + subjectId;
+    let url = 'customExam/step0';
 
-    window.open(
-      "",
-      pop_title,
-      "width=1400,height=1024,status=no,toolbar=no,scrollbars=no, left=500, top=0"
-    );
-    // window.open(url, '_blank', 'width=1400, height=1024, status=no, toolbar=no, scrollbars=no, left=500, top=0, i');
+    window.open("",pop_title,'width=1400,height=1024,status=no,toolbar=no,scrollbars=no, left=500, top=0');
 
     //form
-    let new_form = $("<form></form>");
+    let new_form = $('<form></form>');
     new_form.attr("name", "new_form");
     new_form.attr("charset", "UTF-8");
-    new_form.attr("method", "put");
-    // new_form.attr("method", "post");  // post를 사용할 경우 405 오류가 발생하여 put method로 대체함.
+    new_form.attr("method", "post");
     new_form.attr("action", url);
     new_form.attr("target", pop_title);
 
     //step0 세팅지 리스트를 위한 교재정보 - 문항통합에서 교재정보 컬럼명 = subjectId
-    new_form.append(
-      $("<input/>", {
-        type: "hidden",
-        name: "subjectId",
-        value: subjectId,
-      })
-    );
+    new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: subjectId}));
 
-    new_form.appendTo("body");
+    console.log(new_form);
+
+    new_form.appendTo('body');
     new_form.submit();
   }
 </script>

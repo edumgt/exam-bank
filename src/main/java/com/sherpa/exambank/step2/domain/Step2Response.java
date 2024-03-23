@@ -2,6 +2,7 @@ package com.sherpa.exambank.step2.domain;
 
 import com.sherpa.exambank.step1.domain.MinorClassification;
 import com.sherpa.exambank.step1.domain.MoveExamStep2Item;
+import com.sherpa.exambank.step1.domain.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +29,8 @@ public class Step2Response {
     private String questionForm; // 문제 형태
 
     private List<MoveExamStep2Item> itemList; // 문제 리스트
+    private String curriculumName; // step2 -> step1
+    private Subject subject; // step2 -> step1
 }
 
 /*
