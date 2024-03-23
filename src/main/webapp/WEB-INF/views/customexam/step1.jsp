@@ -347,23 +347,23 @@
                 <!-- S: 문제 수 맞지 않을 시 .fail 클래스 추가 -->
                 <div class="range color01">
                     <span class="color01">최하</span>
-                    <input type="number" id="pop_level_stap1" min="0">
+                    <input type="number" id="pop_level_stap1" min="0" oninput="levelCntCheck(this)">
                 </div>
                 <div class="range color02">
                     <span class="color02">하</span>
-                    <input type="number" id="pop_level_stap2" min="0">
+                    <input type="number" id="pop_level_stap2" min="0" oninput="levelCntCheck(this)">
                 </div>
                 <div class="range color03">
                     <span class="color03">중</span>
-                    <input type="number" id="pop_level_stap3" min="0">
+                    <input type="number" id="pop_level_stap3" min="0" oninput="levelCntCheck(this)">
                 </div>
                 <div class="range color04">
                     <span class="color04">상</span>
-                    <input type="number" id="pop_level_stap4" min="0">
+                    <input type="number" id="pop_level_stap4" min="0" oninput="levelCntCheck(this)">
                 </div>
                 <div class="range color05">
                     <span class="color05">최상</span>
-                    <input type="number" id="pop_level_stap5" min="0">
+                    <input type="number" id="pop_level_stap5" min="0" oninput="levelCntCheck(this)">
                 </div>
                 <div class="range total fail">
                     <span>합계</span>
