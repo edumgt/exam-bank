@@ -41,37 +41,24 @@ public class UserController {
         return ResponseEntity.ok(loginResponse);
     }
 
-/*    // 로그아웃
+    // 로그아웃
     @GetMapping("/logout")
     public String logout(HttpServletRequest httpServletRequest){
+        log.info("logout");
+
         // 세션 객체 생성
         HttpSession session = httpServletRequest.getSession();
 
-        // 이동할 url
-        String url = httpServletRequest.getContextPath();
-
         // 세션에 로그인 정보가 없을 경우 메인 화면으로 redirect
-        if(session.getAttribute("memberIdx") == null){
-            url += "/index.jsp";  // [@@@@@@@@@@] 메인 페이지로 수정해야 함. 메인 페이지로 가는 컨트롤러(board/main.do)로 연결해야 한다.
-            resp.sendRedirect(url);
-            System.out.println("here q");
+        if(session.getAttribute("userId") == null){
+            log.info("logout null");
             return "redirect:/exambank/booklist";
         }
 
         // 세션에 로그인 정보가 있을 경우, 로그아웃
         session.invalidate(); //세션 삭제
 
-        // redirectURL이 있는 경우 로그아웃 후에 redirectURL으로 이동하게 만들어 준다.
-        String requestURI = req.getParameter("redirecturl");
-        if(requestURI != null) {
-            url += requestURI;
-            System.out.println("here q");
-        }else{  // 없을 경우, 메인 화면으로 이동한다. [@@@@@@@@@@]
-            url += "/index.jsp";  // [@@@@@@@@@@] 메인 페이지로 수정해야 함. 메인 페이지로 가는 컨트롤러(board/main.do)로 연결해야 한다.
-            System.out.println("here a");
-        }
-
-        resp.sendRedirect(url);
+        log.info("logout 성공 ");
         return "redirect:/exambank/booklist";
-    }*/
+    }
 }
