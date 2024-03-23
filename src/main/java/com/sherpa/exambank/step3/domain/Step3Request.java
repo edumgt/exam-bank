@@ -14,5 +14,4 @@ public class Step3Request {
     private String paperId;  // 시험지 ID
     private String paperTitle; // 시험지 이름
     private String curriculumName; // 커리큘럼 이름
-
 }

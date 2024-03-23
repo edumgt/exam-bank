@@ -14,13 +14,9 @@ $(function () {
       let passageId = $(this).children('.passage-box').attr('data-passageid');
       passageList.push(passageId);
 
-      console.log("sortNum : ", $(this).data('sortnum'));
-      console.log("지문 ID : ", passageId);  // 지문 ID 확인
-      console.log("문항 ID : ", $(this).children('.item-box').find('#questionId').val());
-      console.log("=========================")
+
     });
-    console.log(passageList.toString());
-    // console.log(passageList.length);  // 기본 30개
+
 
     // 지문이 있는 경우, 지문 ID가 동일하면 동일한 sort-group으로 묶기
     for (let i = 0; i < passageList.length; i++) {
@@ -223,7 +219,6 @@ $(function () {
 
   // 유사문제 버튼
   $("#view-que-detail-list").on("click", ".btn-similar-que", function () {
-    console.log("유사문제 버튼")
     // 토글 및 셀렉트박스 초기화
     clearSimilarCondition();
     $("#tab-box").removeClass("type03");
@@ -233,7 +228,6 @@ $(function () {
 
     // 클릭한 문항 id
     let questionId = $(this).closest(".view-que-box").find("#questionId").val();
-    console.log("유사문제 버튼2");
     // 기존에 active 된 부분 지우기
     $("#view-que-detail-list .view-que-box").removeClass("active");
 
@@ -269,7 +263,6 @@ $(function () {
 
     // 문제 목록 순서
     let queNo = $(this).parents(".view-que-box").find(".num").text();
-    console.log("queNo = " + queNo);
     $("#target-sort-num").val(_sortGroup.attr("data-sortNum"));
     $("#target-lastItem-num").val(_sortGroup.find(".item-box").last().find(".num").text());
 
@@ -279,7 +272,6 @@ $(function () {
     ajaxCall("post", "/customExam/similar-List", JSON.stringify(_param), function (data) {
 
       let simData = data.body.itemList;
-      console.log("simData === ", simData)
 
       if (simData.length === 0) {
         alert("검색된 유사 문제가 없습니다.");
@@ -306,7 +298,6 @@ $(function () {
           // 현재 아이템을 해당 passageId 배열에 추가
           group[passageId].push(item);
 
-          console.log("group[passageId] = ", group[passageId]);
         });
         let groupNum = 0;
         Object.keys(group).forEach(passageId => {
@@ -315,7 +306,6 @@ $(function () {
 
           let passageBox = items.length > 0 ? "passage-view-que-box" : "";
           html += '<div class="' + passageBox + ' sort-group" data-sortNum="' + groupNum + '" data-sortValue="">';
-          console.log("items - ", items)
           groupNum++;
           // 지문영역
           if (items[0].passageUrl) {
@@ -339,7 +329,6 @@ $(function () {
           // 각 문항에 대한 HTML
           items.forEach(item => {
             similarItemNum++;
-            console.log("item.explainUrl -- ", item.explainUrl)
             html += `
                             <div class="view-que-box item-box" data-paperTitle="${passageId}">
                                 <div class="que-top">
@@ -589,8 +578,6 @@ $(function () {
     let num = target === "view-que-detail-list" ? 1 : -1;
     // 이동할 html
     let convertHtml;
-    console.log("btnType : " + btnType);
-    console.log("target : " + target);
 
     // 하단 개수 설정
     let rLevelNum = currentGroup.find("#difficultyCode").val().slice(-1);
@@ -1052,7 +1039,6 @@ function sortQue(target, sortType, moveSortNum) {
         let bVal = Number(b.getAttribute("data-sortSummary"));
         return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
       }).appendTo($("#table-1"));
-      console.log("헬로우")
       //지문 내 순서 정렬
       $(".summary-box").each(function (i) {
         $(this).find(".col.que").sort(function (a, b) {

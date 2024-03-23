@@ -65,8 +65,10 @@
             <div class="view-box">
                 <div class="view-top">
                     <div class="paper-info">
-                        <span>${subjectName}</span>-${curriculumName}
+                        <span>${subjectName}</span>- ${curriculumName}
                     </div>
+
+                    <input type="hidden" id="subjectId" name="subjectId" value="${subjectId}">
 
                     <div class="btn-wrap">
                         <button class="btn-default" id="reset-btn"><a href="javascript:">처음으로</a></button>
@@ -83,89 +85,23 @@
                                 </div>
                             </div>
                         </div>
-                        <!--s 230619 저장위치 영역 삭제-->
-                        <!-- <div class="right-wrap">
-                            <span>저장 위치</span>
-                            <div class="select-wrap">
-                                <button type="button" class="select-btn">
-                                    전체
-                                </button>
-                                <ul class="select-list">
-                                    <li>
-                                        <a href="javascript:;">전체</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;">저장소1</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;">저장소2</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="btn-wrap">
-                                <button type="button" class="btn-default pop-btn" data-pop="add-folder-pop"><i
-                                        class="add-type01"></i>폴더 추가</button>
-                            </div>
-                        </div> -->
-                        <!--e 230619 저장위치 영역 삭제-->
+
                     </div>
                     <div class="type-form">
                         <div class="left-wrap">
                             <span class="tit">난이도</span>
                             <div class="que-badge-group">
-<%--                                <div class="que-badge-wrap">--%>
-<%--                                    <span class="que-badge purple">하</span>--%>
-<%--                                    <span class="num">10</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="que-badge-wrap">--%>
-<%--                                    <span class="que-badge green">중</span>--%>
-<%--                                    <span class="num">10</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="que-badge-wrap">--%>
-<%--                                    <span class="que-badge yellow">상</span>--%>
-<%--                                    <span class="num">10</span>--%>
-<%--                                </div>--%>
 
-<%--                                <c:forEach var="item" items="${itemIdList}">--%>
                                     <div class="que-badge-group" id="difficultyBadges">
-<%--                                        <input type="hidden" name="" value="${itemIdList.difficultyCode}">--%>
-<%--                                        <span class="que-badge oceanblue">${itemIdList.difficultyName}</span>--%>
-<%--                                        <span class="num"></span>--%>
+
                                     </div>
-<%--                                </c:forEach>--%>
-<%--                                <div class="que-badge-wrap" style="display: none">--%>
-<%--                                    <span class="que-badge oceanblue">최하</span>--%>
-<%--                                    <span class="num"></span>--%>
-<%--                                </div>--%>
-<%--                                <div class="que-badge-wrap" style="display: none">--%>
-<%--                                    <span class="que-badge purple">하</span>--%>
-<%--                                    <span class="num"></span>--%>
-<%--                                </div>--%>
-<%--                                <div class="que-badge-wrap" style="">--%>
-<%--                                    <span class="que-badge green">중</span>--%>
-<%--                                    <span class="num">15</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="que-badge-wrap" style="">--%>
-<%--                                    <span class="que-badge yellow">상</span>--%>
-<%--                                    <span class="num">15</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="que-badge-wrap" style="display: none">--%>
-<%--                                    <span class="que-badge pink">최상</span>--%>
-<%--                                    <span class="num"></span>--%>
-<%--                                </div>--%>
+
                             </div>
                         </div>
                         <div class="right-wrap">
                             <span class="tit">문제 형태</span>
                             <div class="que-badge-group2">
-<%--                                <div class="que-badge-wrap2" style="">--%>
-<%--                                    <span class="que-badge gray">객관식</span>--%>
-<%--                                    <span class="num">25</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="que-badge-wrap2" style="">--%>
-<%--                                    <span class="que-badge gray">주관식</span>--%>
-<%--                                    <span class="num">5</span>--%>
-<%--                                </div>--%>
+
                             </div>
                         </div>
                     </div>
@@ -180,14 +116,7 @@
                             </div>
                             <div class="tbody">
                                 <div class="scroll-inner" id="responseContainer">
-<%--                                    <c:forEach var="item" items="${itemIdList}">--%>
-<%--                                        <div class="col">--%>
-<%--                                            <span>${item.itemId}</span>--%>
-<%--                                            <span class="tit">${item.largeChapterName} &gt; ${item.mediumChapterName} &gt; ${item.smallChapterName}</span>--%>
-<%--                                            <span>${item.questionFormName}</span>--%>
-<%--                                            <span>${item.difficultyName}</span>--%>
-<%--                                        </div>--%>
-<%--                                    </c:forEach>--%>
+
                                 </div>
                             </div>
                         </div>
@@ -203,7 +132,7 @@
             </div>
         </div>
         <div class="step-btn-wrap">
-            <button type="button" class="btn-step" id="step-prev-btn">STEP 2 문항 편집</button>
+            <button type="button" class="" id="step-prev-btn"></button>
             <button type="button" class="btn-step next done" id="complete-btn">시험지 저장하기</button>
         </div>
     </div>
@@ -211,24 +140,7 @@
 
 <div class="dim"></div>
 <!-- 폴더 추가 팝업 -->
-<!-- s 230619 폴더 추가 팝업 삭제-->
-<!-- <div class="pop-wrap input-type" data-pop="add-folder-pop">
-    <div class="pop-inner">
-        <div class="pop-header">
-            <span>폴더 추가</span>
-            <button type="button" class="pop-close"></button>
-        </div>
-        <div class="pop-content">
-            <span class="tit">폴더명 입력</span>
-            <div class="input-box">
-                <input type="text" placeholder="폴더명을 입력해주세요.(최대 10글자)">
-            </div>
-        </div>
-        <div class="pop-footer">
-            <button type="button">추가하기</button>
-        </div>
-    </div>
-</div> -->
+
 <!-- e 230619 폴더 추가 팝업 삭제-->
 <script type="text/javascript" src="../../js/common/common.js?version=20240308101026"></script>
 <script>
@@ -248,6 +160,7 @@
 
             // /resource/popup/js/stepOne.js moveToStep2() 참고
 
+            //_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: '1664792,1506466,1664793,1506463,1664798,1664808,1664799,1665537,1665552,1506450,1665539,1665541,1664830,1506453,1665544,1665543,1506454,1664825,1665547,1665546,1665548,1506438,1506589,1506588,1506591,1664899,1664915,1664918,1506604,1506561'}));
             _form.append($('<input/>', {type: 'hidden', name: 'queArr', value: '1664792,1506466,1664793,1506463,1664798,1664808,1664799,1665537,1665552,1506450,1665539,1665541,1664830,1506453,1665544,1665543,1506454,1664825,1665547,1665546,1665548,1506438,1506589,1506588,1506591,1664899,1664915,1664918,1506604,1506561'}));
             _form.append($('<input/>', {type: 'hidden', name: 'backYn', value: "Y"}));
             _form.append($('<input/>', {type: 'hidden', name: 'paperId', value: ''}));
@@ -318,7 +231,7 @@
                 newForm.attr("name", "new_form");
                 newForm.attr("charset", "UTF-8");
                 newForm.attr("method", "post");
-                newForm.attr("action", "/customTest/step0");
+                newForm.attr("action", "/exambank/customExam/step0");
 
                 newForm.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $('#subjectId').val()}));
                 newForm.appendTo('body');
@@ -336,74 +249,7 @@
     }
 
 </script>
-<%--<script>--%>
-<%--    $(document).ready(function () {--%>
-<%--        // 서버에서 전달된 qParam 데이터--%>
-<%--        let qParam ={};--%>
 
-<%--        // 재검색--%>
-<%--        function rescan(){--%>
-<%--            qParam = {};--%>
-<%--            const chapterList = '${itemDTOList}';--%>
-<%--            console.log("chapterList : "+chapterList);--%>
-<%--            const activityCategoryList = '415,416,417,418'.split(',');--%>
-<%--            const levelCnt = '0,10,10,10,0'.split(',');--%>
-<%--            const questionForm =  'multiple,subjective,descriptive';--%>
-
-<%--            let plusTempLevelArray = [];--%>
-<%--            for (let i = 0; i < levelCnt.length; i++) {--%>
-<%--                let cnt = Number(levelCnt[i]);--%>
-<%--                let pVal = cnt === 0? 0: cnt+20;--%>
-<%--                plusTempLevelArray.push(pVal);--%>
-<%--            }--%>
-
-<%--            qParam.chapterList = chapterList;--%>
-<%--            qParam.activityCategoryList = activityCategoryList;--%>
-<%--            qParam.levelCnt = levelCnt;--%>
-<%--            qParam.tmpLevelCnt = plusTempLevelArray;--%>
-<%--            qParam.questionForm = questionForm;--%>
-
-<%--            ajaxCall("POST", "/customexam/step3", qParam, function (data) {--%>
-
-<%--                if (data != null) {--%>
-<%--                    for(let j=1; j<=5; j++){--%>
-<%--                        if (data.levelGroup['0'+j] !== undefined) {--%>
-<%--                            $(".pop-wrap[data-pop='que-pop'] #pop-level"+j).show();--%>
-<%--                            $(".pop-wrap[data-pop='que-pop'] #pop-level"+j).find(".num").text(data.levelGroup['0'+j]);--%>
-<%--                        }--%>
-<%--                    }--%>
-
-<%--                    $(".pop-wrap[data-pop='que-pop'] #pop-total-sum .num").text(data.itemsTotalCnt);--%>
-<%--                    $(".pop-wrap[data-pop='que-pop'] #nxt-data").val(data.queIdList);--%>
-
-<%--                    showPop("que-pop");--%>
-<%--                }--%>
-<%--            });--%>
-<%--        }--%>
-
-<%--        //재구성된 문항으로 가져오기--%>
-<%--        function moveToStep3() {--%>
-<%--            let queArrParam = $(".pop-wrap #nxt-data").val();--%>
-<%--            let new_form = $('<form></form>');--%>
-
-<%--            new_form.attr("name", "new_form");--%>
-<%--            new_form.attr("charset", "UTF-8");--%>
-<%--            new_form.attr("method", "post");--%>
-<%--            new_form.attr("action", "/customExam/step2");--%>
-
-<%--            new_form.append($('<input/>', {type: 'hidden', name: 'chapterList', value:  qParam.chapterList}));--%>
-<%--            new_form.append($('<input/>', {type: 'hidden', name: 'activityCategoryList', value: qParam.activityCategoryList}));--%>
-<%--            new_form.append($('<input/>', {type: 'hidden', name: 'levelCnt', value: qParam.levelCnt}));--%>
-<%--            new_form.append($('<input/>', {type: 'hidden', name: 'questionForm', value: qParam.questionForm}));--%>
-<%--            new_form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArrParam}));--%>
-<%--            new_form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: 'new'}));--%>
-<%--            new_form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));--%>
-
-<%--            new_form.appendTo('body');--%>
-<%--            new_form.submit();--%>
-<%--        }--%>
-<%--    });--%>
-<%--</script>--%>
 <script>
 
             let requestData = {
