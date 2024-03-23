@@ -147,7 +147,7 @@
                                                                             <label for="chk_${largeStatus.index}_${mediumStatus.index}_${smallStatus.index}">
                                                                                 <button type="button"
                                                                                         class="dep-btn active">${smallChapter.value.getChapterName()}
-                                                                                    <span><em>(10)</em></span></button>
+                                                                                    <span><em></em></span></button>
                                                                             </label>
                                                                         </div>
 
@@ -164,7 +164,7 @@
                                                                                     <label for="chk_${largeStatus.index}_${mediumStatus.index}_${smallStatus.index}_${topicStatus.index}">
                                                                                         <button type="button"
                                                                                                 class="active"></button>
-                                                                                        <span>${topicChapter.value.getChapterName()}  <em>(5)</em></span>
+                                                                                        <span>${topicChapter.value.getChapterName()}  <em></em></span>
                                                                                     </label>
                                                                                 </div>
                                                                             </c:forEach>
@@ -339,7 +339,7 @@
     <div class="pop-inner">
         <div class="pop-header">
             <span>난이도별 문제 수 설정</span>
-            <button type="button" class="pop-close"></button>
+            <button type="button" class="pop-close" onclick="closePop('que-range-pop')"></button>
         </div>
         <div class="pop-content">
             <span class="txt">문제 수를 입력하여<br> 난이도별 문제 수를 조정하세요.</span>
@@ -385,7 +385,7 @@
         <input type="hidden" id="nxt-data" value="">
         <div class="pop-header">
             <span>문항 구성 자동 변경</span>
-            <button type="button" class="pop-close"></button>
+            <button type="button" class="pop-close" onclick="closePop('que-pop')"></button>
         </div>
         <div class="pop-content">
             <span class="txt">사용자가 원하는 문항 구성을 할 수 없어<br>문항 구성이 자동으로 변경되었습니다.</span>
@@ -431,14 +431,14 @@
     <div class="pop-inner">
         <div class="pop-header">
             <span>&nbsp;</span>
-            <button type="button" class="pop-close"></button>
+            <button type="button" class="pop-close" onclick="closePop('no-data-pop')"></button>
         </div>
         <div class="pop-content">
             <span class="txt">사용자가 선택한 단원 정보, 출제 옵션의 총 문항 수가 '0'입니다. </span>
             <span class="txt">단원 선택 추가 및 출제 옵션을 변경해 주세요.</span>
         </div>
         <div class="pop-footer">
-            <button class="pop-close" onclick="closePop('que-pop')">확인</button>
+            <button class="pop-close" onclick="closePop('no-data-pop')">확인</button>
         </div>
     </div>
 </div>
