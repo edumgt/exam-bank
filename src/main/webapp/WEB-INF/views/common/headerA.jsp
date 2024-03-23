@@ -1151,16 +1151,18 @@
             return;
         }
         let id = $(".login_area input[name=q_username]").val();
+        id = $.trim(id);
         let pwd = $(".login_area input[name=q_password]").val();
+        pwd = $.trim(pwd);
+
         if (!id || !pwd) {
             alert("아이디나 비밀번호가 입력되지 않았습니다.");
             return false;
         }
         let params = {
             id: id,
-            pwd: pwd,
+            pwd: pwd
         };
-        alert("login");
 
         $.ajax({
             url: "/login",
@@ -1195,7 +1197,7 @@
                 }
             },
             error : function (xhr, status, error) {
-                // window.location.href="/error/error";
+                window.location.href="/error/error";
             }
         });
 
