@@ -101,7 +101,7 @@ $(function () {
   // 탭 이동시
   $("#tab-right-group li").on("click", function () {
     let tabType = $(this).index()+1;
-    let readySimilar = $("#list-similar-area");
+    let readySimilar = $("#list-similar-area .que-top");
     if(tabType === 2){
       $("#tab-box").removeClass("type03");
       $("#tab-box").addClass("type02");
@@ -113,9 +113,10 @@ $(function () {
     $("#content-summary-area .col").removeClass("active");
     $("#view-que-detail-list .view-que-box").removeClass("active");
     //$("#item-similar-area").empty();
-    if (readySimilar != null){
-      $("#list-similar-area").css("display", "");
-      $("#init-similar-area").css("display", "none");
+    if (readySimilar == null && readySimilar == "") {
+      $("#list-similar-area").css("display", "none");
+      $("#init-similar-area").css("display", "");
+      return false;
     }
   });
 
@@ -353,14 +354,16 @@ $(function () {
                                             <input type="hidden" id="questionFormCode" value="${item.questionFormCode}">
                                         </div>
                                     </div>
-                                    <!--<div class="btn-wrap">
-                                        <span class="tooltip-wrap type02">
-                                            <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
-                                            <span class="tooltip type02">
-                                                <div class="tool-type01">문항오류신고</div>
-                                            </span>
+                                    <div class="btn-wrap delete-btn-wrap">
+                                
+                                      <!--<span class="tooltip-wrap">
+                                        <button type="button" class="btn-error pop-btn" data-pop="error-report-pop"></button>
+                                        <span class="tooltip type02">
+                                            <div class="tool-type01">문항오류신고</div>
                                         </span>
-                                    </div>-->
+                                      </span>-->
+                                         <!--<button type="button" class="btn-delete"></button>-->
+                                    </div>
                                 </div>
                                 <div class="view-que">
                                     <div class="que-content">
@@ -551,11 +554,18 @@ $(function () {
     });
 
     // 문제지 요약 active
-    if (!$("#content-summary-area").hasClass('on')) {
+    // if (!$("#content-summary-area").hasClass('on')) {
+    //   $(".contents").removeClass('on');
+    //   $("#content-summary-area").addClass('on');
+    //   $("#tab-right-group .ui-tab-btn").removeClass('active');
+    //   $("#tab-summary").addClass('active');
+    // }
+    // 삭제 문항 active
+    if (!$("#contents-delete-area").hasClass('on')) {
       $(".contents").removeClass('on');
-      $("#content-summary-area").addClass('on');
+      $("#contents-delete-area").addClass('on');
       $("#tab-right-group .ui-tab-btn").removeClass('active');
-      $("#tab-summary").addClass('active');
+      $("#tab-delete").addClass('active');
     }
 
     // 삭제 문항 nodata 숨김 처리
@@ -689,6 +699,7 @@ $(function () {
 
     _form.append($('<input/>', {type: 'hidden', name: 'queArr', value: queArr}));
     _form.append($('<input/>', {type: 'hidden', name: 'subjectId', value: $("#subjectId").val()}));
+    _form.append($('<input/>', {type: 'hidden', name: 'subjectName', value: $("#subjectName").val()}));
     _form.append($('<input/>', {type: 'hidden', name: 'paperGubun', value: $("#paperGubun").val()}));
     if ('update' === $("#paperGubun").val()) {
       _form.append($('<input/>', {type: 'hidden', name: 'paperId', value: $("#updatePaperId").val()}));
@@ -696,7 +707,6 @@ $(function () {
     }
 
     _form.appendTo('body');
-    alert(typeof queArr);
     _form.submit();
 
   });
@@ -1245,8 +1255,8 @@ function convertToLeft(target) {
   let btnSimilarHtml = "<button type=\"button\" class=\"btn-similar-que btn-default\" ><i class=\"similar\"></i> 유사 문제</button>";
 
   // 삭제 버튼
-  target.find(".que-top .btn-wrap").append(btnDelHtml);
-  target.find(".passage-box .btn-delete").attr("data-type", "all");
+  target.find(".que-top .delete-btn-wrap").append(btnDelHtml);
+  target.find(".passage-box .delete-btn-wrap").attr("data-type", "all");
   // 유사문항 버튼(문항에만 추가)
   target.find(".passage-box .btn-add").remove();
   target.find(".btn-add").not(".passage-box .btn-add").replaceWith(btnSimilarHtml);

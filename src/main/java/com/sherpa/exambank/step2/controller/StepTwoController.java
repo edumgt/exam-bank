@@ -65,13 +65,18 @@ public class StepTwoController {
     @PostMapping("/customExam/range-list")
     @ResponseBody
     public ResponseEntity rangeList(@RequestBody ItemListRequest itemListRequest, Model model) throws JsonProcessingException {
-        log.info("call rangeList");
+        log.info("call rangeList = {} ",itemListRequest);
         ResponseEntity<ItemListResponse> chapterIdList = stepTwoService.getChapterList(itemListRequest);
         model.addAttribute("chapterIdList",chapterIdList);
         return new ResponseEntity<>(chapterIdList, HttpStatus.OK) ;
     }
 
-    @PostMapping("/customExam/rescan")
+    /**
+     * 재검색 기능 ( step1Service 메서드 활용 )
+     * @param step2Request
+     * @return
+     */
+    @PostMapping("/customExam/step2/rescan")
     public ResponseEntity<Step2Response> rescan(@RequestBody Step2Request step2Request) {
         log.info("rescan request = {}",step2Request);
         Step2Response step2Response = step1Service.moveExamStep2(step2Request);
@@ -79,5 +84,11 @@ public class StepTwoController {
         return ResponseEntity.ok(step2Response);
     }
 
+    @PostMapping("/customExam/step2")
+    public String moveToStep2(@ModelAttribute("new_form") Step2Request step2Request, Model model) throws JsonProcessingException {
+        Step2Response step2Response = stepTwoService.moveToStep2(step2Request);
 
+        model.addAttribute("step2Response", step2Response);
+        return "customexam/step2";
+    }
 }
