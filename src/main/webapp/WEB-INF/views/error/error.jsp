@@ -30,7 +30,7 @@
 					<img src="/resource/popup/img/error.png" alt="에러">
 					<div class="txt-box">
 						<input type="hidden" value="${errorResponse}"/>
-						<span class="tit">오!</span>
+						<span class="tit">요청하신 페이지를 찾을 수 없습니다.</span>
 						<span class="txt">요청하신 페이지를 처리하는 도중 예기치 못한 에러가 발생했습니다. <br>잠시 후 다시 시도해주세요.</span>
 						<br>
 						<div class="btn-wrap" >
@@ -41,7 +41,7 @@
 			</div>
 		</div>
 		<div class="dim"></div>
-
+	</div>
 </body>
 <script>
 
