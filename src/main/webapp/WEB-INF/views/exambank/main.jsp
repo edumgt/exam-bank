@@ -3,7 +3,12 @@
   Date: 2024-03-07
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:include page="/WEB-INF/views/common/headerA.jsp"/>
+<%--<jsp:include page="/WEB-INF/views/common/headerA.jsp"/>--%>
+
+<jsp:include page="/WEB-INF/views/common/headerA.jsp">
+  <jsp:param name="userId" value="${ sessionScope.userId }"/>
+  <jsp:param name="name" value="${ sessionScope.name }"/>
+</jsp:include>
 
 <!-- 즐겨찾는 교과서 -->
 <%--<div class="tb-container tb-bookmark" style="" id="tb-bookmark">
