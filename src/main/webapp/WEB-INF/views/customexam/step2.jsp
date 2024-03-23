@@ -69,7 +69,7 @@
     <div class="pop-content">
       <div class="view-box">
         <input type="hidden" id="paperGubun" value="new">
-        <input type="hidden" name="subjectId" value="${step2Response.subjectId}">
+        <input type="hidden" id="subjectId" name="subjectId" value="${step2Response.subjectId}">
         <input type="hidden" id="subjectName" value="국어3-2(노미숙)">
         <input type="hidden" id="areaCode" value="KO">
         <input type="hidden" id="backYn" value="">
@@ -77,7 +77,7 @@
         <%-- 내용 영역 헤더 --%>
         <div class="view-top">
           <div class="paper-info">
-            <span>국어3-2(노미숙)</span>-2015개정 교육과정
+            <span>${step2Response.subjectId}</span>-2015개정 교육과정
           </div>
           <button class="btn-default btn-research" onclick="rescan()"><i class="research"></i>재검색</button>
           <button class="btn-default" id="btn-range">출제범위</button>
@@ -164,11 +164,11 @@
                               <div class="passage-area"><img src="${dto.passageUrl}" alt="${dto.passageId}"
                                                              width="453px">
                               </div>
-                              <div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
+                              <%--<div class="btn-wrap etc-btn-wrap" style="margin-top: 10px;">
                                 <button type="button" class="btn-default btn-add" data-type="all"><i
                                         class="add-type02"></i>전체 추가
                                 </button>
-                              </div>
+                              </div>--%>
                             </div>
                           </div>
                         </div>
@@ -2711,7 +2711,7 @@
                 </li>
               </ul>
 
-              <!--s:문제지 요약-->
+              <%--s:문제지 요약--%>
               <div class="contents on" id="content-summary-area">
                 <div class="table half-type ">
                   <div class="fix-head">
@@ -2725,8 +2725,8 @@
                     <div class="scroll-inner">
                       <div class="test ui-sortable" id="table-1">
 
-                        <!-- s: 지문 묶음 영역 -->
-                        <!-- e : 지문 묶음 영역-->
+                        <%--s: 지문 묶음 영역
+                        e : 지문 묶음 영역--%>
 
                       </div>
                     </div>
@@ -2745,7 +2745,7 @@
                   </div>
                 </div>
               </div>
-              <!--e:문제지 요약-->
+              <%--e:문제지 요약--%>
 
               <%-- 유사 문항 --%>
               <div class="contents" id="contents-similar-area">
@@ -2812,7 +2812,7 @@
 
 <div class="dim"></div>
 
-<!-- 문항 오류 신고 팝업 -->
+ <%--문항 오류 신고 팝업--%>
 <div class="pop-wrap table-type" data-pop="error-report-pop" id="pop-error-report">
   <div class="pop-inner">
     <div class="pop-header">
