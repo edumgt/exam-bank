@@ -1138,9 +1138,6 @@
     }
 
     async function login() {
-        if (await isSsoStudentLogout()) {
-            return;
-        }
         let id = $(".login_area input[name=q_username]").val();
         id = $.trim(id);
         let pwd = $(".login_area input[name=q_password]").val();
