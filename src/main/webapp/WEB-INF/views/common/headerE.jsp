@@ -31,8 +31,20 @@
                         class="tabs__link tabs__link--on">중학</a>
               </li>
               <li class="tabs__item" id="btn-storage">
-                <a href="/exambank/storage"
-                        class="tabs__link">시험지 보관함</a>
+                <script>
+                  let checkLogin = function(){
+                    // 로그인 확인
+                    let loginUserId = '${ sessionScope.userId }';
+
+                    if(loginUserId == undefined || loginUserId == null || loginUserId.length == 0){ // 로그아웃 상태
+                      alert("로그인 후 이용할 수 있는 서비스입니다.");
+                      return false;
+                    }
+
+                    location.href = "/TestRepository";
+                  }
+                </script>
+                <p class="tabs__link" onclick="checkLogin()">시험지 보관함</p>
               </li>
             </ul>
             <!-- // 중등 고등, 수능, 시험지 보관함 탭 -->

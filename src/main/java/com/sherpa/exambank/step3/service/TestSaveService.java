@@ -3,6 +3,7 @@ package com.sherpa.exambank.step3.service;
 import com.sherpa.exambank.step3.domain.TestSave2DTO;
 import com.sherpa.exambank.step3.domain.TestSaveDTO;
 import com.sherpa.exambank.step3.mapper.TestSaveMapper;
+import com.sherpa.exambank.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class TestSaveService {
-
+    private final UserService userService;
     private final TestSaveMapper testSaveMapper;
 
     public void saveExamData(TestSaveDTO testSaveDTO) {
+        // 로그인 정보
+        String userId = testSaveDTO.getUserSeq();
+        String userSeq = userService.getSeqById(userId);
+        testSaveDTO.setUserSeq(userSeq);
+
         // 시험지 정보 저장
         testSaveMapper.insertExamData(testSaveDTO);
         log.info(String.valueOf(testSaveDTO));
