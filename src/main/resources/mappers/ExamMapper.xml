@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace='com.sherpa.exambank.method.mapper.ExamMapper'>
+
+    <select id="getExamNameByExamId" resultType="String">
+        select name
+        where seq = #{seq}
+    </select>
+
+    <select id="getExamItemListByExamId" resultType="Long">
+        select item_id
+        from tb_exam_item
+        WHERE exam_seq = #{seq}
+        ORDER BY item_no
+    </select>
+
+
+
+</mapper>

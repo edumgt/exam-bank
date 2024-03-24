@@ -26,13 +26,25 @@
           <div class="tabs">
             <!-- 중등 고등, 수능, 시험지 보관함 탭 -->
             <ul class="tabs__list tabs__list--3">
-              <li class="tabs__item" id="btn-examBank">
-                <a href="http://localhost:8080/exambank/booklist"
-                        class="tabs__link tabs__link--on">중학</a>
+              <li class="tabs__item" id="btn-examBank" style="cursor: pointer">
+                <p onclick="location.href='/exambank/booklist'"
+                        class="tabs__link tabs__link--on">중학</p>
               </li>
-              <li class="tabs__item" id="btn-storage">
-                <a href="http://localhost:8080/exambank/storage"
-                        class="tabs__link">시험지 보관함</a>
+              <li class="tabs__item" id="btn-storage" style="cursor: pointer">
+                <script>
+                  let checkLogin = function(){
+                    // 로그인 확인
+                    let loginUserId = '${ sessionScope.userId }';
+
+                    if(loginUserId == undefined || loginUserId == null || loginUserId.length == 0){ // 로그아웃 상태
+                      alert("로그인 후 이용할 수 있는 서비스입니다.");
+                      return false;
+                    }
+
+                    location.href = "/exambank/storage";
+                  }
+                </script>
+                <p class="tabs__link" onclick="checkLogin()">시험지 보관함</p>
               </li>
             </ul>
             <!-- // 중등 고등, 수능, 시험지 보관함 탭 -->

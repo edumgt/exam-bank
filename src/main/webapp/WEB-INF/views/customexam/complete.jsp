@@ -45,10 +45,6 @@
         </div>
         <div class="pop-content">
             <div class="view-box save-complete">
-                <div class="btn-wrap">
-                    <button class="btn-default" id="reset-btn"><a href="javascript:">처음으로</a></button>
-                </div>
-
                 <div class="save-wrap">
                     <img src="/resource/popup/img/save.png" alt="저장완료 이미지">
                     <span class="txt">
@@ -88,23 +84,6 @@
             window.opener.location.href = "/TestRepository";
             window.close(); // 현재 팝업 창 닫기
         });
-    });
-
-    //처음으로 버튼
-    $("#reset-btn").on("click", function (){
-        if (confirm ('처음 화면으로 이동하시겠습니까?\n(출제 방법 선택 화면으로 이동)\n페이지 이동 시 변경사항이 저장되지 않습니다.')) {
-            let newForm = $('<form></form>');
-
-            newForm.attr("name", "new_form");
-            newForm.attr("charset", "UTF-8");
-            newForm.attr("method", "post");
-            newForm.attr("action", "/customTest/step0");
-
-            newForm.append($('<input/>', {type: 'hidden', name: 'subjectId', value: ''}));
-
-            newForm.appendTo('body');
-            newForm.submit();
-        }
     });
 </script>
 </body>

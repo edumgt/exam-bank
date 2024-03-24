@@ -535,7 +535,7 @@
 							</span>
                     </div>
                     <div class="btn-wrap">
-                        <button class="btn-icon" id="modify-setting-btn"><i class="edit"></i>선택한 시험지 편집하기</button>
+<%--                        <button class="btn-icon" id="modify-setting-btn"><i class="edit"></i>선택한 시험지 편집하기</button>--%>
                         <button class="btn-icon type-white" id="create-paper-btn" onclick="moveToStep1();"><i class="newpaper"></i>신규 시험지 만들기</button>
                     </div>
                 </div>
@@ -550,22 +550,22 @@
                             <div class="cnt">
                                 <div class="table">
                                     <div class="fix-head">
-                                        <span>선택</span>
+                                        <span> </span>
                                         <span>시험지명</span>
                                         <span>문항수</span>
-                                        <span>미리보기</span>
+                                        <span> </span>
                                         <span>다운로드</span>
                                     </div>
                                     <div class="tbody" id="setting_list">
 
                                         <c:forEach var="examInfo" items="${item.examInfoList}">
                                             <div class="col">
-                                                <span><input type="checkbox" id="chk_0" class="chk_paperId"><label for="chk_0"></label></span>
+                                                <span><%--<input type="checkbox" id="chk_0" class="chk_paperId"><label for="chk_0"></label>--%></span>
                                                 <span class="tit">${examInfo.examName}</span>
                                                 <span>${examInfo.itemCnt}</span>
-                                                <span><button type="button" class="btn-icon2 preview-btn"><i class="preview"></i></button></span>
+                                                <span><%--<button type="button" class="btn-icon2 preview-btn" exam-name="${examInfo.examName}"><i class="preview"></i></button>--%></span>
                                                 <span>
-                                                    <div class="btn-wrap">
+                                                    <div class="btn-wrap" exam-name="${examInfo.examName}">
                                                         <div class="tooltip-wrap type01">
                                                             <button type="button" class="btn-default download-btn" exam-id="${examInfo.examId}" data-type="A">전체</button>
                                                             <div class="tooltip type03">
@@ -691,25 +691,31 @@
 </div>
 <script>
     $(".download-btn").on('click',function (){
-        let examName = $(".paperTitle").attr("value");
         let examId = $(this).attr("exam-id");
         let dataType = $(this).attr("data-type");
+
+        let examName;
+        if(dataType=="A"){
+            examName = $(this).parent().parent().attr("exam-name");
+        } else {
+            examName = $(this).parent().attr("exam-name");
+        }
+
 
         const data = {
             "examId": examId,
             "dataType": dataType
         }
 
-        // 시험지 id에 따른 itemlist 요청
+        // 직접 만든 시험지 id에 따른 itemlist 요청
         $.ajax({
             type : 'post',           // 타입 (get, post, put 등등)
-            url : '/exambank/customExamAPI/getSettingItemList', // 요청할 서버 url
+            url : '/exambank/customExamAPI/getItemListByExam', // 요청할 서버 url
             async : true,            // 비동기화 여부 (default : true)
             dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
             contentType: 'application/json',
             data :  JSON.stringify(data),
             success : function(result) { // 결과 성공 콜백함수
-                console.log(result.itemList);
                 renderImg(examName,result.itemList);
 
             },
@@ -717,7 +723,6 @@
                 console.log(error)
             }
         });
-        alert("test");
 
     });
 
@@ -730,6 +735,8 @@
     });
 </script>
 
+
+<%@ include file="makeExamPaper.jsp"%>
+
 </body>
 </html>
-<%@ include file="makeExamPaper.jsp"%>
