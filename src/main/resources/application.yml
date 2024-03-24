@@ -3,6 +3,15 @@ server:
   tomcat:
     max-http-form-post-size: 1000MB
 
+# 화면에 에러 정보 출력
+  error:
+    whitelabel:
+      enabled: false
+    include-exception: true
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: NEVER
+
 spring:
   main:
     allow-bean-definition-overriding: true
