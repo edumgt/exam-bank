@@ -242,7 +242,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -258,7 +258,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -294,7 +294,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -310,7 +310,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -346,7 +346,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -362,7 +362,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -398,7 +398,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -414,7 +414,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -450,7 +450,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -466,7 +466,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -502,7 +502,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   id="add_611505"
@@ -518,7 +518,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -563,7 +563,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -579,7 +579,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -615,7 +615,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -631,7 +631,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -667,7 +667,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -683,7 +683,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -719,7 +719,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -735,7 +735,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -771,7 +771,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -787,7 +787,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -823,7 +823,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -839,7 +839,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -884,7 +884,7 @@
     <div class="columns">
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -900,7 +900,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -936,7 +936,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -952,7 +952,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -988,7 +988,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1004,7 +1004,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1050,7 +1050,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1066,7 +1066,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1102,7 +1102,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1118,7 +1118,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1154,7 +1154,7 @@
       <!-- item -->
 
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1170,7 +1170,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1216,7 +1216,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1232,7 +1232,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1268,7 +1268,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1284,7 +1284,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1320,7 +1320,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1336,7 +1336,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1383,7 +1383,7 @@
     <div class="columns">
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1399,7 +1399,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1435,7 +1435,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1451,7 +1451,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1487,7 +1487,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1503,7 +1503,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1548,7 +1548,7 @@
     <div class="columns">
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1564,7 +1564,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1600,7 +1600,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1616,7 +1616,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1661,7 +1661,7 @@
     <div class="columns">
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1677,7 +1677,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1713,7 +1713,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1729,7 +1729,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1774,7 +1774,7 @@
     <div class="columns">
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1790,7 +1790,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1826,7 +1826,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1842,7 +1842,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1887,7 +1887,7 @@
     <div class="columns">
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1903,7 +1903,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -1939,7 +1939,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -1955,7 +1955,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -2000,7 +2000,7 @@
     <div class="columns">
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -2016,7 +2016,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -2052,7 +2052,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -2068,7 +2068,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">
@@ -2104,7 +2104,7 @@
 
       <!-- item -->
       <div class="item">
-        <div class="item-mark">
+        <%--<div class="item-mark">
           <a
                   href="javascript:;"
                   style="display: none"
@@ -2120,7 +2120,7 @@
                   class="tooltip-mark"
           ><span class="ir_su">즐겨찾기 등록</span></a
           >
-        </div>
+        </div>--%>
         <div class="item-content">
           <div class="item-image">
             <figure class="image is-thumnail">

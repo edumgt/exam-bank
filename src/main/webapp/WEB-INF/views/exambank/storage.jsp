@@ -43,7 +43,7 @@
                     </div>
                     <div class="item__download">
                       <div class="item_buttons">
-                        <a href="javascript:;" onclick="editExam(${testPaper.seq});" title="">문항 편집</a>
+<%--                        <a href="javascript:;" onclick="editExam(${testPaper.seq});" title="">문항 편집</a>--%>
                         <a href="javascript:;" onclick="examDel(${testPaper.seq});" title="">시험지 삭제</a>
                       </div>
                     </div>

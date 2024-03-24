@@ -27,11 +27,11 @@
             <!-- 중등 고등, 수능, 시험지 보관함 탭 -->
             <ul class="tabs__list tabs__list--3">
               <li class="tabs__item" id="btn-examBank">
-                <a href="http://localhost:8080/exambank/booklist"
+                <a href="/exambank/booklist"
                         class="tabs__link tabs__link--on">중학</a>
               </li>
               <li class="tabs__item" id="btn-storage">
-                <a href="http://localhost:8080/exambank/storage"
+                <a href="/exambank/TestRepository"
                         class="tabs__link">시험지 보관함</a>
               </li>
             </ul>
