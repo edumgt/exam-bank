@@ -26,6 +26,8 @@
       <div class="content">
 
         <div class="content-control">
+          <%-- 과목별 조회 selectbox 등 --%>
+        </div>
         <!-- 시험지 목록 -->
         <div class="content-list" id="myExamList">
           <c:forEach items="${testPapers}" var="testPaper">
@@ -59,61 +61,75 @@
               </div>
             </c:if>
           </c:forEach>
-    </div>
-  </div>
-</div>
-<!-- // 시험지 보관함 -->
+        </div>
+      </div>
+      <!-- // 시험지 보관함 -->
 
+      <script>
+        /* 탭 메뉴 활성화 */
+        function setExamStorage() {
+          const btnStorage = document.getElementById("btn-storage");
+          const btnExamBank = document.getElementById("btn-examBank");
+          const linkStorage = btnStorage.querySelector("a");
+          const linkExamBank = btnExamBank.querySelector("a");
 
-<script>
-  function examDel(seq) {
-    if (confirm("삭제 하시겠습니까?")) {
-      $.ajax({
-        type: 'post',
-        url: '/customExam/deleteExam',
-        data: { seq: seq },
-        success: function () {
-          if (this.success) {
-            $("#testPaper_" + seq).remove(); // 예를 들어, 해당 항목의 div id가 testPaper_{{seq}}일 때
-            alert("정상적으로 삭제되었습니다.")
-            location.reload();
-          }
-        },
-        error: function (request, status, error) {
-          console.error(request, status, error);
+          linkStorage.classList.add("tabs__link--on");
+          linkExamBank.classList.remove("tabs__link--on");
+          $('.tabs__list--4').hide();
         }
-      });
-    }
-  }
 
-  function editExam(seq) {
-    // 새로운 시험지 정보를 가져오는 AJAX 요청
-    $.ajax({
-      type: 'GET',
-      url: '/customExam/getTestPaperById/' + seq,
-      success: function (response) {
-        // 가져온 시험지 정보를 이용하여 편집 폼을 채움
-        populateEditForm(response);
-      },
-      error: function (request, status, error) {
-        console.error(request, status, error);
-      }
-    });
-  }
+        window.onload = setExamStorage();
+      </script>
 
-  function populateEditForm(testPaper) {
-    // 시험지 정보를 편집 폼에 채움
-    $("#paperId").val(testPaper.seq);
-    $("#paperName").val(testPaper.name);
-    $("#subjectName").val(testPaper.subjectName);
-    // 필요한 다른 필드들도 채워넣을 수 있습니다.
+      <script>
+        function examDel(seq) {
+          if (confirm("삭제 하시겠습니까?")) {
+            $.ajax({
+              type: 'post',
+              url: '/customExam/deleteExam',
+              data: {seq: seq},
+              success: function () {
+                if (this.success) {
+                  $("#testPaper_" + seq).remove(); // 예를 들어, 해당 항목의 div id가 testPaper_{{seq}}일 때
+                  alert("정상적으로 삭제되었습니다.")
+                  location.reload();
+                }
+              },
+              error: function (request, status, error) {
+                console.error(request, status, error);
+              }
+            });
+          }
+        }
 
-    // 시험지 편집 폼을 제출하여 새로운 시험지로 업데이트
-    $("#examEditFrm").one("submit", function () {
-      window.open('', 'pop_target', 'width=1400, height=960');
-      this.target = 'pop_target';
-    }).trigger("submit");
-  }
+        function editExam(seq) {
+          // 새로운 시험지 정보를 가져오는 AJAX 요청
+          $.ajax({
+            type: 'GET',
+            url: '/customExam/getTestPaperById/' + seq,
+            success: function (response) {
+              // 가져온 시험지 정보를 이용하여 편집 폼을 채움
+              populateEditForm(response);
+            },
+            error: function (request, status, error) {
+              console.error(request, status, error);
+            }
+          });
+        }
+
+        function populateEditForm(testPaper) {
+          // 시험지 정보를 편집 폼에 채움
+          $("#paperId").val(testPaper.seq);
+          $("#paperName").val(testPaper.name);
+          $("#subjectName").val(testPaper.subjectName);
+          // 필요한 다른 필드들도 채워넣을 수 있습니다.
+
+          // 시험지 편집 폼을 제출하여 새로운 시험지로 업데이트
+          $("#examEditFrm").one("submit", function () {
+            window.open('', 'pop_target', 'width=1400, height=960');
+            this.target = 'pop_target';
+          }).trigger("submit");
+        }
 
   function setExamStorage() {
     const btnExamBank = document.getElementById("btn-examBank");
@@ -150,14 +166,13 @@
       }
     });
 
-  }
-
-</script>
-<form id="examEditFrm" name="examEditFrm" method="post"
-      action="/customExam/step2">
-  <input type="hidden" id="paperId" name="paperId" value="">
-</form>
-</div>
+        }
+      </script>
+      <form id="examEditFrm" name="examEditFrm" method="post"
+            action="/customExam/step2">
+        <input type="hidden" id="paperId" name="paperId" value="">
+      </form>
+    </div>
 
 </div>
 </div>
