@@ -115,18 +115,6 @@
     }).trigger("submit");
   }
 
-  function setExamStorage() {
-    const btnExamBank = document.getElementById("btn-examBank");
-    const btnStorage = document.getElementById("btn-storage");
-    const linkExamBank = btnExamBank.querySelector('a');
-    const linkStorage = btnStorage.querySelector('a');
-
-    linkExamBank.classList.remove("tabs__link--on");
-    linkStorage.classList.add("tabs__link--on");
-
-    $(".tabs__list--4").hide();
-  }
-
   function examDown(exam_seq,type){
     const data = {
       "examId": exam_seq,
@@ -149,6 +137,18 @@
       }
     });
 
+  }
+
+  function setExamStorage() {
+    const btnExamBank = document.getElementById("btn-examBank");
+    const btnStorage = document.getElementById("btn-storage");
+    const linkExamBank = btnExamBank.querySelector('a');
+    const linkStorage = btnStorage.querySelector('a');
+
+    linkExamBank.classList.remove("tabs__link--on");
+    linkStorage.classList.add("tabs__link--on");
+
+    $(".tabs__list--4").hide();
   }
 
 </script>
