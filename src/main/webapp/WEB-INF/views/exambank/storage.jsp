@@ -43,7 +43,7 @@
                     </div>
                     <div class="item__download">
                       <div class="item_buttons">
-<%--                        <a href="javascript:;" onclick="editExam(${testPaper.seq});" title="">문항 편집</a>--%>
+                        <a href="javascript:;" onclick="editExam(${testPaper.seq});" title="">문항 편집</a>
                         <a href="javascript:;" onclick="examDel(${testPaper.seq});" title="">시험지 삭제</a>
                       </div>
                     </div>
@@ -113,6 +113,18 @@
       window.open('', 'pop_target', 'width=1400, height=960');
       this.target = 'pop_target';
     }).trigger("submit");
+  }
+
+  function setExamStorage() {
+    const btnExamBank = document.getElementById("btn-examBank");
+    const btnStorage = document.getElementById("btn-storage");
+    const linkExamBank = btnExamBank.querySelector('a');
+    const linkStorage = btnStorage.querySelector('a');
+
+    linkExamBank.classList.remove("tabs__link--on");
+    linkStorage.classList.add("tabs__link--on");
+
+    $(".tabs__list--4").hide();
   }
 
   function examDown(exam_seq,type){
