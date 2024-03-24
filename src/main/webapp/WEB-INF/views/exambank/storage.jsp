@@ -43,7 +43,7 @@
                     </div>
                     <div class="item__download">
                       <div class="item_buttons">
-                        <a href="javascript:;" onclick="editExam(${testPaper.seq});" title="">문항 편집</a>
+<%--                        <a href="javascript:;" onclick="editExam(${testPaper.seq});" title="">문항 편집</a>--%>
                         <a href="javascript:;" onclick="examDel(${testPaper.seq});" title="">시험지 삭제</a>
                       </div>
                     </div>
@@ -64,61 +64,7 @@
 </div>
 <!-- // 시험지 보관함 -->
 
-<!--폴더 관리-->
-<div class="modal fade" tabindex="-1" role="dialog" id="subjectPopup" aria-modal="true">
-  <div class="modal-dialog-centered modal-dialog modal-sm-460" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-title">폴더 관리</div>
-        <a class="close" data-dismiss="modal" aria-label="Close">
-          <img src="/resource/midhigh/img//btn-close-big-white.png" alt="닫기버튼" aria-hidden="true">
-        </a>
-      </div>
-      <div class="modal-body folderManagement-popup">
-        <div class="category-line">
-          <p class="title">문항 삭제는 <span>시험지 보관함&gt;시험지 목록&gt;편집</span> 에서 하실 수 있습니다.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!--폴더 관리-->
 
-<!---신규 폴더 생성-->
-<div class="modal fade" tabindex="-1" role="dialog" id="folderAdd" aria-modal="true">
-  <div class="modal-dialog-centered modal-dialog modal-sm-460" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-title">신규 폴더 생성</div>
-        <a class="close" data-dismiss="modal" aria-label="Close">
-          <img src="/resource/midhigh/img/common/btn-close-big-white.png" alt="닫기버튼"
-               aria-hidden="true">
-        </a>
-      </div>
-      <div class="modal-body folder_add">
-        <div class="section_text_wrap">
-          <div class="text">신규로 생성할 폴더명을 입력해주세요.<br><span class="sub_text">(폴더명은 10자 이내로 입력해 주세요)</span>
-          </div>
-        </div>
-        <div class="section_input_wrap">
-          <input type="text" id="folderTitle" for="cmmt_text_new" data-input-keyup="keyup"
-                 class="folder_name" title="제목입력" placeholder="폴더명을 입력해 주세요"
-                 maxlength="10">
-          <span class="text_num"><span id="cmmt_text_new">0</span>/10</span>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <a href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=TestBank-Storage#"
-           class="btn btn-primary btn-lg" onclick="addFolder();"><span
-                class="name">확인</span></a>
-        <a href="https://mh.tsherpa.co.kr/testbank/testbank.html?cateCode=TestBank-Storage#"
-           class="btn btn-default btn-lg" data-dismiss="modal"><span class="name">취소</span></a>
-      </div>
-
-    </div>
-  </div>
-</div>
 <script>
   function examDel(seq) {
     if (confirm("삭제 하시겠습니까?")) {
@@ -169,6 +115,30 @@
     }).trigger("submit");
   }
 
+  function examDown(exam_seq,type){
+    const data = {
+      "examId": exam_seq,
+      "dataType": type
+    }
+    // 시험지 id에 따른 itemlist 요청
+    $.ajax({
+      type : 'post',           // 타입 (get, post, put 등등)
+      url : '/exambank/customExamAPI/getItemListByExamId', // 요청할 서버 url
+      async : true,            // 비동기화 여부 (default : true)
+      dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
+      contentType: 'application/json',
+      data :  JSON.stringify(data),
+      success : function(result) { // 결과 성공 콜백함수
+        renderImg(result.,result.itemList);
+
+      },
+      error : function(request, status, error) { // 결과 에러 콜백함수
+        console.log(error)
+      }
+    });
+
+  }
+
 </script>
 <form id="examEditFrm" name="examEditFrm" method="post"
       action="/customExam/step2">
@@ -182,3 +152,4 @@
 </main>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+<%@ include file="/WEB-INF/views/customexam/makeExamPaper.jsp"%>

@@ -20,7 +20,7 @@ public interface TestSaveMapper {
 
     void logicalDeleteExam(@Param("seq") Long seq);
 
-    List<TestSave2DTO> getTestPaper();
+    List<TestSave2DTO> getTestPapersByUserId(@Param("userId") String userId);
 
     TestSave2DTO getExamById(Long seq);
 
@@ -28,6 +28,5 @@ public interface TestSaveMapper {
 
     void insertExamItem(@Param("examSeq") Long examSeq, @Param("itemId") Long itemId);
 
-    List<TestSave2DTO> getTestPaperByUserSeq(String userSeq);
 }
 

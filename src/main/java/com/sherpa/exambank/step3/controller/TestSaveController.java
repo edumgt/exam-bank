@@ -40,14 +40,10 @@ public class TestSaveController {
     public String showTestPapers(Model model, HttpServletRequest httpServletRequest) {
         HttpSession session = httpServletRequest.getSession();
         String userId = session.getAttribute("userId").toString();
-        log.info(userId);
-        String userSeq = "";
-        List<TestSave2DTO> testPapers;
+
+        List<TestSave2DTO> testPapers = null;
         if(userId != null && userId.length() > 0){
-            userSeq = userService.getSeqById(userId);
-            testPapers = testSaveService.getTestPaperByUserSeq(userSeq);
-        }else{
-            testPapers = testSaveService.getTestPaper();
+            testPapers = testSaveService.getTestPapersByUserId(userId);
         }
 
         model.addAttribute("testPapers", testPapers);

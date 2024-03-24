@@ -314,15 +314,16 @@
                 </div>
                 <div class="bottom-box">
                   <div class="que-badge-group">
-                    <div class="que-badge-wrap" id="badge-form-multiple" style="">
+                    <div class="que-badge-group" id="badge-form-multiple">
                       <span class="que-badge gray">객관식</span>
-                      <span class="num" id="num-multiple">22</span>
+                      <span class="num" id="num-multiple"></span>
                     </div>
-                    <div class="que-badge-wrap" id="badge-form-subjective" style="">
+                    <div class="que-badge-group" id="badge-form-subjective">
                       <span class="que-badge gray">주관식</span>
-                      <span class="num" id="num-subjective">8</span>
+                      <span class="num" id="num-subjective"></span>
                     </div>
                   </div>
+
                 </div>
               </div>
               <%--e:문제지 요약--%>
@@ -484,23 +485,23 @@
       <div class="range-wrap">
         <div class="range" id="pop-level1" style="display: none">
           <span class="color01">최하</span>
-          <span class="num">2</span>
+          <span class="num"></span>
         </div>
         <div class="range" id="pop-level2" style="display: none">
           <span class="color02">하</span>
-          <span class="num">5</span>
+          <span class="num"></span>
         </div>
         <div class="range" id="pop-level3" style="display: none">
           <span class="color03">중</span>
-          <span class="num">6</span>
+          <span class="num"></span>
         </div>
         <div class="range" id="pop-level4" style="display: none">
           <span class="color04">상</span>
-          <span class="num">5</span>
+          <span class="num"></span>
         </div>
         <div class="range" id="pop-level5" style="display: none">
           <span class="color05">최상</span>
-          <span class="num">2</span>
+          <span class="num"></span>
         </div>
         <div class="range total" id="pop-total-sum">
           <span>합계</span>
@@ -520,7 +521,7 @@
 <div class="pop-wrap scope-type" data-pop="que-scope-pop">
   <div class="pop-inner">
     <div class="pop-header">
-      <span>${step2Response.subject.subjectId}</span>
+      <span>${step2Response.subject.subjectName}</span>
       <button type="button" class="pop-close"></button>
     </div>
     <div class="pop-content scroll-inner">
@@ -538,6 +539,42 @@
   let _this = $(this);
   let param = {};
   let chapterArr = [];
+  // 객관식 주관식 개수 구하기... ㄹㅇ
+  let multiQuest = [];
+  let descripQuest = [];
+  $(".que-badge-group .que-badge.gray").each(function (index, element) {
+    let text = $(element).text().trim();
+    console.log("ddddd === ",text);
+    switch (text){
+      case "85":
+        text = descripQuest++;
+        break;
+      case "60":
+        text = descripQuest++;
+        break;
+      case "61":
+        text = multiQuest++;
+        break;
+      case "50":
+        text = multiQuest++;
+    }
+  });
+
+  console.log("multiQuest : ", multiQuest);
+  console.log("descripQuest : ", descripQuest);
+
+  if (multiQuest == "" || multiQuest == 0){
+    $("#num-multiple").text("0");
+  } else {
+    $("#num-multiple").text(multiQuest);
+  }
+
+  if (descripQuest == "" || descripQuest == 0){
+    $("#num-subjective").text("0");
+  } else {
+    $("#num-subjective").text(descripQuest);
+  }
+
 
   function setChapterParam(param, classType, classCode) {
     switch (classType) {
@@ -559,13 +596,14 @@
     }
   }
 
+
   // 재검색
   function rescan() {
     let levelCnt_02 = '${step2Response.levelGroup.get("02")}';
     let levelCnt_03 = '${step2Response.levelGroup.get("03")}';
     let levelCnt_04 = '${step2Response.levelGroup.get("04")}';
 
-    let levelCnt = levelCnt_02+levelCnt_03+levelCnt_04;
+
     setChapterParam(param, "subject", ${step2Response.subject.subjectId});
 
     let chapterArr = '${step2Response.chapterList}';
@@ -581,6 +619,7 @@
 
     //문제형태 (10:자유선지형, 50:5지선택 , 60:단답유순형, 85:서술형)
     let questionFormArr = [];
+
     $(".que-badge-group .que-badge.gray").each(function (index, element) {
       let text = $(element).text().trim();
       switch (text) {
@@ -590,6 +629,7 @@
           return questionFormArr.push("descriptive");
       }
     });
+
     // 중복된 값을 제거하는 함수
     function removeDuplicates(arr) {
       return Array.from(new Set(arr));
@@ -632,7 +672,6 @@
       }
     });
   }
-
   //재구성된 문항으로 가져오기
   function moveToStep2CK(queArr) {
     let queArrParam = queArr === undefined ? $(".pop-wrap #nxt-data").val() : queArr;
