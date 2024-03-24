@@ -30,7 +30,7 @@ public class TestSaveController {
 
     @GetMapping("/TestRepository")
     public String showTestPapers(Model model) {
-        List<TestSave2DTO> testPapers = testSaveService.getTestPaper();
+        List<TestSave2DTO> testPapers = testSaveService.getTestPapersByUserId("test");
         model.addAttribute("testPapers", testPapers);
         return "exambank/storage";
     }

@@ -1,6 +1,7 @@
 package com.sherpa.exambank.method.service;
 
 import com.sherpa.exambank.method.domain.*;
+import com.sherpa.exambank.method.mapper.ExamMapper;
 import com.sherpa.exambank.outapi.resonse.ResponseSeven;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,8 @@ public class MethodService {
 
     @Value("${tsherpa.api.url}")
     private String tsherpaURL;
+
+    private final ExamMapper examMapper;
 
     /**
      * step0 상단 교과서명과 교육과정 정보 출력을 위한 조회
@@ -222,5 +225,19 @@ public class MethodService {
 
 
 
+    }
+
+    /**
+     * 시험지 보관함 examId에 따른 조회
+     * @param examRequest
+     * @return
+     */
+    public CustomExamResponse findItemListByCustomExamId(SettingExamRequest examRequest) {
+
+        Object result = examMapper.getExamInfoByExamId(examRequest.getExamId());
+        CustomExamResponse response = null;
+
+
+        return response;
     }
 }

@@ -597,7 +597,7 @@
   width: 197px;
   height: 79px;
   background-repeat: no-repeat;
-  background-image: url("../../img/testbank_2023/sprites_v2.png");
+  background-image: url("/resource/midhigh/img/testbank_2023/sprites_v2.png");
   background-position: -1px -2px;
   z-index: 1;
 }
