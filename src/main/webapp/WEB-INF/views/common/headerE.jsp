@@ -26,11 +26,11 @@
           <div class="tabs">
             <!-- 중등 고등, 수능, 시험지 보관함 탭 -->
             <ul class="tabs__list tabs__list--3">
-              <li class="tabs__item" id="btn-examBank">
-                <a href="/exambank/booklist"
-                        class="tabs__link tabs__link--on">중학</a>
+              <li class="tabs__item" id="btn-examBank" style="cursor: pointer">
+                <p onclick="location.href='/exambank/booklist'"
+                        class="tabs__link tabs__link--on">중학</p>
               </li>
-              <li class="tabs__item" id="btn-storage">
+              <li class="tabs__item" id="btn-storage" style="cursor: pointer">
                 <script>
                   let checkLogin = function(){
                     // 로그인 확인
@@ -41,7 +41,7 @@
                       return false;
                     }
 
-                    location.href = "/TestRepository";
+                    location.href = "/exambank/storage";
                   }
                 </script>
                 <p class="tabs__link" onclick="checkLogin()">시험지 보관함</p>
