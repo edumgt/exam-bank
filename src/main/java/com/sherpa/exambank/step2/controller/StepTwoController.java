@@ -51,6 +51,7 @@ public class StepTwoController {
         ResponseEntity<SimilarItemListResponse> similarItemList = stepTwoService.similarItemList(similarItemListRequest);
         model.addAttribute("similarItemList",similarItemList);
         log.info("similar-List response : "+similarItemList);
+
         return new ResponseEntity<>(similarItemList, HttpStatus.OK) ;
     }
 
@@ -80,7 +81,6 @@ public class StepTwoController {
     public ResponseEntity<Step2Response> rescan(@RequestBody Step2Request step2Request) {
         log.info("rescan request = {}",step2Request);
         Step2Response step2Response = step1Service.moveExamStep2(step2Request);
-
         return ResponseEntity.ok(step2Response);
     }
 

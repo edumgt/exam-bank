@@ -3,9 +3,11 @@ package com.sherpa.exambank.step2.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
 import com.sherpa.exambank.outapi.resonse.Response14;
 import com.sherpa.exambank.step1.domain.*;
 import com.sherpa.exambank.step1.service.Step1Service;
+import com.sherpa.exambank.common.exception.CustomException;
 import com.sherpa.exambank.step2.domain.*;
 import com.sherpa.exambank.step2.mapper.StepTwoMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +17,16 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.*;
+
+import static com.sherpa.exambank.common.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -389,8 +396,14 @@ public class StepTwoService {
 
         ResponseEntity<SimilarItemListResponse> similarItemListResponse = restTemplate.postForEntity(uri,
                 requestSimilarItemListJsonObj, SimilarItemListResponse.class);
+        log.info("헤더정보 포함? : " + similarItemListResponse);
 
-        return similarItemListResponse;
+        if (similarItemListResponse == null){
+            throw new CustomException(RESOURCE_NOT_FOUND);
+
+        } else {
+            return similarItemListResponse;
+        }
     }
 
     /**
@@ -415,15 +428,20 @@ public class StepTwoService {
 
         // itemListRequest에서 요청할 데이터를 jsonobject로 변환
         String itemListRequestJsonObj = objectMapper.writeValueAsString(itemListRequest);
-        log.info("itemListRequestJsonObj : "+ itemListRequestJsonObj);
+        log.info("itemListRequestJsonObj : " + itemListRequestJsonObj);
         // itemList에 header 정보 넣은 객체 생성
-        HttpEntity<String> itemListIncHeader = new HttpEntity<>(itemListRequestJsonObj,headers);
+        HttpEntity<String> itemListIncHeader = new HttpEntity<>(itemListRequestJsonObj, headers);
         log.info("itemListIncHeader : " + itemListIncHeader);
         // RestTemplate 인스턴스 생성
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<ItemListResponse> responseItemDTO = restTemplate.postForEntity(uri,itemListIncHeader, ItemListResponse.class);
+        ResponseEntity<ItemListResponse> responseItemDTO = restTemplate.postForEntity(uri, itemListIncHeader, ItemListResponse.class);
         log.info("responseItemDTO : " + responseItemDTO);
-        return responseItemDTO;
+
+        if (responseItemDTO == null) {
+            throw new CustomException(RESOURCE_NOT_FOUND);
+        } else {
+            return responseItemDTO;
+        }
     }
 
     public Step2Response moveToStep2(Step2Request step2Request) throws JsonProcessingException {
