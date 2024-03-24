@@ -2,10 +2,10 @@ package com.sherpa.exambank.step3.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sherpa.exambank.method.domain.Step0ExamResponse;
-import com.sherpa.exambank.step3.domain.ItemListRequest;
-import com.sherpa.exambank.step3.domain.ItemListResponse;
-import com.sherpa.exambank.step3.domain.Step3ChapterResponse;
+import com.sherpa.exambank.common.exception.CustomException;
+import com.sherpa.exambank.common.exception.ErrorCode;
+import com.sherpa.exambank.step1.domain.MoveExamStep2Item;
+import com.sherpa.exambank.step3.domain.*;
 import com.sherpa.exambank.step3.mapper.StepThreeMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +18,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.DataInput;
+import java.io.IOException;
 import java.net.URI;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.http.*;
+
+import static com.sherpa.exambank.common.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -129,6 +136,32 @@ public class StepThreeService {
         // [*****] null일 경우 예외처리
 
         return itemListResponse;
+
+    }
+
+    /**
+     *
+     * @param step3Request
+     * @return
+     */
+    public Step3Response moveToStep3(Step3Request step3Request) {
+        Step3Response step3Response;
+        try {
+            step3Response = Step3Response.builder()
+                    .queIdList(step3Request.getQueArr())
+                    .subjectName(step3Request.getSubjectName())
+                    .subjectId(step3Request.getSubjectId())
+                    .curriculumName(step3Request.getCurriculumName())
+                    .build();
+            log.info("moveToStep3 Service ::::: = {}", step3Response);
+
+        } catch (CustomException e) {
+
+            throw new CustomException(RESOURCE_NOT_FOUND);
+
+        }
+        return step3Response;
+
 
     }
 }

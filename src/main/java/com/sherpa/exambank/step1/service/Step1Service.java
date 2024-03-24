@@ -1,7 +1,6 @@
 package com.sherpa.exambank.step1.service;
 
 import com.sherpa.exambank.step1.domain.*;
-import com.sherpa.exambank.step1.mapper.Step1Mapper;
 import com.sherpa.exambank.step2.domain.Step2Request;
 import com.sherpa.exambank.step2.domain.Step2Response;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.*;
 import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,7 +25,6 @@ import java.util.stream.IntStream;
 @Service
 @Slf4j
 public class Step1Service {
-    private final Step1Mapper step1Mapper;
     @Value("${tsherpa.api.url}")
     private String tsherpaURL;
 
@@ -57,7 +54,7 @@ public class Step1Service {
      * @param urn:          요청 urn
      * @return Step1Response 객체(단원 정보 리스트, 평가 영역 리스트)
      */
-    private Step1Response postRequest(Subject subject, String urn) {
+    public Step1Response postRequest(Subject subject, String urn) {
         // 요청 url
         URI url = UriComponentsBuilder
                 .fromUriString(tsherpaURL)
@@ -80,6 +77,17 @@ public class Step1Service {
         Step1Response step1Response = restTemplate.postForObject(
                 url, request, Step1Response.class
         );
+
+        // subjectName, curriculumCode, curriculumName 정보
+        if(step1Response != null && step1Response.getChapterList() != null && !step1Response.getChapterList().isEmpty()) {
+            Chapter firstChapter = step1Response.getChapterList().get(0);
+
+            if (firstChapter != null) {
+                subject.setSubjectName(firstChapter.getSubjectName());
+                subject.setCurriculumCode(firstChapter.getCurriculumCode());
+                subject.setCurriculumName(firstChapter.getCurriculumName());
+            }
+        }
 
         return step1Response;
     }
@@ -174,9 +182,6 @@ public class Step1Service {
         // map 정보 수정
         step2Request.setMinorClassification(step2Request.getChapterList());
 
-        log.info("service moveExamStep2 : {}", step2Request);
-        log.info("service moveExamStep2 : {}", step2Request.getMinorClassification());
-
         // 요청
         MoveExamStep2Response response = postMoveExamStep2Request("item-img/chapters/item-list", step2Request);
         List<MoveExamStep2Item> itemList = response.getItemList();
@@ -196,8 +201,6 @@ public class Step1Service {
 
             // 난이도별 출제할 문항 수 계산
             int[] resultCheckCntEqualYn = checkCntEqualYn(step2Request, itemMap);
-            IntStream.of(resultCheckCntEqualYn)
-                    .forEach(num -> log.info("moveExamStep2 resultCheckCntEqualYn: {}", Integer.toString(num)));
             Map<String, Integer> levelGroup = new HashMap<>();
             levelGroup.put("02", resultCheckCntEqualYn[2]); // 하
             levelGroup.put("03", resultCheckCntEqualYn[3]); // 중
@@ -217,7 +220,6 @@ public class Step1Service {
 
             // queIdList 넣기
             List<Long> queIdList = getQueIdList(queListMap);
-            Arrays.stream(queIdList.toArray()).forEach(num -> log.info("queIdList : {}", num));
 
             // 응답 객체 만들기
             step2Response = Step2Response.builder()
@@ -309,9 +311,6 @@ public class Step1Service {
             totalLevelCnt[i] = itemMap.get(s).size();
         }
 
-        IntStream.of(totalLevelCnt)
-                .forEach(num -> log.info("checkCntEqualYn totalLevelCnt: {}", Integer.toString(num)));
-
         // 3. 난이도별 출제할 문제 개수 배열을 만듦
         int[] requested = new int[7];   // 사용자의 요청
         int[] required = new int[7];    // 사용자의 요청 - 전체 문제 개수
@@ -337,12 +336,6 @@ public class Step1Service {
         }
         required[6] = requested[6] - totalLevelCnt[6];  // 부족한 문제 총 개수
         if(required[6] > 0) cntEqualYn = false;
-
-        IntStream.of(requested)
-                .forEach(num -> log.info("checkCntEqualYn requested: {}", Integer.toString(num)));
-
-        IntStream.of(required)
-                .forEach(num -> log.info("checkCntEqualYn required: {}", Integer.toString(num)));
 
         // 3-2. 제일 낮은 난이도부터 부족한 문제 개수를 채워 최대한 총 문제 개수를 맞춘다.
         for(int i=2; i<=4; i++){
@@ -378,8 +371,6 @@ public class Step1Service {
             itemList = itemMap.get(diffCode);  // i 난이도의 문제 리스트
             if (levelCnt[i] <= 0 || itemList == null || itemList.isEmpty()) continue;
 
-            log.info("diffCode: {}",diffCode);
-
             Collections.shuffle(itemList);  // 리스트 셔플
             resultMap.put(diffCode, itemList.subList(0, levelCnt[i]));  // 셔플된 리스트에서 levelCnt[난이도]개를 꺼내기
         }
@@ -399,57 +390,5 @@ public class Step1Service {
         }
 
         return idList;
-    }
-
-
-    // 하단 미사용 메소드
-    // map -> JSONObject
-    public JSONObject convertMapToJson(Map<String, Object> map) {
-        JSONObject json = new JSONObject();
-        String key = "";
-        Object value = null;
-        for(Map.Entry<String, Object> entry : map.entrySet()) {
-            key = entry.getKey();
-            value = entry.getValue();
-            json.put(key, value);
-        }
-        return json;
-    }
-
-    private List ResponseEntityToStep1DTOList(String response) throws ParseException {
-        // [*****] null일 경우 예외처리
-
-        // String으로 되어져있는 바디부분을 다시 JSON 형태로 파싱
-        JSONParser parser = new JSONParser();
-        JSONObject data = (JSONObject) parser.parse(response);
-
-        // 파싱된 JSON에서 data 키값으로 get
-        JSONArray dataList = (JSONArray) data.get("chapterList");
-
-        // JSONArray -> List<JSONObject>
-        List<JSONObject> chapterJsonList = (List<JSONObject>) dataList.stream()
-                .collect(Collectors.toList());
-
-        // List<JSONObject> -> List<Step1DTO>
-        List<Chapter> chapterList = new ArrayList<>();
-        for (JSONObject chapter : chapterJsonList) {
-            Chapter s = Chapter.builder()
-                    .curriculumCode(chapter.get("curriculumCode").toString())
-                    .curriculumName(chapter.get("curriculumName").toString())
-                    .subjectId(chapter.get("subjectId").toString())
-                    .subjectName(chapter.get("subjectName").toString())
-                    .largeChapterId(chapter.get("largeChapterId").toString())
-                    .largeChapterName(chapter.get("largeChapterName").toString())
-                    .mediumChapterId(chapter.get("mediumChapterId").toString())
-                    .mediumChapterName(chapter.get("mediumChapterName").toString())
-                    .smallChapterId(chapter.get("smallChapterId").toString())
-                    .smallChapterName(chapter.get("smallChapterName").toString())
-                    .topicChapterId(chapter.get("topicChapterId").toString())
-                    .topicChapterName(chapter.get("topicChapterName").toString())
-                    .build();
-            chapterList.add(s);
-        }
-
-        return chapterList;
     }
 }
