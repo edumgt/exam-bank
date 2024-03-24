@@ -521,7 +521,7 @@
 <div class="pop-wrap scope-type" data-pop="que-scope-pop">
   <div class="pop-inner">
     <div class="pop-header">
-      <span>${step2Response.subject.subjectId}</span>
+      <span>${step2Response.subject.subjectName}</span>
       <button type="button" class="pop-close"></button>
     </div>
     <div class="pop-content scroll-inner">
@@ -562,8 +562,19 @@
 
   console.log("multiQuest : ", multiQuest);
   console.log("descripQuest : ", descripQuest);
-  $("#num-multiple").text(multiQuest);
-  $("#num-subjective").text(descripQuest);
+
+  if (multiQuest == "" || multiQuest == 0){
+    $("#num-multiple").text("0");
+  } else {
+    $("#num-multiple").text(multiQuest);
+  }
+
+  if (descripQuest == "" || descripQuest == 0){
+    $("#num-subjective").text("0");
+  } else {
+    $("#num-subjective").text(descripQuest);
+  }
+
 
   function setChapterParam(param, classType, classCode) {
     switch (classType) {
