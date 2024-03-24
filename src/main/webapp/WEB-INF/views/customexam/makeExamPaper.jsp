@@ -281,7 +281,7 @@
                             height: setHeight // 캡쳐할 canvas의 높이
                         }).then(function (canvas) {
                             let obj = {};
-                            obj.url = canvas.toDataURL("image/jpeg");
+                            obj.url = canvas.toDataURL("image/svg");
                             obj.cWidth = canvas.width;
                             obj.cHeight = canvas.height;
                             result.push(obj); // 가져온 객체를 배열에 담기

@@ -8,10 +8,11 @@
         where seq = #{seq}
     </select>
 
-    <select id="getExamItemListByExamId" resultType="List">
-        select item_no, item_id
+    <select id="getExamItemListByExamId" resultType="Long">
+        select item_id
         from tb_exam_item
         WHERE exam_seq = #{seq}
+        ORDER BY item_no
     </select>
 
 
