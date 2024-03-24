@@ -707,10 +707,10 @@
             "dataType": dataType
         }
 
-        // 시험지 id에 따른 itemlist 요청
+        // 직접 만든 시험지 id에 따른 itemlist 요청
         $.ajax({
             type : 'post',           // 타입 (get, post, put 등등)
-            url : '/exambank/customExamAPI/getSettingItemList', // 요청할 서버 url
+            url : '/exambank/customExamAPI/getItemListByExam', // 요청할 서버 url
             async : true,            // 비동기화 여부 (default : true)
             dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
             contentType: 'application/json',

@@ -1,5 +1,6 @@
 package com.sherpa.exambank.method.controller;
 
+import com.sherpa.exambank.method.domain.CustomExamResponse;
 import com.sherpa.exambank.method.domain.ExamGroupByLargeChapterResponse;
 import com.sherpa.exambank.method.domain.SettingExamRequest;
 import com.sherpa.exambank.method.service.MethodService;
@@ -28,9 +29,19 @@ public class MethodRestController {
         // if(저장된 시험지가 없다면)
         ResponseSeven response = methodService.findItemListBySettingExamId(settingExamRequest);
 
+        return response;
+    }
+
+    @PostMapping("/getItemListByExamId")
+    @ResponseBody
+    public CustomExamResponse getItemListByExam(@RequestBody SettingExamRequest examRequest) throws InstantiationException, IllegalAccessException {
+        // if(저장된 시험지가 없다면)
+        CustomExamResponse response = methodService.findItemListByCustomExamId(examRequest);
 
         return response;
     }
+
+
 
 
 }
