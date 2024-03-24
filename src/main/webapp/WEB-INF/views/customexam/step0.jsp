@@ -535,7 +535,7 @@
 							</span>
                     </div>
                     <div class="btn-wrap">
-                        <button class="btn-icon" id="modify-setting-btn"><i class="edit"></i>선택한 시험지 편집하기</button>
+<%--                        <button class="btn-icon" id="modify-setting-btn"><i class="edit"></i>선택한 시험지 편집하기</button>--%>
                         <button class="btn-icon type-white" id="create-paper-btn" onclick="moveToStep1();"><i class="newpaper"></i>신규 시험지 만들기</button>
                     </div>
                 </div>
@@ -550,20 +550,20 @@
                             <div class="cnt">
                                 <div class="table">
                                     <div class="fix-head">
-                                        <span>선택</span>
+                                        <span> </span>
                                         <span>시험지명</span>
                                         <span>문항수</span>
-                                        <span>미리보기</span>
+                                        <span> </span>
                                         <span>다운로드</span>
                                     </div>
                                     <div class="tbody" id="setting_list">
 
                                         <c:forEach var="examInfo" items="${item.examInfoList}">
                                             <div class="col">
-                                                <span><input type="checkbox" id="chk_0" class="chk_paperId"><label for="chk_0"></label></span>
+                                                <span><%--<input type="checkbox" id="chk_0" class="chk_paperId"><label for="chk_0"></label>--%></span>
                                                 <span class="tit">${examInfo.examName}</span>
                                                 <span>${examInfo.itemCnt}</span>
-                                                <span><button type="button" class="btn-icon2 preview-btn"><i class="preview"></i></button></span>
+                                                <span><%--<button type="button" class="btn-icon2 preview-btn" exam-name="${examInfo.examName}"><i class="preview"></i></button>--%></span>
                                                 <span>
                                                     <div class="btn-wrap" exam-name="${examInfo.examName}">
                                                         <div class="tooltip-wrap type01">
