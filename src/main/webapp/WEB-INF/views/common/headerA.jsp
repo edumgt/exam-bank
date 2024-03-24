@@ -8,53 +8,6 @@
 <%--<%@ include file="/resource/midhigh/css/style.html" %>--%>
 <html>
 <head>
-    <%--<!-- Google Tag Manager -->
-    <script async="" src="/resource/js/clarity.js"></script>
-    <script async="" src="/resource/js/cz3xm7bhhr.js"></script>
-    <script
-            type="text/javascript"
-            async=""
-            src="/resource/js/fbevents.js"
-    ></script>
-    <script type="text/javascript" async="" src="/resource/js/js.js"></script>
-    <script
-            type="text/javascript"
-            async=""
-            src="/resource/js/analytics.js"
-    ></script>
-    <script async="" src="/resource/js/j50r9or0xl.js"></script>
-    <script type="text/javascript" async="" src="/resource/js/js(1).js"></script>
-    <script async="" src="/resource/js/gtm.js"></script>
-    <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({
-          "gtm.start": new Date().getTime(),
-          event: "gtm.js",
-        });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
-        j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-5GLJFMV");
-    </script>
-    <!-- End Google Tag Manager -->
-
-    <!-- Google tag (gtag.js) -->
-    <script async="" src="/resource/js/js(2).js"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-
-      gtag("js", new Date());
-
-      gtag("config", "G-9BRVE8BR14");
-    </script>--%>
 
     <title>교과서 목록</title>
     <meta name="Referrer" content="origin"/>
@@ -155,7 +108,7 @@
     <script>
         var currentDevice = "DESKTOP";
         var downloadServerUrl =
-            "https://bfile.tsherpa.co.kr/popup/downfile_multi_new_dext5.aspx";
+            "#";
         var cdnUrl = "https://cdata2.tsherpa.co.kr/tsherpa";
 
         //통합회원 체크

@@ -70,8 +70,8 @@
         function setExamStorage() {
           const btnStorage = document.getElementById("btn-storage");
           const btnExamBank = document.getElementById("btn-examBank");
-          const linkStorage = btnStorage.querySelector("a");
-          const linkExamBank = btnExamBank.querySelector("a");
+          const linkStorage = btnStorage.querySelector("p");
+          const linkExamBank = btnExamBank.querySelector("p");
 
           linkStorage.classList.add("tabs__link--on");
           linkExamBank.classList.remove("tabs__link--on");
@@ -174,7 +174,7 @@
       </form>
     </div>
 
-</div>
+  </div>
 </div>
 </div>
 </main>
