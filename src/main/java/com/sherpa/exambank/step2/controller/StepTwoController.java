@@ -28,13 +28,13 @@ public class StepTwoController {
     }*/
 
     // step 2 좌측 아이템 리스트
-    @PostMapping ("/customExam/step2/left")
+    /*@PostMapping ("/customExam/step2/left")
     public String postStep2Page(Model model) throws JsonProcessingException {
         List<ItemDTO> itemDTOList = stepTwoService.postResponse();
         model.addAttribute("itemDTOList",itemDTOList);
         log.info("itemDTOList : " + itemDTOList);
         return "customexam/step2";
-    }
+    }*/
 
 
     /**
@@ -69,7 +69,7 @@ public class StepTwoController {
         log.info("call rangeList = {} ",itemListRequest);
         ResponseEntity<ItemListResponse> chapterIdList = stepTwoService.getChapterList(itemListRequest);
         model.addAttribute("chapterIdList",chapterIdList);
-        return new ResponseEntity<>(chapterIdList, HttpStatus.OK) ;
+        return new ResponseEntity<>(chapterIdList, HttpStatus.OK);
     }
 
     /**
