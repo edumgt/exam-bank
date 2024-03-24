@@ -120,6 +120,11 @@
   </div>
 </div>
 <script>
+
+  $(function () {
+    setExamStorage();
+  })
+
   function examDel(seq) {
     if (confirm("삭제 하시겠습니까?")) {
       $.ajax({
@@ -167,6 +172,18 @@
       window.open('', 'pop_target', 'width=1400, height=960');
       this.target = 'pop_target';
     }).trigger("submit");
+  }
+
+  function setExamStorage() {
+    const btnExamBank = document.getElementById("btn-examBank");
+    const btnStorage = document.getElementById("btn-storage");
+    const linkExamBank = btnExamBank.querySelector('a');
+    const linkStorage = btnStorage.querySelector('a');
+
+    linkExamBank.classList.remove("tabs__link--on");
+    linkStorage.classList.add("tabs__link--on");
+
+    $(".tabs__list--4").hide();
   }
 
 </script>
