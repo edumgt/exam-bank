@@ -397,15 +397,6 @@
 
 
 <script>
-
-  function doLogin() {
-    let loginUrl = "/login";
-    if (location.pathname.indexOf("/login") < 0) {
-      loginUrl += "?returnUrl=" + encodeURIComponent(location.href);
-    }
-    location.href = loginUrl;
-  }
-
   async function oauthLogin(type) {
     if (await isSsoStudentLogout()) {
       return;
@@ -513,7 +504,7 @@
       async: false,
       type: "POST",
       success: function (res) {
-        switch (res.Status) {
+        switch (res.status) {
           case "success":
             // 아이디 기억하기
             if ($("input:checkbox[id='rememberUserId']").is(":checked")) {
@@ -522,7 +513,7 @@
               Storages.localStorage.remove("loginuserid");
             }
             // redirect
-            location.replace(location.href);
+            location.replace("/exambank/booklist");
             break;
           case "fail":
             alert(
