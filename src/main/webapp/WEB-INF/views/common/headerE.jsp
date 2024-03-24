@@ -31,7 +31,7 @@
                         class="tabs__link tabs__link--on">중학</a>
               </li>
               <li class="tabs__item" id="btn-storage">
-                <a href="/exambank/TestRepository"
+                <a href="/exambank/storage"
                         class="tabs__link">시험지 보관함</a>
               </li>
             </ul>
