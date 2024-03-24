@@ -562,8 +562,19 @@
 
   console.log("multiQuest : ", multiQuest);
   console.log("descripQuest : ", descripQuest);
-  $("#num-multiple").text(multiQuest);
-  $("#num-subjective").text(descripQuest);
+
+  if (multiQuest == "" || multiQuest == 0){
+    $("#num-multiple").text("0");
+  } else {
+    $("#num-multiple").text(multiQuest);
+  }
+
+  if (descripQuest == "" || descripQuest == 0){
+    $("#num-subjective").text("0");
+  } else {
+    $("#num-subjective").text(descripQuest);
+  }
+
 
   function setChapterParam(param, classType, classCode) {
     switch (classType) {
