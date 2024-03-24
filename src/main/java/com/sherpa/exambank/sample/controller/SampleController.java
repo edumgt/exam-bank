@@ -58,4 +58,9 @@ public class SampleController {
         return "exambank/storage";
     }
 
+    @RequestMapping("/membership/login")
+    public String loginPage() {
+        return "common/login";
+    }
+
 }
