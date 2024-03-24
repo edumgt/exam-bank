@@ -52,11 +52,9 @@
                   </div>
                   <div class="content-list__item-right">
                     <p class="tit">시험지 다운로드</p>
-
                     <button type="button" class="button-all" onclick="examDown(${testPaper.seq},'${testPaper.name}','A');"><span class="ir_su">전체</span></button>
                     <button type="button" class="button-question" onclick="examDown(${testPaper.seq},'${testPaper.name}','Q');"><span class="ir_su">문제</span></button>
                     <button type="button" class="button-answer" onclick="examDown(${testPaper.seq},'${testPaper.name}','E');"><span class="ir_su">정답+해설</span></button>
-
                     <div class="button-image"></div>
                   </div>
                 </div>
@@ -133,27 +131,40 @@
           }).trigger("submit");
         }
 
-        function examDown(exam_seq, type) {
-          const data = {
-            "examId": exam_seq,
-            "dataType": type
-          }
-          // 시험지 id에 따른 itemlist 요청
-          $.ajax({
-            type: 'post',           // 타입 (get, post, put 등등)
-            url: '/exambank/customExamAPI/getItemListByExamId', // 요청할 서버 url
-            async: true,            // 비동기화 여부 (default : true)
-            dataType: 'json',       // 데이터 타입 (html, xml, json, text 등등)
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (result) { // 결과 성공 콜백함수
-              renderImg(result., result.itemList);
+  function setExamStorage() {
+    const btnExamBank = document.getElementById("btn-examBank");
+    const btnStorage = document.getElementById("btn-storage");
+    const linkExamBank = btnExamBank.querySelector('a');
+    const linkStorage = btnStorage.querySelector('a');
 
-            },
-            error: function (request, status, error) { // 결과 에러 콜백함수
-              console.log(error)
-            }
-          });
+    linkExamBank.classList.remove("tabs__link--on");
+    linkStorage.classList.add("tabs__link--on");
+
+    $(".tabs__list--4").hide();
+  }
+
+  function examDown(exam_seq,exam_name,type){
+    const data = {
+      "examId": exam_seq,
+      "dataType": type
+    }
+    // 시험지 id에 따른 itemlist 요청
+    $.ajax({
+      type : 'post',           // 타입 (get, post, put 등등)
+      url : '/exambank/customExamAPI/getItemListByExamId', // 요청할 서버 url
+      async : true,            // 비동기화 여부 (default : true)
+      dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
+      contentType: 'application/json',
+      data :  JSON.stringify(data),
+      success : function(result) { // 결과 성공 콜백함수
+        console.log("result===>>>",result);
+        renderImg(exam_name,result.itemList,type);
+
+      },
+      error : function(request, status, error) { // 결과 에러 콜백함수
+        console.log(error)
+      }
+    });
 
         }
       </script>
@@ -169,4 +180,6 @@
 </main>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-<%@ include file="/WEB-INF/views/customexam/makeExamPaper.jsp" %>
+<div class="secret" style="height: 0px;overflow: hidden;">
+  <%@ include file="/WEB-INF/views/customexam/makeExamPaper.jsp"%>
+</div>

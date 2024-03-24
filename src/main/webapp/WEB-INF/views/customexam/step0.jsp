@@ -574,7 +574,7 @@
                                                         </div>
                                                         <button type="button" class="btn-default download-btn" exam-id="${examInfo.examId}" data-type="Q">문제</button>
                                                         <button type="button" class="btn-default download-btn" exam-id="${examInfo.examId}" data-type="E">정답+해설</button>
-                                                        <button type="button" class="btn-default download-btn" exam-id="${examInfo.examId}" data-type="C">문항정보표</button>
+<%--                                                        <button type="button" class="btn-default download-btn" exam-id="${examInfo.examId}" data-type="C">문항정보표</button>--%>
                                                     </div>
                                                 </span>
                                                 <input type="hidden" class="paperId" value="${examInfo.examId}">
@@ -627,9 +627,9 @@
                     <li class="">
                         <a href="javascript:;" data-type="E">정답+해설</a>
                     </li>
-                    <li class="">
+                    <%--<li class="">
                         <a href="javascript:;" data-type="C">문항 정보표</a>
-                    </li>
+                    </li>--%>
                 </ul>
 
                 <div id="preview-data">
@@ -710,13 +710,13 @@
         // 직접 만든 시험지 id에 따른 itemlist 요청
         $.ajax({
             type : 'post',           // 타입 (get, post, put 등등)
-            url : '/exambank/customExamAPI/getItemListByExam', // 요청할 서버 url
+            url : '/exambank/customExamAPI/getSettingItemList', // 요청할 서버 url
             async : true,            // 비동기화 여부 (default : true)
             dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
             contentType: 'application/json',
             data :  JSON.stringify(data),
             success : function(result) { // 결과 성공 콜백함수
-                renderImg(examName,result.itemList);
+                renderImg(examName,result.itemList,dataType);
 
             },
             error : function(request, status, error) { // 결과 에러 콜백함수
