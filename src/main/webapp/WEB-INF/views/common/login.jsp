@@ -440,21 +440,47 @@
   }
 
   async function login() {
-    if (await isSsoStudentLogout()) {
-      return;
-    }
     let id = $("input[name='username']").val();
     let pwd = $("input[name='password']").val();
-    if (!id || !pwd) {
-      alert("아이디나 비밀번호가 입력되지 않았습니다.");
+
+    if (!id) {
+      alert("아이디가 입력되지 않았습니다.");
+      $("#ID").focus();
       return false;
     }
-    let params = {id: id, pwd: pwd};
+
+    if (!pwd) {
+      alert("비밀번호가 입력되지 않았습니다.");
+      $("#PW").focus();
+      return false;
+    }
+
+    // 아이디 정규식
+    let idEx = /^[A-Za-z0-9]{4,20}$/;
+    if (!idEx.test(id)) {
+      alert("4자 이상 20자 이하의 영문, 숫자 혹은 특수문자로 이루어진 아이디를 입력해 주세요.");
+      $("#ID").focus();
+      return false;
+    }
+
+    // 비밀번호 정규식
+    let pwdEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{4,20}$/;
+    if (!pwdEx.test(pwd)) {
+      alert("4자 이상 20자 이하의 영문, 숫자, 특수문자로 이루어진 비밀번호를 입력해 주세요.");
+      $("#PW").focus();
+      return false;
+    }
+
+    let params = {
+      id: id,
+      pwd: pwd
+    };
+
     $.ajax({
       url: "/login",
       data: JSON.stringify(params),
       contentType: "application/json",
-      dataType: 'json',
+      dataType: "json",
       cache: false,
       async: false,
       type: "POST",
@@ -468,16 +494,16 @@
               Storages.localStorage.remove("loginuserid");
             }
             // redirect
-            location.replace("/exambank/booklist");
+            location.href = "/exambank/booklist";
             break;
           case "fail":
             alert(
-              "정보를 불러오는데 문제가 발생하였습니다.\n다시 시도해주세요."
+                    "로그인에 실패하였습니다.\n다시 시도해주세요."
             );
             break;
           default:
             alert(
-              "정보를 불러오는데 문제가 발생하였습니다.\n다시 시도해주세요."
+                    "로그인에 실패하였습니다.\n다시 시도해주세요."
             );
             break;
         }
@@ -488,9 +514,9 @@
     });
 
     if ($("input:checkbox[id='rememberUserId']").is(":checked")) {
-      Storages.localStorage.set('loginuserid', id);
+      Storages.localStorage.set("loginuserid", id);
     } else {
-      Storages.localStorage.remove('loginuserid');
+      Storages.localStorage.remove("loginuserid");
     }
   }
 

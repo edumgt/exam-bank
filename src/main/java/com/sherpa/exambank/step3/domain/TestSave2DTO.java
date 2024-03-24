@@ -10,7 +10,6 @@ public class TestSave2DTO {
 
         private Long seq; // 시험지 시퀀스 넘버
         private String name; // 시험지명
-//        private Long userSeq; //
         private List<Long> itemIdList; // 문항ID리스트
         private String subjectName;// 교과서명
         private LocalDateTime regDate; // 작성 날짜
