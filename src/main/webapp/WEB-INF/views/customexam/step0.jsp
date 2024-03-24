@@ -716,8 +716,6 @@
             contentType: 'application/json',
             data :  JSON.stringify(data),
             success : function(result) { // 결과 성공 콜백함수
-                console.log(result.itemList);
-                console.log("examName-step0",examName);
                 renderImg(examName,result.itemList);
 
             },
@@ -725,7 +723,6 @@
                 console.log(error)
             }
         });
-        alert("test");
 
     });
 

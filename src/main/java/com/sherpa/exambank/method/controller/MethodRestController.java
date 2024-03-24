@@ -25,7 +25,6 @@ public class MethodRestController {
     @PostMapping("/getSettingItemList")
     @ResponseBody
     public ResponseSeven getSettingItemList(@RequestBody SettingExamRequest settingExamRequest) throws InstantiationException, IllegalAccessException {
-        log.info("test "+String.valueOf(settingExamRequest));
         // if(저장된 시험지가 없다면)
         ResponseSeven response = methodService.findItemListBySettingExamId(settingExamRequest);
 
