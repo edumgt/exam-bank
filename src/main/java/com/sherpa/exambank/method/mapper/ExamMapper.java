@@ -9,5 +9,5 @@ import java.util.List;
 
 @Mapper
 public interface ExamMapper {
-    Object getExamInfoByExamId(@Param("seq") String examId);
+    List<Long> getExamItemListByExamId(@Param("seq") String examId);
 }

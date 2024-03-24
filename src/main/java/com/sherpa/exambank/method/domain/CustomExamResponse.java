@@ -8,6 +8,5 @@ import java.util.List;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomExamResponse {
-    private String examName;
     private List<Item> itemList;
 }

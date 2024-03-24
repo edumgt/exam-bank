@@ -12,4 +12,5 @@ public class TestSaveDTO {
     private String name; // 시험지명
     private List<Long> itemIdList; // 문항ID리스트
     private String subjectName;// 교과서명
+    private String userSeq;
 }
