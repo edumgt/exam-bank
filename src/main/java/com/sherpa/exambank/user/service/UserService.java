@@ -80,4 +80,8 @@ public class UserService {
 
         return result;
     }
+
+    public String getSeqById(String id){
+        return userMapper.getSeqById(id);
+    }
 }

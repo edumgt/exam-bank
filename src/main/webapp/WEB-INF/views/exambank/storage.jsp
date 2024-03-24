@@ -52,12 +52,11 @@
                   </div>
                   <div class="content-list__item-right">
                     <p class="tit">시험지 다운로드</p>
-                    <button type="button" class="button-all" onclick="examDown(${testPaper.seq},'A');"><span
-                            class="ir_su">전체</span></button>
-                    <button type="button" class="button-question" onclick="examDown(${testPaper.seq},'Q');"><span
-                            class="ir_su">문제</span></button>
-                    <button type="button" class="button-answer" onclick="examDown(${testPaper.seq},'E');"><span
-                            class="ir_su">정답+해설</span></button>
+
+                    <button type="button" class="button-all" onclick="examDown(${testPaper.seq},'${testPaper.name}','A');"><span class="ir_su">전체</span></button>
+                    <button type="button" class="button-question" onclick="examDown(${testPaper.seq},'${testPaper.name}','Q');"><span class="ir_su">문제</span></button>
+                    <button type="button" class="button-answer" onclick="examDown(${testPaper.seq},'${testPaper.name}','E');"><span class="ir_su">정답+해설</span></button>
+
                     <div class="button-image"></div>
                   </div>
                 </div>
