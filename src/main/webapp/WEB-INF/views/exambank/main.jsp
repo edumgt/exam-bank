@@ -2157,24 +2157,20 @@
   </div>
 </div>
 <!-- // 교과서 목록 -->
+<script>
+  $("#btn-examBank").click(function () {
+    if (!$("#btn-examBank").find('a').hasClass('tabs__link--on')) {
+      $("#btn-examBank").find('a').addClass('tabs__link--on');
+      $("#btn-storage").find('a').removeClass('tabs__link--on');
+      $(".tabs__list--4").show();
+    }
+  })
+</script>
 
 <script>
   $(function () {
     getBookmark();
-    setExamBank();
   });
-
-  function setExamBank() {
-    const btnExamBank = document.getElementById("btn-examBank");
-    const btnStorage = document.getElementById("btn-storage");
-    const linkExamBank = btnExamBank.querySelector('a');
-    const linkStorage = btnStorage.querySelector('a');
-
-    linkExamBank.classList.add("tabs__link--on");
-    linkStorage.classList.remove("tabs__link--on");
-
-    $(".tabs__list--4").show();
-  }
 
   function downloadContents(ids) {
     if (!checkUserLoggedIn(location.href)) {
@@ -2304,7 +2300,7 @@
     let loginUserId = '${ sessionScope.userId }';
     console.log("loginUserId : ", loginUserId);
 
-    if(loginUserId == undefined || loginUserId == null || loginUserId.length == 0){ // 로그아웃 상태
+    if (loginUserId == undefined || loginUserId == null || loginUserId.length == 0) { // 로그아웃 상태
       alert("로그인 후 이용할 수 있는 서비스입니다.");
       return false;
     }
@@ -2480,7 +2476,7 @@
     // 로그인 확인
     let loginUserId = '${ sessionScope.userId }';
 
-    if(loginUserId == undefined || loginUserId == null || loginUserId.length == 0){ // 로그아웃 상태
+    if (loginUserId == undefined || loginUserId == null || loginUserId.length == 0) { // 로그아웃 상태
       alert("로그인 후 이용할 수 있는 서비스입니다.");
       return false;
     }
@@ -2489,7 +2485,7 @@
     let pop_title = "win_pop";
     let url = 'customExam/step0';
 
-    window.open("",pop_title,'width=1400,height=1024,status=no,toolbar=no,scrollbars=no, left=500, top=0');
+    window.open("", pop_title, 'width=1400,height=1024,status=no,toolbar=no,scrollbars=no, left=500, top=0');
 
     //form
     let new_form = $('<form></form>');
