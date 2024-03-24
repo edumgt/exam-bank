@@ -1254,13 +1254,13 @@ function convertToLeft(target) {
 //문제목록 -> 삭제 문항 - 객체 내용 설정
 function convertToRigth(target) {
   let btnAddHtml = "<button type=\"button\" class=\"btn-default btn-add\" data-type=\"\"><i class=\"add-type02\"></i>추가</button>";
-  let btnAllAddHtml = "<button type=\"button\" class=\"btn-default btn-add\" data-type=\"all\"><i class=\"add-type02\"></i>전체 추가</button>";
+  let btnAllAddHtml = "<div><br><button type=\"button\" class=\"btn-default btn-add\" data-type=\"all\"><i class=\"add-type02\"></i>전체 추가</button></div>";
 
   target.find(".btn-delete").remove();
   target.find(".btn-similar-que").remove();
 
   target.find(".etc-btn-wrap").html(btnAddHtml);
-  target.find(".passage-box .etc-btn-wrap").html(btnAllAddHtml);
+  target.find(".passage-box .que-bottom").append(btnAllAddHtml);
 
   return target;
 }
