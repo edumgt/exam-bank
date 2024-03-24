@@ -52,7 +52,8 @@
 
     <!-- 기존 시험지 정보 가져오기 -->
     <select id="getExamById" parameterType="Long" resultType="com.sherpa.exambank.step3.domain.TestSave2DTO">
-        SELECT * FROM tb_exam WHERE seq = #{seq}
+        SELECT name, user_seq, subject_name, reg_date, item_cnt, delete_flag, setting_subject
+        FROM tb_exam WHERE seq = #{seq}
     </select>
 
     <!-- 새로운 시험지 정보 삽입 -->

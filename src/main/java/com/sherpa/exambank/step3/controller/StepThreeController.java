@@ -33,7 +33,7 @@ public class StepThreeController {
             return new ResponseEntity<>(itemListResponse, HttpStatus.OK);
         } catch (HttpClientErrorException.BadRequest e) {
             // 서버에서 400 오류를 받았을 때 처리할 코드 추가
-            log.error("Server returned a 400 Bad Request error: " + e.getRawStatusCode() + " - " + e.getStatusText());
+            log.error("400에러시 : " + e.getRawStatusCode() + " - " + e.getStatusText());
             // 클라이언트에게 적절한 오류 메시지를 반환할 수 있도록 처리
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
