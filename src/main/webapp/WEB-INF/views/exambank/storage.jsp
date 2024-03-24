@@ -158,7 +158,7 @@
       data :  JSON.stringify(data),
       success : function(result) { // 결과 성공 콜백함수
         console.log("result===>>>",result);
-        renderImg(exam_name,result.itemList);
+        renderImg(exam_name,result.itemList,type);
 
       },
       error : function(request, status, error) { // 결과 에러 콜백함수
@@ -180,4 +180,6 @@
 </main>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-<%@ include file="/WEB-INF/views/customexam/makeExamPaper.jsp"%>
+<div class="secret" style="height: 0px;overflow: hidden;">
+  <%@ include file="/WEB-INF/views/customexam/makeExamPaper.jsp"%>
+</div>

@@ -716,7 +716,7 @@
             contentType: 'application/json',
             data :  JSON.stringify(data),
             success : function(result) { // 결과 성공 콜백함수
-                renderImg(examName,result.itemList);
+                renderImg(examName,result.itemList,dataType);
 
             },
             error : function(request, status, error) { // 결과 에러 콜백함수
