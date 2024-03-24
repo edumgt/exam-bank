@@ -310,13 +310,13 @@
             <label class="custom-control-label" for="rememberUserId">아이디 저장</label>
           </div>
           <ul class="util_link">
-            <li><a href="form_find_id.html?tab=id">아이디 찾기</a></li>
-            <li><a href="form_find_id.html?tab=pw">비밀번호 찾기</a></li>
-            <li><a href="signup.html">회원가입</a></li>
+            <li><a href="#">아이디 찾기</a></li>
+            <li><a href="#">비밀번호 찾기</a></li>
+            <li><a href="#">회원가입</a></li>
           </ul>
         </div>
         <div class="full-box">
-          <a a="" href="javascript: void(0)" onclick="login();" class="btn btn-xl btn_login">로그인</a>
+          <a href="javascript: void(0)" onclick="login();" class="btn btn-xl btn_login">로그인</a>
         </div>
       </div>
     </div>
@@ -382,7 +382,7 @@
   </div>
 
   <div class="loading _loading" id="loading-ani" style="display: none">
-    <img src="//cdata2.tsherpa.co.kr/tsherpa/Tsherpa2021/resource/ele/assets/img/etc/loading.gif" alt="로딩중">
+    <img src="/resource/midhigh/img/etc/loading.gif" alt="로딩중">
   </div>
 
   <script>
@@ -511,6 +511,7 @@
       dataType: 'json',
       cache: false,
       async: false,
+      type: "POST",
       success: function (res) {
         switch (res.Status) {
           case "success":
