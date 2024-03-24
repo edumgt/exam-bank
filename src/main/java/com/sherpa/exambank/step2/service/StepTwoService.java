@@ -39,7 +39,7 @@ public class StepTwoService {
     private String tsherpaURL;
 
 
-    public List postResponse() throws JsonProcessingException {
+    /*public List postResponse() throws JsonProcessingException {
         String jsonData = "[" +
                 "  {" +
                 "    \"itemNo\": 1," +
@@ -364,7 +364,7 @@ public class StepTwoService {
         }
 
         return Arrays.asList(itemDTOArray);
-    }
+    }*/
 
     /**
      * step 2 유사문제 버튼 ajaxCall
@@ -373,36 +373,37 @@ public class StepTwoService {
      * @throws JsonProcessingException
      */
     public ResponseEntity<SimilarItemListResponse> similarItemList(SimilarItemListRequest similarItemListRequest) throws JsonProcessingException {
-        // 요청 url
-        URI uri = UriComponentsBuilder
-                .fromUriString(tsherpaURL)
-                .path("/item-img/similar-list") // api #11 유사문제 목록 버튼 기능
-                .encode()
-                .build()
-                .toUri();
+        try {
+            // 요청 url
+            URI uri = UriComponentsBuilder
+                    .fromUriString(tsherpaURL)
+                    .path("/item-img/similar-list") // api #11 유사문제 목록 버튼 기능
+                    .encode()
+                    .build()
+                    .toUri();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        String similarItemListJsonObj = objectMapper.writeValueAsString(similarItemListRequest);
-        log.info("similarItemListRequest exchange JSON : " + similarItemListJsonObj);
-        HttpEntity<String> requestSimilarItemListJsonObj = new HttpEntity<>(similarItemListJsonObj,headers);
-        log.info("HttpEntity : "+requestSimilarItemListJsonObj);
+            ObjectMapper objectMapper = new ObjectMapper();
+            String similarItemListJsonObj = objectMapper.writeValueAsString(similarItemListRequest);
+            log.info("similarItemListRequest exchange JSON : " + similarItemListJsonObj);
+            HttpEntity<String> requestSimilarItemListJsonObj = new HttpEntity<>(similarItemListJsonObj,headers);
+            log.info("HttpEntity : "+requestSimilarItemListJsonObj);
 
 
 
-        RestTemplate restTemplate = new RestTemplate();
+            RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<SimilarItemListResponse> similarItemListResponse = restTemplate.postForEntity(uri,
-                requestSimilarItemListJsonObj, SimilarItemListResponse.class);
-        log.info("헤더정보 포함? : " + similarItemListResponse);
-
-        if (similarItemListResponse == null){
-            throw new CustomException(RESOURCE_NOT_FOUND);
-
-        } else {
+            ResponseEntity<SimilarItemListResponse> similarItemListResponse = restTemplate.postForEntity(uri,
+                    requestSimilarItemListJsonObj, SimilarItemListResponse.class);
+            log.info("헤더정보 포함? : " + similarItemListResponse);
             return similarItemListResponse;
+        } catch (CustomException e){
+            log.error("similarItemList에서 예외 발생 : " + e.getMessage());
+            // 예외가 발생했을 때 적절한 응답을 반환하거나 처리하는 로직을 추가하세요.
+            // 예를 들어, 사용자에게 적절한 에러 메시지를 반환하거나, 적절한 상태 코드와 함께 ResponseEntity를 반환
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SimilarItemListResponse());
         }
     }
 
@@ -413,36 +414,40 @@ public class StepTwoService {
      * @throws JsonProcessingException
      */
     public ResponseEntity<ItemListResponse> getChapterList(ItemListRequest itemListRequest) throws JsonProcessingException {
-        URI uri = UriComponentsBuilder
-                .fromUriString(tsherpaURL)
-                .path("/item-img/item-list")
-                .encode()
-                .build()
-                .toUri();
-        // 요청 httpEntity의 Header 생성
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        try {
+            URI uri = UriComponentsBuilder
+                    .fromUriString(tsherpaURL)
+                    .path("/item-img/item-list")
+                    .encode()
+                    .build()
+                    .toUri();
+            // 요청 httpEntity의 Header 생성
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // 요청 HttpEntity의 body에 포함될 JSONObject 생성
-        ObjectMapper objectMapper = new ObjectMapper();
+            // 요청 HttpEntity의 body에 포함될 JSONObject 생성
+            ObjectMapper objectMapper = new ObjectMapper();
 
-        // itemListRequest에서 요청할 데이터를 jsonobject로 변환
-        String itemListRequestJsonObj = objectMapper.writeValueAsString(itemListRequest);
-        log.info("itemListRequestJsonObj : " + itemListRequestJsonObj);
-        // itemList에 header 정보 넣은 객체 생성
-        HttpEntity<String> itemListIncHeader = new HttpEntity<>(itemListRequestJsonObj, headers);
-        log.info("itemListIncHeader : " + itemListIncHeader);
-        // RestTemplate 인스턴스 생성
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<ItemListResponse> responseItemDTO = restTemplate.postForEntity(uri, itemListIncHeader, ItemListResponse.class);
-        log.info("responseItemDTO : " + responseItemDTO);
-
-        if (responseItemDTO == null) {
-            throw new CustomException(RESOURCE_NOT_FOUND);
-        } else {
+            // itemListRequest에서 요청할 데이터를 jsonobject로 변환
+            String itemListRequestJsonObj = objectMapper.writeValueAsString(itemListRequest);
+            log.info("itemListRequestJsonObj : " + itemListRequestJsonObj);
+            // itemList에 header 정보 넣은 객체 생성
+            HttpEntity<String> itemListIncHeader = new HttpEntity<>(itemListRequestJsonObj, headers);
+            log.info("itemListIncHeader : " + itemListIncHeader);
+            // RestTemplate 인스턴스 생성
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<ItemListResponse> responseItemDTO = restTemplate.postForEntity(uri, itemListIncHeader, ItemListResponse.class);
+            log.info("responseItemDTO : " + responseItemDTO);
             return responseItemDTO;
+
+        } catch (CustomException e) {
+            log.error("getChapterList에서 예외 발생 : " + e.getMessage());
+            // 예외가 발생했을 때 적절한 응답을 반환하거나 처리하는 로직을 추가하세요.
+            // 예를 들어, 사용자에게 적절한 에러 메시지를 반환하거나, 적절한 상태 코드와 함께 ResponseEntity를 반환
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ItemListResponse());
         }
     }
+
 
     public Step2Response moveToStep2(Step2Request step2Request) throws JsonProcessingException {
         Step2Response step2Response = Step2Response.builder()
