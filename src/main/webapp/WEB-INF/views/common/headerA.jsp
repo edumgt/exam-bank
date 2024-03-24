@@ -1155,6 +1155,22 @@
             return false;
         }
 
+        // 아이디 정규식
+        let idEx = /^[A-Za-z0-9]{4,20}$/;
+        if(!idEx.test(id)){
+            alert("4자 이상 20자 이하의 영문, 숫자 혹은 특수문자로 이루어진 아이디를 입력해 주세요.");
+            $("#ID").focus();
+            return false;
+        }
+
+        // 비밀번호 정규식
+        let pwdEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{4,20}$/;
+        if(!pwdEx.test(pwd)){
+            alert("4자 이상 20자 이하의 영문, 숫자, 특수문자로 이루어진 비밀번호를 입력해 주세요.");
+            $("#PW").focus();
+            return false;
+        }
+
         let params = {
             id: id,
             pwd: pwd

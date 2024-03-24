@@ -27,5 +27,6 @@ public interface TestSaveMapper {
     void insertNewExam(TestSave2DTO testSave2DTO);
 
     void insertExamItem(@Param("examSeq") Long examSeq, @Param("itemId") Long itemId);
+
 }
 
