@@ -37,8 +37,8 @@ public class TestSaveService {
         }
     }
 
-    public List<TestSave2DTO> getTestPaper() {
-        return testSaveMapper.getTestPaper();
+    public List<TestSave2DTO> getTestPapersByUserId(String userId) {
+        return testSaveMapper.getTestPapersByUserId(userId);
     }
 
     public void logicalDeleteExamData(Long seq) {
