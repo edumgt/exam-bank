@@ -127,51 +127,6 @@
   </script>
 
   <script>
-    $.ajax({
-      url: "https://sso.chunjae.co.kr:446/api/auth/Validation",
-      data: {sessionData: "0t9j9jTdDH/59/j1vd85xCqPdrFguWxhmGqWCNazNxW2XOzb0p6xmnd56viF4kBM1krEeauDwrCyHfNk5W/WgA=="},
-      dataType: 'json',
-      cache: false,
-      success: function (data) {
-        if (data && data.Result) {
-          let Items = data.Result.Items;
-          $.ajax({
-            url: "https://sso.chunjae.co.kr:446/api/auth/Authorize?Token=" + Items.Token,
-            dataType: 'text',
-            xhrFields: {withCredentials: true},
-            cache: false,
-            success: function (data) {
-              let reg = /_ChunjaeSSOEncData = '(.*)';/
-              let ssoData = reg.exec(data)[1];
-              if (ssoData) {
-                $.post("/ssoLogin.do", {encData: ssoData, isReconn: true}).done(function (data) {
-                  if (data.success) {
-                    if (isLoginPage()) {
-                      alert("통합인증 로그인으로 재접속 합니다.");
-                      location.href = "https://mh.tsherpa.co.kr/";
-                    } else {
-                      if (!sessionStorage.getItem("tsherpa_sso_reload")) {
-                        sessionStorage.setItem("tsherpa_sso_reload", "on");
-                        location.reload(true);
-                      }
-                    }
-                  } else {
-                    alert(data.message);
-                  }
-                });
-              } else {
-              }
-            },
-            error: function (e) {
-              console.error(e);
-            }
-          });
-        }
-      },
-      error: function (e) {
-        console.error(e);
-      }
-    });
 
     function isLoginPage() {
       return location.pathname == '/login.html'
