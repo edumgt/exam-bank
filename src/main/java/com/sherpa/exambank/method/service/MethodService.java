@@ -1,8 +1,10 @@
 package com.sherpa.exambank.method.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sherpa.exambank.method.domain.*;
 import com.sherpa.exambank.method.mapper.ExamMapper;
 import com.sherpa.exambank.outapi.resonse.ResponseSeven;
+import com.sherpa.exambank.step3.domain.ItemListResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -10,6 +12,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
@@ -184,7 +187,7 @@ public class MethodService {
 
     /**
      * step0 셋팅지 ID에 따른  조회
-     * @param examId  시험지ID
+     * @param settingExamRequest 셋팅지 ID 포함하는 request
      * @return 리스트[교과서명, 교육과정]
      */
     public ResponseSeven findItemListBySettingExamId(SettingExamRequest settingExamRequest) throws InstantiationException, IllegalAccessException {
@@ -228,16 +231,40 @@ public class MethodService {
     }
 
     /**
-     * 시험지 보관함 examId에 따른 조회
+     * 시험지 보관함 examId에 따른 조회 (사용자 커스텀 시험지)
      * @param examRequest
      * @return
      */
     public CustomExamResponse findItemListByCustomExamId(SettingExamRequest examRequest) {
 
-        Object result = examMapper.getExamInfoByExamId(examRequest.getExamId());
-        CustomExamResponse response = null;
+        // 시험지 Id로 examItemIdList 불러오기
+        List<Long> examItemIdList = examMapper.getExamItemListByExamId(examRequest.getExamId());
+
+        // examItemIdList로 시험지 정보 API로 불러오기
+        URI uri = UriComponentsBuilder
+                .fromUriString(tsherpaURL)
+                .path("/item-img/item-list") // api #9 문항id 배열로 티셀파 문항 리스트 조회
+                .encode()
+                .build()
+                .toUri();
+        // 요청 httpEntity의 Header 생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        // 요청 HttpEntity의 body에 포함될 JSONObject 생성
+        JSONObject requestJson = new JSONObject();
+        requestJson.put("itemIdList", examItemIdList);
+
+        HttpEntity<String> request = new HttpEntity<>(requestJson.toString(), headers);
+        log.info("postwithParamAndBody request : " + request);
+
+        // post 요청 및 응답
+        RestTemplate restTemplate = new RestTemplate();
+        CustomExamResponse itemResponse = restTemplate.postForObject(
+                uri, request, CustomExamResponse.class
+        );
+        log.info("itemResponse : " +itemResponse);
 
 
-        return response;
+        return itemResponse;
     }
 }
