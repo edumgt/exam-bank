@@ -3,6 +3,9 @@ package com.sherpa.exambank.step3.controller;
 import com.sherpa.exambank.step3.domain.TestSave2DTO;
 import com.sherpa.exambank.step3.domain.TestSaveDTO;
 import com.sherpa.exambank.step3.service.TestSaveService;
+import com.sherpa.exambank.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,19 +21,35 @@ import java.util.List;
 @Slf4j
 public class TestSaveController {
     private final TestSaveService testSaveService;
+    private final UserService userService;
 
     @PostMapping("/customExam/saveExamData")
     @ResponseBody
-    public ResponseEntity<?> saveTest(@RequestBody TestSaveDTO testSaveDTO) {
+    public ResponseEntity<?> saveTest(@RequestBody TestSaveDTO testSaveDTO, HttpServletRequest httpServletRequest) {
         log.info("이거 나오나 : " + testSaveDTO);
+
+        HttpSession session = httpServletRequest.getSession();
+        String userId = session.getAttribute("userId").toString();
+        testSaveDTO.setUserSeq(userId);
         testSaveService.saveExamData(testSaveDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body("testSaveDTO");
     }
 
     @GetMapping("/TestRepository")
-    public String showTestPapers(Model model) {
-        List<TestSave2DTO> testPapers = testSaveService.getTestPaper();
+    public String showTestPapers(Model model, HttpServletRequest httpServletRequest) {
+        HttpSession session = httpServletRequest.getSession();
+        String userId = session.getAttribute("userId").toString();
+        log.info(userId);
+        String userSeq = "";
+        List<TestSave2DTO> testPapers;
+        if(userId != null && userId.length() > 0){
+            userSeq = userService.getSeqById(userId);
+            testPapers = testSaveService.getTestPaperByUserSeq(userSeq);
+        }else{
+            testPapers = testSaveService.getTestPaper();
+        }
+
         model.addAttribute("testPapers", testPapers);
         return "exambank/storage";
     }

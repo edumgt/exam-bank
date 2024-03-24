@@ -6,7 +6,7 @@
         <!-- 시험지 정보 저장 -->
         <insert id="insertExamData" parameterType="com.sherpa.exambank.step3.domain.TestSaveDTO">
             INSERT INTO tb_exam (name, user_seq, subject_name, item_cnt, reg_date, delete_flag, setting_subject)
-            VALUES (#{name}, 1 , #{subjectName}, 999, now(), 0, 0)
+            VALUES (#{name}, #{userSeq} , #{subjectName}, 999, now(), 0, 0)
             <selectKey resultType="java.lang.Long" keyProperty="seq" order="AFTER">
                 SELECT LAST_INSERT_ID()
             </selectKey>
@@ -35,6 +35,13 @@
     <select id="getTestPaper" resultType="com.sherpa.exambank.step3.domain.TestSave2DTO">
         select seq, name, subject_name, reg_date, item_cnt, delete_flag
         from tb_exam
+    </select>
+
+    <!--  시험지 보관함에 뿌리기  -->
+    <select id="getTestPaperByUserSeq" resultType="com.sherpa.exambank.step3.domain.TestSave2DTO">
+        select seq, name, subject_name, reg_date, item_cnt, delete_flag
+        from tb_exam
+        where user_seq = #{userSeq}
     </select>
 
     <!-- 논리 삭제 -->

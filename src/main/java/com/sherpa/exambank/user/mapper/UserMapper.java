@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
     // 로그인
     public User login(User user);
+
+    String getSeqById(String id);
 }
