@@ -54,7 +54,7 @@ public class Step1Service {
      * @param urn:          요청 urn
      * @return Step1Response 객체(단원 정보 리스트, 평가 영역 리스트)
      */
-    private Step1Response postRequest(Subject subject, String urn) {
+    public Step1Response postRequest(Subject subject, String urn) {
         // 요청 url
         URI url = UriComponentsBuilder
                 .fromUriString(tsherpaURL)

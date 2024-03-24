@@ -22,11 +22,6 @@ public class MethodController {
     private final MethodService methodService;
 
 
-    @GetMapping("/step0")
-    public String getStep0Page(){
-        return "customexam/step0";
-    }
-
     @PostMapping("/step0")
     public String postStep0Page(@RequestParam("subjectId") String subjectId, Model model) throws InstantiationException, IllegalAccessException {
 

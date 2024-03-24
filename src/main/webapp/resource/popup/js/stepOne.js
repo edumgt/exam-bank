@@ -3,6 +3,8 @@ let active= false;
 
 /* 자동실행 함수 */
 
+/* 자동실행 함수 */
+
 $(function () {
 
     activeText(1);
@@ -550,6 +552,36 @@ function levelCntClear() {
 
     $("#pop-range-wrap-set div").removeClass("fail");
     $("#range_pop_save").removeClass("disabled");
+}
+
+//출제옵션 > 난이도별 문제수 팝업 > input
+function levelCntCheck(elem) {
+    let maxNum = Number($("#txt-exam-num").data("columns"));
+    let inputNum = Number($.trim($(elem).val()));
+
+    // 음수이거나 소수점
+    if (inputNum < 0 || !Number.isInteger(inputNum)) {
+        alert("다시 입력해 주세요.");
+        $(elem).val("");
+
+        $("#pop-range-wrap-set div").addClass("fail");
+        $("#range_pop_save").addClass("disabled");
+
+        return false;
+    }
+
+    if (inputNum > maxNum) {
+        alert("문항은 최대 " + maxNum + "문제 까지만 출제 가능합니다.");
+        $(elem).val("");
+
+        $("#pop-range-wrap-set div").addClass("fail");
+        $("#range_pop_save").addClass("disabled");
+
+        return false;
+    }
+/*
+    $("#pop-range-wrap-set div").removeClass("fail");
+    $("#range_pop_save").removeClass("disabled");*/
 }
 
 //출제옵션 활성화(디폴트값 셋팅)
