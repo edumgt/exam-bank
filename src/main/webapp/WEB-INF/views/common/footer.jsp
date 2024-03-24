@@ -198,7 +198,7 @@
 <div id="memberChangeModal"></div>
 <div id="changeCompletion"></div>
 
-<iframe
+<%--<iframe
         name="hiddenFrame"
         id="hiddenFrame"
         style="
@@ -225,7 +225,7 @@
         border: none;
       "
         src="./check_sso.html"
-></iframe>
+></iframe>--%>
 
 <div
         class="modal fade"
@@ -329,9 +329,7 @@
   })(window, document, "clarity", "script", "cz3xm7bhhr");
 </script>
 <script type="text/javascript" id="">
-  kakaoPixel("3767804930893854870").pageView(
-    "\uc911\uace0\ub4f1\ud2f0\uc140\ud30c"
-  );
+
 </script>
 </body>
 </html>

@@ -143,7 +143,7 @@
         return new Promise((r) => setTimeout(r, ms));
     }
 
-    function renderImg(examName, itemList){
+    function renderImg(examName, itemList,type){
         // -------------------------------------------------- 시험지 배치 코드 시작
         console.log("examName",examName);
         $(".title_header").text(examName);
@@ -158,37 +158,42 @@
         itemList.forEach(item => {
             itemHtml += '<div class="item_figure" item-no="'+item.itemNo+'">';
 
-
-            // 지문이 있는 문항의 경우
-            if(item.passageId != null) {
-                if (!passageList[item.passageId]) { // 해당 지문의 첫번째 문제인 경우, 문제번호 만들고 img 보이기
-                    passageList[item.passageId] = [];
-                    passageList[item.passageId].push(item.itemNo);
-                    itemHtml += '<span class="item_no" passage-id="' + item.passageId + '_' + item.itemNo + '">[' + item.itemNo + '-</span><br>';
-                    itemHtml += '<img src="' + item.passageUrl + '" style="margin-bottom: 10px">';
-                } else { // 해당 지문의 첫번째 문제가 아닌 경우, 마지막 문제번호 추가하기
-                    let currentPassageId = passageList[item.passageId];
-                    // if (currentPassageId[currentPassageId.length - 1] + 1 != item.itemNo) { // 연속된 문제가 아니라면 지문 출력
-                    //     let lastItemNo = currentPassageId[currentPassageId.length - 1]; // 같은 지문의 이전 마지막 문제 번호
-                    //     duplicatePassageList[item.passageId + '_' + currentPassageId[0]] = currentPassageId;
-                    //
-                    //     // 새로 덮어쓰기
-                    //     passageList[item.passageId] = [];
-                    //     passageList[item.passageId].push(item.itemNo);
-                    //     itemHtml += '<span class="item_no" passage-id="' + item.passageId + '_' + item.itemNo + '">[' + item.itemNo + '-</span><br>';
-                    //     itemHtml += '<img src="' + item.passageUrl + '" style="margin-bottom: 10px">';
-                    // } else {
+            if(type=='A'||type=='Q') {
+                // 지문이 있는 문항의 경우
+                if (item.passageId != null) {
+                    if (!passageList[item.passageId]) { // 해당 지문의 첫번째 문제인 경우, 문제번호 만들고 img 보이기
+                        passageList[item.passageId] = [];
                         passageList[item.passageId].push(item.itemNo);
-                    //}
+                        itemHtml += '<span class="item_no" passage-id="' + item.passageId + '_' + item.itemNo + '">[' + item.itemNo + '-</span><br>';
+                        itemHtml += '<img src="' + item.passageUrl + '" style="margin-bottom: 10px">';
+                    } else { // 해당 지문의 첫번째 문제가 아닌 경우, 마지막 문제번호 추가하기
+                        let currentPassageId = passageList[item.passageId];
+                        // if (currentPassageId[currentPassageId.length - 1] + 1 != item.itemNo) { // 연속된 문제가 아니라면 지문 출력
+                        //     let lastItemNo = currentPassageId[currentPassageId.length - 1]; // 같은 지문의 이전 마지막 문제 번호
+                        //     duplicatePassageList[item.passageId + '_' + currentPassageId[0]] = currentPassageId;
+                        //
+                        //     // 새로 덮어쓰기
+                        //     passageList[item.passageId] = [];
+                        //     passageList[item.passageId].push(item.itemNo);
+                        //     itemHtml += '<span class="item_no" passage-id="' + item.passageId + '_' + item.itemNo + '">[' + item.itemNo + '-</span><br>';
+                        //     itemHtml += '<img src="' + item.passageUrl + '" style="margin-bottom: 10px">';
+                        // } else {
+                        passageList[item.passageId].push(item.itemNo);
+                        //}
+                    }
                 }
             }
 
             itemHtml += '<span class="item_no">'+item.itemNo+'</span><br>';
-            itemHtml += '<img src="'+item.questionUrl+'">';
-            itemHtml += '<div class="item_answer"></div>';
-            itemHtml += '<img src="'+item.answerUrl+'">';
-            itemHtml += '<div class="item_explain"></div>';
-            itemHtml += '<img src="'+item.explainUrl+'">';
+            if(type=='A'||type=='Q') {
+                itemHtml += '<img src="' + item.questionUrl + '">';
+            }
+            if(type=='A'||type=='E') {
+                itemHtml += '<div class="item_answer"></div>';
+                itemHtml += '<img src="' + item.answerUrl + '">';
+                itemHtml += '<div class="item_explain"></div>';
+                itemHtml += '<img src="' + item.explainUrl + '">';
+            }
             itemHtml += '</div>';
 
         });
