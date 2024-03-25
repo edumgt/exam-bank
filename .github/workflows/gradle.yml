@@ -91,4 +91,6 @@ jobs:
           sudo cp $TARGET_DIR/build/libs/*SNAPSHOT.war $TOMCAT_PATH/webapps
           sudo $TOMCAT_PATH/scripts/startup.sh
 
+          
+
 # sudo cp $TARGET_DIR/build/libs/*.war $TOMCAT_PATH/webapps
