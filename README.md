@@ -1,9 +1,15 @@
-# 01 프로젝트 개요
-## 서비스 소개
+# T셀파 문제은행 서비스
+- 프로젝트 기간 : `2024.03.04.(월) ~ 03.22.(금)` <br>
+- 프로젝트 자세히 살펴보기 👉  [Notion기록](https://geee1-kim.notion.site/Spring-Sloop-6a945387786344ca939c9c755cf0fdd7?pvs=4)
+<br><br><br>
+
+  
+## 01 프로젝트 개요
+### 서비스 소개
 ![image](https://github.com/T-sherpa-3/exam-bank/assets/145524819/9a802795-4624-42c9-ab8b-bae2b7eb4245)
 <br><br>
 
-## 팀 구성 및 역할
+### 팀 구성 및 역할
 | [김지원](https://github.com/kimg1623) | [이지연](https://github.com/thegreatjy) | [권진철](https://github.com/Jincheol-11) | [이양진](https://github.com/Lzynee) | [이창규](https://github.com/kidchang93) 
 | --- | --- | --- | --- | --- |
 | 프로젝트 리더 | 개발 리더 | 태스크 리마인더 | 에디터 | 일정 리마인더 |
@@ -11,27 +17,27 @@
 
 <br><br>
 
-## 수행절차 및 방법
+### 수행절차 및 방법
 ![image](https://github.com/T-sherpa-3/exam-bank/assets/145524819/7efe1709-c68b-496f-8f4a-e63c0c4866fd)
 ![image](https://github.com/T-sherpa-3/exam-bank/assets/145524819/d12d196f-57f8-4842-940f-81eb6df3222c)
 <br><br>
 
-## 개발 환경
+### 개발 환경
 ![image](https://github.com/T-sherpa-3/exam-bank/assets/145524819/b6e44dd9-5830-4fcd-8464-74297a780723)
 <br><br>
 
-# 02 프로젝트 수행
-## 1. ERD
+## 02 프로젝트 수행
+### 1. ERD
 
 ![image](https://github.com/T-sherpa-3/exam-bank/assets/145524819/95cd60fc-3ce5-44a2-be9b-213ae30291ae)
 
 <br><br>
 
-## 2. API
+### 2. API
 ![image](https://github.com/T-sherpa-3/exam-bank/assets/145524819/0417f961-2b84-4972-99e1-c0cccd4215b3)
 <br><br>
 
-## 3. 문제 해결
+### 3. 문제 해결
 1. 문항통합 플랫폼 API를 Client가 바로 호출하여 사용할 수 없다.
    ![image](https://github.com/T-sherpa-3/exam-bank/assets/145524819/137ec346-3c9c-41d0-a2e3-7cd6dcee59a9)
    <br>
